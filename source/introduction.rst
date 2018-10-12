@@ -1,8 +1,8 @@
 .. -*- coding: utf-8; -*-
 
-=================================================
+**************************************************
 Introduction
-=================================================
+**************************************************
 
 
 We are in the early days of RoboCup [Kitano95IJCAI]_, with half a
@@ -23,9 +23,9 @@ The intention of this manual [#f1]_ is to guide the developers of
 simulated league teams in the beginning steps, and also serve as a
 reference manual for the experienced users.
 
--------------------------------------------------
+=================================================
 Background
--------------------------------------------------
+=================================================
 
 Mackworth [Mackworth93]_ introduced the idea of using soccer-playing
 robots in research. Unfortunately, the idea did not get the proper
@@ -56,9 +56,9 @@ researchers is quite large and widespread, local committees are formed
 to promote RoboCup-related events in their geographical area.
 
 
--------------------------------------------------
+=================================================
 The Goals of RoboCup
--------------------------------------------------
+=================================================
 
 The RoboCup Federation has set goals and a timetable for the
 research. Setting goals and a timetable are means of pushing the
@@ -73,15 +73,15 @@ following:
 
     By mid-21st century, a team of fully autonomous humanoid robot soccer
     players shall win the soccer game, comply with the official rule of the FIFA 4 ,
-    against the winner of the most recent World Cup [15].
+    against the winner of the most recent World Cup.
 
 There will be several technological advancements, even if the goal of
 the robotic soccer team is not reached, starting with
 Team-Partitioned, Opaque-Transition Reinforcement Learning (TPOT-RL)
-[19] which has found application in the domain of packet routing in
+[Stone99Layered]_ which has found application in the domain of packet routing in
 computer networks. TPOT-RL is a distributed learning method in domains
 where “agents have limited information about environmental state
-transitions” ([19], p. 22).
+transitions” ([Stone99Layered]_, p. 22).
 
 In most RoboCup leagues, the teams consist of either robots or
 programs that cooperate in order to defeat the opponent team. RoboCup
@@ -98,13 +98,14 @@ playing. However, as this manual is about the simulated league we will
 only focus on it.
 
 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------------------
 Simulated League
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------------------
+
 The RoboCup simulator league is based on the RoboCup simulator called
-the soccer server [13], a physical soccer simulation system. All games
-are visualised by displaying the field of the simulator by the soccer
-monitor on a computer screen. The soccer server is written to support
+the soccer server [Noda97RoboCup97]_, a physical soccer simulation system.
+All games are visualised by displaying the field of the simulator by the
+soccer monitor on a computer screen. The soccer server is written to support
 competition among multiple virtual soccer players in an uncertain
 multi-agent environment, with real-time demands as well as
 semi-structured conditions. One of the advantages of the soccer server
@@ -127,26 +128,25 @@ use loopholes.
 Since the first version of the soccer server was completed in 1995,
 there have been four world cups and one pre-world cup event, not to
 mention all other RoboCup-related events. The 1996 pre-RoboCup event
-[5] was held in Osaka, with only seven entrants in the competition
-which ended with a Japanese victory by the team Ogalets from Tokyo
-University. In Nagoya the following year, the first formal competition
+[PreRoboCup96]_ was held in Osaka, with only seven entrants in the
+competition which ended with a Japanese victory by the team Ogalets from
+Tokyo University. In Nagoya the following year, the first formal competition
 was held in conjunction with the IJCAI’97 conference. The competition
-had 29 teams participating, and the winner was AT Humboldt [2]. The
-RoboCup world cup of 1998 was played in conjunction with the human
-world cup in Paris, and the winning team was CMUnited98 [29]. During
-the world cup, media was heavily covering the event, as it was public
+had 29 teams participating, and the winner was AT Humboldt [Burkhard97]_.
+The RoboCup world cup of 1998 was played in conjunction with the human
+world cup in Paris, and the winning team was CMUnited98 [CMUnited98]_.
+During the world cup, media was heavily covering the event, as it was public
 in a museum in the suburbs of Paris. The year after, the world cup was
 held in conjunction with IJCAI’99 in Stockholm, and the winners (once
-again) were CMUnited99 [30]. An unchanged version of the champion team
-must participate, as a benchmark, in the next world cup. The
+again) were CMUnited99 [CMUnited99]_. An unchanged version of the champion
+team must participate, as a benchmark, in the next world cup. The
 benchmarking teams have always been able to win their group, but only
 in 2000 did the benchmark team advance further than the first game
 after group play.
 
-
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------------------
 What is the Soccerserver
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------------------
 
 Soccer Server is a system that enables autonomous agents consisting of
 programs written in various languages to play a match of soccer
@@ -177,23 +177,23 @@ control-commands to the server.
 Each client can control only one player 56 . So a team consists of the
 same number of clients as players. Communications between the clients
 must be done via soccerserver using say and hear protocols. (See
-section 4.2.1.) One of the purposes of soccerserver is evaluation of
-multi-agent systems, in which efficiency of communication between
+section :ref:`sec-playercommmandprotocol`.) One of the purposes of soccerserver
+is evaluation of multi-agent systems, in which efficiency of communication between
 agents is one of the criteria. Users must realize control of multiple
 clients by such restricted communication.
 
 
--------------------------------------------------
+=================================================
 History
--------------------------------------------------
+=================================================
 
 In this section we will first describe the history of the soccerserver
 and thereafter the history of the RoboCup Simulation League. To end
 the section we will also describe the history of the manual effort.
 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------------------
 History of the Soccer Server
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------------------
 
 The first, preliminary, original system of soccerserver was written in
 September of 1993 by Itsuki Noda, ETL. This system was built as a
@@ -257,9 +257,9 @@ RoboCup99 in Stockholm during the summer of 1999.
 In Melbourne 2000, version 6 was used, and for the world cup in 2001
 version 7 will be used.
 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------------------
 History of the RoboCup Simulation League
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------------------
 
 The RoboCup simulation league has had five main official events:
 preRoboCup96, RoboCup97, RoboCup98, RoboCup99, and
@@ -269,9 +269,9 @@ competitions. In this section, we focus mainly on the competitions
 themselves.
 
 
-""""""""""""""""""""""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 preRoboCup96
-""""""""""""""""""""""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 preRoboCup96 was the first robotic soccer competition of any sort. It
 was held on November 5–7, 1996 in Osaka, Japan [5]. In conjunction
@@ -291,9 +291,9 @@ straightforward. Most of the teams kept players in fixed locations,
 only moving them towards the ball when it was nearby.
 
 
-""""""""""""""""""""""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 RoboCup97
-""""""""""""""""""""""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The RoboCup97 simulator competition was the first formal simulated
 robotic soccer competition. It was held on August 23–29, 1997 in
@@ -326,10 +326,9 @@ utility of evolutionary approach by co-evolving soccer teams in the
 simulator league."
 
 
-
-""""""""""""""""""""""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 RoboCup98
-""""""""""""""""""""""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The second international RoboCup championship, RoboCup-98, was held on
 July 2–9, 1998 in Paris, France [1]. It was held in conjunction with
@@ -388,20 +387,19 @@ problems in themselves. To facilitate this line of research, the data
 from the evaluation was made public at: http://www.isi.edu/~galk/Eval/
 
 
-
-""""""""""""""""""""""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 RoboCup99
-""""""""""""""""""""""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 
 The third international RoboCup championship, RoboCup-99, was held in
 late July and early August, 1999 in Stockholm, Sweden [3]. It was held
 in conjunction with the IJCAI-99 conference.
 
 
-
-""""""""""""""""""""""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 RoboCup2000
-""""""""""""""""""""""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The fourth international RoboCup championship, RoboCup 2000, was held
 in early September, 2000 in Melbourne, Australia [16]. It was held in
@@ -409,9 +407,9 @@ conjunction with the PRICAI-2000 conference.
 
 
 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------------------------------------------
 History of the Soccer Manual Effort
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------------------------------------------
 
 The first versions of the manual were written by Itsuki Noda, while
 developing the soccerserver, and around version 3.00 there were
@@ -431,9 +429,9 @@ continuously developed. Therefore the Soccer Manual Effort has
 developed a new version, which you are currently reading.
 
 
--------------------------------------------------
+=================================================
 About This Manual
--------------------------------------------------
+=================================================
 
 This manual is the joint effort of the authors from a diverse range of
 universities and organizations, which build upon the original work of
@@ -451,9 +449,9 @@ the SoccerServer Manual Effort.
 
 
 
--------------------------------------------------
+=================================================
 Reader's Guide to the Manual
--------------------------------------------------
+=================================================
 
 The thesis is written for a wide range of readers, and therefore the
 chapters are not equally important to all readers. We shortly describe
