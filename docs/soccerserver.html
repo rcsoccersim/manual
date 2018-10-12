@@ -1,0 +1,433 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>4. Soccer Server &#8212; The RoboCup Soccer Simulator  documentation</title>
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="5. Soccer Monitor" href="soccermonitor.html" />
+    <link rel="prev" title="3. Getting Started" href="gettingstarted.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="soccermonitor.html" title="5. Soccer Monitor"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="gettingstarted.html" title="3. Getting Started"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">The RoboCup Soccer Simulator  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">4. Soccer Server</a><ul>
+<li><a class="reference internal" href="#objects">4.1. Objects</a></li>
+<li><a class="reference internal" href="#protocols">4.2. Protocols</a><ul>
+<li><a class="reference internal" href="#player-command-protocol">4.2.1. Player Command Protocol</a><ul>
+<li><a class="reference internal" href="#connecting-reconnecting-and-disconnecting">Connecting, reconnecting, and disconnecting</a></li>
+<li><a class="reference internal" href="#player-control">Player Control</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#player-sensor-protocol">4.2.2. Player Sensor Protocol</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sensor-models">4.3. Sensor Models</a><ul>
+<li><a class="reference internal" href="#aural-sensor-model">4.3.1. Aural Sensor Model</a><ul>
+<li><a class="reference internal" href="#capacity-of-the-aural-sensor">Capacity of the Aural Sensor</a></li>
+<li><a class="reference internal" href="#range-of-communication">Range of Communication</a></li>
+<li><a class="reference internal" href="#aural-sensor-example">Aural Sensor Example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#vision-sensor-model">4.3.2. Vision Sensor Model</a><ul>
+<li><a class="reference internal" href="#range-of-view">Range of View</a></li>
+<li><a class="reference internal" href="#visual-sensor-noise-model">Visual Sensor Noise Model</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#body-sensor-model">4.3.3. Body Sensor Model</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#movement-models">4.4. Movement Models</a><ul>
+<li><a class="reference internal" href="#movement-noise-model">4.4.1. Movement Noise Model</a></li>
+<li><a class="reference internal" href="#collision-model">4.4.2. Collision Model</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#action-models">4.5. Action Models</a><ul>
+<li><a class="reference internal" href="#catch-model">4.5.1. Catch Model</a></li>
+<li><a class="reference internal" href="#dash-model">4.5.2. Dash Model</a></li>
+<li><a class="reference internal" href="#kick-model">4.5.3. Kick Model</a></li>
+<li><a class="reference internal" href="#move-model">4.5.4. Move Model</a></li>
+<li><a class="reference internal" href="#say-model">4.5.5. Say Model</a></li>
+<li><a class="reference internal" href="#tackle-model">4.5.6. Tackle Model</a></li>
+<li><a class="reference internal" href="#turn-model">4.5.7. Turn Model</a></li>
+<li><a class="reference internal" href="#turnneck-model">4.5.8. TurnNeck Model</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#heterogeneous-players">4.6. Heterogeneous Players</a></li>
+<li><a class="reference internal" href="#referee-model">4.7. Referee Model</a><ul>
+<li><a class="reference internal" href="#play-modes-and-referee-messages">4.7.1. Play Modes and referee messages</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-soccer-simulation">4.8. The Soccer Simulation</a><ul>
+<li><a class="reference internal" href="#description-of-the-simulation-algorithm">4.8.1. Description of the simulation algorithm</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#using-soccerserver">4.9. Using Soccerserver</a><ul>
+<li><a class="reference internal" href="#the-soccerserver-parameters">4.9.1. The Soccerserver Parameters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="gettingstarted.html"
+                        title="previous chapter">3. Getting Started</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="soccermonitor.html"
+                        title="next chapter">5. Soccer Monitor</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/soccerserver.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="soccer-server">
+<span id="cha-soccerserver"></span><h1>4. Soccer Server<a class="headerlink" href="#soccer-server" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="objects">
+<h2>4.1. Objects<a class="headerlink" href="#objects" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center" id="id1">
+<a class="reference internal image-reference" href="_images/objects.png"><img alt="_images/objects.png" src="_images/objects.png" style="width: 508.0px; height: 444.8px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 4.1 </span><span class="caption-text">UML diagram of the objects in the simulation</span></p>
+</div>
+</div>
+<div class="section" id="protocols">
+<h2>4.2. Protocols<a class="headerlink" href="#protocols" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="player-command-protocol">
+<span id="sec-playercommmandprotocol"></span><h3>4.2.1. Player Command Protocol<a class="headerlink" href="#player-command-protocol" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="connecting-reconnecting-and-disconnecting">
+<h4>Connecting, reconnecting, and disconnecting<a class="headerlink" href="#connecting-reconnecting-and-disconnecting" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="53%" />
+<col width="47%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">From player to server</th>
+<th class="head">From server to client</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><div class="first last line-block">
+<div class="line">(init <em>TeamName</em> [(version <em>VerNum</em> )] [(goalie)])</div>
+<div class="line-block">
+<div class="line"><em>TeamName</em> ::= [-_a-zA-Z0-9]+</div>
+<div class="line-block">
+<div class="line"><em>VerNum</em> ::= the protocol version (e.g. 15)</div>
+</div>
+</div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">(init <em>Side</em> <em>Unum</em> <em>PlayMode</em>)</div>
+<div class="line-block">
+<div class="line-block">
+<div class="line"><em>Side</em> ::= l|r</div>
+<div class="line"><em>Unum</em> ::= 1~11</div>
+</div>
+<div class="line"><em>PlayMode</em> ::= one of play modes</div>
+</div>
+<div class="line">(error no_more_team_or_player)</div>
+<div class="line">(error reconnect)</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p>If your client connects or reconnects sucessfully with a protocol version &gt;= 7.0, the
+server will additionally send following messages: <code class="docutils literal notranslate"><span class="pre">server_param</span></code> (a message
+containing the server parameters), <code class="docutils literal notranslate"><span class="pre">player_param</span></code> a message containing the
+player parameters and <code class="docutils literal notranslate"><span class="pre">player_type</span></code> (a message containing the player types).
+Finally, the player will receive a message on changed
+players (see Sec. <a class="reference internal" href="#sec-heterogeneousplayers"><span class="std std-ref">Heterogeneous Players</span></a>).</p>
+</div>
+<div class="section" id="player-control">
+<h4>Player Control<a class="headerlink" href="#player-control" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="74%" />
+<col width="26%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">From player to server</th>
+<th class="head">Only once per cycle</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><div class="first last line-block">
+<div class="line">(catch <em>Direction</em>)</div>
+<div class="line-block">
+<div class="line"><em>Direction</em> ::= <code class="docutils literal notranslate"><span class="pre">minmoment</span></code> ~ <code class="docutils literal notranslate"><span class="pre">maxmoment</span></code> degrees</div>
+</div>
+</div>
+</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td><div class="first last line-block">
+<div class="line">(change_view <em>Width</em> <em>Quality</em>)</div>
+<div class="line-block">
+<div class="line"><em>Width</em> ::= narrow | normal | wide</div>
+<div class="line"><em>Quality</em> ::= high | low</div>
+</div>
+</div>
+</td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td><div class="first last line-block">
+<div class="line">(dash <em>Power</em> [<em>Direction</em>])</div>
+<div class="line-block">
+<div class="line"><em>Power</em> ::= <code class="docutils literal notranslate"><span class="pre">min_dash_power</span></code> ~ <code class="docutils literal notranslate"><span class="pre">max_dash_power</span></code></div>
+<div class="line"><em>Direction</em> ::= <code class="docutils literal notranslate"><span class="pre">min_dash_angle</span></code> ~ <code class="docutils literal notranslate"><span class="pre">max_dash_angle</span></code> degrees</div>
+</div>
+<div class="line">Note: backward dash (negative power) consumes double stamina.</div>
+</div>
+</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td><div class="first last line-block">
+<div class="line">(kick <em>Power</em> <em>Direction</em>)</div>
+<div class="line-block">
+<div class="line"><em>Power</em> ::= <code class="docutils literal notranslate"><span class="pre">minpower</span></code> ~ <code class="docutils literal notranslate"><span class="pre">maxpower</span></code></div>
+<div class="line"><em>Direction</em> ::= <code class="docutils literal notranslate"><span class="pre">minmoment</span></code> ~ <code class="docutils literal notranslate"><span class="pre">maxmoment</span></code> degrees</div>
+</div>
+</div>
+</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td><div class="first last line-block">
+<div class="line">(move <em>X</em> <em>Y</em>)</div>
+<div class="line-block">
+<div class="line"><em>X</em> ::= real number</div>
+<div class="line"><em>Y</em> ::= real number</div>
+</div>
+</div>
+</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td><div class="first last line-block">
+<div class="line">(say “<em>Message</em>”)</div>
+<div class="line-block">
+<div class="line"><em>Message</em> ::= [-0-9a-zA-Z ().+*/?&lt;&gt;_]*</div>
+</div>
+</div>
+</td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td><div class="first last line-block">
+<div class="line">(sense_body)</div>
+<div class="line">The server returns sense_body message to the player immediately.</div>
+</div>
+</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="player-sensor-protocol">
+<h3>4.2.2. Player Sensor Protocol<a class="headerlink" href="#player-sensor-protocol" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="sensor-models">
+<h2>4.3. Sensor Models<a class="headerlink" href="#sensor-models" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="aural-sensor-model">
+<h3>4.3.1. Aural Sensor Model<a class="headerlink" href="#aural-sensor-model" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="capacity-of-the-aural-sensor">
+<h4>Capacity of the Aural Sensor<a class="headerlink" href="#capacity-of-the-aural-sensor" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="range-of-communication">
+<h4>Range of Communication<a class="headerlink" href="#range-of-communication" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="aural-sensor-example">
+<h4>Aural Sensor Example<a class="headerlink" href="#aural-sensor-example" title="Permalink to this headline">¶</a></h4>
+</div>
+</div>
+<div class="section" id="vision-sensor-model">
+<h3>4.3.2. Vision Sensor Model<a class="headerlink" href="#vision-sensor-model" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-center" id="field-detailed">
+<img alt="_images/field-detailed.png" src="_images/field-detailed.png" />
+<p class="caption"><span class="caption-number">Fig. 4.2 </span><span class="caption-text">The flags and lines in the simulation.</span></p>
+</div>
+<div class="section" id="range-of-view">
+<h4>Range of View<a class="headerlink" href="#range-of-view" title="Permalink to this headline">¶</a></h4>
+<div class="figure align-center" id="view-example">
+<img alt="_images/view-example.png" src="_images/view-example.png" />
+<p class="caption"><span class="caption-number">Fig. 4.3 </span><span class="caption-text">The visible range of an individual agent in the soccer server.
+The viewing agent is the one shown as two semi-circles. The light
+semi-circle is its front. The black circles represent objects in the world.
+Only objects within <code class="docutils literal notranslate"><span class="pre">view_angle</span></code>/2, and those within <code class="docutils literal notranslate"><span class="pre">visible_distance</span></code>
+of the viewing agent can be seen. <code class="docutils literal notranslate"><span class="pre">unum_far_length</span></code>, <code class="docutils literal notranslate"><span class="pre">unum_too_far_length</span></code>,
+<code class="docutils literal notranslate"><span class="pre">team_far_length</span></code>, and <code class="docutils literal notranslate"><span class="pre">team_too_far_length</span></code> affect the amount of precision
+with which a players’ identity is given. Taken from [19].</span></p>
+</div>
+</div>
+<div class="section" id="visual-sensor-noise-model">
+<h4>Visual Sensor Noise Model<a class="headerlink" href="#visual-sensor-noise-model" title="Permalink to this headline">¶</a></h4>
+</div>
+</div>
+<div class="section" id="body-sensor-model">
+<h3>4.3.3. Body Sensor Model<a class="headerlink" href="#body-sensor-model" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="movement-models">
+<h2>4.4. Movement Models<a class="headerlink" href="#movement-models" title="Permalink to this headline">¶</a></h2>
+<p>In each simulation step, movement of each object is calculated as following manner:</p>
+<div class="math notranslate nohighlight" id="equation-eq-u-t">
+<span class="eqno">(4.1)<a class="headerlink" href="#equation-eq-u-t" title="Permalink to this equation">¶</a></span>\[\begin{split} (u_x^{t+1},u_y^{t+1}) &amp;= (v_x^t,v_y^t)+(a_x^t,a_y^t) : accelerate \\
+ (p_x^{t+1},p_y^{t+1}) &amp;= (p_x^t,p_y^t)+(u_x^{t+1},u_y^{t+1}) : move \\
+ (v_x^{t+1},v_y^{t+1}) &amp;= decay \times (u_x^{t+1},u_y^{t+1}) : decay\ speed \\
+ (a_x^{t+1},a_y^{t+1}) &amp;= (0,0) : reset\ acceleration\end{split}\]</div>
+<p>where, <span class="math notranslate nohighlight">\((p_x^t,p_y^t)\)</span>, and <span class="math notranslate nohighlight">\((v_x^t,v_y^t)\)</span> are respectively position
+and velocity of the object in timestep <span class="math notranslate nohighlight">\(t\)</span>. decay is a decay parameter
+specified by <code class="docutils literal notranslate"><span class="pre">ball_decay</span></code> or <code class="docutils literal notranslate"><span class="pre">player_decay</span></code>. <span class="math notranslate nohighlight">\((a_x^t,a_y^t)\)</span> is
+acceleration of object, which is derived from Power parameter in <code class="docutils literal notranslate"><span class="pre">dash</span></code>
+(in the case the object is a player) or <code class="docutils literal notranslate"><span class="pre">kick</span></code> (in the case of a ball)
+commands in the following manner:</p>
+<div class="math notranslate nohighlight">
+\[(a_x^{t},a_y^{t}) = Power \times power\_rate \times (\cos(\theta^t),\sin(\theta^t))\]</div>
+<p>where <span class="math notranslate nohighlight">\(\theta^t\)</span> is the direction of the object in timestep <span class="math notranslate nohighlight">\(t\)</span> and
+power_rate is <code class="docutils literal notranslate"><span class="pre">dash_power_rate</span></code> or is calculated from <code class="docutils literal notranslate"><span class="pre">kick_power_rate</span></code>
+as described in Sec. <a class="reference internal" href="#sec-kickmodel"><span class="std std-ref">Kick Model</span></a>.
+In the case of a player, this is just the direction the player is facing.
+In the case of a ball, its direction is given as the following manner:</p>
+<div class="math notranslate nohighlight">
+\[\theta^t_{ball} = \theta^t_{kicker} + Direction\]</div>
+<p>where <span class="math notranslate nohighlight">\(\theta^t_{ball}\)</span> and <span class="math notranslate nohighlight">\(\theta^t_{kicker}\)</span> are directions of
+ball and kicking player respectively, and <em>Direction</em> is the second parameter
+of a <code class="docutils literal notranslate"><span class="pre">kick</span></code> command.</p>
+<div class="section" id="movement-noise-model">
+<h3>4.4.1. Movement Noise Model<a class="headerlink" href="#movement-noise-model" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="collision-model">
+<h3>4.4.2. Collision Model<a class="headerlink" href="#collision-model" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="action-models">
+<h2>4.5. Action Models<a class="headerlink" href="#action-models" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="catch-model">
+<h3>4.5.1. Catch Model<a class="headerlink" href="#catch-model" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-center" id="catcharea">
+<img alt="_images/catcharea.png" src="_images/catcharea.png" />
+<p class="caption"><span class="caption-number">Fig. 4.4 </span><span class="caption-text">Catchable area of the goalie when doing a (catch 45)</span></p>
+</div>
+</div>
+<div class="section" id="dash-model">
+<h3>4.5.2. Dash Model<a class="headerlink" href="#dash-model" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="kick-model">
+<span id="sec-kickmodel"></span><h3>4.5.3. Kick Model<a class="headerlink" href="#kick-model" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="move-model">
+<h3>4.5.4. Move Model<a class="headerlink" href="#move-model" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="say-model">
+<h3>4.5.5. Say Model<a class="headerlink" href="#say-model" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="tackle-model">
+<h3>4.5.6. Tackle Model<a class="headerlink" href="#tackle-model" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="turn-model">
+<h3>4.5.7. Turn Model<a class="headerlink" href="#turn-model" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="turnneck-model">
+<h3>4.5.8. TurnNeck Model<a class="headerlink" href="#turnneck-model" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="heterogeneous-players">
+<span id="sec-heterogeneousplayers"></span><h2>4.6. Heterogeneous Players<a class="headerlink" href="#heterogeneous-players" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="referee-model">
+<h2>4.7. Referee Model<a class="headerlink" href="#referee-model" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="play-modes-and-referee-messages">
+<h3>4.7.1. Play Modes and referee messages<a class="headerlink" href="#play-modes-and-referee-messages" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="the-soccer-simulation">
+<h2>4.8. The Soccer Simulation<a class="headerlink" href="#the-soccer-simulation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="description-of-the-simulation-algorithm">
+<h3>4.8.1. Description of the simulation algorithm<a class="headerlink" href="#description-of-the-simulation-algorithm" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="using-soccerserver">
+<h2>4.9. Using Soccerserver<a class="headerlink" href="#using-soccerserver" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="the-soccerserver-parameters">
+<h3>4.9.1. The Soccerserver Parameters<a class="headerlink" href="#the-soccerserver-parameters" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="soccermonitor.html" title="5. Soccer Monitor"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="gettingstarted.html" title="3. Getting Started"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">The RoboCup Soccer Simulator  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright The RoboCup Soccer Simulator Maintenance Committee.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

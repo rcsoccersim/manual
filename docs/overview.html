@@ -1,0 +1,378 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>2. Overview &#8212; The RoboCup Soccer Simulator  documentation</title>
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="3. Getting Started" href="gettingstarted.html" />
+    <link rel="prev" title="1. Introduction" href="introduction.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="gettingstarted.html" title="3. Getting Started"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="1. Introduction"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">The RoboCup Soccer Simulator  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">2. Overview</a><ul>
+<li><a class="reference internal" href="#getting-started">2.1. Getting Started</a><ul>
+<li><a class="reference internal" href="#the-server">2.1.1. The Server</a></li>
+<li><a class="reference internal" href="#the-monitor">2.1.2. The Monitor</a></li>
+<li><a class="reference internal" href="#the-logplayer">2.1.3. The Logplayer</a></li>
+<li><a class="reference internal" href="#the-demo-client">2.1.4. The Demo Client</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-rules-of-the-game">2.2. The Rules of the Game</a><ul>
+<li><a class="reference internal" href="#rules-judged-by-the-automated-referee">2.2.1. Rules Judged by the Automated Referee</a><ul>
+<li><a class="reference internal" href="#kick-off">Kick-Off</a></li>
+<li><a class="reference internal" href="#goal">Goal</a></li>
+<li><a class="reference internal" href="#out-of-field">Out of Field</a></li>
+<li><a class="reference internal" href="#player-clearance">Player Clearance</a></li>
+<li><a class="reference internal" href="#play-mode-control">Play-Mode Control</a></li>
+<li><a class="reference internal" href="#offside">Offside</a></li>
+<li><a class="reference internal" href="#backpasses">Backpasses</a></li>
+<li><a class="reference internal" href="#free-kick-faults">Free Kick Faults</a></li>
+<li><a class="reference internal" href="#half-time-and-time-up">Half-Time and Time-Up</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rules-judged-by-the-human-referee">2.2.2. Rules Judged by the Human Referee</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="introduction.html"
+                        title="previous chapter">1. Introduction</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="gettingstarted.html"
+                        title="next chapter">3. Getting Started</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/overview.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="overview">
+<h1>2. Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="getting-started">
+<h2>2.1. Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>This section is designed to give you a quick introduction to the main
+components of the RoboCup simulator.  For each of these components you
+will find detailed information (i.e. configuration parameters,
+run-time options, etc.) later on in this manual.</p>
+<div class="section" id="the-server">
+<h3>2.1.1. The Server<a class="headerlink" href="#the-server" title="Permalink to this headline">¶</a></h3>
+<p>The server is a system that enables various teams to compete in a game
+of soccer.  Since the match is carried out in a client-server style,
+there are no restrictions as to how teams are built.  The only
+requirement is that the tools used to develop a team support
+client-server communication via UDP/IP.  This is due to the fact that
+all communication between the server and each client is done via
+UDP/IP sockets.  Each client is a separate process and connects to the
+server through a specified port.  After a player connects to the
+server, all messages are transferred through this port.  A team can
+have up to 12 clients, i.e. 11 players (10 fielders + 1 goalie) and a
+coach.  The players send requests to the server regarding the actions
+they want to perform (e.g. kick the ball, turn, run, etc.).  The
+server receives those messages, handles the requests, and updates the
+environment accordingly.  In addition, the server provides all players
+with sensory information (e.g. visual data regarding the position of
+objects on the field, or data about the player’s ressources like
+stamina or speed).  It is important to mention that the server is a
+real-time system working with discrete time intervals (or cycles).
+Each cycle has a specified duration, and actions that need to be
+executed in a given cycle, must arrive at the server during the right
+interval.  Therefore, slow performance of a player that results in
+missing action opportunities has a major impact on the performance of
+the team as a whole.  A detailed description of the server can be
+found in Chapter <a class="reference internal" href="soccerserver.html#cha-soccerserver"><span class="std std-ref">Soccer Server</span></a>.</p>
+</div>
+<div class="section" id="the-monitor">
+<h3>2.1.2. The Monitor<a class="headerlink" href="#the-monitor" title="Permalink to this headline">¶</a></h3>
+<p>The Soccer Monitor is a visualisation tool that allows people to see what is
+happening within the server during a game.  Currently the monitor
+comes in two flavors, the <code class="docutils literal notranslate"><span class="pre">rcssmonitor</span></code> and the
+<code class="docutils literal notranslate"><span class="pre">rcssmonitor_classic</span></code>.  The information shown on both monitors
+include the score, team names, and the positions of all the players
+and the ball.  They also provide simple interfaces to the server.  For
+example, when both teams have connected, the “Kick-Off” button on the
+monitor allows a human referee to start the game.  The
+<code class="docutils literal notranslate"><span class="pre">rcssmonitor</span></code>, which is based on the <code class="docutils literal notranslate"><span class="pre">frameview</span></code> by
+Artur~Merke, extends the functionality of the classic monitor by
+several features.</p>
+<ul class="simple">
+<li>It is possible to zoom into areas of the field.  This is especially useful
+for debugging purposes.</li>
+<li>The current positions and velocities of all players and the ball can be
+printed to the console at any time.</li>
+<li>A variety of information can be shown on the monitor, e.g. a player’s view
+cone, stamina or (in the case of heterogeneous players) player type.</li>
+<li>Players and the ball can be moved around with the mouse.</li>
+</ul>
+<p>As you will discover later on, to run a game on the server, a monitor
+is not required.  However, if needed, a number of monitors can be
+connected to the server at the same time (for example if you want to
+show the same game at different terminals).  For further details on
+the monitor please have a look at Chapter <a class="reference internal" href="soccermonitor.html#cha-soccermonitor"><span class="std std-ref">Soccer Monitor</span></a>.</p>
+</div>
+<div class="section" id="the-logplayer">
+<h3>2.1.3. The Logplayer<a class="headerlink" href="#the-logplayer" title="Permalink to this headline">¶</a></h3>
+<p>The logplayer can be thought of as a video player.  It is a tool that
+is used to replay matches.  When running the server, certain options
+can be used that will cause the server to store all the data for a
+given match on the hard drive.  (Pretty much like pressing the record
+button on your video).  Then, the program <code class="docutils literal notranslate"><span class="pre">rcsslogplayer</span></code> combined
+with a monitor can be used to replay that game as many times as
+needed.  This is quite useful for doing team analysis and discovering
+the strong or weak points of a team.  Much like a video player, the
+logplayer is equipped with play, stop, fast forward and rewind
+buttons.  Also the logplayer allows you to jump to a particular cycle
+in a game (for example if you only want to see the goals).  Finally
+the logplayer allows you to edit existing recordings, i.e. you can
+save interesting scenes from a match (or several matches) to another
+logfile and thus create a presentation easily.</p>
+<p>The logplayer can be controlled via a small GUI or a command line
+interface.  In addition commands can be read from a file, which adds
+limited scripting capabilities to the logplayer.</p>
+</div>
+<div class="section" id="the-demo-client">
+<h3>2.1.4. The Demo Client<a class="headerlink" href="#the-demo-client" title="Permalink to this headline">¶</a></h3>
+<p>Bundled with the RoboCup Soccer Simulator is a program called <code class="docutils literal notranslate"><span class="pre">rcssclient</span></code>,
+which implements a very primitive textbased client for the simulation. The
+purpose of this program is to give you a first idea of how the whole
+affair works.</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">rcssclient</span></code> is started, it connects to the server. You are
+presented with a simple ncurses-based interface. You can then enter
+commands that are executed by the server. Any information that is
+received by the client will be shown in a different section of the
+screen according to its type (<em>visual</em>, <em>sense body</em> or
+<em>other</em>). By entering commands and see what happens you can get
+a first idea of the way things work in the simulation.
+Even if you are not a newbie any more, the program is handy for simple
+tests, e.g. getting a grip on new commands added to the simulation.</p>
+</div>
+</div>
+<div class="section" id="the-rules-of-the-game">
+<h2>2.2. The Rules of the Game<a class="headerlink" href="#the-rules-of-the-game" title="Permalink to this headline">¶</a></h2>
+<p>During a game, a number of rules are enforced either by the automated
+referee within the server, or by a human referee.  The aim of this
+section is to describe how these rules work, and how they affect the
+game.</p>
+<div class="section" id="rules-judged-by-the-automated-referee">
+<h3>2.2.1. Rules Judged by the Automated Referee<a class="headerlink" href="#rules-judged-by-the-automated-referee" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="kick-off">
+<h4>Kick-Off<a class="headerlink" href="#kick-off" title="Permalink to this headline">¶</a></h4>
+<p>Just before a kick off (either before a half time starts, or after a
+goal), all players must be in their own half.  To allow for this to
+happen, after a goal is scored, the referee suspends the match for an
+interval of 5 seconds. During this interval, players can use the
+<code class="docutils literal notranslate"><span class="pre">move</span></code> command to teleport to a position within its own side,
+rather than run to this position, which is much slower and consumes
+stamina.  If a player remains in the opponent half after the 5-second
+interval has expired or tries to teleport there during the interval,
+the referee moves the player to a random position within their own
+half.</p>
+</div>
+<div class="section" id="goal">
+<h4>Goal<a class="headerlink" href="#goal" title="Permalink to this headline">¶</a></h4>
+<p>When a team scores, the referee performs a number of tasks.
+Initially, it announces the goal by broadcasting a message to all
+players.  It also updates the score, moves the ball to the centre
+mark, and changes the play-mode to kick_off_x (where x is either
+left or right).  Finally, it suspends the match for 5 seconds allowing
+players to move back to their own half (as described above in the
+“Kick-Off” section).</p>
+</div>
+<div class="section" id="out-of-field">
+<h4>Out of Field<a class="headerlink" href="#out-of-field" title="Permalink to this headline">¶</a></h4>
+<p>When the ball goes out of the field, the referee moves the ball to a
+proper position (a touchline, corner or goal-area) and changes the
+play-mode to kick_in, corner_kick, or goal_kick. In the case of a
+corner kick, the referee places the ball at (1m, 1m) inside the
+appropriate corner of the field.</p>
+</div>
+<div class="section" id="player-clearance">
+<h4>Player Clearance<a class="headerlink" href="#player-clearance" title="Permalink to this headline">¶</a></h4>
+<p>When the play-mode is kick_off, free_kick, kick_in, or corner_kick, the
+referee removes all defending players located within a circle centred
+on the ball.  The radius of this circle is a parameter within the
+server (normally 9.15 meters).  The removed players are placed on the
+perimeter of that circle.  When the play-mode is offside, all
+offending players are moved back to a non-offside position.  Offending
+players in this case are all players in the offside area and all
+players inside a circle with radius 9.15 meters from the ball.  When
+the play-mode is goal_kick, all offending players are moved outside
+the penalty area. The offending players cannot re-enter the penalty
+area while the goal kick takes place. The play-mode changes to
+play_on immediately after the ball goes outside the penalty area.</p>
+</div>
+<div class="section" id="play-mode-control">
+<h4>Play-Mode Control<a class="headerlink" href="#play-mode-control" title="Permalink to this headline">¶</a></h4>
+<p>When the play-mode is kick_off, free_kick, kick_in, or
+corner_kick, the referee changes the play-mode to play_on
+immediately after the ball starts moving through a <code class="docutils literal notranslate"><span class="pre">kick</span></code>
+command.</p>
+</div>
+<div class="section" id="offside">
+<h4>Offside<a class="headerlink" href="#offside" title="Permalink to this headline">¶</a></h4>
+<p>A player is marked offside, if it is
+- in the opponent half of the field,
+- closer to the opponent goal than at least two defending</p>
+<blockquote>
+<div>players,</div></blockquote>
+<ul class="simple">
+<li>closer to the opponent goal than the ball,\</li>
+<li>closer to the ball than 2.5 meters (this can be changed
+with the server parameter <em>offside_active_area_size</em>).</li>
+</ul>
+</div>
+<div class="section" id="backpasses">
+<h4>Backpasses<a class="headerlink" href="#backpasses" title="Permalink to this headline">¶</a></h4>
+<p>Just like in real soccer games, the goalie is not allowed to catch a
+ball that was passed to him by a teammate.  If this happens, the
+referee calls a <em>back_pass_l</em> or <em>back_pass_r</em> and
+assigns a free kick to the opposing team.  As such a back pass can
+only happen within the penalty area, the ball is placed on the corner
+of the penalty area that is closest to the position the goalie tried
+to catch.  Note, that it is perfectly legal to pass the ball to the
+goalie if the goalie does not try to catch the ball.</p>
+</div>
+<div class="section" id="free-kick-faults">
+<h4>Free Kick Faults<a class="headerlink" href="#free-kick-faults" title="Permalink to this headline">¶</a></h4>
+<p>When taking a free kick, corner kick, goalie free kick, or kick in, a
+player is not allowed to pass the ball to itself.  If a player kicks
+the ball again after performing one of those free kicks, the referee
+calls a <em>free_kick_fault_l</em> or <em>free_kick_fault_r</em> and
+the oppsing team is awarded a free_kick.</p>
+<p>As a player may have to kick the ball more than once in order to
+accelerate it to the desired speed, a free kick fault is only called
+if the player taking the free kick</p>
+<ol class="arabic simple">
+<li>is the first player to kick the ball again, and</li>
+<li>the player has moved (= dashed) between the kicks.</li>
+</ol>
+<p>So issuing command sequences like
+<code class="docutils literal notranslate"><span class="pre">kick</span></code>–<code class="docutils literal notranslate"><span class="pre">kick</span></code>–<code class="docutils literal notranslate"><span class="pre">dash</span></code> or
+<code class="docutils literal notranslate"><span class="pre">kick</span></code>–<code class="docutils literal notranslate"><span class="pre">turn</span></code>–<code class="docutils literal notranslate"><span class="pre">kick</span></code> is perfectly
+legal. The sequence <code class="docutils literal notranslate"><span class="pre">kick</span></code>–<code class="docutils literal notranslate"><span class="pre">dash</span></code>–<code class="docutils literal notranslate"><span class="pre">kick</span></code>,
+on the other hand, results in a free kick fault.</p>
+</div>
+<div class="section" id="half-time-and-time-up">
+<h4>Half-Time and Time-Up<a class="headerlink" href="#half-time-and-time-up" title="Permalink to this headline">¶</a></h4>
+<p>The referee suspends the match when the first or the second half
+finishes. The default length for each half is 3000 simulation cycles
+(about 5 minutes). If the match is drawn after the second half, the
+match is extended. Extra time continues until a goal is scored. The
+team that scores the first goal in extra time wins the game.  This is
+also known as the “golden goal” rule or “sudden death”.</p>
+</div>
+</div>
+<div class="section" id="rules-judged-by-the-human-referee">
+<h3>2.2.2. Rules Judged by the Human Referee<a class="headerlink" href="#rules-judged-by-the-human-referee" title="Permalink to this headline">¶</a></h3>
+<p>Fouls like “obstruction” are difficult to judge automatically
+because they concern players’ intentions. To resolve such situations,
+the server provides an interface for human-intervention. This way, a
+human-referee can suspend the match and give free kicks to either of
+the teams. The following are the guidelines that were agreed prior to
+the RoboCup 2000 competition, but they have been used since then.</p>
+<ul class="simple">
+<li>Surrounding the ball</li>
+<li>Blocking the goal with too many players</li>
+<li>Not putting the ball into play after a given number of
+cycles.
+By now this rule is handled by the automatic referee, as
+well. If a team fails to put the ball back into play for
+<em>drop_ball_time</em> cycles, a drop_ball is issued by the
+referee. However, if a team repeatedly fails to put the ball into
+play, the human referee may drop the ball prematurely.</li>
+<li>Intentionally blocking the movement of other players</li>
+<li>Abusing the goalie <code class="docutils literal notranslate"><span class="pre">catch</span></code> command (the goalie may not
+repeatedly kick and catch the ball, as this provides a safe way
+to move the ball anywhere within the penalty area).</li>
+<li>Flooding the Server with Messages:
+A player should not send more than 3 or 4 commands per simulation
+cycle to the soccer server. Abuse may be checked if the server is
+jammed, or upon request after a game.</li>
+<li>Inappropriate Behaviour:
+If a player is observed to interfere with the match in an
+inappropriate way, the human-referee can suspend the match and give a
+free kick to the opposite team.</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="gettingstarted.html" title="3. Getting Started"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="1. Introduction"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">The RoboCup Soccer Simulator  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright The RoboCup Soccer Simulator Maintenance Committee.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>
