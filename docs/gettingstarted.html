@@ -41,6 +41,17 @@
 <li><a class="reference internal" href="#">3. Getting Started</a><ul>
 <li><a class="reference internal" href="#the-homepage">3.1. The Homepage</a></li>
 <li><a class="reference internal" href="#getting-and-installing-the-server">3.2. Getting and installing the server</a></li>
+<li><a class="reference internal" href="#quick-start">3.3. Quick Start</a></li>
+<li><a class="reference internal" href="#full-installation">3.4. Full installation</a><ul>
+<li><a class="reference internal" href="#configuring">3.4.1. Configuring</a></li>
+<li><a class="reference internal" href="#building">3.4.2. Building</a></li>
+<li><a class="reference internal" href="#installing">3.4.3. Installing</a></li>
+<li><a class="reference internal" href="#uninstalling">3.4.4. Uninstalling</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#using-the-simulator">3.5. Using the Simulator</a></li>
+<li><a class="reference internal" href="#how-to-stop-the-server">3.6. How to stop the server</a></li>
+<li><a class="reference internal" href="#troubleshooting">3.7. Troubleshooting</a></li>
 </ul>
 </li>
 </ul>
@@ -95,11 +106,9 @@ the RoboCup Soccer Simulator.</p>
 <div class="section" id="getting-and-installing-the-server">
 <h2>3.2. Getting and installing the server<a class="headerlink" href="#getting-and-installing-the-server" title="Permalink to this headline">¶</a></h2>
 <p>The procedure shown was performed on a computer running SuSE
-7.3-GNU/Linux 2.4.10-4GB (check your version with texttt{uname -sr})
-with gcc 2.95.3 and gcc 3.2 (check your version with texttt{which</p>
-<blockquote>
-<div>g++}) but any reasonably up-to-date installation should work. In the</div></blockquote>
-<p>commands shown below, texttt{-&gt;} is supposed to be the command-line
+7.3-GNU/Linux 2.4.10-4GB (check your version with <code class="docutils literal notranslate"><span class="pre">uname</span> <span class="pre">-sr</span></code>)
+with gcc 2.95.3 and gcc 3.2 (check your version with <code class="docutils literal notranslate"><span class="pre">which</span> <span class="pre">g++</span></code>)
+but any reasonably up-to-date installation should work.
 prompt.</p>
 <p>Get tar.gz files for the version you are after from the Simulator’s code
 repository:</p>
@@ -111,6 +120,359 @@ repository:</p>
 <p>At the time of this writing (Oct-12-2018) the latest version is 15.5.0
 and will be used in the example below. Please substitute 15.5.0 for the
 latest version available.</p>
+<p>If you have downloaded rcssserver-*.tar.gz, then first extract the
+source files by running:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ tar zxvf rcssserver-15.5.0.tar.gz
+</pre></div>
+</div>
+<p>directory to <strong>rcssserver-15.5.0</strong>. This directory contains the following
+files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd rcssserver-15.5.0
+$ ls
+AUTHORS         NEWS          config.h.in   ltmain.sh
+COPYING.LESSER  README        config.sub    m4
+ChangeLog       acinclude.m4  configure     missing
+INSTALL         aclocal.m4    configure.ac  rcssbase
+Makefile.am     compile       depcomp       src
+Makefile.in     config.guess  install-sh    ylwrap
+</pre></div>
+</div>
+<p>Always read the <strong>README</strong> file first:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ more README
+</pre></div>
+</div>
+<p>The <strong>COPYING</strong> file contains details about the license under which you
+may use and modify the software. Please, make sure you read it in your
+own time:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ more COPYING
+</pre></div>
+</div>
+</div>
+<div class="section" id="quick-start">
+<h2>3.3. Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<p>From the rcssserver-* directory execute:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ./configure
+$ make
+</pre></div>
+</div>
+<p>This will build the necessary binaries to get you up and running.
+The monitor and logplayer can be built with same procedure.</p>
+<p><strong>rcssserver-*/src/rcssserver</strong> is the binary for the simulator server.
+The simulator server manages the actual simulation and communicates with
+client programs that control the simulated robots.
+A sample client can be found at <strong>rcssserver-*/src/rcssclient</strong>.</p>
+<p>To see what is actually happening in the simulator, you will need to
+start a simulator monitor, which can be found at
+<strong>rcssmonitor-*/src/rcssmonitor</strong>.</p>
+<p>To playback games that you have recorded or downloaded, you will need
+to start the log player, <strong>rcsslogplayer-*/src/rcsslogplayer</strong>.
+The log player will control what part of the game you see, but you will need
+to start a monitor (like rcssmonitor) to see the actual playback.</p>
+</div>
+<div class="section" id="full-installation">
+<h2>3.4. Full installation<a class="headerlink" href="#full-installation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="configuring">
+<h3>3.4.1. Configuring<a class="headerlink" href="#configuring" title="Permalink to this headline">¶</a></h3>
+<p>Before you can build the RoboCup Soccer Simulator you will need to run the
+<strong>configure</strong> script located in the root of the distribution directory.</p>
+<p>The default configuration will set up to install the simulator components in
+the following locations:</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>/usr/local/bin</dt>
+<dd>for the executables</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>/usr/local/include</dt>
+<dd>for the headers</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>/usr/local/lib</dt>
+<dd>for the libraries</dd>
+</dl>
+</li>
+</ul>
+<p>You may need administrator privileges to install the simulator into
+the default location.
+This location can be modified by using configure’s <code class="docutils literal notranslate"><span class="pre">--prefix=DIR</span></code> and
+related options.
+See <strong>configure –help</strong> for an overview over the available options.</p>
+<p>There are a number of features specific to the package. Some of them
+are enabled by default.
+If you want to enable a feature, use the option <code class="docutils literal notranslate"><span class="pre">--enable-FEATURE[=yes]</span></code>.</p>
+<p>Disabling a feature can be done by using either <code class="docutils literal notranslate"><span class="pre">--disable-FEATURE</span></code> or
+<code class="docutils literal notranslate"><span class="pre">--enable-FEATURE=no</span></code>.</p>
+</div>
+<div class="section" id="building">
+<h3>3.4.2. Building<a class="headerlink" href="#building" title="Permalink to this headline">¶</a></h3>
+<p>Once you have successfully configured the simulator, simply run
+<code class="docutils literal notranslate"><span class="pre">make</span></code> to build the sources.</p>
+</div>
+<div class="section" id="installing">
+<h3>3.4.3. Installing<a class="headerlink" href="#installing" title="Permalink to this headline">¶</a></h3>
+<p>When you have completed building the simulator, its components can be
+installed into their default locations or the locations specified
+during configuration by running <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">install</span></code>.
+Depending on where you are installing the simulator, you may need special
+permissions.</p>
+</div>
+<div class="section" id="uninstalling">
+<h3>3.4.4. Uninstalling<a class="headerlink" href="#uninstalling" title="Permalink to this headline">¶</a></h3>
+<p>The simulator can also be easily removed by entering the distribution
+directory and running <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">uninstall</span></code>.
+This will remove all the files that where installed, but not any directories
+that were created during the installation process.</p>
+</div>
+</div>
+<div class="section" id="using-the-simulator">
+<h2>3.5. Using the Simulator<a class="headerlink" href="#using-the-simulator" title="Permalink to this headline">¶</a></h2>
+<p>To start the server either type:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">rcssserver</span>
+</pre></div>
+</div>
+<p>from the directory containing the executable or:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rcssserver</span>
+</pre></div>
+</div>
+<p>if you installed the executables in your PATH.</p>
+<p>rcssserver will look in your home directory for the configuration files:</p>
+<ul class="simple">
+<li>.rcssserver/server.conf</li>
+<li>.rcssserver/player.conf</li>
+<li>.rcssserver/CSVSaver.conf</li>
+<li>.rcssserver-landmark.xml</li>
+</ul>
+<p>If .conf files do not exist, they will be created and populated with
+default values.</p>
+<p>You can include additional configuration files by using the <code class="docutils literal notranslate"><span class="pre">include=FILE</span></code>
+option to Com{rcssserver}.</p>
+<p>You can then see what’s happening in the simulator by using
+<strong>./rcssmonitor</strong> or <strong>rcssmonitor</strong> as above.</p>
+<p>If you installed the executables in your PATH, you can start both the
+server and the monitor by using the <strong>rcsoccersim</strong> script which
+would have also been installed in your PATH.
+This script will start the server and the monitor and automatically stop
+the server when you close the monitor.</p>
+<p>In order to actually start a match on the simulation server, the user must
+connect some clients to the server (maximum of 11 per side plus
+coaches).
+When these clients are ready, the user can click the <strong>Kick Off</strong> button on
+the monitor to start the game.
+It is likely that you have not yet programmed your own clients, in which case,
+you can read section ??? for instructions how to set up
+a whole match with the available teams that other RoboCuppers have
+contributed.</p>
+<p>Also, there is a sample client <strong>rcssclient</strong> included with every
+distribution of the server.
+.. It has either an ncurses interface or a
+.. command line interface (CLI) if ncurses is not available, or it it’s
+.. started with the Com{-nogui} option.</p>
+<p>Running <strong>rcssclient</strong> attempts to connect to the server using
+default parameters (host=localhost, port=6000). Of course, these
+server parameters can be changed using the arguments that the server
+accepts when it is started. When the client is started, you need to
+initialise its connection to the server.  This is done by manually
+typing in an init command and hitting enter.  So, to initialise the
+connection:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">init</span> <span class="n">MyTeam</span> <span class="p">(</span><span class="n">version</span> <span class="mi">15</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>You will notice that one of the two teams is now named “MyTeam” and
+one of the players that are standing by the side-line is active.
+This player corresponds to the client you’ve just initialised.
+Also, notice the information that the client writes on the terminal.
+This is what the client receives from the server.</p>
+<p>In the following text (which has line breaks added for clarity), the
+first eleven lines correspond to the initialisation <a class="footnote-reference" href="#f1" id="id1">[1]</a> and the other data
+is the sensor information that the server sends to this client:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">init</span> <span class="n">MyTeam</span> <span class="p">(</span><span class="n">version</span> <span class="mi">15</span><span class="p">))</span>
+<span class="p">(</span><span class="n">init</span> <span class="n">l</span> <span class="mi">2</span> <span class="n">before_kick_off</span><span class="p">)</span>
+<span class="p">(</span><span class="n">server_param</span> <span class="p">(</span><span class="n">catch_ban_cycle</span> <span class="mi">5</span><span class="p">)(</span><span class="n">clang_advice_win</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">clang_define_win</span> <span class="mi">1</span><span class="p">)(</span><span class="n">clang_del_win</span> <span class="mi">1</span><span class="p">)(</span><span class="n">clang_info_win</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">clang_mess_delay</span> <span class="mi">50</span><span class="p">)(</span><span class="n">clang_mess_per_cycle</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">clang_meta_win</span> <span class="mi">1</span><span class="p">)(</span><span class="n">clang_rule_win</span> <span class="mi">1</span><span class="p">)(</span><span class="n">clang_win_size</span> <span class="mi">300</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">coach_port</span> <span class="mi">6001</span><span class="p">)(</span><span class="n">connect_wait</span> <span class="mi">300</span><span class="p">)(</span><span class="n">drop_ball_time</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">freeform_send_period</span> <span class="mi">20</span><span class="p">)(</span><span class="n">freeform_wait_period</span> <span class="mi">600</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">game_log_compression</span> <span class="mi">0</span><span class="p">)(</span><span class="n">game_log_version</span> <span class="mi">3</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">game_over_wait</span> <span class="mi">100</span><span class="p">)(</span><span class="n">goalie_max_moves</span> <span class="mi">2</span><span class="p">)(</span><span class="n">half_time</span> <span class="o">-</span><span class="mi">10</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">hear_decay</span> <span class="mi">1</span><span class="p">)(</span><span class="n">hear_inc</span> <span class="mi">1</span><span class="p">)(</span><span class="n">hear_max</span> <span class="mi">1</span><span class="p">)(</span><span class="n">keepaway_start</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">kick_off_wait</span> <span class="mi">100</span><span class="p">)(</span><span class="n">max_goal_kicks</span> <span class="mi">3</span><span class="p">)(</span><span class="n">olcoach_port</span> <span class="mi">6002</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">point_to_ban</span> <span class="mi">5</span><span class="p">)(</span><span class="n">point_to_duration</span> <span class="mi">20</span><span class="p">)(</span><span class="n">port</span> <span class="mi">6000</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">recv_step</span> <span class="mi">10</span><span class="p">)(</span><span class="n">say_coach_cnt_max</span> <span class="mi">128</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">say_coach_msg_size</span> <span class="mi">128</span><span class="p">)(</span><span class="n">say_msg_size</span> <span class="mi">10</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">send_step</span> <span class="mi">150</span><span class="p">)(</span><span class="n">send_vi_step</span> <span class="mi">100</span><span class="p">)(</span><span class="n">sense_body_step</span> <span class="mi">100</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">simulator_step</span> <span class="mi">100</span><span class="p">)(</span><span class="n">slow_down_factor</span> <span class="mi">1</span><span class="p">)(</span><span class="n">start_goal_l</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">start_goal_r</span> <span class="mi">0</span><span class="p">)(</span><span class="n">synch_micro_sleep</span> <span class="mi">1</span><span class="p">)(</span><span class="n">synch_offset</span> <span class="mi">60</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">tackle_cycles</span> <span class="mi">10</span><span class="p">)(</span><span class="n">text_log_compression</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">game_log_dir</span> <span class="s2">&quot;/home/thoward/data&quot;</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">game_log_fixed_name</span> <span class="s2">&quot;rcssserver&quot;</span><span class="p">)</span><span class="n">keepaway_log_dir</span> <span class="s2">&quot;./&quot;</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">keepaway_log_fixed_name</span> <span class="s2">&quot;rcssserver&quot;</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">landmark_file</span> <span class="s2">&quot;~/.rcssserver-landmark.xml&quot;</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">log_date_format</span> <span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M-&quot;</span><span class="p">)(</span><span class="n">team_l_start</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">team_r_start</span> <span class="s2">&quot;&quot;</span><span class="p">)(</span><span class="n">text_log_dir</span> <span class="s2">&quot;/home/thoward/data&quot;</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">text_log_fixed_name</span> <span class="s2">&quot;rcssserver&quot;</span><span class="p">)(</span><span class="n">coach</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">coach_w_referee</span> <span class="mi">1</span><span class="p">)(</span><span class="n">old_coach_hear</span> <span class="mi">0</span><span class="p">)(</span><span class="n">wind_none</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">wind_random</span> <span class="mi">0</span><span class="p">)(</span><span class="n">auto_mode</span> <span class="mi">0</span><span class="p">)(</span><span class="n">back_passes</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">forbid_kick_off_offside</span> <span class="mi">1</span><span class="p">)(</span><span class="n">free_kick_faults</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">fullstate_l</span> <span class="mi">0</span><span class="p">)(</span><span class="n">fullstate_r</span> <span class="mi">0</span><span class="p">)(</span><span class="n">game_log_dated</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">game_log_fixed</span> <span class="mi">1</span><span class="p">)(</span><span class="n">game_logging</span> <span class="mi">1</span><span class="p">)(</span><span class="n">keepaway</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">keepaway_log_dated</span> <span class="mi">1</span><span class="p">)(</span><span class="n">keepaway_log_fixed</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">keepaway_logging</span> <span class="mi">1</span><span class="p">)(</span><span class="n">log_times</span> <span class="mi">0</span><span class="p">)(</span><span class="n">profile</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">proper_goal_kicks</span> <span class="mi">0</span><span class="p">)(</span><span class="n">record_messages</span> <span class="mi">0</span><span class="p">)(</span><span class="n">send_comms</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">synch_mode</span> <span class="mi">0</span><span class="p">)(</span><span class="n">team_actuator_noise</span> <span class="mi">0</span><span class="p">)(</span><span class="n">text_log_dated</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">text_log_fixed</span> <span class="mi">1</span><span class="p">)(</span><span class="n">text_logging</span> <span class="mi">1</span><span class="p">)(</span><span class="n">use_offside</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">verbose</span> <span class="mi">0</span><span class="p">)(</span><span class="n">audio_cut_dist</span> <span class="mi">50</span><span class="p">)(</span><span class="n">ball_accel_max</span> <span class="mf">2.7</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">ball_decay</span> <span class="mf">0.94</span><span class="p">)(</span><span class="n">ball_rand</span> <span class="mf">0.05</span><span class="p">)(</span><span class="n">ball_size</span> <span class="mf">0.085</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">ball_speed_max</span> <span class="mf">2.7</span><span class="p">)(</span><span class="n">ball_weight</span> <span class="mf">0.2</span><span class="p">)(</span><span class="n">catch_probability</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">catchable_area_l</span> <span class="mi">2</span><span class="p">)(</span><span class="n">catchable_area_w</span> <span class="mi">1</span><span class="p">)(</span><span class="n">ckick_margin</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">control_radius</span> <span class="mi">2</span><span class="p">)(</span><span class="n">dash_power_rate</span> <span class="mf">0.006</span><span class="p">)(</span><span class="n">effort_dec</span> <span class="mf">0.005</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">effort_dec_thr</span> <span class="mf">0.3</span><span class="p">)(</span><span class="n">effort_inc</span> <span class="mf">0.01</span><span class="p">)(</span><span class="n">effort_inc_thr</span> <span class="mf">0.6</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">effort_init</span> <span class="mi">0</span><span class="p">)(</span><span class="n">effort_min</span> <span class="mf">0.6</span><span class="p">)(</span><span class="n">goal_width</span> <span class="mf">14.02</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">inertia_moment</span> <span class="mi">5</span><span class="p">)(</span><span class="n">keepaway_length</span> <span class="mi">20</span><span class="p">)(</span><span class="n">keepaway_width</span> <span class="mi">20</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">kick_power_rate</span> <span class="mf">0.027</span><span class="p">)(</span><span class="n">kick_rand</span> <span class="mi">0</span><span class="p">)(</span><span class="n">kick_rand_factor_l</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">kick_rand_factor_r</span> <span class="mi">1</span><span class="p">)(</span><span class="n">kickable_margin</span> <span class="mf">0.7</span><span class="p">)(</span><span class="n">maxmoment</span> <span class="mi">180</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">maxneckang</span> <span class="mi">90</span><span class="p">)(</span><span class="n">maxneckmoment</span> <span class="mi">180</span><span class="p">)(</span><span class="n">maxpower</span> <span class="mi">100</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">minmoment</span> <span class="o">-</span><span class="mi">180</span><span class="p">)(</span><span class="n">minneckang</span> <span class="o">-</span><span class="mi">90</span><span class="p">)(</span><span class="n">minneckmoment</span> <span class="o">-</span><span class="mi">180</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">minpower</span> <span class="o">-</span><span class="mi">100</span><span class="p">)(</span><span class="n">offside_active_area_size</span> <span class="mf">2.5</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">offside_kick_margin</span> <span class="mf">9.15</span><span class="p">)(</span><span class="n">player_accel_max</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">player_decay</span> <span class="mf">0.4</span><span class="p">)(</span><span class="n">player_rand</span> <span class="mf">0.1</span><span class="p">)(</span><span class="n">player_size</span> <span class="mf">0.3</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">player_speed_max</span> <span class="mi">1</span><span class="p">)(</span><span class="n">player_weight</span> <span class="mi">60</span><span class="p">)(</span><span class="n">prand_factor_l</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">prand_factor_r</span> <span class="mi">1</span><span class="p">)(</span><span class="n">quantize_step</span> <span class="mf">0.1</span><span class="p">)(</span><span class="n">quantize_step_l</span> <span class="mf">0.01</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">recover_dec</span> <span class="mf">0.002</span><span class="p">)(</span><span class="n">recover_dec_thr</span> <span class="mf">0.3</span><span class="p">)(</span><span class="n">recover_min</span> <span class="mf">0.5</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">slowness_on_top_for_left_team</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">slowness_on_top_for_right_team</span> <span class="mi">1</span><span class="p">)(</span><span class="n">stamina_inc_max</span> <span class="mi">45</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">stamina_max</span> <span class="mi">4000</span><span class="p">)(</span><span class="n">stopped_ball_vel</span> <span class="mf">0.01</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">tackle_back_dist</span> <span class="mf">0.5</span><span class="p">)(</span><span class="n">tackle_dist</span> <span class="mf">2.5</span><span class="p">)(</span><span class="n">tackle_exponent</span> <span class="mi">6</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">tackle_power_rate</span> <span class="mf">0.027</span><span class="p">)(</span><span class="n">tackle_width</span> <span class="mf">1.25</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">visible_angle</span> <span class="mi">90</span><span class="p">)(</span><span class="n">visible_distance</span> <span class="mi">3</span><span class="p">)(</span><span class="n">wind_ang</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">wind_dir</span> <span class="mi">0</span><span class="p">)(</span><span class="n">wind_force</span> <span class="mi">0</span><span class="p">)(</span><span class="n">wind_rand</span> <span class="mi">0</span><span class="p">))</span>
+<span class="p">(</span><span class="n">player_param</span> <span class="p">(</span><span class="n">player_types</span> <span class="mi">7</span><span class="p">)(</span><span class="n">pt_max</span> <span class="mi">3</span><span class="p">)(</span><span class="n">random_seed</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">subs_max</span> <span class="mi">3</span><span class="p">)(</span><span class="n">dash_power_rate_delta_max</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">dash_power_rate_delta_min</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">effort_max_delta_factor</span> <span class="o">-</span><span class="mf">0.002</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">effort_min_delta_factor</span> <span class="o">-</span><span class="mf">0.002</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">extra_stamina_delta_max</span> <span class="mi">100</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">extra_stamina_delta_min</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">inertia_moment_delta_factor</span> <span class="mi">25</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">kick_rand_delta_factor</span> <span class="mf">0.5</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">kickable_margin_delta_max</span> <span class="mf">0.2</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">kickable_margin_delta_min</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">new_dash_power_rate_delta_max</span> <span class="mf">0.002</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">new_dash_power_rate_delta_min</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">new_stamina_inc_max_delta_factor</span> <span class="o">-</span><span class="mi">10000</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">player_decay_delta_max</span> <span class="mf">0.2</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">player_decay_delta_min</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">player_size_delta_factor</span> <span class="o">-</span><span class="mi">100</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">player_speed_max_delta_max</span> <span class="mf">0.2</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">player_speed_max_delta_min</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">stamina_inc_max_delta_factor</span> <span class="mi">0</span><span class="p">))</span>
+<span class="p">(</span><span class="n">player_type</span> <span class="p">(</span><span class="nb">id</span> <span class="mi">0</span><span class="p">)(</span><span class="n">player_speed_max</span> <span class="mi">1</span><span class="p">)(</span><span class="n">stamina_inc_max</span> <span class="mi">45</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">player_decay</span> <span class="mf">0.4</span><span class="p">)(</span><span class="n">inertia_moment</span> <span class="mi">5</span><span class="p">)(</span><span class="n">dash_power_rate</span> <span class="mf">0.006</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">player_size</span> <span class="mf">0.3</span><span class="p">)(</span><span class="n">kickable_margin</span> <span class="mf">0.7</span><span class="p">)(</span><span class="n">kick_rand</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">extra_stamina</span> <span class="mi">0</span><span class="p">)(</span><span class="n">effort_max</span> <span class="mi">1</span><span class="p">)(</span><span class="n">effort_min</span> <span class="mf">0.6</span><span class="p">))</span>
+<span class="p">(</span><span class="n">player_type</span> <span class="p">(</span><span class="nb">id</span> <span class="mi">1</span><span class="p">)(</span><span class="n">player_speed_max</span> <span class="mf">1.1956</span><span class="p">)(</span><span class="n">stamina_inc_max</span> <span class="mf">30.06</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">player_decay</span> <span class="mf">0.4554</span><span class="p">)(</span><span class="n">inertia_moment</span> <span class="mf">6.385</span><span class="p">)(</span><span class="n">dash_power_rate</span> <span class="mf">0.007494</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">player_size</span> <span class="mf">0.3</span><span class="p">)(</span><span class="n">kickable_margin</span> <span class="mf">0.829</span><span class="p">)(</span><span class="n">kick_rand</span> <span class="mf">0.0645</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">extra_stamina</span> <span class="mf">9.4</span><span class="p">)(</span><span class="n">effort_max</span> <span class="mf">0.9812</span><span class="p">)(</span><span class="n">effort_min</span> <span class="mf">0.5812</span><span class="p">))</span>
+<span class="p">(</span><span class="n">player_type</span> <span class="p">(</span><span class="nb">id</span> <span class="mi">2</span><span class="p">)(</span><span class="n">player_speed_max</span> <span class="mf">1.135</span><span class="p">)(</span><span class="n">stamina_inc_max</span> <span class="mf">33.4</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">player_decay</span> <span class="mf">0.4292</span><span class="p">)(</span><span class="n">inertia_moment</span> <span class="mf">5.73</span><span class="p">)(</span><span class="n">dash_power_rate</span> <span class="mf">0.00716</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">player_size</span> <span class="mf">0.3</span><span class="p">)(</span><span class="n">kickable_margin</span> <span class="mf">0.8198</span><span class="p">)(</span><span class="n">kick_rand</span> <span class="mf">0.0599</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">extra_stamina</span> <span class="mf">31.3</span><span class="p">)(</span><span class="n">effort_max</span> <span class="mf">0.9374</span><span class="p">)(</span><span class="n">effort_min</span> <span class="mf">0.5374</span><span class="p">))</span>
+<span class="p">(</span><span class="n">player_type</span> <span class="p">(</span><span class="nb">id</span> <span class="mi">3</span><span class="p">)(</span><span class="n">player_speed_max</span> <span class="mf">1.1964</span><span class="p">)(</span><span class="n">stamina_inc_max</span> <span class="mf">31.24</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">player_decay</span> <span class="mf">0.4664</span><span class="p">)(</span><span class="n">inertia_moment</span> <span class="mf">6.66</span><span class="p">)(</span><span class="n">dash_power_rate</span> <span class="mf">0.007376</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">player_size</span> <span class="mf">0.3</span><span class="p">)(</span><span class="n">kickable_margin</span> <span class="mf">0.88</span><span class="p">)(</span><span class="n">kick_rand</span> <span class="mf">0.09</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">extra_stamina</span> <span class="mf">47.1</span><span class="p">)(</span><span class="n">effort_max</span> <span class="mf">0.9058</span><span class="p">)(</span><span class="n">effort_min</span> <span class="mf">0.5058</span><span class="p">))</span>
+<span class="p">(</span><span class="n">player_type</span> <span class="p">(</span><span class="nb">id</span> <span class="mi">4</span><span class="p">)(</span><span class="n">player_speed_max</span> <span class="mf">1.151</span><span class="p">)(</span><span class="n">stamina_inc_max</span> <span class="mf">37.8</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">player_decay</span> <span class="mf">0.45</span><span class="p">)(</span><span class="n">inertia_moment</span> <span class="mf">6.25</span><span class="p">)(</span><span class="n">dash_power_rate</span> <span class="mf">0.00672</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">player_size</span> <span class="mf">0.3</span><span class="p">)(</span><span class="n">kickable_margin</span> <span class="mf">0.8838</span><span class="p">)(</span><span class="n">kick_rand</span> <span class="mf">0.0919</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">extra_stamina</span> <span class="mf">44.1</span><span class="p">)(</span><span class="n">effort_max</span> <span class="mf">0.9118</span><span class="p">)(</span><span class="n">effort_min</span> <span class="mf">0.5118</span><span class="p">))</span>
+<span class="p">(</span><span class="n">player_type</span> <span class="p">(</span><span class="nb">id</span> <span class="mi">5</span><span class="p">)(</span><span class="n">player_speed_max</span> <span class="mf">1.1544</span><span class="p">)(</span><span class="n">stamina_inc_max</span> <span class="mf">34.68</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">player_decay</span> <span class="mf">0.4352</span><span class="p">)(</span><span class="n">inertia_moment</span> <span class="mf">5.88</span><span class="p">)(</span><span class="n">dash_power_rate</span> <span class="mf">0.007032</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">player_size</span> <span class="mf">0.3</span><span class="p">)(</span><span class="n">kickable_margin</span> <span class="mf">0.8052</span><span class="p">)(</span><span class="n">kick_rand</span> <span class="mf">0.0526</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">extra_stamina</span> <span class="mf">47.1</span><span class="p">)(</span><span class="n">effort_max</span> <span class="mf">0.9058</span><span class="p">)(</span><span class="n">effort_min</span> <span class="mf">0.5058</span><span class="p">))</span>
+<span class="p">(</span><span class="n">player_type</span> <span class="p">(</span><span class="nb">id</span> <span class="mi">6</span><span class="p">)(</span><span class="n">player_speed_max</span> <span class="mf">1.193</span><span class="p">)(</span><span class="n">stamina_inc_max</span> <span class="mf">36.7</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">player_decay</span> <span class="mf">0.4738</span><span class="p">)(</span><span class="n">inertia_moment</span> <span class="mf">6.845</span><span class="p">)(</span><span class="n">dash_power_rate</span> <span class="mf">0.00683</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">player_size</span> <span class="mf">0.3</span><span class="p">)(</span><span class="n">kickable_margin</span> <span class="mf">0.885</span><span class="p">)(</span><span class="n">kick_rand</span> <span class="mf">0.0925</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">extra_stamina</span> <span class="mi">92</span><span class="p">)(</span><span class="n">effort_max</span> <span class="mf">0.816</span><span class="p">)(</span><span class="n">effort_min</span> <span class="mf">0.416</span><span class="p">))</span>
+<span class="p">(</span><span class="n">sense_body</span> <span class="mi">0</span> <span class="p">(</span><span class="n">view_mode</span> <span class="n">high</span> <span class="n">normal</span><span class="p">)</span> <span class="p">(</span><span class="n">stamina</span> <span class="mi">4000</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="n">speed</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">head_angle</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="n">kick</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="n">dash</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="n">turn</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="n">say</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="n">turn_neck</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">catch</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="n">move</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="n">change_view</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="n">arm</span> <span class="p">(</span><span class="n">movable</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="n">expires</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">target</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="n">count</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="n">focus</span> <span class="p">(</span><span class="n">target</span> <span class="n">none</span><span class="p">)</span> <span class="p">(</span><span class="n">count</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="n">tackle</span>
+  <span class="p">(</span><span class="n">expires</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="n">count</span> <span class="mi">0</span><span class="p">)))</span>
+<span class="p">(</span><span class="n">see</span> <span class="mi">0</span> <span class="p">((</span><span class="n">f</span> <span class="n">c</span> <span class="n">t</span><span class="p">)</span> <span class="mf">6.7</span> <span class="mi">27</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">((</span><span class="n">f</span> <span class="n">r</span> <span class="n">t</span><span class="p">)</span> <span class="mf">58.6</span> <span class="mi">3</span><span class="p">)</span> <span class="p">((</span><span class="n">f</span> <span class="n">g</span> <span class="n">r</span> <span class="n">b</span><span class="p">)</span> <span class="mi">73</span> <span class="mi">37</span><span class="p">)</span>
+  <span class="p">((</span><span class="n">g</span> <span class="n">r</span><span class="p">)</span> <span class="mf">69.4</span> <span class="mi">32</span><span class="p">)</span> <span class="p">((</span><span class="n">f</span> <span class="n">g</span> <span class="n">r</span> <span class="n">t</span><span class="p">)</span> <span class="mi">66</span> <span class="mi">27</span><span class="p">)</span> <span class="p">((</span><span class="n">f</span> <span class="n">p</span> <span class="n">r</span> <span class="n">c</span><span class="p">)</span> <span class="mf">55.7</span> <span class="mi">41</span><span class="p">)</span>
+  <span class="p">((</span><span class="n">f</span> <span class="n">p</span> <span class="n">r</span> <span class="n">t</span><span class="p">)</span> <span class="mf">45.2</span> <span class="mi">22</span><span class="p">)</span> <span class="p">((</span><span class="n">f</span> <span class="n">t</span> <span class="mi">0</span><span class="p">)</span> <span class="mf">6.3</span> <span class="o">-</span><span class="mi">18</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">((</span><span class="n">f</span> <span class="n">t</span> <span class="n">r</span> <span class="mi">10</span><span class="p">)</span> <span class="mf">16.1</span> <span class="o">-</span><span class="mi">7</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">((</span><span class="n">f</span> <span class="n">t</span> <span class="n">r</span> <span class="mi">20</span><span class="p">)</span> <span class="mi">26</span> <span class="o">-</span><span class="mi">4</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">((</span><span class="n">f</span> <span class="n">t</span> <span class="n">r</span> <span class="mi">30</span><span class="p">)</span> <span class="mf">36.2</span> <span class="o">-</span><span class="mi">3</span><span class="p">)</span> <span class="p">((</span><span class="n">f</span> <span class="n">t</span> <span class="n">r</span> <span class="mi">40</span><span class="p">)</span> <span class="mf">46.1</span> <span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+  <span class="p">((</span><span class="n">f</span> <span class="n">t</span> <span class="n">r</span> <span class="mi">50</span><span class="p">)</span> <span class="mf">56.3</span> <span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="p">((</span><span class="n">f</span> <span class="n">r</span> <span class="mi">0</span><span class="p">)</span> <span class="mf">73.7</span> <span class="mi">30</span><span class="p">)</span> <span class="p">((</span><span class="n">f</span> <span class="n">r</span> <span class="n">t</span> <span class="mi">10</span><span class="p">)</span> <span class="mf">68.7</span> <span class="mi">23</span><span class="p">)</span>
+  <span class="p">((</span><span class="n">f</span> <span class="n">r</span> <span class="n">t</span> <span class="mi">20</span><span class="p">)</span> <span class="mi">66</span> <span class="mi">15</span><span class="p">)</span> <span class="p">((</span><span class="n">f</span> <span class="n">r</span> <span class="n">t</span> <span class="mi">30</span><span class="p">)</span> <span class="mf">64.1</span> <span class="mi">6</span><span class="p">)</span> <span class="p">((</span><span class="n">f</span> <span class="n">r</span> <span class="n">b</span> <span class="mi">10</span><span class="p">)</span> <span class="mi">79</span> <span class="mi">37</span><span class="p">)</span>
+  <span class="p">((</span><span class="n">f</span> <span class="n">r</span> <span class="n">b</span> <span class="mi">20</span><span class="p">)</span> <span class="mf">85.6</span> <span class="mi">42</span><span class="p">))</span>
+<span class="p">(</span><span class="n">sense_body</span> <span class="mi">0</span> <span class="p">(</span><span class="n">view_mode</span> <span class="n">high</span> <span class="n">normal</span><span class="p">)</span> <span class="p">(</span><span class="n">stamina</span> <span class="mi">4000</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="n">speed</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">head_angle</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="n">kick</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="n">dash</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="n">turn</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="n">say</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="n">turn_neck</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">catch</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="n">move</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="n">change_view</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="n">arm</span> <span class="p">(</span><span class="n">movable</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="n">expires</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">target</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="n">count</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="n">focus</span> <span class="p">(</span><span class="n">target</span> <span class="n">none</span><span class="p">)</span> <span class="p">(</span><span class="n">count</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="n">tackle</span>
+  <span class="p">(</span><span class="n">expires</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="n">count</span> <span class="mi">0</span><span class="p">)))</span>
+<span class="p">(</span><span class="n">see</span> <span class="mi">0</span> <span class="p">((</span><span class="n">f</span> <span class="n">c</span> <span class="n">t</span><span class="p">)</span> <span class="mf">6.7</span> <span class="mi">27</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">((</span><span class="n">f</span> <span class="n">r</span> <span class="n">t</span><span class="p">)</span> <span class="mf">58.6</span> <span class="mi">3</span><span class="p">)</span> <span class="p">((</span><span class="n">f</span> <span class="n">g</span> <span class="n">r</span> <span class="n">b</span><span class="p">)</span> <span class="mi">73</span> <span class="mi">37</span><span class="p">)</span>
+  <span class="p">((</span><span class="n">g</span> <span class="n">r</span><span class="p">)</span> <span class="mf">69.4</span> <span class="mi">32</span><span class="p">)</span> <span class="p">((</span><span class="n">f</span> <span class="n">g</span> <span class="n">r</span> <span class="n">t</span><span class="p">)</span> <span class="mi">66</span> <span class="mi">27</span><span class="p">)</span> <span class="p">((</span><span class="n">f</span> <span class="n">p</span> <span class="n">r</span> <span class="n">c</span><span class="p">)</span> <span class="mf">55.7</span> <span class="mi">41</span><span class="p">)</span>
+  <span class="p">((</span><span class="n">f</span> <span class="n">p</span> <span class="n">r</span> <span class="n">t</span><span class="p">)</span> <span class="mf">45.2</span> <span class="mi">22</span><span class="p">)</span> <span class="p">((</span><span class="n">f</span> <span class="n">t</span> <span class="mi">0</span><span class="p">)</span> <span class="mf">6.3</span> <span class="o">-</span><span class="mi">18</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">((</span><span class="n">f</span> <span class="n">t</span> <span class="n">r</span> <span class="mi">10</span><span class="p">)</span> <span class="mf">16.1</span> <span class="o">-</span><span class="mi">7</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span> <span class="p">((</span><span class="n">f</span> <span class="n">t</span> <span class="n">r</span> <span class="mi">20</span><span class="p">)</span> <span class="mi">26</span> <span class="o">-</span><span class="mi">4</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">((</span><span class="n">f</span> <span class="n">t</span> <span class="n">r</span> <span class="mi">30</span><span class="p">)</span> <span class="mf">36.2</span> <span class="o">-</span><span class="mi">3</span><span class="p">)</span> <span class="p">((</span><span class="n">f</span> <span class="n">t</span> <span class="n">r</span> <span class="mi">40</span><span class="p">)</span> <span class="mf">46.1</span> <span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+  <span class="p">((</span><span class="n">f</span> <span class="n">t</span> <span class="n">r</span> <span class="mi">50</span><span class="p">)</span> <span class="mf">56.3</span> <span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="p">((</span><span class="n">f</span> <span class="n">r</span> <span class="mi">0</span><span class="p">)</span> <span class="mf">73.7</span> <span class="mi">30</span><span class="p">)</span> <span class="p">((</span><span class="n">f</span> <span class="n">r</span> <span class="n">t</span> <span class="mi">10</span><span class="p">)</span> <span class="mf">68.7</span> <span class="mi">23</span><span class="p">)</span>
+  <span class="p">((</span><span class="n">f</span> <span class="n">r</span> <span class="n">t</span> <span class="mi">20</span><span class="p">)</span> <span class="mi">66</span> <span class="mi">15</span><span class="p">)</span> <span class="p">((</span><span class="n">f</span> <span class="n">r</span> <span class="n">t</span> <span class="mi">30</span><span class="p">)</span> <span class="mf">64.1</span> <span class="mi">6</span><span class="p">)</span> <span class="p">((</span><span class="n">f</span> <span class="n">r</span> <span class="n">b</span> <span class="mi">10</span><span class="p">)</span> <span class="mi">79</span> <span class="mi">37</span><span class="p">)</span>
+  <span class="p">((</span><span class="n">f</span> <span class="n">r</span> <span class="n">b</span> <span class="mi">20</span><span class="p">)</span> <span class="mf">85.6</span> <span class="mi">42</span><span class="p">))</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>You can still type commands (such as <code class="docutils literal notranslate"><span class="pre">(move</span> <span class="pre">0</span> <span class="pre">0)</span></code> or <code class="docutils literal notranslate"><span class="pre">(turn</span> <span class="pre">45)</span></code>)
+that the player will then send to the server. You should be able to
+see the result of these commands on the monitor window.</p>
+</div>
+<div class="section" id="how-to-stop-the-server">
+<h2>3.6. How to stop the server<a class="headerlink" href="#how-to-stop-the-server" title="Permalink to this headline">¶</a></h2>
+<p>The correct procedure for stopping the server is:</p>
+<ol class="arabic simple">
+<li>Stop all clients (players)</li>
+<li>Stop all monitors by clicking on the quit button</li>
+<li><code class="docutils literal notranslate"><span class="pre">ctrl-c</span></code> at the terminal window where you started the server in order to terminate it</li>
+</ol>
+<p>If you follow this procedure, you will not only stop all visible
+running processes but also make sure that all those processes that may
+be running in the background (such as the server) are also stopped.
+The problem that arises when you don’t properly shut down the server
+is that you may not be able to start another process unless you start
+it with different parameters.</p>
+<p>Also, if you don’t stop the simulator with a ctrl-c, then the logfiles
+will no be closed properly (only important if you are using compressed
+logging) and they will not be renamed correctly.</p>
+<p><em>NOTE:</em> It is sometimes useful and convenient to terminate
+processes using their name. Using the <strong>kill</strong> operating system
+command involves finding the process number of the process you want to
+stop using the <strong>ps</strong> command. A simpler way to eradicate all
+processes that have a specific name is by means of the <strong>killall</strong>
+command, for example: <code class="docutils literal notranslate"><span class="pre">killall</span> <span class="pre">rcssserver</span></code> is
+sufficient to kill all processes with the name <strong>rcssserver</strong>.</p>
+</div>
+<div class="section" id="troubleshooting">
+<h2>3.7. Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h2>
+<p>In this section we list known problems and try to give some solutions
+or at least point you in the right direction.</p>
+<p>If you run into any errors in configuring, building or running the
+simulator, which are not reported here please submit a bug report via
+the RoboCup Soccer Simulator website, <a class="reference external" href="https://rcsoccersim.github.io/">https://rcsoccersim.github.io/</a>,
+especially if you can provide a patch or hint to the solution of the
+problem.</p>
+<hr class="docutils" />
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>The response from the server means that the client plays for the left
+side, has the number one and the play mode is before_kick_off.
+The other lines correspond the the current server parameters and
+player types.</td></tr>
+</tbody>
+</table>
 </div>
 </div>
 
