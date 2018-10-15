@@ -35,9 +35,9 @@ prompt.
 Get tar.gz files for the version you are after from the Simulator's code
 repository:
 
-* rcssserver performs the actual simulation. https://github.com/rcsoccersim/rcssserver/releases
-* rcssmonitor allows you to watch game in progress. https://github.com/rcsoccersim/rcssmonitor/releases
-* rcsslogplayer allows you to replay logs (\*.rcg files) created by rcssserver. https://github.com/rcsoccersim/rcsslogplayer/releases
+* `rcssserver <https://github.com/rcsoccersim/rcssserver/releases>`_ performs the actual simulation.
+* `rcssmonitor <https://github.com/rcsoccersim/rcssmonitor/releases>`_ allows you to watch game in progress.
+* `rcsslogplayer <https://github.com/rcsoccersim/rcsslogplayer/releases>`_ allows you to replay logs (\*.rcg files) created by rcssserver. 
 
 At the time of this writing (Oct-12-2018) the latest version is 15.5.0
 and will be used in the example below. Please substitute 15.5.0 for the
