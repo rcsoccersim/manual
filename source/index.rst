@@ -4,25 +4,13 @@
    contain the root `toctree` directive.
 .. -*- coding: utf-8; -*-
 
-The RoboCup Soccer Simulator
+The RoboCup Soccer Simulator Users Manual
 =====================================================================
 
-Simulation Softwares
------------------------------------------------------------
+last update: |today|
 
-* `Soccer Server <https://github.com/rcsoccersim/rcssserver/releases>`_
-* `Soccer Monitor <https://github.com/rcsoccersim/rcssserver/releases>`_
-* `Log Player <https://github.com/rcsoccersim/rcsslogplayer/releases>`_
-
-
-`Code Repository <https://github.com/rcsoccersim/>`_
-
-
-
-Users Manual
------------------------------------------------------------
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :numbered: 3
 
    introduction
