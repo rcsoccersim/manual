@@ -108,8 +108,9 @@ When ``rcssclient`` is started, it connects to the server. You are
 presented with a simple ncurses-based interface. You can then enter
 commands that are executed by the server. Any information that is
 received by the client will be shown in a different section of the
-screen according to its type (*visual*, *sense body* or
-*other*). By entering commands and see what happens you can get
+screen according to its type (visual, sense body or
+other).
+By entering commands and see what happens you can get
 a first idea of the way things work in the simulation.
 Even if you are not a newbie any more, the program is handy for simple
 tests, e.g. getting a grip on new commands added to the simulation.
@@ -135,7 +136,7 @@ Just before a kick off (either before a half time starts, or after a
 goal), all players must be in their own half.  To allow for this to
 happen, after a goal is scored, the referee suspends the match for an
 interval of 5 seconds. During this interval, players can use the
-``move`` command to teleport to a position within its own side,
+**move** command to teleport to a position within its own side,
 rather than run to this position, which is much slower and consumes
 stamina.  If a player remains in the opponent half after the 5-second
 interval has expired or tries to teleport there during the interval,
@@ -160,7 +161,7 @@ Out of Field
 
 When the ball goes out of the field, the referee moves the ball to a
 proper position (a touchline, corner or goal-area) and changes the
-play-mode to kick\_in, corner\_kick, or goal\_kick. In the case of a
+play-mode to kick_in, corner_kick, or goal_kick. In the case of a
 corner kick, the referee places the ball at (1m, 1m) inside the
 appropriate corner of the field.
 
@@ -168,7 +169,7 @@ appropriate corner of the field.
 Player Clearance
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-When the play-mode is kick\_off, free\_kick, kick\_in, or corner\_kick, the
+When the play-mode is kick_off, free_kick, kick_in, or corner_kick, the
 referee removes all defending players located within a circle centred
 on the ball.  The radius of this circle is a parameter within the
 server (normally 9.15 meters).  The removed players are placed on the
@@ -176,18 +177,18 @@ perimeter of that circle.  When the play-mode is offside, all
 offending players are moved back to a non-offside position.  Offending
 players in this case are all players in the offside area and all
 players inside a circle with radius 9.15 meters from the ball.  When
-the play-mode is goal\_kick, all offending players are moved outside
+the play-mode is goal_kick, all offending players are moved outside
 the penalty area. The offending players cannot re-enter the penalty
 area while the goal kick takes place. The play-mode changes to
-play\_on immediately after the ball goes outside the penalty area.
+play_on immediately after the ball goes outside the penalty area.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Play-Mode Control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-When the play-mode is kick\_off, free\_kick, kick\_in, or
-corner\_kick, the referee changes the play-mode to play\_on
-immediately after the ball starts moving through a ``kick``
+When the play-mode is kick_off, free_kick, kick_in, or
+corner_kick, the referee changes the play-mode to play\_on
+immediately after the ball starts moving through a **kick**
 command.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -200,7 +201,7 @@ A player is marked offside, if it is
   players,
 - closer to the opponent goal than the ball,\\
 - closer to the ball than 2.5 meters (this can be changed
-  with the server parameter *offside\_active\_area\_size*).
+  with the server parameter **server::offside_active_area_size**).
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Backpasses
@@ -208,7 +209,7 @@ Backpasses
 
 Just like in real soccer games, the goalie is not allowed to catch a
 ball that was passed to him by a teammate.  If this happens, the
-referee calls a *back\_pass\_l* or *back\_pass\_r* and
+referee calls a **back_pass_l** or **back_pass_r** and
 assigns a free kick to the opposing team.  As such a back pass can
 only happen within the penalty area, the ball is placed on the corner
 of the penalty area that is closest to the position the goalie tried
@@ -222,8 +223,8 @@ Free Kick Faults
 When taking a free kick, corner kick, goalie free kick, or kick in, a
 player is not allowed to pass the ball to itself.  If a player kicks
 the ball again after performing one of those free kicks, the referee
-calls a *free\_kick\_fault\_l* or *free\_kick\_fault\_r* and
-the oppsing team is awarded a free\_kick.
+calls a **free_kick_fault_l** or **free_kick_fault_r** and
+the oppsing team is awarded a free_kick.
 
 As a player may have to kick the ball more than once in order to
 accelerate it to the desired speed, a free kick fault is only called
@@ -235,9 +236,10 @@ if the player taking the free kick
 
 
 So issuing command sequences like
-``kick``--``kick``--``dash`` or
-``kick``--``turn``--``kick`` is perfectly
-legal. The sequence ``kick``--``dash``--``kick``,
+**kick**--**kick**--**dash** or
+**kick**--**turn**--**kick** is perfectly
+legal.
+The sequence **kick**--**dash**--**kick**,
 on the other hand, results in a free kick fault.
 
 
@@ -270,11 +272,11 @@ the RoboCup 2000 competition, but they have been used since then.
   cycles.
   By now this rule is handled by the automatic referee, as
   well. If a team fails to put the ball back into play for
-  *drop\_ball\_time* cycles, a drop\_ball is issued by the
+  **servr::drop_ball_time** cycles, a drop\_ball is issued by the
   referee. However, if a team repeatedly fails to put the ball into
   play, the human referee may drop the ball prematurely.
 * Intentionally blocking the movement of other players
-* Abusing the goalie ``catch`` command (the goalie may not
+* Abusing the goalie **catch** command (the goalie may not
   repeatedly kick and catch the ball, as this provides a safe way
   to move the ball anywhere within the penalty area).
 * Flooding the Server with Messages:

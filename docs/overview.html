@@ -192,8 +192,9 @@ affair works.</p>
 presented with a simple ncurses-based interface. You can then enter
 commands that are executed by the server. Any information that is
 received by the client will be shown in a different section of the
-screen according to its type (<em>visual</em>, <em>sense body</em> or
-<em>other</em>). By entering commands and see what happens you can get
+screen according to its type (visual, sense body or
+other).
+By entering commands and see what happens you can get
 a first idea of the way things work in the simulation.
 Even if you are not a newbie any more, the program is handy for simple
 tests, e.g. getting a grip on new commands added to the simulation.</p>
@@ -213,7 +214,7 @@ game.</p>
 goal), all players must be in their own half.  To allow for this to
 happen, after a goal is scored, the referee suspends the match for an
 interval of 5 seconds. During this interval, players can use the
-<code class="docutils literal notranslate"><span class="pre">move</span></code> command to teleport to a position within its own side,
+<strong>move</strong> command to teleport to a position within its own side,
 rather than run to this position, which is much slower and consumes
 stamina.  If a player remains in the opponent half after the 5-second
 interval has expired or tries to teleport there during the interval,
@@ -257,7 +258,7 @@ play_on immediately after the ball goes outside the penalty area.</p>
 <h4>Play-Mode Control<a class="headerlink" href="#play-mode-control" title="Permalink to this headline">¶</a></h4>
 <p>When the play-mode is kick_off, free_kick, kick_in, or
 corner_kick, the referee changes the play-mode to play_on
-immediately after the ball starts moving through a <code class="docutils literal notranslate"><span class="pre">kick</span></code>
+immediately after the ball starts moving through a <strong>kick</strong>
 command.</p>
 </div>
 <div class="section" id="offside">
@@ -270,14 +271,14 @@ command.</p>
 <ul class="simple">
 <li>closer to the opponent goal than the ball,\</li>
 <li>closer to the ball than 2.5 meters (this can be changed
-with the server parameter <em>offside_active_area_size</em>).</li>
+with the server parameter <strong>server::offside_active_area_size</strong>).</li>
 </ul>
 </div>
 <div class="section" id="backpasses">
 <h4>Backpasses<a class="headerlink" href="#backpasses" title="Permalink to this headline">¶</a></h4>
 <p>Just like in real soccer games, the goalie is not allowed to catch a
 ball that was passed to him by a teammate.  If this happens, the
-referee calls a <em>back_pass_l</em> or <em>back_pass_r</em> and
+referee calls a <strong>back_pass_l</strong> or <strong>back_pass_r</strong> and
 assigns a free kick to the opposing team.  As such a back pass can
 only happen within the penalty area, the ball is placed on the corner
 of the penalty area that is closest to the position the goalie tried
@@ -289,7 +290,7 @@ goalie if the goalie does not try to catch the ball.</p>
 <p>When taking a free kick, corner kick, goalie free kick, or kick in, a
 player is not allowed to pass the ball to itself.  If a player kicks
 the ball again after performing one of those free kicks, the referee
-calls a <em>free_kick_fault_l</em> or <em>free_kick_fault_r</em> and
+calls a <strong>free_kick_fault_l</strong> or <strong>free_kick_fault_r</strong> and
 the oppsing team is awarded a free_kick.</p>
 <p>As a player may have to kick the ball more than once in order to
 accelerate it to the desired speed, a free kick fault is only called
@@ -299,9 +300,10 @@ if the player taking the free kick</p>
 <li>the player has moved (= dashed) between the kicks.</li>
 </ol>
 <p>So issuing command sequences like
-<code class="docutils literal notranslate"><span class="pre">kick</span></code>–<code class="docutils literal notranslate"><span class="pre">kick</span></code>–<code class="docutils literal notranslate"><span class="pre">dash</span></code> or
-<code class="docutils literal notranslate"><span class="pre">kick</span></code>–<code class="docutils literal notranslate"><span class="pre">turn</span></code>–<code class="docutils literal notranslate"><span class="pre">kick</span></code> is perfectly
-legal. The sequence <code class="docutils literal notranslate"><span class="pre">kick</span></code>–<code class="docutils literal notranslate"><span class="pre">dash</span></code>–<code class="docutils literal notranslate"><span class="pre">kick</span></code>,
+<strong>kick</strong>–<strong>kick</strong>–<strong>dash</strong> or
+<strong>kick</strong>–<strong>turn</strong>–<strong>kick</strong> is perfectly
+legal.
+The sequence <strong>kick</strong>–<strong>dash</strong>–<strong>kick</strong>,
 on the other hand, results in a free kick fault.</p>
 </div>
 <div class="section" id="half-time-and-time-up">
@@ -329,11 +331,11 @@ the RoboCup 2000 competition, but they have been used since then.</p>
 cycles.
 By now this rule is handled by the automatic referee, as
 well. If a team fails to put the ball back into play for
-<em>drop_ball_time</em> cycles, a drop_ball is issued by the
+<strong>servr::drop_ball_time</strong> cycles, a drop_ball is issued by the
 referee. However, if a team repeatedly fails to put the ball into
 play, the human referee may drop the ball prematurely.</li>
 <li>Intentionally blocking the movement of other players</li>
-<li>Abusing the goalie <code class="docutils literal notranslate"><span class="pre">catch</span></code> command (the goalie may not
+<li>Abusing the goalie <strong>catch</strong> command (the goalie may not
 repeatedly kick and catch the ball, as this provides a safe way
 to move the ball anywhere within the penalty area).</li>
 <li>Flooding the Server with Messages:

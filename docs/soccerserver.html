@@ -43,7 +43,9 @@
 <li><a class="reference internal" href="#protocols">4.2. Protocols</a><ul>
 <li><a class="reference internal" href="#player-command-protocol">4.2.1. Player Command Protocol</a><ul>
 <li><a class="reference internal" href="#connecting-reconnecting-and-disconnecting">Connecting, reconnecting, and disconnecting</a></li>
+<li><a class="reference internal" href="#initial-settings">Initial Settings</a></li>
 <li><a class="reference internal" href="#player-control">Player Control</a></li>
+<li><a class="reference internal" href="#others">Others</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#player-sensor-protocol">4.2.2. Player Sensor Protocol</a></li>
@@ -170,7 +172,7 @@
 <div class="line">(init <em>Side</em> <em>Unum</em> <em>PlayMode</em>)</div>
 <div class="line-block">
 <div class="line-block">
-<div class="line"><em>Side</em> ::= l|r</div>
+<div class="line"><em>Side</em> ::= <code class="docutils literal notranslate"><span class="pre">l</span></code> | <code class="docutils literal notranslate"><span class="pre">r</span></code></div>
 <div class="line"><em>Unum</em> ::= 1~11</div>
 </div>
 <div class="line"><em>PlayMode</em> ::= one of play modes</div>
@@ -180,21 +182,102 @@
 </div>
 </td>
 </tr>
+<tr class="row-odd"><td><div class="first last line-block">
+<div class="line">(reconnect …)</div>
+<div class="line-block">
+<div class="line">TeamName :=</div>
+</div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>(bye)</td>
+<td>&#160;</td>
+</tr>
 </tbody>
 </table>
 <p>If your client connects or reconnects sucessfully with a protocol version &gt;= 7.0, the
 server will additionally send following messages: <code class="docutils literal notranslate"><span class="pre">server_param</span></code> (a message
-containing the server parameters), <code class="docutils literal notranslate"><span class="pre">player_param</span></code> a message containing the
-player parameters and <code class="docutils literal notranslate"><span class="pre">player_type</span></code> (a message containing the player types).
+containing the server parameters), <code class="docutils literal notranslate"><span class="pre">player_param</span></code> (a message containing the
+player parameters) and <code class="docutils literal notranslate"><span class="pre">player_type</span></code> (a message containing the player types).
 Finally, the player will receive a message on changed
 players (see Sec. <a class="reference internal" href="#sec-heterogeneousplayers"><span class="std std-ref">Heterogeneous Players</span></a>).</p>
+</div>
+<div class="section" id="initial-settings">
+<h4>Initial Settings<a class="headerlink" href="#initial-settings" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="49%" />
+<col width="51%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">From player to server</th>
+<th class="head">From server to player</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><div class="first last line-block">
+<div class="line">(compression <em>Level</em>)</div>
+<div class="line-block">
+<div class="line"><em>Level</em> ::= zlib compression level [0,9]</div>
+<div class="line-block">
+<div class="line">or negative number</div>
+</div>
+</div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">(ok compression <em>Level</em>)</div>
+<div class="line">(warning compression_unsupported)</div>
+<div class="line"><br /></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><div class="first last line-block">
+<div class="line">(clang (ver <em>MinVer</em> <em>MaxVer</em>))</div>
+<div class="line-block">
+<div class="line"><em>MinVer</em> ::= integer</div>
+<div class="line"><em>MaxVer</em> ::= integer</div>
+</div>
+</div>
+</td>
+<td>(ok clang (ver <em>MinVer</em> <em>MaxVer</em>))</td>
+</tr>
+<tr class="row-even"><td><div class="first last line-block">
+<div class="line">(ear (<em>OnOff</em> [<em>Team</em>] [<em>Type</em>]))</div>
+<div class="line-block">
+<div class="line"><em>OnOff</em> ::= <code class="docutils literal notranslate"><span class="pre">on</span></code> | <code class="docutils literal notranslate"><span class="pre">off</span></code></div>
+<div class="line"><em>Team</em> ::= <code class="docutils literal notranslate"><span class="pre">our</span></code> | <code class="docutils literal notranslate"><span class="pre">opp</span></code> |</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">left</span></code> | <code class="docutils literal notranslate"><span class="pre">right</span></code> |</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">l</span></code> | <code class="docutils literal notranslate"><span class="pre">r</span></code> |</div>
+<div class="line"><em>TeamName</em></div>
+</div>
+</div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">no response if succeeded</div>
+<div class="line">(error no team with name <em>TeamName</em>)</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>(synch_see)</td>
+<td>(ok synch_see)</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="player-control">
 <h4>Player Control<a class="headerlink" href="#player-control" title="Permalink to this headline">¶</a></h4>
 <table border="1" class="docutils">
 <colgroup>
-<col width="74%" />
-<col width="26%" />
+<col width="75%" />
+<col width="25%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">From player to server</th>
@@ -203,46 +286,58 @@ players (see Sec. <a class="reference internal" href="#sec-heterogeneousplayers"
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td><div class="first last line-block">
-<div class="line">(catch <em>Direction</em>)</div>
+<div class="line">(turn <em>Moment</em>)</div>
 <div class="line-block">
-<div class="line"><em>Direction</em> ::= <code class="docutils literal notranslate"><span class="pre">minmoment</span></code> ~ <code class="docutils literal notranslate"><span class="pre">maxmoment</span></code> degrees</div>
+<div class="line"><em>Moment</em> ::= <strong>minmoment</strong> ~ <strong>maxmoment</strong> degrees</div>
 </div>
 </div>
 </td>
 <td>Yes</td>
 </tr>
 <tr class="row-odd"><td><div class="first last line-block">
-<div class="line">(change_view <em>Width</em> <em>Quality</em>)</div>
-<div class="line-block">
-<div class="line"><em>Width</em> ::= narrow | normal | wide</div>
-<div class="line"><em>Quality</em> ::= high | low</div>
-</div>
-</div>
-</td>
-<td>No</td>
-</tr>
-<tr class="row-even"><td><div class="first last line-block">
 <div class="line">(dash <em>Power</em> [<em>Direction</em>])</div>
 <div class="line-block">
-<div class="line"><em>Power</em> ::= <code class="docutils literal notranslate"><span class="pre">min_dash_power</span></code> ~ <code class="docutils literal notranslate"><span class="pre">max_dash_power</span></code></div>
-<div class="line"><em>Direction</em> ::= <code class="docutils literal notranslate"><span class="pre">min_dash_angle</span></code> ~ <code class="docutils literal notranslate"><span class="pre">max_dash_angle</span></code> degrees</div>
+<div class="line"><em>Power</em> ::= <strong>min_dash_power</strong> ~ <strong>max_dash_power</strong></div>
+<div class="line"><em>Direction</em> ::= <strong>min_dash_angle</strong> ~ <strong>max_dash_angle</strong> degrees</div>
 </div>
 <div class="line">Note: backward dash (negative power) consumes double stamina.</div>
 </div>
 </td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td><div class="first last line-block">
+<tr class="row-even"><td><div class="first last line-block">
 <div class="line">(kick <em>Power</em> <em>Direction</em>)</div>
 <div class="line-block">
-<div class="line"><em>Power</em> ::= <code class="docutils literal notranslate"><span class="pre">minpower</span></code> ~ <code class="docutils literal notranslate"><span class="pre">maxpower</span></code></div>
-<div class="line"><em>Direction</em> ::= <code class="docutils literal notranslate"><span class="pre">minmoment</span></code> ~ <code class="docutils literal notranslate"><span class="pre">maxmoment</span></code> degrees</div>
+<div class="line"><em>Power</em> ::= <strong>minpower</strong> ~ <strong>maxpower</strong></div>
+<div class="line"><em>Direction</em> ::= <strong>minmoment</strong> ~ <strong>maxmoment</strong> degrees</div>
+</div>
+</div>
+</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td><div class="first last line-block">
+<div class="line">(tackle <em>PowerOrAngle</em> [<em>Foul</em>])</div>
+<div class="line-block">
+<div class="line"><em>PowerOrAngle</em> ::= <strong>minmoment</strong> ~ <strong>maxmoment</strong> degrees
+: if client version &gt;= 12</div>
+<div class="line"><em>PowerOrAngle</em> ::= <strong>-max_back_tackle_power</strong> ~ <strong>max_tackle_power</strong>
+: if client version &lt;  12</div>
+<div class="line"><em>Foul</em> ::= <code class="docutils literal notranslate"><span class="pre">true</span></code> | <code class="docutils literal notranslate"><span class="pre">false</span></code> | <code class="docutils literal notranslate"><span class="pre">on</span></code> | <code class="docutils literal notranslate"><span class="pre">off</span></code></div>
 </div>
 </div>
 </td>
 <td>Yes</td>
 </tr>
 <tr class="row-even"><td><div class="first last line-block">
+<div class="line">(catch <em>Direction</em>)</div>
+<div class="line-block">
+<div class="line"><em>Direction</em> ::= <strong>minmoment</strong> ~ <strong>maxmoment</strong> degrees</div>
+</div>
+</div>
+</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td><div class="first last line-block">
 <div class="line">(move <em>X</em> <em>Y</em>)</div>
 <div class="line-block">
 <div class="line"><em>X</em> ::= real number</div>
@@ -251,6 +346,16 @@ players (see Sec. <a class="reference internal" href="#sec-heterogeneousplayers"
 </div>
 </td>
 <td>Yes</td>
+</tr>
+<tr class="row-even"><td><div class="first last line-block">
+<div class="line">(change_view <em>Width</em> <em>Quality</em>)</div>
+<div class="line-block">
+<div class="line"><em>Width</em> ::= <code class="docutils literal notranslate"><span class="pre">narrow</span></code> | <code class="docutils literal notranslate"><span class="pre">normal</span></code> | <code class="docutils literal notranslate"><span class="pre">wide</span></code></div>
+<div class="line"><em>Quality</em> ::= <code class="docutils literal notranslate"><span class="pre">high</span></code> | <code class="docutils literal notranslate"><span class="pre">low</span></code></div>
+</div>
+</div>
+</td>
+<td>No</td>
 </tr>
 <tr class="row-odd"><td><div class="first last line-block">
 <div class="line">(say “<em>Message</em>”)</div>
@@ -262,55 +367,505 @@ players (see Sec. <a class="reference internal" href="#sec-heterogeneousplayers"
 <td>No</td>
 </tr>
 <tr class="row-even"><td><div class="first last line-block">
-<div class="line">(sense_body)</div>
-<div class="line">The server returns sense_body message to the player immediately.</div>
+<div class="line">(pointto <em>Distance</em> <em>Direction</em>)</div>
+<div class="line">(pointto <em>Off</em>)</div>
+<div class="line-block">
+<div class="line"><em>Distance</em> ::= real number</div>
+<div class="line"><em>Direction</em> ::= real number degree</div>
+<div class="line"><em>Off</em> ::= <code class="docutils literal notranslate"><span class="pre">false</span></code> | <code class="docutils literal notranslate"><span class="pre">off</span></code></div>
+</div>
 </div>
 </td>
 <td>No</td>
+</tr>
+<tr class="row-odd"><td><div class="first last line-block">
+<div class="line">(attentionto <em>Team</em> <em>Unum</em>)</div>
+<div class="line">(attentionto <em>Off</em>)</div>
+<div class="line-block">
+<div class="line"><em>Team</em> ::= <code class="docutils literal notranslate"><span class="pre">our</span></code> | <code class="docutils literal notranslate"><span class="pre">opp</span></code> |</div>
+<div class="line-block">
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">left</span></code> | <code class="docutils literal notranslate"><span class="pre">right</span></code> |</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">l</span></code> | <code class="docutils literal notranslate"><span class="pre">r</span></code> |</div>
+<div class="line"><em>TeamName</em></div>
+</div>
+<div class="line"><em>Unum</em> ::= integer</div>
+<div class="line"><em>Off</em> ::= <code class="docutils literal notranslate"><span class="pre">false</span></code> | <code class="docutils literal notranslate"><span class="pre">off</span></code></div>
+</div>
+</div>
+</div>
+</td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td>(done)</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="others">
+<h4>Others<a class="headerlink" href="#others" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="44%" />
+<col width="56%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">From player to server</th>
+<th class="head">From server to player</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>(sense_body)</td>
+<td>sense_body message</td>
+</tr>
+<tr class="row-odd"><td>(score)</td>
+<td><div class="first last line-block">
+<div class="line">(score <em>Time</em> <em>Our</em> <em>Opp</em>)</div>
+<div class="line-block">
+<div class="line"><em>Time</em> ::= simulation cycle of rcssserver</div>
+<div class="line"><em>Our</em> ::= sender’s team score</div>
+<div class="line"><em>Opp</em> ::= opponent team score</div>
+</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The server may respond to the above commands with the errors:
+(error unknown command) or
+(error illegal command form)</p>
+</div>
+</div>
+<div class="section" id="player-sensor-protocol">
+<h3>4.2.2. Player Sensor Protocol<a class="headerlink" href="#player-sensor-protocol" title="Permalink to this headline">¶</a></h3>
+<p>The following table shows the protocol for client version 14 or later.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">From server to player</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><div class="first last line-block">
+<div class="line">(hear <em>Time</em> <em>Sender</em> “<em>Message</em>”)</div>
+<div class="line">(hear <em>Time</em> <em>OnlineCoach</em> <em>CoachLanguageMessage</em>)</div>
+<div class="line-block">
+<div class="line"><em>Time</em> ::= simulation cycle of rcssserver</div>
+<div class="line"><em>Sender</em> ::= <code class="docutils literal notranslate"><span class="pre">online_coach_left</span></code> | <code class="docutils literal notranslate"><span class="pre">online_coach_right</span></code> | <code class="docutils literal notranslate"><span class="pre">coach</span></code> | <code class="docutils literal notranslate"><span class="pre">referee</span></code> | <code class="docutils literal notranslate"><span class="pre">self</span></code> | <em>Direction</em></div>
+<div class="line"><em>Direction</em> ::= -180 ~ 180 degrees</div>
+<div class="line"><em>Message</em> ::= string</div>
+<div class="line"><em>OnlineCoach</em> ::= <code class="docutils literal notranslate"><span class="pre">online_coach_left</span></code> | <code class="docutils literal notranslate"><span class="pre">online_coach_right</span></code></div>
+<div class="line"><em>CoachLanguageMessage</em> ::= see the standard coach language section</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><div class="first last line-block">
+<div class="line">(see <em>Time</em> <em>ObjInfo</em>+)</div>
+<div class="line-block">
+<div class="line"><em>Time</em> ::= simulation cycle of rcssserver</div>
+<div class="line"><em>ObjInfo</em> ::=</div>
+<div class="line-block">
+<div class="line">(<em>ObjName</em> <em>Distance</em> <em>Diretion</em> <em>DistChange</em> <em>DirChange</em> <em>BodyFacingDir</em> <em>HeadFacingDir</em>
+[<em>PointDir</em>] [t] [k]])</div>
+<div class="line">| (<em>ObjName</em> <em>Distance</em> <em>Diretion</em> <em>DistChange</em> <em>DirChange</em> [<em>PointDir</em>] [t] [k]])</div>
+<div class="line">| (<em>ObjName</em> <em>Distance</em> <em>Diretion</em>)</div>
+<div class="line">| (<em>ObjName</em> <em>Diretion</em>)</div>
+</div>
+<div class="line"><em>ObjName</em> ::= (p [“<em>TeamName</em>” [<em>UniformNumber</em> [goalie]]])</div>
+<div class="line-block">
+<div class="line-block">
+<div class="line">| (b)</div>
+<div class="line">| (g {l|r})</div>
+<div class="line">| (f c)</div>
+<div class="line">| (f {l|c|r} {t|b})</div>
+<div class="line">| (f p {l|r} {t|c|b})</div>
+<div class="line">| (f g {l|r} {t|b})</div>
+<div class="line">| (f {l|r|t|b} 0)</div>
+<div class="line">| (f {t|b} {l|r} {10|20|30|40|50})</div>
+<div class="line">| (f {l|r} {t|b} {10|20|30})</div>
+<div class="line">| (l {l|r|t|b} 0)</div>
+<div class="line">| (P)</div>
+<div class="line">| (B)</div>
+<div class="line">| (G)</div>
+<div class="line">| (F)</div>
+</div>
+<div class="line"><em>Distance</em> ::= positive real number</div>
+<div class="line"><em>Direction</em> ::= -180 ~ 180 degrees</div>
+<div class="line"><em>DistChange</em> ::= real number</div>
+<div class="line"><em>DirChange</em> ::= real number</div>
+<div class="line"><em>BodyFacingDir</em> ::= -180 ~ 180 degrees</div>
+<div class="line"><em>HeadFacingDir</em> ::= -180 ~ 180 degrees</div>
+<div class="line"><em>PointDir</em> ::= -180 ~ 180 degrees</div>
+<div class="line"><em>TeamName</em> ::= string</div>
+<div class="line"><em>UniformNumber</em> ::= 1 ~ 11</div>
+</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><div class="first last line-block">
+<div class="line">(sense_body <em>Time</em></div>
+<div class="line-block">
+<div class="line">(view_mode {high|low} {narrow|normal|wide})</div>
+<div class="line">(stamina <em>Stamina</em> <em>Effort</em> <em>Capacity</em>)</div>
+<div class="line">(speed <em>AmountOfSpeed</em> <em>DirectionOfSpeed</em>)</div>
+<div class="line">(head_angle <em>HeadAngle</em>)</div>
+<div class="line">(kick <em>KickCount</em>)</div>
+<div class="line">(dash <em>DashCount</em>)</div>
+<div class="line">(turn <em>TurnCount</em>)</div>
+<div class="line">(say <em>SayCount</em>)</div>
+<div class="line">(turn_neck <em>TurnNeckCount</em>)</div>
+<div class="line">(catch <em>CatchCount</em>)</div>
+<div class="line">(move <em>MoveCount</em>)</div>
+<div class="line">(change_view <em>ChangeViewCount</em>)</div>
+<div class="line">(arm (movable <em>MovableCycles</em>) (expires <em>ExpireCycles</em>) (count <em>PointtoCount</em>))</div>
+<div class="line">(focus (target {none|{l|r} <em>Unum</em>}) (count <em>AttentiontoCount</em>))</div>
+<div class="line">(tackle (expires <em>ExpireCycles</em>) (count <em>TackleCount</em>))</div>
+<div class="line">(collision {none|[(ball)] [(player)] [(post)]})</div>
+<div class="line">(foul (charged <em>FoulCycles</em>) (card {red|yellow|none})))</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><div class="first last line-block">
+<div class="line">(fullstate <em>Time</em></div>
+<div class="line-block">
+<div class="line">(pmode {goalie_catch_ball_{l|r}|*PlayMode*})</div>
+<div class="line">(vmode {high|low} {narrow|normal|wide})</div>
+<div class="line">(count <em>KickCount</em> <em>DashCount</em> <em>TurnCount</em> <em>CatchCount</em> <em>MoveCount</em> <em>TurnNeckCount</em> <em>ChangeViewCount</em> <em>SayCount</em>)</div>
+<div class="line">(arm (movable <em>MovableCycles</em>) (expires <em>ExpireCycles</em>))
+(target <em>Distance</em> <em>Direction</em>) (count <em>PointtoCount</em>)</div>
+<div class="line">(score <em>Time</em> <em>Our</em> <em>Opp</em>)</div>
+<div class="line">((b) <em>X</em> <em>Y</em> <em>VelX</em> <em>VelY</em>)</div>
+<div class="line"><em>Players</em>+)</div>
+<div class="line-block">
+<div class="line"><em>Players</em> ::= ((p {l|r} <em>UniformNumber</em> [g] <em>PlayerType</em>)
+<em>X</em> <em>Y</em> <em>VelX</em> <em>VelY</em> <em>BodyDir</em> <em>NeckDir</em> [<em>PointtoDist</em> <em>PointtoDir</em>]
+(stamina <em>Stamina</em> <em>Effort</em> <em>Recovery</em> <em>Capacity</em>)
+[k|t|f] [r|y]))</div>
+</div>
+</div>
+</div>
+</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<div class="section" id="player-sensor-protocol">
-<h3>4.2.2. Player Sensor Protocol<a class="headerlink" href="#player-sensor-protocol" title="Permalink to this headline">¶</a></h3>
-</div>
-</div>
 <div class="section" id="sensor-models">
 <h2>4.3. Sensor Models<a class="headerlink" href="#sensor-models" title="Permalink to this headline">¶</a></h2>
+<p>A RoboCup agent has three different sensors (and one special sensor).
+The aural sensor detects messages sent by the referee, the coaches and the
+other players.
+The visual sensor detects visual information about the field, like the
+distance and direction to objects in the player’s current field of
+view. The visual sensor also works as a proximity sensor by “seeing”
+objects that are close, but behind the player.
+The body sensor detects the current “physical” status of the player, like
+its stamina, speed and neck angle.
+Together the sensors give the agent quite a good picture of the environment.</p>
 <div class="section" id="aural-sensor-model">
 <h3>4.3.1. Aural Sensor Model<a class="headerlink" href="#aural-sensor-model" title="Permalink to this headline">¶</a></h3>
+<p>Aural sensor messages are sent when a client or a coach sends a say command.
+The calls from the referee is also received as aural messages.
+All messages are received immediately.</p>
+<p>The format of the aural sensor message from the soccer server is:</p>
+<blockquote>
+<div>(hear <em>Time</em> <em>Sender</em> ‘’<em>Message</em>’‘)</div></blockquote>
+<ul>
+<li><p class="first"><em>Time</em> indicates the current time.</p>
+</li>
+<li><p class="first"><em>Sender</em> is the relative direction to the sender if it is another player,
+otherwise it is one of the following:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">self</span></code>: when the sender is yourself.</li>
+<li><code class="docutils literal notranslate"><span class="pre">referee</span></code>: when the sender is the referee.</li>
+<li><code class="docutils literal notranslate"><span class="pre">online_coach_left</span></code> or <code class="docutils literal notranslate"><span class="pre">online_coach_right</span></code>: when the sender is one of the online coaches.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Message</em> is the message. The maximum length is <strong>server::say_msg_size</strong> bytes.
+The possible messages from the referee are described in Section <span class="xref std std-ref">sec-playmodes</span>.</p>
+</li>
+</ul>
+<p>The server parameters that affects the aural sensor are described in the
+following table:</p>
+<blockquote>
+<div>Parameters for the aural sensor.</div></blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="80%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Parameter in server.conf</th>
+<th class="head">Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>autio_cut_dist</td>
+<td>50.0</td>
+</tr>
+<tr class="row-odd"><td>hear_max</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>hear_inc</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>hear_decay</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
 <div class="section" id="capacity-of-the-aural-sensor">
 <h4>Capacity of the Aural Sensor<a class="headerlink" href="#capacity-of-the-aural-sensor" title="Permalink to this headline">¶</a></h4>
+<p>A player can only hear a message if the player’s hear capacity is at least
+<strong>server::hear_decay</strong>, since the hear capacity of the player is decreased by
+that number when a message is heard.
+Every cycle the hear capacity is increased with <strong>server::hear_inc</strong>.
+The maximum hear capacity is <strong>server::hear_max</strong>.
+To avoid a team from making the other team’s communication useless by
+overloading the channel the players have separate hear capacities for each team.
+With the current server.conf file this means that a player can hear at most
+one message from each team every second simulation cycle.</p>
+<p>If more messages arrive at the same time than the player can hear the messages
+actually heard are chosen randomly.
+.. (The current implementation choose the messages according to the order of arrival.)
+This rule does not include messages from the referee, or messages from oneself.
+.. In other words, a player can say a message and hear a message from another
+.. player in the same timestep.</p>
 </div>
 <div class="section" id="range-of-communication">
 <h4>Range of Communication<a class="headerlink" href="#range-of-communication" title="Permalink to this headline">¶</a></h4>
+<p>A message said by a player is transmitted only to players within
+<strong>server::audio_cut_dist</strong> meters from that player.
+For example, a defender, who may be near his own goal, can hear a message
+from his goal-keeper but a striker who is near the opponent goal can not hear
+the message.
+Messages from the referee can be heard by all players.</p>
 </div>
 <div class="section" id="aural-sensor-example">
 <h4>Aural Sensor Example<a class="headerlink" href="#aural-sensor-example" title="Permalink to this headline">¶</a></h4>
+<p>This example should show which messages get through and how to calculated
+the hear capacity.</p>
+<p>Example:
+Each coach sends a message every cycle.
+The referee send a message every cycle.
+The four players in the example all send a message every cycle.
+Show which messages gets through during 10 cycles (6 might be enough).</p>
 </div>
 </div>
 <div class="section" id="vision-sensor-model">
 <h3>4.3.2. Vision Sensor Model<a class="headerlink" href="#vision-sensor-model" title="Permalink to this headline">¶</a></h3>
+<p>The visual sensor reports the objects currently seen by the player.
+The information is automatically sent to the player every
+<strong>server::sense_step</strong>, currently 150, milli-seconds, in the default setting.</p>
+<p>Visual information arrives from the server in the following basic format:</p>
+<blockquote>
+<div>(see <em>ObjName</em> <em>Distance</em> <em>Direction</em> <em>DistChng</em> <em>DirChng</em> <em>BodyDir</em> <em>HeadDir</em>)</div></blockquote>
+<p><em>Distance</em>, <em>Direction</em>, <em>DistChng</em> and <em>DirChng</em> are calculated in the
+following way:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}p_{rx} &amp;= p_{xt} - p_{xo} \\
+p_{ry} &amp;= p_{yt} - p_{yo} \\
+v_{rx} &amp;= v_{xt} - v_{xo} \\
+v_{ry} &amp;= v_{yt} - v_{yo} \\
+Distance &amp;= \sqrt{p_{rx}^2 + p_{ry}^2} \\
+Direction &amp;= \arctan{(p_{ry}/p_{rx})} - a_o \\
+e_{rx} &amp;= p_{rx} / Distance \\
+e_{ry} &amp; = p_{ry} / Distance \\
+DistChng &amp;= (v_{rx} * e_{rx}) + (v_{ry} * e_{ry}) \\
+DirChng &amp;= [(-(v_{rx} * e_{ry}) + (v_{ry} * e_{rx})) / Distance] * (180 / \pi)  \\
+BodyDir &amp;= PlayerBodyDir - AgentBodyDir - AgentHeadDir \\
+HeadDir &amp;= PlayerHeadDir - AgentBodyDir - AgentHeadDir\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\((p_{xt},p_{yt}) is the absolute position of the target object,
+:math:`(p_{xo},p_{yo})\)</span> is the absolute position of the sensing player,
+<span class="math notranslate nohighlight">\((v_{xt},v_{yt})\)</span> is the absolute velocity of the target object,
+<span class="math notranslate nohighlight">\((v_{xo},v_{yo})\)</span> is the absolute velocity of the sensing player,
+and <span class="math notranslate nohighlight">\(a_o\)</span> is the absolute direction the sensing player is facing.
+The absolute facing direction of a player is the sum of the <em>BodyDir</em> and
+the <em>HeadDir</em> of that player.
+In addition to it, <span class="math notranslate nohighlight">\((p_{rx},p_{ry})\)</span> and <span class="math notranslate nohighlight">\((v_{rx},v_{ry})\)</span> are
+respectively the relative position and the relative velocity of the target,
+and <span class="math notranslate nohighlight">\((e_{rx},e_{ry})\)</span> is the unit vector that is parallel to the vector
+of the relative position.
+<em>BodyDir</em> and <em>HeadDir</em> are only included if the observed object is a player,
+and is the body and head directions of the observed player relative to the body
+and head directions of the observing player.
+Thus, if both players have their bodies turned in the same direction, then
+<em>BodyDir</em> would be 0.  The same goes for <em>HeadDir</em>.</p>
+<p>The <strong>(goal r)</strong> object is interpreted as the center of the right hand side
+goalline.
+<strong>(f c)</strong> is a virtual flag at the center of the field.
+<strong>(f l b)</strong> is the flag at the lower left of the field.
+<strong>(f p l b)</strong> is a virtual flag at the lower right corner of the penalty box
+on the left side of the field.
+<strong>(f g l b)</strong> is a virtual flag marking the right goalpost on the left goal.
+The remaining types of flags are all located 5 meters outside the playing
+field. For example, <strong>(f t l 20)</strong> is 5 meters from the top sideline and 20
+meters left from the center line.
+In the same way, <strong>(f r b 10)</strong> is 5 meters right of the right sideline and
+10 meters below the center of the right goal.
+Also, <strong>(f b 0)</strong> is 5 meters below the midpoint of the bottom sideline.</p>
+<p>In the case of <strong>(l …)</strong>, <em>Distance</em> is the distance to the point where
+the center line of the player’s view crosses the line, and <em>Direction</em> is
+the direction of the line.</p>
+<p>Currently there are 55 flags (the goals counts as flags) and 4 lines to be
+seen. All of the flags and lines are shown in Fig. <a class="reference internal" href="#field-detailed"><span class="std std-ref">The flags and lines in the simulation.</span></a>.</p>
 <div class="figure align-center" id="field-detailed">
 <img alt="_images/field-detailed.png" src="_images/field-detailed.png" />
 <p class="caption"><span class="caption-number">Fig. 4.2 </span><span class="caption-text">The flags and lines in the simulation.</span></p>
 </div>
 <div class="section" id="range-of-view">
 <h4>Range of View<a class="headerlink" href="#range-of-view" title="Permalink to this headline">¶</a></h4>
+<p>The visible sector of a player is dependant on several factors.
+First of all we have the server parameters <strong>server::sense_step</strong> and
+<strong>server::visible_angle</strong> which determines the basic time step between
+visual information and how many degrees the player’s normal view cone is.
+The current default values are 150 milli-seconds and 90 degrees.</p>
+<p>The player can also influence the frequency and quality of the information
+by changing <em>ViewWidth</em> and <em>ViewQuality</em>.</p>
+<p>To calculate the current view frequency and view angle of the agent
+use equations <span class="xref std std-ref">eq:view-freq</span> and <span class="xref std std-ref">eq:view-angle</span>.</p>
+<div class="math notranslate nohighlight" id="equation-eq-view-freq">
+<span class="eqno">(4.1)<a class="headerlink" href="#equation-eq-view-freq" title="Permalink to this equation">¶</a></span>\[view\_frequency = sense\_step * view\_quality\_factor * view\_width\_factor\]</div>
+<p>where view_quality_factor is 1 if <em>ViewQuality</em> is <code class="docutils literal notranslate"><span class="pre">high</span></code>
+and 0.5 if <em>ViewQuality</em> is <code class="docutils literal notranslate"><span class="pre">low</span></code>;
+view_width_factor is 2 if <em>ViewWidth</em> is <code class="docutils literal notranslate"><span class="pre">narrow</span></code>,
+1 if <em>ViewWidth</em> is <code class="docutils literal notranslate"><span class="pre">normal</span></code>, and 0.5 if <em>ViewWidth</em> is <code class="docutils literal notranslate"><span class="pre">wide</span></code>.</p>
+<div class="math notranslate nohighlight" id="equation-eq-view-angle">
+<span class="eqno">(4.2)<a class="headerlink" href="#equation-eq-view-angle" title="Permalink to this equation">¶</a></span>\[view\_angle = visible\_angle * view\_width\_factor\]</div>
+<p>where view_width_factor is 0.5 if <em>ViewWidth</em> is <code class="docutils literal notranslate"><span class="pre">narrow</span></code>,
+1 if <em>ViewWidth</em> is <code class="docutils literal notranslate"><span class="pre">normal</span></code>, and 2 if <em>ViewWidth</em> is <code class="docutils literal notranslate"><span class="pre">wide</span></code>.</p>
+<p>The player can also “see” an object if it’s within <strong>server::visible_distance</strong>
+meters of the player.
+If the objects is within this distance but not in the view cone then the
+player can know only the type of the object (ball, player, goal or flag),
+but not the exact name of the object.
+Moreover, in this case, the capitalized name, that is “B”, “P”, “G” and “F”,
+is used as the name of the object rather than “b”, “p”, “g” and “f”.</p>
 <div class="figure align-center" id="view-example">
 <img alt="_images/view-example.png" src="_images/view-example.png" />
 <p class="caption"><span class="caption-number">Fig. 4.3 </span><span class="caption-text">The visible range of an individual agent in the soccer server.
 The viewing agent is the one shown as two semi-circles. The light
 semi-circle is its front. The black circles represent objects in the world.
-Only objects within <code class="docutils literal notranslate"><span class="pre">view_angle</span></code>/2, and those within <code class="docutils literal notranslate"><span class="pre">visible_distance</span></code>
-of the viewing agent can be seen. <code class="docutils literal notranslate"><span class="pre">unum_far_length</span></code>, <code class="docutils literal notranslate"><span class="pre">unum_too_far_length</span></code>,
-<code class="docutils literal notranslate"><span class="pre">team_far_length</span></code>, and <code class="docutils literal notranslate"><span class="pre">team_too_far_length</span></code> affect the amount of precision
-with which a players’ identity is given. Taken from [19].</span></p>
+Only objects within <strong>server::view_angle</strong>/2, and those within
+<strong>server::visible_distance</strong> of the viewing agent can be seen.
+<strong>unum_far_length</strong>, <strong>unum_too_far_length</strong>, <strong>team_far_length</strong>, and
+<strong>team_too_far_length</strong> affect the amount of precision
+with which a players’ identity is given. Taken from <a class="reference internal" href="references.html#stone98" id="id2">[Stone98]</a>.</span></p>
 </div>
+<p>The following example and Fig.:ref:<cite>view-example</cite> are taken from <a class="reference internal" href="references.html#stone98" id="id3">[Stone98]</a>.</p>
+<p>The meaning of the view_angle parameter is illustrated in Fig.:ref:<cite>view-example</cite>.
+In this figure, the viewing agent is the one shown as two semi-circles.
+The light semi-circle is its front.
+The black circles represent objects in the world.
+Only objects within <span class="math notranslate nohighlight">\(view\_angle^\circ/2\)</span>, and those within
+visible_distance of the viewing agent can be seen.
+Thus, objects <em>b</em> and <em>g</em> are not visible; all of the rest are.</p>
+<p>As object <em>f</em> is directly in front of the viewing agent, its angle would be
+reported as 0 degrees.
+Object <em>e</em> would be reported as being roughly <span class="math notranslate nohighlight">\(-40^\circ\)</span>, while object
+<em>d</em> is at roughly :math:<a href="#id4"><span class="problematic" id="id5">`</span></a>20^circ.</p>
+<p>Also illustrated in Fig.:ref:<cite>view-example</cite>, the amount of information
+describing a player varies with how far away the player is.
+For nearby players, both the team and the uniform number of the player are
+reported.
+However, as distance increases, first the likelihood that the uniform number
+is visible decreases, and then even the team name may not be visible.
+It is assumed in the server that <strong>unum_far_length</strong> <span class="math notranslate nohighlight">\(\leq\)</span>
+<strong>unum_too_far_length</strong> <span class="math notranslate nohighlight">\(\leq\)</span> <strong>team_far_length</strong> <span class="math notranslate nohighlight">\(\leq\)</span>
+<strong>team_too_far_length</strong>.
+Let the player’s distance be <em>dist</em>. Then</p>
+<ul class="simple">
+<li>If <em>dist</em> <span class="math notranslate nohighlight">\(\leq\)</span> <strong>unum_far_length</strong>, then both uniform number and
+team name are visible.</li>
+<li>If <strong>unum_far_length</strong> <span class="math notranslate nohighlight">\(&lt;\)</span> <em>dist</em> <span class="math notranslate nohighlight">\(&lt;\)</span> <strong>unum_too_far_length</strong>,
+then the team name is always visible, but the probability that the uniform
+number is visible decreases linearly from 1 to 0 as <em>dist</em> increases.</li>
+<li>If <em>dist</em> <span class="math notranslate nohighlight">\(\geq\)</span> <strong>unum_too_far_length</strong>, then the uniform number is
+not visible.</li>
+<li>If <em>dist</em> :math`leq` <strong>team_far_length</strong>, then the team name is visible.</li>
+<li>If <strong>team_far_length</strong> <span class="math notranslate nohighlight">\(&lt;\)</span> <em>dist</em> <span class="math notranslate nohighlight">\(&lt;\)</span> <strong>team_too_far_length</strong>,
+then the probability that the team name is visible decreases linearly from 1
+to 0 as <em>dist</em> increases.</li>
+<li>If <em>dist</em> <span class="math notranslate nohighlight">\(\geq\)</span> <strong>team_too_far_length</strong>, then the team name is not
+visible.</li>
+</ul>
+<p>For example, in Fig.:ref:<cite>view-example</cite>, assume that all of the labeled circles
+are players.
+Then player <em>c</em> would be identified by both team name and uniform number;
+player <em>d</em> by team name, and with about a 50% chance, uniform number;
+player <em>e</em> with about a 25% chance, just by team name, otherwise with neither;
+and player <em>f</em> would be identified simply as an anonymous player.</p>
+<blockquote>
+<div>Parameters for the visual sensors.</div></blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="78%" />
+<col width="22%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Parameter in <code class="docutils literal notranslate"><span class="pre">server.conf</span></code></th>
+<th class="head">Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>server::sense_step</td>
+<td>150</td>
+</tr>
+<tr class="row-odd"><td>server::visible_angle</td>
+<td>90.0</td>
+</tr>
+<tr class="row-even"><td>server::visible_distance</td>
+<td>3.0</td>
+</tr>
+<tr class="row-odd"><td>unum_far_length:math:<cite>^dagger</cite></td>
+<td>20.0</td>
+</tr>
+<tr class="row-even"><td>unum_too_far_length:math:<cite>^dagger</cite></td>
+<td>40.0</td>
+</tr>
+<tr class="row-odd"><td>team_far_length:math:<cite>^dagger</cite></td>
+<td>40.0</td>
+</tr>
+<tr class="row-even"><td>team_too_far_length:math:<cite>^dagger</cite></td>
+<td>60.0</td>
+</tr>
+<tr class="row-odd"><td>server::quantize_step</td>
+<td>0.1</td>
+</tr>
+<tr class="row-even"><td>server::quantize_step_l</td>
+<td>0.01</td>
+</tr>
+</tbody>
+</table>
+<p><span class="math notranslate nohighlight">\(^\dagger\)</span> : Not in <code class="docutils literal notranslate"><span class="pre">server.conf</span></code>, but compiled into the server.</p>
 </div>
 <div class="section" id="visual-sensor-noise-model">
 <h4>Visual Sensor Noise Model<a class="headerlink" href="#visual-sensor-noise-model" title="Permalink to this headline">¶</a></h4>
+<p>In order to introduce noise in the visual sensor data the values sent from
+the server is quantized.
+For example, the distance value of the object, in the case where the object
+in sight is a ball or a player, is quantized in the following manner:</p>
+<div class="math notranslate nohighlight">
+\[d' = {\rm Quantize}(\exp({\rm Quantize}(\log(d),quantize\_step)),0.1)\]</div>
+<p>where <span class="math notranslate nohighlight">\(d\)</span> and <span class="math notranslate nohighlight">\(d'\)</span> are the exact distance and quantized distance
+respectively, and</p>
+<div class="math notranslate nohighlight">
+\[{\rm Quantize}(V,Q) = {\rm ceiling}(V/Q) \cdot Q\]</div>
+<p>This means that players can not know the exact positions of very far objects.
+For example, when distance is about 100.0 the maximum noise is about 10.0,
+while when distance is less than 10.0 the noise is less than 1.0.</p>
+<p>In the case of flags and lines, the distance value is quantized in the
+following manner.</p>
+<div class="math notranslate nohighlight">
+\[d' = {\rm Quantize}(\exp({\rm Quantize}(\log(d),quantize\_step\_l)),0.1)\]</div>
 </div>
 </div>
 <div class="section" id="body-sensor-model">
@@ -321,7 +876,7 @@ with which a players’ identity is given. Taken from [19].</span></p>
 <h2>4.4. Movement Models<a class="headerlink" href="#movement-models" title="Permalink to this headline">¶</a></h2>
 <p>In each simulation step, movement of each object is calculated as following manner:</p>
 <div class="math notranslate nohighlight" id="equation-eq-u-t">
-<span class="eqno">(4.1)<a class="headerlink" href="#equation-eq-u-t" title="Permalink to this equation">¶</a></span>\[\begin{split} (u_x^{t+1},u_y^{t+1}) &amp;= (v_x^t,v_y^t)+(a_x^t,a_y^t) : accelerate \\
+<span class="eqno">(4.3)<a class="headerlink" href="#equation-eq-u-t" title="Permalink to this equation">¶</a></span>\[\begin{split} (u_x^{t+1},u_y^{t+1}) &amp;= (v_x^t,v_y^t)+(a_x^t,a_y^t) : accelerate \\
  (p_x^{t+1},p_y^{t+1}) &amp;= (p_x^t,p_y^t)+(u_x^{t+1},u_y^{t+1}) : move \\
  (v_x^{t+1},v_y^{t+1}) &amp;= decay \times (u_x^{t+1},u_y^{t+1}) : decay\ speed \\
  (a_x^{t+1},a_y^{t+1}) &amp;= (0,0) : reset\ acceleration\end{split}\]</div>
