@@ -1,5 +1,7 @@
 .. -*- coding: utf-8; -*-
 
+Last update: |today|
+
 .. _cha-soccerserver:
 
 *************************************************
@@ -354,6 +356,9 @@ The referee send a message every cycle.
 The four players in the example all send a message every cycle.
 Show which messages gets through during 10 cycles (6 might be enough).
 
+
+.. _sec-visionsensor:
+
 --------------------------------------------------
 Vision Sensor Model
 --------------------------------------------------
@@ -546,13 +551,13 @@ and player *f* would be identified simply as an anonymous player.
 +---------------------------------------+-----------+
 |server::visible_distance               |3.0        |
 +---------------------------------------+-----------+
-|unum_far_length:math:`^\dagger`        |20.0       |
+|unum_far_length :math:`^\dagger`       |20.0       |
 +---------------------------------------+-----------+
-|unum_too_far_length:math:`^\dagger`    |40.0       |
+|unum_too_far_length :math:`^\dagger`   |40.0       |
 +---------------------------------------+-----------+
-|team_far_length:math:`^\dagger`        |40.0       |
+|team_far_length :math:`^\dagger`       |40.0       |
 +---------------------------------------+-----------+
-|team_too_far_length:math:`^\dagger`    |60.0       |
+|team_too_far_length :math:`^\dagger`   |60.0       |
 +---------------------------------------+-----------+
 |server::quantize_step                  |0.1        |
 +---------------------------------------+-----------+
@@ -600,6 +605,62 @@ following manner.
 Body Sensor Model
 --------------------------------------------------
 
+The body sensor reports the current "physical" status of the
+player.
+he information is automatically sent to the player every
+**server::sense_body_step**, currently 100,  milli-seconds.
+
+The format of the body sensor message is:
+
++-------------+-----------------------------------------------------------------------------------------+
+| (sense_body | | *Time*                                                                                |
+|             | | (view_mode *ViewQuality* *ViewWidth*)                                                 |
+|             | | (stamina *Stamina* *Effort* *Capacity*)                                               |
+|             | | (speed *AmountOfSpeed* *DirectionOfSpeed*)                                            |
+|             | | (head_angle *HeadAngle*)                                                              |
+|             | | (kick *KickCount*)                                                                    |
+|             | | (dash *DashCount*)                                                                    |
+|             | | (turn *TurnCount*)                                                                    |
+|             | | (say *SayCount*)                                                                      |
+|             | | (turn_neck *TurnNeckCount*)                                                           |
+|             | | (catch *CatchCount*)                                                                  |
+|             | | (move *MoveCount*)                                                                    |
+|             | | (change_view *ChangeViewCount*)                                                       |
+|             | | (arm (movable *MovableCycles*) (expires *ExpireCycles*) (count *PointtoCount*))       |
+|             | | (focus (target {none\|{l\|r} *Unum*}) (count *AttentiontoCount*))                     |
+|             | | (tackle (expires *ExpireCycles*) (count *TackleCount*))                               |
+|             | | (collision {none\|[(ball)] [(player)] [(post)]})                                      |
+|             | | (foul (charged *FoulCycles*) (card {red\|yellow\|none})))                             |
++-------------+-----------------------------------------------------------------------------------------+
+
+- *ViewQuality* is one of ``high`` and ``low``.
+- *ViewWidth* is one of ``narrow``, ``normal``, and ``wide``.
+- *AmountOfSpeed* is an approximation of the amount of the player's speed.
+- *DirectionOfSpeed* is an approximation of the direction of the player's speed.
+- *HeadDirection* is the relative direction of the player's head.
+- *\*Count* variables are the total number of commands of that type
+  executed by the server.  For example *DashCount* = 134 means
+  that the player has executed 134 **dash** commands so far.
+- *MovableCycles*
+- *ExpireCycles*
+- *FoulCycles*
+
+The semantics of the parameters are described where they are actually
+used.
+he *ViewQuality* and *ViewWidth* parameters are for example described
+in the Section :ref:`sec-visionsensor`.
+
+
+The server parameters that affects the body sensor are described in
+the following table:
+
+ Parameters for the body sensors.
++---------------------------------------+-----------+
+|Parameter in ``server.conf``           |Value      |
++=======================================+===========+
+|server::sense_body_step                |100        |
++---------------------------------------+-----------+
+
 
 
 ==================================================
@@ -638,15 +699,53 @@ In the case of a ball, its direction is given as the following manner:
 
 where :math:`\theta^t_{ball}` and :math:`\theta^t_{kicker}` are directions of
 ball and kicking player respectively, and *Direction* is the second parameter
-of a ``kick`` command.
+of a **kick** command.
+
 
 --------------------------------------------------
 Movement Noise Model
 --------------------------------------------------
 
+In order to reflect unexpected movements of objects in real world,
+rcssserver adds noise to the movement of objects and parameters of commands.
+
+Concerned with movements,
+noise is added into Eqn.:ref:`eq:u-t` as follows:
+
+.. math::
+
+  (u_x^{t+1},u_y^{t+1}) = (v_x^{t}, v_y^{t}) + (a_x^{t}, a_y^{t}) + (\tilde{r}_{\rm rmax},\tilde{r}_{\rm rmax})
+
+where :math:`\tilde{r}_{\rm rmax}` is a random number whose distribution
+is uniform over the range :math:`[-{\rm rmax},{\rm rmax}]`.
+:math:`{\rm rmax}` is a parameter that depends on amount of velocity
+of the object as follows:
+
+.. math::
+
+  {\rm rmax} = {\rm rand} \cdot |(v_x^{t}, v_y^{t})|
+
+where :math:`{\rm rand}` is a parameter specified by **server::player_rand**
+or **server::ball_rand**.
+
+Noise is added also into the *Power* and *Moment* arguments of a
+command as follows:
+
+.. math::
+
+  argument = (1 + \tilde{r}_{\rm rand}) \cdot argument
+
+
+
 --------------------------------------------------
 Collision Model
 --------------------------------------------------
+
+If at the end of the simulation cycle, two objects overlap, then the
+objects are moved back until they do not overlap.
+Then the velocities are multiplied by -0.1.
+Note that it is possible for the ball to go through a player as long
+as the ball and the player never overlap at the end of the cycle.
 
 
 ==================================================
@@ -663,11 +762,241 @@ Catch Model
 
   Catchable area of the goalie when doing a (catch 45)
 
+The goalie is the only player with the ability to catch a ball. The
+goalie can catch the ball in play mode ``play_on`` in any direction,
+if the ball is within the catchable area and the goalie is inside the
+penalty area.  If the goalie catches into direction :math:`\varphi`,
+the catchable area is a rectangular area of length
+**server::catchable_area_l** and width **server::catchable_area_w** in
+direction :math:`\varphi` (see Fig.:ref:`catcharea`).
+The ball will be caught with probability
+**server::catch_probability**, if it is inside this area (and it will
+not be caught if it is outside this area).
+For the current values of catch command parameters see
+the following table:
+
+
+ Parameters for the goalie catch command
+
++-------------------------------------------------+-----------+
+|Parameter in ``server.conf`` and ``player.conf`` |Value      |
++=================================================+===========+
+|server::catchable_area_l                         |2.0        |
++-------------------------------------------------+-----------+
+|server::catchable_area_w                         |1.0        |
++-------------------------------------------------+-----------+
+|server::catch_probability                        |1.0        |
++-------------------------------------------------+-----------+
+|server::catch_ban_cycle                          |5          |
++-------------------------------------------------+-----------+
+|server::goalie-max_moves                         |2          |
++-------------------------------------------------+-----------+
+|player::catchable_area_l_stretch_max             |1.3        |
++-------------------------------------------------+-----------+
+|player::catchable_area_l_stretch_min             |1          |
++-------------------------------------------------+-----------+
+
+
+**TODO** about heterogenous parameters.
+
+
+
+
+If a catch command was unsuccessful, it takes
+**server::catch_ban_cycle** cycles until another catch command can be
+used (catch commands during this time have simply no effect).
+If the goalie succeeded in catching the ball, the play mode will
+change to ``goalie_catch_ball_[l|r]`` first and ``free_kick_[l|r]``,
+after that during the same cycle.
+nce the goalie caught the ball, it can use the **move** command to
+move with the ball inside the penalty area.
+he goalie can use the **move** command **server::goalie_max_moves**
+times before it kicks the ball.
+dditional **move** commands do not have any effect and the server will
+respond with ``(error too_many_moves)``.
+Please note that catching the ball, moving around, kicking the ball a
+short distance and immediately catching it again to move more than
+**server::goalie_max_moves** times is considered as ungentlemanly
+play.
+
 
 --------------------------------------------------
 Dash Model
 --------------------------------------------------
 
+
+The **dash** command is used to accelerate the player in direction of
+its body.
+**dash** takes the acceleration *power* as a parameter.
+The valid range for the acceleration *power* can be configured in
+``server.conf``, the respective parameters are **server::min_dash_power**
+and **server::max_dash_power**.
+For the current values of parameters for the dash model, see
+the following list:
+
++---------------------------------+----------------------------+-------------------------------------------+------------+
+|| Default Parameters             || Default Value (Range)     || Heterogeneous Player Parameters          || Value     |
+||  ``server.conf``               ||                           ||   ``player.conf``                        ||           |
++=================================+============================+===========================================+============+
+| server::min_dash_power          |-100.0                      |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+| server::max_dash_power          |100.0                       |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+| server::player_decay            || 0.4 ([0.3, 0.5])          || player::player_decay_delta_min           || -0.1      |
+| server::inertia_moment          || 5.0 ([2.5, 7.5])          || player::player_decay_delta_min           || 0.1       |
+|                                 |                            || player::inertia_moment_delta_factor      || 25.0      |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+| server::player_accel_max        | 1.0                        |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+| server::player_rand             | 0.1                        |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+| server::player_speed_max        | 1.05                       |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+| server::player_speed_max_min    | 0.75                       |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+| server::stamina_max             |8000.0                      |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+|| server::stamina_inc_max        || 45.0  ([40.2, 52.2])      || player::new_dash_power_rate_delta_min    || -0.0012   |
+|| server::dash_power_rate        || 0.006 ([0.0048, 0.0068])  || player::new_dash_power_rate_delta_max    || 0.0008    |
+|                                 |                            || player::new_stamina_inc_max_delta_factor || -6000     |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+|| server::extra_stamina          || 50.0  ([50.0, 100.0])     || player::extra_stamina_delta_min          || 0.0       |
+|| server::effort_init            || 1.0   ([0.8, 1.0])        || player::extra_stamina_delta_max          || 50.0      |
+|| server::effort_min             || 0.6   ([0.4, 0.6])        || player::effort_max_delta_factor          || -0.004    |
+|                                 |                            || player::effort_min_delta_factor          || -0.004    |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+| server::effort_dec              | 0.3                        |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+| server::effort_dec_thr          | 0.005                      |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+| server::effort_inc              | 0.01                       |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+| server::effort_inc_thr          | 0.6                        |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+| server::recover_dec_thr         | 0.3                        |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+| server::recover_dec             | 0.002                      |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+| server::recover_init            | 1.0                        |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+| server::recover_min             | 0.5                        |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+| server::wind_ang                | 0.0                        |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+| server::wind_dir                | 0.0                        |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+| server::wind_force              | 0.0                        |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+| server::wind_rand               | 0.0                        |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+
+
+Each player has a certain amount of stamina that will be consumed by
+**dash** commands.
+At the beginning of each half, the stamina of a player is set to
+**server::stamina_max**.
+If a player accelerates forward (*power* :math:`> 0`), stamina is
+reduced by *power*.
+Accelerating backwards (*power* :math:`< 0`) is more expensive for the
+player: stamina is reduced by :math:`-2~\cdot~`*power*.
+If the player's stamina is lower than the power needed for the
+**dash**, *power* is reduced so that the **dash** command does not
+need more stamina than available.
+Some extra stamina can be used every time the available power is lower
+than the needed stamina.
+The amount of extra stamina depends on the player type and the
+parameters **player::extra_stamina_delta_min** and
+player::extra_stamina_delta_max**.
+
+After reducing the stamina, the server calculates the *effective  dash
+power* for the **dash** command.
+The effective dash power *edp* depends on the **dash_power_rate** and the
+current effort of the player.
+The effort of a player is a value between **effort_min** and **effort_max**;
+it is dependent on the stamina management of the player (see below).
+
+.. math::
+  :label: eq:effectivedash
+
+  {\rm edp} = {\rm effort} \cdot {\rm dash_power_rate} \cdot {\rm power}
+
+*edp* and the players current body direction are tranformed into vector and
+added to the players current acceleration vector :math:`\vec{a}_n`
+(usually, that should be 0 before, since a player cannot dash more than once
+a cycle and a player does not get accelerated by other means than dashing).
+
+At the transition from simulation step $n$ to simulation step
+:math:`n + 1$, acceleration :math:`\vec{a}_n` is applied:
+
+1. :math:`\vec{a}_n` is normalized to a maximum length of **server::player_accel_max**.
+2. :math:`\vec{a}_n` is added to current players speed
+   :math:`\vec{v}_n`. :math:`\vec{v}_n` will be normalized to a
+   maximum length of **player_speed_max**.
+   players, the  maximum speed is a value between
+   **server::player_speed_max** +
+   **player::player_speed_max_delta_min** and
+   **server::player_speed_max** +
+   **player::player_speed_max_delta_max** in ``player.conf``.
+3. Noise :math:`\vec{n}` and wind :math:`\vec{w}` will be added to
+   :math:`\vec{v}_{n}`. Both noise and wind are configurable in
+   `server.conf`. Parameters responsible for the wind are
+   **server::wind_force**, **server::wind_dir** and
+   **server::wind_rand**. With the current settings, there is no wind
+   on the simulated soccer field. The responsible parameter for the
+   noise is **server::player_rand**. Both direction and length
+   of the noise vector are within the interval
+   :math:`[ -|\vec{v}_{n}| \cdot {\rm player\_rand} \ldots |\vec{v}_{n}| \cdot {\rm player\_rand}]`.
+4. The new position of the player :math:`\vec{p}_{n+1}` is the old position
+   :math:`\vec{p}_{n}` plus the velocity vector :math:`\vec{v}_{n}`
+   (i.e.\ the maximum distance difference for the player between two
+   simulation steps is **player_speed_max).
+5. **player_decay** is applied for the velocity of the player:
+   :math:`\vec{v}_{n+1} = \vec{v}_{n} \cdot {\rm player\_decay}`.
+   Acceleration :math:`\vec{a}_{n+1}` is set to zero.
+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Stamina Model
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+For the stamina of a player, there are three important variables: the
+*stamina* value, *recovery* and *effort*.
+*stamina* is decreased when dashing and gets replenished slightly each
+cycle. *recovery* is responsible for how much the *stamina* recovers
+each cycle, and the *effort* says how effective dashing is (see
+section above).
+Important parameters for the stamina model are changeable in the files
+``server.conf`` and ``player.conf``.
+Basically, the algorithm shown in the following code block says that
+every simulation step the stamina is below some threshold, effort or
+recovery are reduced until a minimum is reached.
+Every step the stamina of the player is above some threshold, *effort*
+is increased up to a maximum.
+The *recovery* value is only reset to 1.0 each half, but it will not
+be increased during a game.
+
+::
+
+    # if stamina is below recovery decrement threshold, recovery is reduced
+    if stamina <= recover_dec_thr * stamina_max
+      if recovery > recover_min
+         recovery = recovery - recover_dec
+
+    # if stamina is below effort decrement threshold, effort is reduced
+    if stamina <= effort_dec_thr * stamina_max
+      if effort > effort_min
+        effort = effort - effort_dec
+	  effort = max(effort, effort_min)
+
+    # if stamina is above effort increment threshold, effort is increased
+    if stamina >= effort_inc_thr * stamina\_max
+      if effort < effort_max
+        effort = effort + effort_inc
+        effort = min(effort, effort_max)
+
+    # recover the stamina a bit
+    stamina = stamina + recovery * stamina_inc_max
+    stamina = min(stamina, stamina_max)
 
 
 .. _sec-kickmodel:

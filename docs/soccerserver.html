@@ -73,7 +73,10 @@
 </li>
 <li><a class="reference internal" href="#action-models">4.5. Action Models</a><ul>
 <li><a class="reference internal" href="#catch-model">4.5.1. Catch Model</a></li>
-<li><a class="reference internal" href="#dash-model">4.5.2. Dash Model</a></li>
+<li><a class="reference internal" href="#dash-model">4.5.2. Dash Model</a><ul>
+<li><a class="reference internal" href="#stamina-model">Stamina Model</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#kick-model">4.5.3. Kick Model</a></li>
 <li><a class="reference internal" href="#move-model">4.5.4. Move Model</a></li>
 <li><a class="reference internal" href="#say-model">4.5.5. Say Model</a></li>
@@ -132,7 +135,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="soccer-server">
+  <p>Last update: Nov 03, 2018</p>
+<div class="section" id="soccer-server">
 <span id="cha-soccerserver"></span><h1>4. Soccer Server<a class="headerlink" href="#soccer-server" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="objects">
 <h2>4.1. Objects<a class="headerlink" href="#objects" title="Permalink to this headline">¶</a></h2>
@@ -661,7 +665,7 @@ Show which messages gets through during 10 cycles (6 might be enough).</p>
 </div>
 </div>
 <div class="section" id="vision-sensor-model">
-<h3>4.3.2. Vision Sensor Model<a class="headerlink" href="#vision-sensor-model" title="Permalink to this headline">¶</a></h3>
+<span id="sec-visionsensor"></span><h3>4.3.2. Vision Sensor Model<a class="headerlink" href="#vision-sensor-model" title="Permalink to this headline">¶</a></h3>
 <p>The visual sensor reports the objects currently seen by the player.
 The information is automatically sent to the player every
 <strong>server::sense_step</strong>, currently 150, milli-seconds, in the default setting.</p>
@@ -825,16 +829,16 @@ and player <em>f</em> would be identified simply as an anonymous player.</p>
 <tr class="row-even"><td>server::visible_distance</td>
 <td>3.0</td>
 </tr>
-<tr class="row-odd"><td>unum_far_length:math:<cite>^dagger</cite></td>
+<tr class="row-odd"><td>unum_far_length <span class="math notranslate nohighlight">\(^\dagger\)</span></td>
 <td>20.0</td>
 </tr>
-<tr class="row-even"><td>unum_too_far_length:math:<cite>^dagger</cite></td>
+<tr class="row-even"><td>unum_too_far_length <span class="math notranslate nohighlight">\(^\dagger\)</span></td>
 <td>40.0</td>
 </tr>
-<tr class="row-odd"><td>team_far_length:math:<cite>^dagger</cite></td>
+<tr class="row-odd"><td>team_far_length <span class="math notranslate nohighlight">\(^\dagger\)</span></td>
 <td>40.0</td>
 </tr>
-<tr class="row-even"><td>team_too_far_length:math:<cite>^dagger</cite></td>
+<tr class="row-even"><td>team_too_far_length <span class="math notranslate nohighlight">\(^\dagger\)</span></td>
 <td>60.0</td>
 </tr>
 <tr class="row-odd"><td>server::quantize_step</td>
@@ -870,6 +874,79 @@ following manner.</p>
 </div>
 <div class="section" id="body-sensor-model">
 <h3>4.3.3. Body Sensor Model<a class="headerlink" href="#body-sensor-model" title="Permalink to this headline">¶</a></h3>
+<p>The body sensor reports the current “physical” status of the
+player.
+he information is automatically sent to the player every
+<strong>server::sense_body_step</strong>, currently 100,  milli-seconds.</p>
+<p>The format of the body sensor message is:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="87%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(sense_body</td>
+<td><div class="first last line-block">
+<div class="line"><em>Time</em></div>
+<div class="line">(view_mode <em>ViewQuality</em> <em>ViewWidth</em>)</div>
+<div class="line">(stamina <em>Stamina</em> <em>Effort</em> <em>Capacity</em>)</div>
+<div class="line">(speed <em>AmountOfSpeed</em> <em>DirectionOfSpeed</em>)</div>
+<div class="line">(head_angle <em>HeadAngle</em>)</div>
+<div class="line">(kick <em>KickCount</em>)</div>
+<div class="line">(dash <em>DashCount</em>)</div>
+<div class="line">(turn <em>TurnCount</em>)</div>
+<div class="line">(say <em>SayCount</em>)</div>
+<div class="line">(turn_neck <em>TurnNeckCount</em>)</div>
+<div class="line">(catch <em>CatchCount</em>)</div>
+<div class="line">(move <em>MoveCount</em>)</div>
+<div class="line">(change_view <em>ChangeViewCount</em>)</div>
+<div class="line">(arm (movable <em>MovableCycles</em>) (expires <em>ExpireCycles</em>) (count <em>PointtoCount</em>))</div>
+<div class="line">(focus (target {none|{l|r} <em>Unum</em>}) (count <em>AttentiontoCount</em>))</div>
+<div class="line">(tackle (expires <em>ExpireCycles</em>) (count <em>TackleCount</em>))</div>
+<div class="line">(collision {none|[(ball)] [(player)] [(post)]})</div>
+<div class="line">(foul (charged <em>FoulCycles</em>) (card {red|yellow|none})))</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><em>ViewQuality</em> is one of <code class="docutils literal notranslate"><span class="pre">high</span></code> and <code class="docutils literal notranslate"><span class="pre">low</span></code>.</li>
+<li><em>ViewWidth</em> is one of <code class="docutils literal notranslate"><span class="pre">narrow</span></code>, <code class="docutils literal notranslate"><span class="pre">normal</span></code>, and <code class="docutils literal notranslate"><span class="pre">wide</span></code>.</li>
+<li><em>AmountOfSpeed</em> is an approximation of the amount of the player’s speed.</li>
+<li><em>DirectionOfSpeed</em> is an approximation of the direction of the player’s speed.</li>
+<li><em>HeadDirection</em> is the relative direction of the player’s head.</li>
+<li><em>*Count</em> variables are the total number of commands of that type
+executed by the server.  For example <em>DashCount</em> = 134 means
+that the player has executed 134 <strong>dash</strong> commands so far.</li>
+<li><em>MovableCycles</em></li>
+<li><em>ExpireCycles</em></li>
+<li><em>FoulCycles</em></li>
+</ul>
+<p>The semantics of the parameters are described where they are actually
+used.
+he <em>ViewQuality</em> and <em>ViewWidth</em> parameters are for example described
+in the Section <a class="reference internal" href="#sec-visionsensor"><span class="std std-ref">Vision Sensor Model</span></a>.</p>
+<p>The server parameters that affects the body sensor are described in
+the following table:</p>
+<blockquote>
+<div>Parameters for the body sensors.</div></blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="78%" />
+<col width="22%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Parameter in <code class="docutils literal notranslate"><span class="pre">server.conf</span></code></th>
+<th class="head">Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>server::sense_body_step</td>
+<td>100</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="section" id="movement-models">
@@ -897,12 +974,35 @@ In the case of a ball, its direction is given as the following manner:</p>
 \[\theta^t_{ball} = \theta^t_{kicker} + Direction\]</div>
 <p>where <span class="math notranslate nohighlight">\(\theta^t_{ball}\)</span> and <span class="math notranslate nohighlight">\(\theta^t_{kicker}\)</span> are directions of
 ball and kicking player respectively, and <em>Direction</em> is the second parameter
-of a <code class="docutils literal notranslate"><span class="pre">kick</span></code> command.</p>
+of a <strong>kick</strong> command.</p>
 <div class="section" id="movement-noise-model">
 <h3>4.4.1. Movement Noise Model<a class="headerlink" href="#movement-noise-model" title="Permalink to this headline">¶</a></h3>
+<p>In order to reflect unexpected movements of objects in real world,
+rcssserver adds noise to the movement of objects and parameters of commands.</p>
+<p>Concerned with movements,
+noise is added into Eqn.:ref:<cite>eq:u-t</cite> as follows:</p>
+<div class="math notranslate nohighlight">
+\[(u_x^{t+1},u_y^{t+1}) = (v_x^{t}, v_y^{t}) + (a_x^{t}, a_y^{t}) + (\tilde{r}_{\rm rmax},\tilde{r}_{\rm rmax})\]</div>
+<p>where <span class="math notranslate nohighlight">\(\tilde{r}_{\rm rmax}\)</span> is a random number whose distribution
+is uniform over the range <span class="math notranslate nohighlight">\([-{\rm rmax},{\rm rmax}]\)</span>.
+<span class="math notranslate nohighlight">\({\rm rmax}\)</span> is a parameter that depends on amount of velocity
+of the object as follows:</p>
+<div class="math notranslate nohighlight">
+\[{\rm rmax} = {\rm rand} \cdot |(v_x^{t}, v_y^{t})|\]</div>
+<p>where <span class="math notranslate nohighlight">\({\rm rand}\)</span> is a parameter specified by <strong>server::player_rand</strong>
+or <strong>server::ball_rand</strong>.</p>
+<p>Noise is added also into the <em>Power</em> and <em>Moment</em> arguments of a
+command as follows:</p>
+<div class="math notranslate nohighlight">
+\[argument = (1 + \tilde{r}_{\rm rand}) \cdot argument\]</div>
 </div>
 <div class="section" id="collision-model">
 <h3>4.4.2. Collision Model<a class="headerlink" href="#collision-model" title="Permalink to this headline">¶</a></h3>
+<p>If at the end of the simulation cycle, two objects overlap, then the
+objects are moved back until they do not overlap.
+Then the velocities are multiplied by -0.1.
+Note that it is possible for the ball to go through a player as long
+as the ball and the player never overlap at the end of the cycle.</p>
 </div>
 </div>
 <div class="section" id="action-models">
@@ -913,9 +1013,381 @@ of a <code class="docutils literal notranslate"><span class="pre">kick</span></c
 <img alt="_images/catcharea.png" src="_images/catcharea.png" />
 <p class="caption"><span class="caption-number">Fig. 4.4 </span><span class="caption-text">Catchable area of the goalie when doing a (catch 45)</span></p>
 </div>
+<p>The goalie is the only player with the ability to catch a ball. The
+goalie can catch the ball in play mode <code class="docutils literal notranslate"><span class="pre">play_on</span></code> in any direction,
+if the ball is within the catchable area and the goalie is inside the
+penalty area.  If the goalie catches into direction <span class="math notranslate nohighlight">\(\varphi\)</span>,
+the catchable area is a rectangular area of length
+<strong>server::catchable_area_l</strong> and width <strong>server::catchable_area_w</strong> in
+direction <span class="math notranslate nohighlight">\(\varphi\)</span> (see Fig.:ref:<cite>catcharea</cite>).
+The ball will be caught with probability
+<strong>server::catch_probability</strong>, if it is inside this area (and it will
+not be caught if it is outside this area).
+For the current values of catch command parameters see
+the following table:</p>
+<blockquote>
+<div>Parameters for the goalie catch command</div></blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="82%" />
+<col width="18%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Parameter in <code class="docutils literal notranslate"><span class="pre">server.conf</span></code> and <code class="docutils literal notranslate"><span class="pre">player.conf</span></code></th>
+<th class="head">Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>server::catchable_area_l</td>
+<td>2.0</td>
+</tr>
+<tr class="row-odd"><td>server::catchable_area_w</td>
+<td>1.0</td>
+</tr>
+<tr class="row-even"><td>server::catch_probability</td>
+<td>1.0</td>
+</tr>
+<tr class="row-odd"><td>server::catch_ban_cycle</td>
+<td>5</td>
+</tr>
+<tr class="row-even"><td>server::goalie-max_moves</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>player::catchable_area_l_stretch_max</td>
+<td>1.3</td>
+</tr>
+<tr class="row-even"><td>player::catchable_area_l_stretch_min</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>TODO</strong> about heterogenous parameters.</p>
+<p>If a catch command was unsuccessful, it takes
+<strong>server::catch_ban_cycle</strong> cycles until another catch command can be
+used (catch commands during this time have simply no effect).
+If the goalie succeeded in catching the ball, the play mode will
+change to <code class="docutils literal notranslate"><span class="pre">goalie_catch_ball_[l|r]</span></code> first and <code class="docutils literal notranslate"><span class="pre">free_kick_[l|r]</span></code>,
+after that during the same cycle.
+nce the goalie caught the ball, it can use the <strong>move</strong> command to
+move with the ball inside the penalty area.
+he goalie can use the <strong>move</strong> command <strong>server::goalie_max_moves</strong>
+times before it kicks the ball.
+dditional <strong>move</strong> commands do not have any effect and the server will
+respond with <code class="docutils literal notranslate"><span class="pre">(error</span> <span class="pre">too_many_moves)</span></code>.
+Please note that catching the ball, moving around, kicking the ball a
+short distance and immediately catching it again to move more than
+<strong>server::goalie_max_moves</strong> times is considered as ungentlemanly
+play.</p>
 </div>
 <div class="section" id="dash-model">
 <h3>4.5.2. Dash Model<a class="headerlink" href="#dash-model" title="Permalink to this headline">¶</a></h3>
+<p>The <strong>dash</strong> command is used to accelerate the player in direction of
+its body.
+<strong>dash</strong> takes the acceleration <em>power</em> as a parameter.
+The valid range for the acceleration <em>power</em> can be configured in
+<code class="docutils literal notranslate"><span class="pre">server.conf</span></code>, the respective parameters are <strong>server::min_dash_power</strong>
+and <strong>server::max_dash_power</strong>.
+For the current values of parameters for the dash model, see
+the following list:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="28%" />
+<col width="24%" />
+<col width="37%" />
+<col width="10%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><div class="first last line-block">
+<div class="line">Default Parameters</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">server.conf</span></code></div>
+</div>
+</div>
+</th>
+<th class="head"><div class="first last line-block">
+<div class="line">Default Value (Range)</div>
+<div class="line"><br /></div>
+</div>
+</th>
+<th class="head"><div class="first last line-block">
+<div class="line">Heterogeneous Player Parameters</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">player.conf</span></code></div>
+</div>
+</div>
+</th>
+<th class="head"><div class="first last line-block">
+<div class="line">Value</div>
+<div class="line"><br /></div>
+</div>
+</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>server::min_dash_power</td>
+<td>-100.0</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>server::max_dash_power</td>
+<td>100.0</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>server::player_decay
+server::inertia_moment</td>
+<td><div class="first last line-block">
+<div class="line">0.4 ([0.3, 0.5])</div>
+<div class="line">5.0 ([2.5, 7.5])</div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">player::player_decay_delta_min</div>
+<div class="line">player::player_decay_delta_min</div>
+<div class="line">player::inertia_moment_delta_factor</div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">-0.1</div>
+<div class="line">0.1</div>
+<div class="line">25.0</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>server::player_accel_max</td>
+<td>1.0</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>server::player_rand</td>
+<td>0.1</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>server::player_speed_max</td>
+<td>1.05</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>server::player_speed_max_min</td>
+<td>0.75</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>server::stamina_max</td>
+<td>8000.0</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><div class="first last line-block">
+<div class="line">server::stamina_inc_max</div>
+<div class="line">server::dash_power_rate</div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">45.0  ([40.2, 52.2])</div>
+<div class="line">0.006 ([0.0048, 0.0068])</div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">player::new_dash_power_rate_delta_min</div>
+<div class="line">player::new_dash_power_rate_delta_max</div>
+<div class="line">player::new_stamina_inc_max_delta_factor</div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">-0.0012</div>
+<div class="line">0.0008</div>
+<div class="line">-6000</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><div class="first last line-block">
+<div class="line">server::extra_stamina</div>
+<div class="line">server::effort_init</div>
+<div class="line">server::effort_min</div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">50.0  ([50.0, 100.0])</div>
+<div class="line">1.0   ([0.8, 1.0])</div>
+<div class="line">0.6   ([0.4, 0.6])</div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">player::extra_stamina_delta_min</div>
+<div class="line">player::extra_stamina_delta_max</div>
+<div class="line">player::effort_max_delta_factor</div>
+<div class="line">player::effort_min_delta_factor</div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">0.0</div>
+<div class="line">50.0</div>
+<div class="line">-0.004</div>
+<div class="line">-0.004</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>server::effort_dec</td>
+<td>0.3</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>server::effort_dec_thr</td>
+<td>0.005</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>server::effort_inc</td>
+<td>0.01</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>server::effort_inc_thr</td>
+<td>0.6</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>server::recover_dec_thr</td>
+<td>0.3</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>server::recover_dec</td>
+<td>0.002</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>server::recover_init</td>
+<td>1.0</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>server::recover_min</td>
+<td>0.5</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>server::wind_ang</td>
+<td>0.0</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>server::wind_dir</td>
+<td>0.0</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>server::wind_force</td>
+<td>0.0</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>server::wind_rand</td>
+<td>0.0</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<p>Each player has a certain amount of stamina that will be consumed by
+<strong>dash</strong> commands.
+At the beginning of each half, the stamina of a player is set to
+<strong>server::stamina_max</strong>.
+If a player accelerates forward (<em>power</em> <span class="math notranslate nohighlight">\(&gt; 0\)</span>), stamina is
+reduced by <em>power</em>.
+Accelerating backwards (<em>power</em> <span class="math notranslate nohighlight">\(&lt; 0\)</span>) is more expensive for the
+player: stamina is reduced by :math:<a href="#id6"><span class="problematic" id="id7">`</span></a>-2~cdot~`*power*.
+If the player’s stamina is lower than the power needed for the
+<strong>dash</strong>, <em>power</em> is reduced so that the <strong>dash</strong> command does not
+need more stamina than available.
+Some extra stamina can be used every time the available power is lower
+than the needed stamina.
+The amount of extra stamina depends on the player type and the
+parameters <strong>player::extra_stamina_delta_min</strong> and
+player::extra_stamina_delta_max**.</p>
+<p>After reducing the stamina, the server calculates the <em>effective  dash
+power</em> for the <strong>dash</strong> command.
+The effective dash power <em>edp</em> depends on the <strong>dash_power_rate</strong> and the
+current effort of the player.
+The effort of a player is a value between <strong>effort_min</strong> and <strong>effort_max</strong>;
+it is dependent on the stamina management of the player (see below).</p>
+<div class="math notranslate nohighlight" id="equation-eq-effectivedash">
+<span class="eqno">(4.4)<a class="headerlink" href="#equation-eq-effectivedash" title="Permalink to this equation">¶</a></span>\[{\rm edp} = {\rm effort} \cdot {\rm dash_power_rate} \cdot {\rm power}\]</div>
+<p><em>edp</em> and the players current body direction are tranformed into vector and
+added to the players current acceleration vector <span class="math notranslate nohighlight">\(\vec{a}_n\)</span>
+(usually, that should be 0 before, since a player cannot dash more than once
+a cycle and a player does not get accelerated by other means than dashing).</p>
+<p>At the transition from simulation step $n$ to simulation step
+<span class="math notranslate nohighlight">\(n + 1$, acceleration :math:\)</span>vec{a}_n` is applied:</p>
+<ol class="arabic simple">
+<li><span class="math notranslate nohighlight">\(\vec{a}_n\)</span> is normalized to a maximum length of <strong>server::player_accel_max</strong>.</li>
+<li><span class="math notranslate nohighlight">\(\vec{a}_n\)</span> is added to current players speed
+<span class="math notranslate nohighlight">\(\vec{v}_n\)</span>. <span class="math notranslate nohighlight">\(\vec{v}_n\)</span> will be normalized to a
+maximum length of <strong>player_speed_max</strong>.
+players, the  maximum speed is a value between
+<strong>server::player_speed_max</strong> +
+<strong>player::player_speed_max_delta_min</strong> and
+<strong>server::player_speed_max</strong> +
+<strong>player::player_speed_max_delta_max</strong> in <code class="docutils literal notranslate"><span class="pre">player.conf</span></code>.</li>
+<li>Noise <span class="math notranslate nohighlight">\(\vec{n}\)</span> and wind <span class="math notranslate nohighlight">\(\vec{w}\)</span> will be added to
+<span class="math notranslate nohighlight">\(\vec{v}_{n}\)</span>. Both noise and wind are configurable in
+<cite>server.conf</cite>. Parameters responsible for the wind are
+<strong>server::wind_force</strong>, <strong>server::wind_dir</strong> and
+<strong>server::wind_rand</strong>. With the current settings, there is no wind
+on the simulated soccer field. The responsible parameter for the
+noise is <strong>server::player_rand</strong>. Both direction and length
+of the noise vector are within the interval
+<span class="math notranslate nohighlight">\([ -|\vec{v}_{n}| \cdot {\rm player\_rand} \ldots |\vec{v}_{n}| \cdot {\rm player\_rand}]\)</span>.</li>
+<li>The new position of the player <span class="math notranslate nohighlight">\(\vec{p}_{n+1}\)</span> is the old position
+<span class="math notranslate nohighlight">\(\vec{p}_{n}\)</span> plus the velocity vector <span class="math notranslate nohighlight">\(\vec{v}_{n}\)</span>
+(i.e.the maximum distance difference for the player between two
+simulation steps is <a href="#id8"><span class="problematic" id="id9">**</span></a>player_speed_max).</li>
+<li><strong>player_decay</strong> is applied for the velocity of the player:
+<span class="math notranslate nohighlight">\(\vec{v}_{n+1} = \vec{v}_{n} \cdot {\rm player\_decay}\)</span>.
+Acceleration <span class="math notranslate nohighlight">\(\vec{a}_{n+1}\)</span> is set to zero.</li>
+</ol>
+<div class="section" id="stamina-model">
+<h4>Stamina Model<a class="headerlink" href="#stamina-model" title="Permalink to this headline">¶</a></h4>
+<p>For the stamina of a player, there are three important variables: the
+<em>stamina</em> value, <em>recovery</em> and <em>effort</em>.
+<em>stamina</em> is decreased when dashing and gets replenished slightly each
+cycle. <em>recovery</em> is responsible for how much the <em>stamina</em> recovers
+each cycle, and the <em>effort</em> says how effective dashing is (see
+section above).
+Important parameters for the stamina model are changeable in the files
+<code class="docutils literal notranslate"><span class="pre">server.conf</span></code> and <code class="docutils literal notranslate"><span class="pre">player.conf</span></code>.
+Basically, the algorithm shown in the following code block says that
+every simulation step the stamina is below some threshold, effort or
+recovery are reduced until a minimum is reached.
+Every step the stamina of the player is above some threshold, <em>effort</em>
+is increased up to a maximum.
+The <em>recovery</em> value is only reset to 1.0 each half, but it will not
+be increased during a game.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># if stamina is below recovery decrement threshold, recovery is reduced</span>
+<span class="k">if</span> <span class="n">stamina</span> <span class="o">&lt;=</span> <span class="n">recover_dec_thr</span> <span class="o">*</span> <span class="n">stamina_max</span>
+  <span class="k">if</span> <span class="n">recovery</span> <span class="o">&gt;</span> <span class="n">recover_min</span>
+     <span class="n">recovery</span> <span class="o">=</span> <span class="n">recovery</span> <span class="o">-</span> <span class="n">recover_dec</span>
+
+<span class="c1"># if stamina is below effort decrement threshold, effort is reduced</span>
+<span class="k">if</span> <span class="n">stamina</span> <span class="o">&lt;=</span> <span class="n">effort_dec_thr</span> <span class="o">*</span> <span class="n">stamina_max</span>
+  <span class="k">if</span> <span class="n">effort</span> <span class="o">&gt;</span> <span class="n">effort_min</span>
+    <span class="n">effort</span> <span class="o">=</span> <span class="n">effort</span> <span class="o">-</span> <span class="n">effort_dec</span>
+      <span class="n">effort</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">effort</span><span class="p">,</span> <span class="n">effort_min</span><span class="p">)</span>
+
+<span class="c1"># if stamina is above effort increment threshold, effort is increased</span>
+<span class="k">if</span> <span class="n">stamina</span> <span class="o">&gt;=</span> <span class="n">effort_inc_thr</span> <span class="o">*</span> <span class="n">stamina</span>\<span class="n">_max</span>
+  <span class="k">if</span> <span class="n">effort</span> <span class="o">&lt;</span> <span class="n">effort_max</span>
+    <span class="n">effort</span> <span class="o">=</span> <span class="n">effort</span> <span class="o">+</span> <span class="n">effort_inc</span>
+    <span class="n">effort</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">effort</span><span class="p">,</span> <span class="n">effort_max</span><span class="p">)</span>
+
+<span class="c1"># recover the stamina a bit</span>
+<span class="n">stamina</span> <span class="o">=</span> <span class="n">stamina</span> <span class="o">+</span> <span class="n">recovery</span> <span class="o">*</span> <span class="n">stamina_inc_max</span>
+<span class="n">stamina</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">stamina</span><span class="p">,</span> <span class="n">stamina_max</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="kick-model">
 <span id="sec-kickmodel"></span><h3>4.5.3. Kick Model<a class="headerlink" href="#kick-model" title="Permalink to this headline">¶</a></h3>
