@@ -17,7 +17,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="5. Soccer Monitor" href="soccermonitor.html" />
-    <link rel="prev" title="3. Getting Started" href="gettingstarted.html" /> 
+    <link rel="prev" title="3. Getting Started" href="gettingstarted.html" />
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -31,7 +31,7 @@
         <li class="right" >
           <a href="gettingstarted.html" title="3. Getting Started"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">The RoboCup Soccer Simulator  documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">The RoboCup Soccer Simulator  documentation</a> &#187;</li>
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -134,7 +134,7 @@
       <div class="documentwrapper">
         <div class="bodywrapper">
           <div class="body" role="main">
-            
+
   <p>Last update: Nov 03, 2018</p>
 <div class="section" id="soccer-server">
 <span id="cha-soccerserver"></span><h1>4. Soccer Server<a class="headerlink" href="#soccer-server" title="Permalink to this headline">¶</a></h1>
@@ -1410,6 +1410,38 @@ be increased during a game.</p>
 </div>
 <div class="section" id="heterogeneous-players">
 <span id="sec-heterogeneousplayers"></span><h2>4.6. Heterogeneous Players<a class="headerlink" href="#heterogeneous-players" title="Permalink to this headline">¶</a></h2>
+<p>
+Heterogeneous Players are players whose values ​​of some parameters are different from those of a normal player.
+In the case of heterogeneous players, Soccer Server will randomly create a player type on startup. 
+Player types have different capabilities based on the trade-offs defined in the player.conf file.
+The server generates 18 heterogeneous players based on an arbitrary number called a seed. 
+Randomly select and combine 10 of the 18 heterogeneous players provided by the server.
+Both teams in the match use the same player type. Type 0 is the default type and is always the same.
+When players connect to the server, they receive information about the available player types.
+Online coaches can change the player type indefinitely in "Before Kick Off" mode, and can use “Player Type Change” to change the player type during play modes other than "Play On".
+Each time a player is replaced by another player type, their stamina, recovery, and effort are reset to the initial (maximum) value for that player type.
+
+<br>
+Heterogeneous players can be replaced by coaches other than the keeper.
+The normal player can be used by any number of players, but the use of heterogeneous players is limited, and only three players can be used for each type.
+</p>
+Heterogeneous players has the following parameter differences.
+<br>
+PlayerSpeedMax: &ensp;  	maximum speed<br>
+StaminaIncMax:	&ensp;  Amount of stamina recovered in one step<br>
+PlayerDecay:	&ensp;  Player speed decay rate<br>
+InertiaMoment:	&ensp; Player inertia force when moving<br>
+DashPowerRate:	&ensp; Dash acceleration rate<br>
+PlayerSize:	&ensp; Player size<br>
+KickableMargin:	&ensp; Kickable area radius<br>
+KickRand:	&ensp; The amount of noise added to the kick<br>
+ExtraStamina:	&ensp; Extra stamina available when stamina is exhausted<br>
+EffortMax:	&ensp; Maximum value of the player's effort amount<br>
+EffortMin:	&ensp; The minimum amount of effort for the player<br>
+<br>
+Heterogeneous player parameters given for each match are different. 
+Therefore, each agent does not necessarily have the parameters needed to implement the tactics.
+Whatever the situation, you need a way to choose the best combination of heterogeneous players.
 </div>
 <div class="section" id="referee-model">
 <h2>4.7. Referee Model<a class="headerlink" href="#referee-model" title="Permalink to this headline">¶</a></h2>
@@ -1449,7 +1481,7 @@ be increased during a game.</p>
         <li class="right" >
           <a href="gettingstarted.html" title="3. Getting Started"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">The RoboCup Soccer Simulator  documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">The RoboCup Soccer Simulator  documentation</a> &#187;</li>
       </ul>
     </div>
     <div class="footer" role="contentinfo">
