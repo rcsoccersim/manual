@@ -1,22 +1,23 @@
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>4. Soccer Server &#8212; The RoboCup Soccer Simulator  documentation</title>
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="5. Soccer Monitor" href="soccermonitor.html" />
-    <link rel="prev" title="3. Getting Started" href="gettingstarted.html" />
+    <link rel="prev" title="3. Getting Started" href="gettingstarted.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -30,12 +31,12 @@
         <li class="right" >
           <a href="gettingstarted.html" title="3. Getting Started"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">The RoboCup Soccer Simulator  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">The RoboCup Soccer Simulator  documentation</a> &#187;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
+  <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">4. Soccer Server</a><ul>
 <li><a class="reference internal" href="#objects">4.1. Objects</a></li>
@@ -103,10 +104,10 @@
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="gettingstarted.html"
-                        title="previous chapter"><span class="section-number">3. </span>Getting Started</a></p>
+                        title="previous chapter">3. Getting Started</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="soccermonitor.html"
-                        title="next chapter"><span class="section-number">5. </span>Soccer Monitor</a></p>
+                        title="next chapter">5. Soccer Monitor</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -115,15 +116,17 @@
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
+  <h3>Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
 
@@ -131,35 +134,35 @@
       <div class="documentwrapper">
         <div class="bodywrapper">
           <div class="body" role="main">
-
-  <p>Last update: Feb 13, 2020</p>
+            
+  <p>Last update: Nov 03, 2018</p>
 <div class="section" id="soccer-server">
-<span id="cha-soccerserver"></span><h1><span class="section-number">4. </span>Soccer Server<a class="headerlink" href="#soccer-server" title="Permalink to this headline">¶</a></h1>
+<span id="cha-soccerserver"></span><h1>4. Soccer Server<a class="headerlink" href="#soccer-server" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="objects">
-<h2><span class="section-number">4.1. </span>Objects<a class="headerlink" href="#objects" title="Permalink to this headline">¶</a></h2>
+<h2>4.1. Objects<a class="headerlink" href="#objects" title="Permalink to this headline">¶</a></h2>
 <div class="figure align-center" id="id1">
 <a class="reference internal image-reference" href="_images/objects.png"><img alt="_images/objects.png" src="_images/objects.png" style="width: 508.0px; height: 444.8px;" /></a>
-<p class="caption"><span class="caption-number">Fig. 4.1 </span><span class="caption-text">UML diagram of the objects in the simulation</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 4.1 </span><span class="caption-text">UML diagram of the objects in the simulation</span></p>
 </div>
 </div>
 <div class="section" id="protocols">
-<h2><span class="section-number">4.2. </span>Protocols<a class="headerlink" href="#protocols" title="Permalink to this headline">¶</a></h2>
+<h2>4.2. Protocols<a class="headerlink" href="#protocols" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="player-command-protocol">
-<span id="sec-playercommmandprotocol"></span><h3><span class="section-number">4.2.1. </span>Player Command Protocol<a class="headerlink" href="#player-command-protocol" title="Permalink to this headline">¶</a></h3>
+<span id="sec-playercommmandprotocol"></span><h3>4.2.1. Player Command Protocol<a class="headerlink" href="#player-command-protocol" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="connecting-reconnecting-and-disconnecting">
 <h4>Connecting, reconnecting, and disconnecting<a class="headerlink" href="#connecting-reconnecting-and-disconnecting" title="Permalink to this headline">¶</a></h4>
-<table class="docutils align-default">
+<table border="1" class="docutils">
 <colgroup>
-<col style="width: 53%" />
-<col style="width: 47%" />
+<col width="53%" />
+<col width="47%" />
 </colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>From player to server</p></th>
-<th class="head"><p>From server to client</p></th>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">From player to server</th>
+<th class="head">From server to client</th>
 </tr>
 </thead>
-<tbody>
-<tr class="row-even"><td><div class="line-block">
+<tbody valign="top">
+<tr class="row-even"><td><div class="first last line-block">
 <div class="line">(init <em>TeamName</em> [(version <em>VerNum</em> )] [(goalie)])</div>
 <div class="line-block">
 <div class="line"><em>TeamName</em> ::= [-_a-zA-Z0-9]+</div>
@@ -169,7 +172,7 @@
 </div>
 </div>
 </td>
-<td><div class="line-block">
+<td><div class="first last line-block">
 <div class="line">(init <em>Side</em> <em>Unum</em> <em>PlayMode</em>)</div>
 <div class="line-block">
 <div class="line-block">
@@ -183,21 +186,21 @@
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><div class="line-block">
+<tr class="row-odd"><td><div class="first last line-block">
 <div class="line">(reconnect …)</div>
 <div class="line-block">
 <div class="line">TeamName :=</div>
 </div>
 </div>
 </td>
-<td><div class="line-block">
+<td><div class="first last line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><p>(bye)</p></td>
-<td></td>
+<tr class="row-even"><td>(bye)</td>
+<td>&#160;</td>
 </tr>
 </tbody>
 </table>
@@ -210,18 +213,18 @@ players (see Sec. <a class="reference internal" href="#sec-heterogeneousplayers"
 </div>
 <div class="section" id="initial-settings">
 <h4>Initial Settings<a class="headerlink" href="#initial-settings" title="Permalink to this headline">¶</a></h4>
-<table class="docutils align-default">
+<table border="1" class="docutils">
 <colgroup>
-<col style="width: 49%" />
-<col style="width: 51%" />
+<col width="49%" />
+<col width="51%" />
 </colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>From player to server</p></th>
-<th class="head"><p>From server to player</p></th>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">From player to server</th>
+<th class="head">From server to player</th>
 </tr>
 </thead>
-<tbody>
-<tr class="row-even"><td><div class="line-block">
+<tbody valign="top">
+<tr class="row-even"><td><div class="first last line-block">
 <div class="line">(compression <em>Level</em>)</div>
 <div class="line-block">
 <div class="line"><em>Level</em> ::= zlib compression level [0,9]</div>
@@ -231,14 +234,14 @@ players (see Sec. <a class="reference internal" href="#sec-heterogeneousplayers"
 </div>
 </div>
 </td>
-<td><div class="line-block">
+<td><div class="first last line-block">
 <div class="line">(ok compression <em>Level</em>)</div>
 <div class="line">(warning compression_unsupported)</div>
 <div class="line"><br /></div>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><div class="line-block">
+<tr class="row-odd"><td><div class="first last line-block">
 <div class="line">(clang (ver <em>MinVer</em> <em>MaxVer</em>))</div>
 <div class="line-block">
 <div class="line"><em>MinVer</em> ::= integer</div>
@@ -246,9 +249,9 @@ players (see Sec. <a class="reference internal" href="#sec-heterogeneousplayers"
 </div>
 </div>
 </td>
-<td><p>(ok clang (ver <em>MinVer</em> <em>MaxVer</em>))</p></td>
+<td>(ok clang (ver <em>MinVer</em> <em>MaxVer</em>))</td>
 </tr>
-<tr class="row-even"><td><div class="line-block">
+<tr class="row-even"><td><div class="first last line-block">
 <div class="line">(ear (<em>OnOff</em> [<em>Team</em>] [<em>Type</em>]))</div>
 <div class="line-block">
 <div class="line"><em>OnOff</em> ::= <code class="docutils literal notranslate"><span class="pre">on</span></code> | <code class="docutils literal notranslate"><span class="pre">off</span></code></div>
@@ -261,41 +264,41 @@ players (see Sec. <a class="reference internal" href="#sec-heterogeneousplayers"
 </div>
 </div>
 </td>
-<td><div class="line-block">
+<td><div class="first last line-block">
 <div class="line">no response if succeeded</div>
 <div class="line">(error no team with name <em>TeamName</em>)</div>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><p>(synch_see)</p></td>
-<td><p>(ok synch_see)</p></td>
+<tr class="row-odd"><td>(synch_see)</td>
+<td>(ok synch_see)</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="player-control">
 <h4>Player Control<a class="headerlink" href="#player-control" title="Permalink to this headline">¶</a></h4>
-<table class="docutils align-default">
+<table border="1" class="docutils">
 <colgroup>
-<col style="width: 75%" />
-<col style="width: 25%" />
+<col width="75%" />
+<col width="25%" />
 </colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>From player to server</p></th>
-<th class="head"><p>Only once per cycle</p></th>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">From player to server</th>
+<th class="head">Only once per cycle</th>
 </tr>
 </thead>
-<tbody>
-<tr class="row-even"><td><div class="line-block">
+<tbody valign="top">
+<tr class="row-even"><td><div class="first last line-block">
 <div class="line">(turn <em>Moment</em>)</div>
 <div class="line-block">
 <div class="line"><em>Moment</em> ::= <strong>minmoment</strong> ~ <strong>maxmoment</strong> degrees</div>
 </div>
 </div>
 </td>
-<td><p>Yes</p></td>
+<td>Yes</td>
 </tr>
-<tr class="row-odd"><td><div class="line-block">
+<tr class="row-odd"><td><div class="first last line-block">
 <div class="line">(dash <em>Power</em> [<em>Direction</em>])</div>
 <div class="line-block">
 <div class="line"><em>Power</em> ::= <strong>min_dash_power</strong> ~ <strong>max_dash_power</strong></div>
@@ -304,9 +307,9 @@ players (see Sec. <a class="reference internal" href="#sec-heterogeneousplayers"
 <div class="line">Note: backward dash (negative power) consumes double stamina.</div>
 </div>
 </td>
-<td><p>Yes</p></td>
+<td>Yes</td>
 </tr>
-<tr class="row-even"><td><div class="line-block">
+<tr class="row-even"><td><div class="first last line-block">
 <div class="line">(kick <em>Power</em> <em>Direction</em>)</div>
 <div class="line-block">
 <div class="line"><em>Power</em> ::= <strong>minpower</strong> ~ <strong>maxpower</strong></div>
@@ -314,9 +317,9 @@ players (see Sec. <a class="reference internal" href="#sec-heterogeneousplayers"
 </div>
 </div>
 </td>
-<td><p>Yes</p></td>
+<td>Yes</td>
 </tr>
-<tr class="row-odd"><td><div class="line-block">
+<tr class="row-odd"><td><div class="first last line-block">
 <div class="line">(tackle <em>PowerOrAngle</em> [<em>Foul</em>])</div>
 <div class="line-block">
 <div class="line"><em>PowerOrAngle</em> ::= <strong>minmoment</strong> ~ <strong>maxmoment</strong> degrees
@@ -327,18 +330,18 @@ players (see Sec. <a class="reference internal" href="#sec-heterogeneousplayers"
 </div>
 </div>
 </td>
-<td><p>Yes</p></td>
+<td>Yes</td>
 </tr>
-<tr class="row-even"><td><div class="line-block">
+<tr class="row-even"><td><div class="first last line-block">
 <div class="line">(catch <em>Direction</em>)</div>
 <div class="line-block">
 <div class="line"><em>Direction</em> ::= <strong>minmoment</strong> ~ <strong>maxmoment</strong> degrees</div>
 </div>
 </div>
 </td>
-<td><p>Yes</p></td>
+<td>Yes</td>
 </tr>
-<tr class="row-odd"><td><div class="line-block">
+<tr class="row-odd"><td><div class="first last line-block">
 <div class="line">(move <em>X</em> <em>Y</em>)</div>
 <div class="line-block">
 <div class="line"><em>X</em> ::= real number</div>
@@ -346,9 +349,9 @@ players (see Sec. <a class="reference internal" href="#sec-heterogeneousplayers"
 </div>
 </div>
 </td>
-<td><p>Yes</p></td>
+<td>Yes</td>
 </tr>
-<tr class="row-even"><td><div class="line-block">
+<tr class="row-even"><td><div class="first last line-block">
 <div class="line">(change_view <em>Width</em> <em>Quality</em>)</div>
 <div class="line-block">
 <div class="line"><em>Width</em> ::= <code class="docutils literal notranslate"><span class="pre">narrow</span></code> | <code class="docutils literal notranslate"><span class="pre">normal</span></code> | <code class="docutils literal notranslate"><span class="pre">wide</span></code></div>
@@ -356,18 +359,18 @@ players (see Sec. <a class="reference internal" href="#sec-heterogeneousplayers"
 </div>
 </div>
 </td>
-<td><p>No</p></td>
+<td>No</td>
 </tr>
-<tr class="row-odd"><td><div class="line-block">
+<tr class="row-odd"><td><div class="first last line-block">
 <div class="line">(say “<em>Message</em>”)</div>
 <div class="line-block">
 <div class="line"><em>Message</em> ::= [-0-9a-zA-Z ().+*/?&lt;&gt;_]*</div>
 </div>
 </div>
 </td>
-<td><p>No</p></td>
+<td>No</td>
 </tr>
-<tr class="row-even"><td><div class="line-block">
+<tr class="row-even"><td><div class="first last line-block">
 <div class="line">(pointto <em>Distance</em> <em>Direction</em>)</div>
 <div class="line">(pointto <em>Off</em>)</div>
 <div class="line-block">
@@ -377,9 +380,9 @@ players (see Sec. <a class="reference internal" href="#sec-heterogeneousplayers"
 </div>
 </div>
 </td>
-<td><p>No</p></td>
+<td>No</td>
 </tr>
-<tr class="row-odd"><td><div class="line-block">
+<tr class="row-odd"><td><div class="first last line-block">
 <div class="line">(attentionto <em>Team</em> <em>Unum</em>)</div>
 <div class="line">(attentionto <em>Off</em>)</div>
 <div class="line-block">
@@ -396,32 +399,32 @@ players (see Sec. <a class="reference internal" href="#sec-heterogeneousplayers"
 </div>
 </div>
 </td>
-<td><p>No</p></td>
+<td>No</td>
 </tr>
-<tr class="row-even"><td><p>(done)</p></td>
-<td><p>Yes</p></td>
+<tr class="row-even"><td>(done)</td>
+<td>Yes</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="others">
 <h4>Others<a class="headerlink" href="#others" title="Permalink to this headline">¶</a></h4>
-<table class="docutils align-default">
+<table border="1" class="docutils">
 <colgroup>
-<col style="width: 44%" />
-<col style="width: 56%" />
+<col width="44%" />
+<col width="56%" />
 </colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>From player to server</p></th>
-<th class="head"><p>From server to player</p></th>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">From player to server</th>
+<th class="head">From server to player</th>
 </tr>
 </thead>
-<tbody>
-<tr class="row-even"><td><p>(sense_body)</p></td>
-<td><p>sense_body message</p></td>
+<tbody valign="top">
+<tr class="row-even"><td>(sense_body)</td>
+<td>sense_body message</td>
 </tr>
-<tr class="row-odd"><td><p>(score)</p></td>
-<td><div class="line-block">
+<tr class="row-odd"><td>(score)</td>
+<td><div class="first last line-block">
 <div class="line">(score <em>Time</em> <em>Our</em> <em>Opp</em>)</div>
 <div class="line-block">
 <div class="line"><em>Time</em> ::= simulation cycle of rcssserver</div>
@@ -439,18 +442,18 @@ players (see Sec. <a class="reference internal" href="#sec-heterogeneousplayers"
 </div>
 </div>
 <div class="section" id="player-sensor-protocol">
-<h3><span class="section-number">4.2.2. </span>Player Sensor Protocol<a class="headerlink" href="#player-sensor-protocol" title="Permalink to this headline">¶</a></h3>
+<h3>4.2.2. Player Sensor Protocol<a class="headerlink" href="#player-sensor-protocol" title="Permalink to this headline">¶</a></h3>
 <p>The following table shows the protocol for client version 14 or later.</p>
-<table class="docutils align-default">
+<table border="1" class="docutils">
 <colgroup>
-<col style="width: 100%" />
+<col width="100%" />
 </colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>From server to player</p></th>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">From server to player</th>
 </tr>
 </thead>
-<tbody>
-<tr class="row-even"><td><div class="line-block">
+<tbody valign="top">
+<tr class="row-even"><td><div class="first last line-block">
 <div class="line">(hear <em>Time</em> <em>Sender</em> “<em>Message</em>”)</div>
 <div class="line">(hear <em>Time</em> <em>OnlineCoach</em> <em>CoachLanguageMessage</em>)</div>
 <div class="line-block">
@@ -464,7 +467,7 @@ players (see Sec. <a class="reference internal" href="#sec-heterogeneousplayers"
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><div class="line-block">
+<tr class="row-odd"><td><div class="first last line-block">
 <div class="line">(see <em>Time</em> <em>ObjInfo</em>+)</div>
 <div class="line-block">
 <div class="line"><em>Time</em> ::= simulation cycle of rcssserver</div>
@@ -508,7 +511,7 @@ players (see Sec. <a class="reference internal" href="#sec-heterogeneousplayers"
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><div class="line-block">
+<tr class="row-even"><td><div class="first last line-block">
 <div class="line">(sense_body <em>Time</em></div>
 <div class="line-block">
 <div class="line">(view_mode {high|low} {narrow|normal|wide})</div>
@@ -532,7 +535,7 @@ players (see Sec. <a class="reference internal" href="#sec-heterogeneousplayers"
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><div class="line-block">
+<tr class="row-odd"><td><div class="first last line-block">
 <div class="line">(fullstate <em>Time</em></div>
 <div class="line-block">
 <div class="line">(pmode {goalie_catch_ball_{l|r}|*PlayMode*})</div>
@@ -558,7 +561,7 @@ players (see Sec. <a class="reference internal" href="#sec-heterogeneousplayers"
 </div>
 </div>
 <div class="section" id="sensor-models">
-<h2><span class="section-number">4.3. </span>Sensor Models<a class="headerlink" href="#sensor-models" title="Permalink to this headline">¶</a></h2>
+<h2>4.3. Sensor Models<a class="headerlink" href="#sensor-models" title="Permalink to this headline">¶</a></h2>
 <p>A RoboCup agent has three different sensors (and one special sensor).
 The aural sensor detects messages sent by the referee, the coaches and the
 other players.
@@ -570,56 +573,56 @@ The body sensor detects the current “physical” status of the player, like
 its stamina, speed and neck angle.
 Together the sensors give the agent quite a good picture of the environment.</p>
 <div class="section" id="aural-sensor-model">
-<h3><span class="section-number">4.3.1. </span>Aural Sensor Model<a class="headerlink" href="#aural-sensor-model" title="Permalink to this headline">¶</a></h3>
+<h3>4.3.1. Aural Sensor Model<a class="headerlink" href="#aural-sensor-model" title="Permalink to this headline">¶</a></h3>
 <p>Aural sensor messages are sent when a client or a coach sends a say command.
 The calls from the referee is also received as aural messages.
 All messages are received immediately.</p>
 <p>The format of the aural sensor message from the soccer server is:</p>
 <blockquote>
-<div><p>(hear <em>Time</em> <em>Sender</em> ‘’<em>Message</em>’’)</p>
-</div></blockquote>
+<div>(hear <em>Time</em> <em>Sender</em> ‘’<em>Message</em>’‘)</div></blockquote>
 <ul>
-<li><p><em>Time</em> indicates the current time.</p></li>
-<li><p><em>Sender</em> is the relative direction to the sender if it is another player,
+<li><p class="first"><em>Time</em> indicates the current time.</p>
+</li>
+<li><p class="first"><em>Sender</em> is the relative direction to the sender if it is another player,
 otherwise it is one of the following:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">self</span></code>: when the sender is yourself.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">referee</span></code>: when the sender is the referee.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">online_coach_left</span></code> or <code class="docutils literal notranslate"><span class="pre">online_coach_right</span></code>: when the sender is one of the online coaches.</p></li>
+<li><code class="docutils literal notranslate"><span class="pre">self</span></code>: when the sender is yourself.</li>
+<li><code class="docutils literal notranslate"><span class="pre">referee</span></code>: when the sender is the referee.</li>
+<li><code class="docutils literal notranslate"><span class="pre">online_coach_left</span></code> or <code class="docutils literal notranslate"><span class="pre">online_coach_right</span></code>: when the sender is one of the online coaches.</li>
 </ul>
 </div></blockquote>
 </li>
-<li><p><em>Message</em> is the message. The maximum length is <strong>server::say_msg_size</strong> bytes.
-The possible messages from the referee are described in Section <span class="xref std std-ref">sec-playmodes</span>.</p></li>
+<li><p class="first"><em>Message</em> is the message. The maximum length is <strong>server::say_msg_size</strong> bytes.
+The possible messages from the referee are described in Section <span class="xref std std-ref">sec-playmodes</span>.</p>
+</li>
 </ul>
 <p>The server parameters that affects the aural sensor are described in the
 following table:</p>
 <blockquote>
-<div><p>Parameters for the aural sensor.</p>
-</div></blockquote>
-<table class="docutils align-default">
+<div>Parameters for the aural sensor.</div></blockquote>
+<table border="1" class="docutils">
 <colgroup>
-<col style="width: 80%" />
-<col style="width: 20%" />
+<col width="80%" />
+<col width="20%" />
 </colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Parameter in server.conf</p></th>
-<th class="head"><p>Value</p></th>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Parameter in server.conf</th>
+<th class="head">Value</th>
 </tr>
 </thead>
-<tbody>
-<tr class="row-even"><td><p>autio_cut_dist</p></td>
-<td><p>50.0</p></td>
+<tbody valign="top">
+<tr class="row-even"><td>autio_cut_dist</td>
+<td>50.0</td>
 </tr>
-<tr class="row-odd"><td><p>hear_max</p></td>
-<td><p>1</p></td>
+<tr class="row-odd"><td>hear_max</td>
+<td>1</td>
 </tr>
-<tr class="row-even"><td><p>hear_inc</p></td>
-<td><p>1</p></td>
+<tr class="row-even"><td>hear_inc</td>
+<td>1</td>
 </tr>
-<tr class="row-odd"><td><p>hear_decay</p></td>
-<td><p>1</p></td>
+<tr class="row-odd"><td>hear_decay</td>
+<td>1</td>
 </tr>
 </tbody>
 </table>
@@ -662,14 +665,13 @@ Show which messages gets through during 10 cycles (6 might be enough).</p>
 </div>
 </div>
 <div class="section" id="vision-sensor-model">
-<span id="sec-visionsensor"></span><h3><span class="section-number">4.3.2. </span>Vision Sensor Model<a class="headerlink" href="#vision-sensor-model" title="Permalink to this headline">¶</a></h3>
+<span id="sec-visionsensor"></span><h3>4.3.2. Vision Sensor Model<a class="headerlink" href="#vision-sensor-model" title="Permalink to this headline">¶</a></h3>
 <p>The visual sensor reports the objects currently seen by the player.
 The information is automatically sent to the player every
 <strong>server::sense_step</strong>, currently 150, milli-seconds, in the default setting.</p>
 <p>Visual information arrives from the server in the following basic format:</p>
 <blockquote>
-<div><p>(see <em>ObjName</em> <em>Distance</em> <em>Direction</em> <em>DistChng</em> <em>DirChng</em> <em>BodyDir</em> <em>HeadDir</em>)</p>
-</div></blockquote>
+<div>(see <em>ObjName</em> <em>Distance</em> <em>Direction</em> <em>DistChng</em> <em>DirChng</em> <em>BodyDir</em> <em>HeadDir</em>)</div></blockquote>
 <p><em>Distance</em>, <em>Direction</em>, <em>DistChng</em> and <em>DirChng</em> are calculated in the
 following way:</p>
 <div class="math notranslate nohighlight">
@@ -686,7 +688,7 @@ DirChng &amp;= [(-(v_{rx} * e_{ry}) + (v_{ry} * e_{rx})) / Distance] * (180 / \p
 BodyDir &amp;= PlayerBodyDir - AgentBodyDir - AgentHeadDir \\
 HeadDir &amp;= PlayerHeadDir - AgentBodyDir - AgentHeadDir\end{split}\]</div>
 <p>where <span class="math notranslate nohighlight">\((p_{xt},p_{yt}) is the absolute position of the target object,
-:math:\)</span> is the absolute position of the sensing player,
+:math:`(p_{xo},p_{yo})\)</span> is the absolute position of the sensing player,
 <span class="math notranslate nohighlight">\((v_{xt},v_{yt})\)</span> is the absolute velocity of the target object,
 <span class="math notranslate nohighlight">\((v_{xo},v_{yo})\)</span> is the absolute velocity of the sensing player,
 and <span class="math notranslate nohighlight">\(a_o\)</span> is the absolute direction the sensing player is facing.
@@ -721,7 +723,7 @@ the direction of the line.</p>
 seen. All of the flags and lines are shown in Fig. <a class="reference internal" href="#field-detailed"><span class="std std-ref">The flags and lines in the simulation.</span></a>.</p>
 <div class="figure align-center" id="field-detailed">
 <img alt="_images/field-detailed.png" src="_images/field-detailed.png" />
-<p class="caption"><span class="caption-number">Fig. 4.2 </span><span class="caption-text">The flags and lines in the simulation.</span><a class="headerlink" href="#field-detailed" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 4.2 </span><span class="caption-text">The flags and lines in the simulation.</span></p>
 </div>
 <div class="section" id="range-of-view">
 <h4>Range of View<a class="headerlink" href="#range-of-view" title="Permalink to this headline">¶</a></h4>
@@ -760,9 +762,9 @@ Only objects within <strong>server::view_angle</strong>/2, and those within
 <strong>server::visible_distance</strong> of the viewing agent can be seen.
 <strong>unum_far_length</strong>, <strong>unum_too_far_length</strong>, <strong>team_far_length</strong>, and
 <strong>team_too_far_length</strong> affect the amount of precision
-with which a players’ identity is given. Taken from <a class="reference internal" href="references.html#stone98" id="id2"><span>[Stone98]</span></a>.</span><a class="headerlink" href="#view-example" title="Permalink to this image">¶</a></p>
+with which a players’ identity is given. Taken from <a class="reference internal" href="references.html#stone98" id="id2">[Stone98]</a>.</span></p>
 </div>
-<p>The following example and Fig.:ref:<cite>view-example</cite> are taken from <a class="reference internal" href="references.html#stone98" id="id3"><span>[Stone98]</span></a>.</p>
+<p>The following example and Fig.:ref:<cite>view-example</cite> are taken from <a class="reference internal" href="references.html#stone98" id="id3">[Stone98]</a>.</p>
 <p>The meaning of the view_angle parameter is illustrated in Fig.:ref:<cite>view-example</cite>.
 In this figure, the viewing agent is the one shown as two semi-circles.
 The light semi-circle is its front.
@@ -785,19 +787,19 @@ It is assumed in the server that <strong>unum_far_length</strong> <span class="m
 <strong>team_too_far_length</strong>.
 Let the player’s distance be <em>dist</em>. Then</p>
 <ul class="simple">
-<li><p>If <em>dist</em> <span class="math notranslate nohighlight">\(\leq\)</span> <strong>unum_far_length</strong>, then both uniform number and
-team name are visible.</p></li>
-<li><p>If <strong>unum_far_length</strong> <span class="math notranslate nohighlight">\(&lt;\)</span> <em>dist</em> <span class="math notranslate nohighlight">\(&lt;\)</span> <strong>unum_too_far_length</strong>,
+<li>If <em>dist</em> <span class="math notranslate nohighlight">\(\leq\)</span> <strong>unum_far_length</strong>, then both uniform number and
+team name are visible.</li>
+<li>If <strong>unum_far_length</strong> <span class="math notranslate nohighlight">\(&lt;\)</span> <em>dist</em> <span class="math notranslate nohighlight">\(&lt;\)</span> <strong>unum_too_far_length</strong>,
 then the team name is always visible, but the probability that the uniform
-number is visible decreases linearly from 1 to 0 as <em>dist</em> increases.</p></li>
-<li><p>If <em>dist</em> <span class="math notranslate nohighlight">\(\geq\)</span> <strong>unum_too_far_length</strong>, then the uniform number is
-not visible.</p></li>
-<li><p>If <em>dist</em> :math`leq` <strong>team_far_length</strong>, then the team name is visible.</p></li>
-<li><p>If <strong>team_far_length</strong> <span class="math notranslate nohighlight">\(&lt;\)</span> <em>dist</em> <span class="math notranslate nohighlight">\(&lt;\)</span> <strong>team_too_far_length</strong>,
+number is visible decreases linearly from 1 to 0 as <em>dist</em> increases.</li>
+<li>If <em>dist</em> <span class="math notranslate nohighlight">\(\geq\)</span> <strong>unum_too_far_length</strong>, then the uniform number is
+not visible.</li>
+<li>If <em>dist</em> :math`leq` <strong>team_far_length</strong>, then the team name is visible.</li>
+<li>If <strong>team_far_length</strong> <span class="math notranslate nohighlight">\(&lt;\)</span> <em>dist</em> <span class="math notranslate nohighlight">\(&lt;\)</span> <strong>team_too_far_length</strong>,
 then the probability that the team name is visible decreases linearly from 1
-to 0 as <em>dist</em> increases.</p></li>
-<li><p>If <em>dist</em> <span class="math notranslate nohighlight">\(\geq\)</span> <strong>team_too_far_length</strong>, then the team name is not
-visible.</p></li>
+to 0 as <em>dist</em> increases.</li>
+<li>If <em>dist</em> <span class="math notranslate nohighlight">\(\geq\)</span> <strong>team_too_far_length</strong>, then the team name is not
+visible.</li>
 </ul>
 <p>For example, in Fig.:ref:<cite>view-example</cite>, assume that all of the labeled circles
 are players.
@@ -806,45 +808,44 @@ player <em>d</em> by team name, and with about a 50% chance, uniform number;
 player <em>e</em> with about a 25% chance, just by team name, otherwise with neither;
 and player <em>f</em> would be identified simply as an anonymous player.</p>
 <blockquote>
-<div><p>Parameters for the visual sensors.</p>
-</div></blockquote>
-<table class="docutils align-default">
+<div>Parameters for the visual sensors.</div></blockquote>
+<table border="1" class="docutils">
 <colgroup>
-<col style="width: 78%" />
-<col style="width: 22%" />
+<col width="78%" />
+<col width="22%" />
 </colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Parameter in <code class="docutils literal notranslate"><span class="pre">server.conf</span></code></p></th>
-<th class="head"><p>Value</p></th>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Parameter in <code class="docutils literal notranslate"><span class="pre">server.conf</span></code></th>
+<th class="head">Value</th>
 </tr>
 </thead>
-<tbody>
-<tr class="row-even"><td><p>server::sense_step</p></td>
-<td><p>150</p></td>
+<tbody valign="top">
+<tr class="row-even"><td>server::sense_step</td>
+<td>150</td>
 </tr>
-<tr class="row-odd"><td><p>server::visible_angle</p></td>
-<td><p>90.0</p></td>
+<tr class="row-odd"><td>server::visible_angle</td>
+<td>90.0</td>
 </tr>
-<tr class="row-even"><td><p>server::visible_distance</p></td>
-<td><p>3.0</p></td>
+<tr class="row-even"><td>server::visible_distance</td>
+<td>3.0</td>
 </tr>
-<tr class="row-odd"><td><p>unum_far_length <span class="math notranslate nohighlight">\(^\dagger\)</span></p></td>
-<td><p>20.0</p></td>
+<tr class="row-odd"><td>unum_far_length <span class="math notranslate nohighlight">\(^\dagger\)</span></td>
+<td>20.0</td>
 </tr>
-<tr class="row-even"><td><p>unum_too_far_length <span class="math notranslate nohighlight">\(^\dagger\)</span></p></td>
-<td><p>40.0</p></td>
+<tr class="row-even"><td>unum_too_far_length <span class="math notranslate nohighlight">\(^\dagger\)</span></td>
+<td>40.0</td>
 </tr>
-<tr class="row-odd"><td><p>team_far_length <span class="math notranslate nohighlight">\(^\dagger\)</span></p></td>
-<td><p>40.0</p></td>
+<tr class="row-odd"><td>team_far_length <span class="math notranslate nohighlight">\(^\dagger\)</span></td>
+<td>40.0</td>
 </tr>
-<tr class="row-even"><td><p>team_too_far_length <span class="math notranslate nohighlight">\(^\dagger\)</span></p></td>
-<td><p>60.0</p></td>
+<tr class="row-even"><td>team_too_far_length <span class="math notranslate nohighlight">\(^\dagger\)</span></td>
+<td>60.0</td>
 </tr>
-<tr class="row-odd"><td><p>server::quantize_step</p></td>
-<td><p>0.1</p></td>
+<tr class="row-odd"><td>server::quantize_step</td>
+<td>0.1</td>
 </tr>
-<tr class="row-even"><td><p>server::quantize_step_l</p></td>
-<td><p>0.01</p></td>
+<tr class="row-even"><td>server::quantize_step_l</td>
+<td>0.01</td>
 </tr>
 </tbody>
 </table>
@@ -872,20 +873,20 @@ following manner.</p>
 </div>
 </div>
 <div class="section" id="body-sensor-model">
-<h3><span class="section-number">4.3.3. </span>Body Sensor Model<a class="headerlink" href="#body-sensor-model" title="Permalink to this headline">¶</a></h3>
+<h3>4.3.3. Body Sensor Model<a class="headerlink" href="#body-sensor-model" title="Permalink to this headline">¶</a></h3>
 <p>The body sensor reports the current “physical” status of the
 player.
 he information is automatically sent to the player every
 <strong>server::sense_body_step</strong>, currently 100,  milli-seconds.</p>
 <p>The format of the body sensor message is:</p>
-<table class="docutils align-default">
+<table border="1" class="docutils">
 <colgroup>
-<col style="width: 13%" />
-<col style="width: 87%" />
+<col width="13%" />
+<col width="87%" />
 </colgroup>
-<tbody>
-<tr class="row-odd"><td><p>(sense_body</p></td>
-<td><div class="line-block">
+<tbody valign="top">
+<tr class="row-odd"><td>(sense_body</td>
+<td><div class="first last line-block">
 <div class="line"><em>Time</em></div>
 <div class="line">(view_mode <em>ViewQuality</em> <em>ViewWidth</em>)</div>
 <div class="line">(stamina <em>Stamina</em> <em>Effort</em> <em>Capacity</em>)</div>
@@ -910,17 +911,17 @@ he information is automatically sent to the player every
 </tbody>
 </table>
 <ul class="simple">
-<li><p><em>ViewQuality</em> is one of <code class="docutils literal notranslate"><span class="pre">high</span></code> and <code class="docutils literal notranslate"><span class="pre">low</span></code>.</p></li>
-<li><p><em>ViewWidth</em> is one of <code class="docutils literal notranslate"><span class="pre">narrow</span></code>, <code class="docutils literal notranslate"><span class="pre">normal</span></code>, and <code class="docutils literal notranslate"><span class="pre">wide</span></code>.</p></li>
-<li><p><em>AmountOfSpeed</em> is an approximation of the amount of the player’s speed.</p></li>
-<li><p><em>DirectionOfSpeed</em> is an approximation of the direction of the player’s speed.</p></li>
-<li><p><em>HeadDirection</em> is the relative direction of the player’s head.</p></li>
-<li><p><em>*Count</em> variables are the total number of commands of that type
+<li><em>ViewQuality</em> is one of <code class="docutils literal notranslate"><span class="pre">high</span></code> and <code class="docutils literal notranslate"><span class="pre">low</span></code>.</li>
+<li><em>ViewWidth</em> is one of <code class="docutils literal notranslate"><span class="pre">narrow</span></code>, <code class="docutils literal notranslate"><span class="pre">normal</span></code>, and <code class="docutils literal notranslate"><span class="pre">wide</span></code>.</li>
+<li><em>AmountOfSpeed</em> is an approximation of the amount of the player’s speed.</li>
+<li><em>DirectionOfSpeed</em> is an approximation of the direction of the player’s speed.</li>
+<li><em>HeadDirection</em> is the relative direction of the player’s head.</li>
+<li><em>*Count</em> variables are the total number of commands of that type
 executed by the server.  For example <em>DashCount</em> = 134 means
-that the player has executed 134 <strong>dash</strong> commands so far.</p></li>
-<li><p><em>MovableCycles</em></p></li>
-<li><p><em>ExpireCycles</em></p></li>
-<li><p><em>FoulCycles</em></p></li>
+that the player has executed 134 <strong>dash</strong> commands so far.</li>
+<li><em>MovableCycles</em></li>
+<li><em>ExpireCycles</em></li>
+<li><em>FoulCycles</em></li>
 </ul>
 <p>The semantics of the parameters are described where they are actually
 used.
@@ -929,28 +930,27 @@ in the Section <a class="reference internal" href="#sec-visionsensor"><span clas
 <p>The server parameters that affects the body sensor are described in
 the following table:</p>
 <blockquote>
-<div><p>Parameters for the body sensors.</p>
-</div></blockquote>
-<table class="docutils align-default">
+<div>Parameters for the body sensors.</div></blockquote>
+<table border="1" class="docutils">
 <colgroup>
-<col style="width: 78%" />
-<col style="width: 22%" />
+<col width="78%" />
+<col width="22%" />
 </colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Parameter in <code class="docutils literal notranslate"><span class="pre">server.conf</span></code></p></th>
-<th class="head"><p>Value</p></th>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Parameter in <code class="docutils literal notranslate"><span class="pre">server.conf</span></code></th>
+<th class="head">Value</th>
 </tr>
 </thead>
-<tbody>
-<tr class="row-even"><td><p>server::sense_body_step</p></td>
-<td><p>100</p></td>
+<tbody valign="top">
+<tr class="row-even"><td>server::sense_body_step</td>
+<td>100</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 <div class="section" id="movement-models">
-<h2><span class="section-number">4.4. </span>Movement Models<a class="headerlink" href="#movement-models" title="Permalink to this headline">¶</a></h2>
+<h2>4.4. Movement Models<a class="headerlink" href="#movement-models" title="Permalink to this headline">¶</a></h2>
 <p>In each simulation step, movement of each object is calculated as following manner:</p>
 <div class="math notranslate nohighlight" id="equation-eq-u-t">
 <span class="eqno">(4.3)<a class="headerlink" href="#equation-eq-u-t" title="Permalink to this equation">¶</a></span>\[\begin{split} (u_x^{t+1},u_y^{t+1}) &amp;= (v_x^t,v_y^t)+(a_x^t,a_y^t) : accelerate \\
@@ -976,7 +976,7 @@ In the case of a ball, its direction is given as the following manner:</p>
 ball and kicking player respectively, and <em>Direction</em> is the second parameter
 of a <strong>kick</strong> command.</p>
 <div class="section" id="movement-noise-model">
-<h3><span class="section-number">4.4.1. </span>Movement Noise Model<a class="headerlink" href="#movement-noise-model" title="Permalink to this headline">¶</a></h3>
+<h3>4.4.1. Movement Noise Model<a class="headerlink" href="#movement-noise-model" title="Permalink to this headline">¶</a></h3>
 <p>In order to reflect unexpected movements of objects in real world,
 rcssserver adds noise to the movement of objects and parameters of commands.</p>
 <p>Concerned with movements,
@@ -997,7 +997,7 @@ command as follows:</p>
 \[argument = (1 + \tilde{r}_{\rm rand}) \cdot argument\]</div>
 </div>
 <div class="section" id="collision-model">
-<h3><span class="section-number">4.4.2. </span>Collision Model<a class="headerlink" href="#collision-model" title="Permalink to this headline">¶</a></h3>
+<h3>4.4.2. Collision Model<a class="headerlink" href="#collision-model" title="Permalink to this headline">¶</a></h3>
 <p>If at the end of the simulation cycle, two objects overlap, then the
 objects are moved back until they do not overlap.
 Then the velocities are multiplied by -0.1.
@@ -1006,12 +1006,12 @@ as the ball and the player never overlap at the end of the cycle.</p>
 </div>
 </div>
 <div class="section" id="action-models">
-<h2><span class="section-number">4.5. </span>Action Models<a class="headerlink" href="#action-models" title="Permalink to this headline">¶</a></h2>
+<h2>4.5. Action Models<a class="headerlink" href="#action-models" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="catch-model">
-<h3><span class="section-number">4.5.1. </span>Catch Model<a class="headerlink" href="#catch-model" title="Permalink to this headline">¶</a></h3>
+<h3>4.5.1. Catch Model<a class="headerlink" href="#catch-model" title="Permalink to this headline">¶</a></h3>
 <div class="figure align-center" id="catcharea">
 <img alt="_images/catcharea.png" src="_images/catcharea.png" />
-<p class="caption"><span class="caption-number">Fig. 4.4 </span><span class="caption-text">Catchable area of the goalie when doing a (catch 45)</span><a class="headerlink" href="#catcharea" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">Fig. 4.4 </span><span class="caption-text">Catchable area of the goalie when doing a (catch 45)</span></p>
 </div>
 <p>The goalie is the only player with the ability to catch a ball. The
 goalie can catch the ball in play mode <code class="docutils literal notranslate"><span class="pre">play_on</span></code> in any direction,
@@ -1026,39 +1026,38 @@ not be caught if it is outside this area).
 For the current values of catch command parameters see
 the following table:</p>
 <blockquote>
-<div><p>Parameters for the goalie catch command</p>
-</div></blockquote>
-<table class="docutils align-default">
+<div>Parameters for the goalie catch command</div></blockquote>
+<table border="1" class="docutils">
 <colgroup>
-<col style="width: 82%" />
-<col style="width: 18%" />
+<col width="82%" />
+<col width="18%" />
 </colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Parameter in <code class="docutils literal notranslate"><span class="pre">server.conf</span></code> and <code class="docutils literal notranslate"><span class="pre">player.conf</span></code></p></th>
-<th class="head"><p>Value</p></th>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Parameter in <code class="docutils literal notranslate"><span class="pre">server.conf</span></code> and <code class="docutils literal notranslate"><span class="pre">player.conf</span></code></th>
+<th class="head">Value</th>
 </tr>
 </thead>
-<tbody>
-<tr class="row-even"><td><p>server::catchable_area_l</p></td>
-<td><p>2.0</p></td>
+<tbody valign="top">
+<tr class="row-even"><td>server::catchable_area_l</td>
+<td>2.0</td>
 </tr>
-<tr class="row-odd"><td><p>server::catchable_area_w</p></td>
-<td><p>1.0</p></td>
+<tr class="row-odd"><td>server::catchable_area_w</td>
+<td>1.0</td>
 </tr>
-<tr class="row-even"><td><p>server::catch_probability</p></td>
-<td><p>1.0</p></td>
+<tr class="row-even"><td>server::catch_probability</td>
+<td>1.0</td>
 </tr>
-<tr class="row-odd"><td><p>server::catch_ban_cycle</p></td>
-<td><p>5</p></td>
+<tr class="row-odd"><td>server::catch_ban_cycle</td>
+<td>5</td>
 </tr>
-<tr class="row-even"><td><p>server::goalie-max_moves</p></td>
-<td><p>2</p></td>
+<tr class="row-even"><td>server::goalie-max_moves</td>
+<td>2</td>
 </tr>
-<tr class="row-odd"><td><p>player::catchable_area_l_stretch_max</p></td>
-<td><p>1.3</p></td>
+<tr class="row-odd"><td>player::catchable_area_l_stretch_max</td>
+<td>1.3</td>
 </tr>
-<tr class="row-even"><td><p>player::catchable_area_l_stretch_min</p></td>
-<td><p>1</p></td>
+<tr class="row-even"><td>player::catchable_area_l_stretch_min</td>
+<td>1</td>
 </tr>
 </tbody>
 </table>
@@ -1081,7 +1080,7 @@ short distance and immediately catching it again to move more than
 play.</p>
 </div>
 <div class="section" id="dash-model">
-<h3><span class="section-number">4.5.2. </span>Dash Model<a class="headerlink" href="#dash-model" title="Permalink to this headline">¶</a></h3>
+<h3>4.5.2. Dash Model<a class="headerlink" href="#dash-model" title="Permalink to this headline">¶</a></h3>
 <p>The <strong>dash</strong> command is used to accelerate the player in direction of
 its body.
 <strong>dash</strong> takes the acceleration <em>power</em> as a parameter.
@@ -1090,139 +1089,139 @@ The valid range for the acceleration <em>power</em> can be configured in
 and <strong>server::max_dash_power</strong>.
 For the current values of parameters for the dash model, see
 the following list:</p>
-<table class="docutils align-default">
+<table border="1" class="docutils">
 <colgroup>
-<col style="width: 28%" />
-<col style="width: 24%" />
-<col style="width: 37%" />
-<col style="width: 10%" />
+<col width="28%" />
+<col width="24%" />
+<col width="37%" />
+<col width="10%" />
 </colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><div class="line-block">
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><div class="first last line-block">
 <div class="line">Default Parameters</div>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">server.conf</span></code></div>
 </div>
 </div>
 </th>
-<th class="head"><div class="line-block">
+<th class="head"><div class="first last line-block">
 <div class="line">Default Value (Range)</div>
 <div class="line"><br /></div>
 </div>
 </th>
-<th class="head"><div class="line-block">
+<th class="head"><div class="first last line-block">
 <div class="line">Heterogeneous Player Parameters</div>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">player.conf</span></code></div>
 </div>
 </div>
 </th>
-<th class="head"><div class="line-block">
+<th class="head"><div class="first last line-block">
 <div class="line">Value</div>
 <div class="line"><br /></div>
 </div>
 </th>
 </tr>
 </thead>
-<tbody>
-<tr class="row-even"><td><p>server::min_dash_power</p></td>
-<td><p>-100.0</p></td>
-<td></td>
-<td></td>
+<tbody valign="top">
+<tr class="row-even"><td>server::min_dash_power</td>
+<td>-100.0</td>
+<td>&#160;</td>
+<td>&#160;</td>
 </tr>
-<tr class="row-odd"><td><p>server::max_dash_power</p></td>
-<td><p>100.0</p></td>
-<td></td>
-<td></td>
+<tr class="row-odd"><td>server::max_dash_power</td>
+<td>100.0</td>
+<td>&#160;</td>
+<td>&#160;</td>
 </tr>
-<tr class="row-even"><td><p>server::player_decay
-server::inertia_moment</p></td>
-<td><div class="line-block">
+<tr class="row-even"><td>server::player_decay
+server::inertia_moment</td>
+<td><div class="first last line-block">
 <div class="line">0.4 ([0.3, 0.5])</div>
 <div class="line">5.0 ([2.5, 7.5])</div>
 </div>
 </td>
-<td><div class="line-block">
+<td><div class="first last line-block">
 <div class="line">player::player_decay_delta_min</div>
 <div class="line">player::player_decay_delta_min</div>
 <div class="line">player::inertia_moment_delta_factor</div>
 </div>
 </td>
-<td><div class="line-block">
+<td><div class="first last line-block">
 <div class="line">-0.1</div>
 <div class="line">0.1</div>
 <div class="line">25.0</div>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><p>server::player_accel_max</p></td>
-<td><p>1.0</p></td>
-<td></td>
-<td></td>
+<tr class="row-odd"><td>server::player_accel_max</td>
+<td>1.0</td>
+<td>&#160;</td>
+<td>&#160;</td>
 </tr>
-<tr class="row-even"><td><p>server::player_rand</p></td>
-<td><p>0.1</p></td>
-<td></td>
-<td></td>
+<tr class="row-even"><td>server::player_rand</td>
+<td>0.1</td>
+<td>&#160;</td>
+<td>&#160;</td>
 </tr>
-<tr class="row-odd"><td><p>server::player_speed_max</p></td>
-<td><p>1.05</p></td>
-<td></td>
-<td></td>
+<tr class="row-odd"><td>server::player_speed_max</td>
+<td>1.05</td>
+<td>&#160;</td>
+<td>&#160;</td>
 </tr>
-<tr class="row-even"><td><p>server::player_speed_max_min</p></td>
-<td><p>0.75</p></td>
-<td></td>
-<td></td>
+<tr class="row-even"><td>server::player_speed_max_min</td>
+<td>0.75</td>
+<td>&#160;</td>
+<td>&#160;</td>
 </tr>
-<tr class="row-odd"><td><p>server::stamina_max</p></td>
-<td><p>8000.0</p></td>
-<td></td>
-<td></td>
+<tr class="row-odd"><td>server::stamina_max</td>
+<td>8000.0</td>
+<td>&#160;</td>
+<td>&#160;</td>
 </tr>
-<tr class="row-even"><td><div class="line-block">
+<tr class="row-even"><td><div class="first last line-block">
 <div class="line">server::stamina_inc_max</div>
 <div class="line">server::dash_power_rate</div>
 </div>
 </td>
-<td><div class="line-block">
+<td><div class="first last line-block">
 <div class="line">45.0  ([40.2, 52.2])</div>
 <div class="line">0.006 ([0.0048, 0.0068])</div>
 </div>
 </td>
-<td><div class="line-block">
+<td><div class="first last line-block">
 <div class="line">player::new_dash_power_rate_delta_min</div>
 <div class="line">player::new_dash_power_rate_delta_max</div>
 <div class="line">player::new_stamina_inc_max_delta_factor</div>
 </div>
 </td>
-<td><div class="line-block">
+<td><div class="first last line-block">
 <div class="line">-0.0012</div>
 <div class="line">0.0008</div>
 <div class="line">-6000</div>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><div class="line-block">
+<tr class="row-odd"><td><div class="first last line-block">
 <div class="line">server::extra_stamina</div>
 <div class="line">server::effort_init</div>
 <div class="line">server::effort_min</div>
 </div>
 </td>
-<td><div class="line-block">
+<td><div class="first last line-block">
 <div class="line">50.0  ([50.0, 100.0])</div>
 <div class="line">1.0   ([0.8, 1.0])</div>
 <div class="line">0.6   ([0.4, 0.6])</div>
 </div>
 </td>
-<td><div class="line-block">
+<td><div class="first last line-block">
 <div class="line">player::extra_stamina_delta_min</div>
 <div class="line">player::extra_stamina_delta_max</div>
 <div class="line">player::effort_max_delta_factor</div>
 <div class="line">player::effort_min_delta_factor</div>
 </div>
 </td>
-<td><div class="line-block">
+<td><div class="first last line-block">
 <div class="line">0.0</div>
 <div class="line">50.0</div>
 <div class="line">-0.004</div>
@@ -1230,65 +1229,65 @@ server::inertia_moment</p></td>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><p>server::effort_dec</p></td>
-<td><p>0.3</p></td>
-<td></td>
-<td></td>
+<tr class="row-even"><td>server::effort_dec</td>
+<td>0.3</td>
+<td>&#160;</td>
+<td>&#160;</td>
 </tr>
-<tr class="row-odd"><td><p>server::effort_dec_thr</p></td>
-<td><p>0.005</p></td>
-<td></td>
-<td></td>
+<tr class="row-odd"><td>server::effort_dec_thr</td>
+<td>0.005</td>
+<td>&#160;</td>
+<td>&#160;</td>
 </tr>
-<tr class="row-even"><td><p>server::effort_inc</p></td>
-<td><p>0.01</p></td>
-<td></td>
-<td></td>
+<tr class="row-even"><td>server::effort_inc</td>
+<td>0.01</td>
+<td>&#160;</td>
+<td>&#160;</td>
 </tr>
-<tr class="row-odd"><td><p>server::effort_inc_thr</p></td>
-<td><p>0.6</p></td>
-<td></td>
-<td></td>
+<tr class="row-odd"><td>server::effort_inc_thr</td>
+<td>0.6</td>
+<td>&#160;</td>
+<td>&#160;</td>
 </tr>
-<tr class="row-even"><td><p>server::recover_dec_thr</p></td>
-<td><p>0.3</p></td>
-<td></td>
-<td></td>
+<tr class="row-even"><td>server::recover_dec_thr</td>
+<td>0.3</td>
+<td>&#160;</td>
+<td>&#160;</td>
 </tr>
-<tr class="row-odd"><td><p>server::recover_dec</p></td>
-<td><p>0.002</p></td>
-<td></td>
-<td></td>
+<tr class="row-odd"><td>server::recover_dec</td>
+<td>0.002</td>
+<td>&#160;</td>
+<td>&#160;</td>
 </tr>
-<tr class="row-even"><td><p>server::recover_init</p></td>
-<td><p>1.0</p></td>
-<td></td>
-<td></td>
+<tr class="row-even"><td>server::recover_init</td>
+<td>1.0</td>
+<td>&#160;</td>
+<td>&#160;</td>
 </tr>
-<tr class="row-odd"><td><p>server::recover_min</p></td>
-<td><p>0.5</p></td>
-<td></td>
-<td></td>
+<tr class="row-odd"><td>server::recover_min</td>
+<td>0.5</td>
+<td>&#160;</td>
+<td>&#160;</td>
 </tr>
-<tr class="row-even"><td><p>server::wind_ang</p></td>
-<td><p>0.0</p></td>
-<td></td>
-<td></td>
+<tr class="row-even"><td>server::wind_ang</td>
+<td>0.0</td>
+<td>&#160;</td>
+<td>&#160;</td>
 </tr>
-<tr class="row-odd"><td><p>server::wind_dir</p></td>
-<td><p>0.0</p></td>
-<td></td>
-<td></td>
+<tr class="row-odd"><td>server::wind_dir</td>
+<td>0.0</td>
+<td>&#160;</td>
+<td>&#160;</td>
 </tr>
-<tr class="row-even"><td><p>server::wind_force</p></td>
-<td><p>0.0</p></td>
-<td></td>
-<td></td>
+<tr class="row-even"><td>server::wind_force</td>
+<td>0.0</td>
+<td>&#160;</td>
+<td>&#160;</td>
 </tr>
-<tr class="row-odd"><td><p>server::wind_rand</p></td>
-<td><p>0.0</p></td>
-<td></td>
-<td></td>
+<tr class="row-odd"><td>server::wind_rand</td>
+<td>0.0</td>
+<td>&#160;</td>
+<td>&#160;</td>
 </tr>
 </tbody>
 </table>
@@ -1323,16 +1322,16 @@ a cycle and a player does not get accelerated by other means than dashing).</p>
 <p>At the transition from simulation step $n$ to simulation step
 <span class="math notranslate nohighlight">\(n + 1$, acceleration :math:\)</span>vec{a}_n` is applied:</p>
 <ol class="arabic simple">
-<li><p><span class="math notranslate nohighlight">\(\vec{a}_n\)</span> is normalized to a maximum length of <strong>server::player_accel_max</strong>.</p></li>
-<li><p><span class="math notranslate nohighlight">\(\vec{a}_n\)</span> is added to current players speed
+<li><span class="math notranslate nohighlight">\(\vec{a}_n\)</span> is normalized to a maximum length of <strong>server::player_accel_max</strong>.</li>
+<li><span class="math notranslate nohighlight">\(\vec{a}_n\)</span> is added to current players speed
 <span class="math notranslate nohighlight">\(\vec{v}_n\)</span>. <span class="math notranslate nohighlight">\(\vec{v}_n\)</span> will be normalized to a
 maximum length of <strong>player_speed_max</strong>.
 players, the  maximum speed is a value between
 <strong>server::player_speed_max</strong> +
 <strong>player::player_speed_max_delta_min</strong> and
 <strong>server::player_speed_max</strong> +
-<strong>player::player_speed_max_delta_max</strong> in <code class="docutils literal notranslate"><span class="pre">player.conf</span></code>.</p></li>
-<li><p>Noise <span class="math notranslate nohighlight">\(\vec{n}\)</span> and wind <span class="math notranslate nohighlight">\(\vec{w}\)</span> will be added to
+<strong>player::player_speed_max_delta_max</strong> in <code class="docutils literal notranslate"><span class="pre">player.conf</span></code>.</li>
+<li>Noise <span class="math notranslate nohighlight">\(\vec{n}\)</span> and wind <span class="math notranslate nohighlight">\(\vec{w}\)</span> will be added to
 <span class="math notranslate nohighlight">\(\vec{v}_{n}\)</span>. Both noise and wind are configurable in
 <cite>server.conf</cite>. Parameters responsible for the wind are
 <strong>server::wind_force</strong>, <strong>server::wind_dir</strong> and
@@ -1340,14 +1339,14 @@ players, the  maximum speed is a value between
 on the simulated soccer field. The responsible parameter for the
 noise is <strong>server::player_rand</strong>. Both direction and length
 of the noise vector are within the interval
-<span class="math notranslate nohighlight">\([ -|\vec{v}_{n}| \cdot {\rm player\_rand} \ldots |\vec{v}_{n}| \cdot {\rm player\_rand}]\)</span>.</p></li>
-<li><p>The new position of the player <span class="math notranslate nohighlight">\(\vec{p}_{n+1}\)</span> is the old position
+<span class="math notranslate nohighlight">\([ -|\vec{v}_{n}| \cdot {\rm player\_rand} \ldots |\vec{v}_{n}| \cdot {\rm player\_rand}]\)</span>.</li>
+<li>The new position of the player <span class="math notranslate nohighlight">\(\vec{p}_{n+1}\)</span> is the old position
 <span class="math notranslate nohighlight">\(\vec{p}_{n}\)</span> plus the velocity vector <span class="math notranslate nohighlight">\(\vec{v}_{n}\)</span>
 (i.e.the maximum distance difference for the player between two
-simulation steps is <a href="#id8"><span class="problematic" id="id9">**</span></a>player_speed_max).</p></li>
-<li><p><strong>player_decay</strong> is applied for the velocity of the player:
+simulation steps is <a href="#id8"><span class="problematic" id="id9">**</span></a>player_speed_max).</li>
+<li><strong>player_decay</strong> is applied for the velocity of the player:
 <span class="math notranslate nohighlight">\(\vec{v}_{n+1} = \vec{v}_{n} \cdot {\rm player\_decay}\)</span>.
-Acceleration <span class="math notranslate nohighlight">\(\vec{a}_{n+1}\)</span> is set to zero.</p></li>
+Acceleration <span class="math notranslate nohighlight">\(\vec{a}_{n+1}\)</span> is set to zero.</li>
 </ol>
 <div class="section" id="stamina-model">
 <h4>Stamina Model<a class="headerlink" href="#stamina-model" title="Permalink to this headline">¶</a></h4>
@@ -1391,92 +1390,43 @@ be increased during a game.</p>
 </div>
 </div>
 <div class="section" id="kick-model">
-<span id="sec-kickmodel"></span><h3><span class="section-number">4.5.3. </span>Kick Model<a class="headerlink" href="#kick-model" title="Permalink to this headline">¶</a></h3>
+<span id="sec-kickmodel"></span><h3>4.5.3. Kick Model<a class="headerlink" href="#kick-model" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="move-model">
-<h3><span class="section-number">4.5.4. </span>Move Model<a class="headerlink" href="#move-model" title="Permalink to this headline">¶</a></h3>
+<h3>4.5.4. Move Model<a class="headerlink" href="#move-model" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="say-model">
-<h3><span class="section-number">4.5.5. </span>Say Model<a class="headerlink" href="#say-model" title="Permalink to this headline">¶</a></h3>
+<h3>4.5.5. Say Model<a class="headerlink" href="#say-model" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="tackle-model">
-<h3><span class="section-number">4.5.6. </span>Tackle Model<a class="headerlink" href="#tackle-model" title="Permalink to this headline">¶</a></h3>
+<h3>4.5.6. Tackle Model<a class="headerlink" href="#tackle-model" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="turn-model">
-<h3><span class="section-number">4.5.7. </span>Turn Model<a class="headerlink" href="#turn-model" title="Permalink to this headline">¶</a></h3>
+<h3>4.5.7. Turn Model<a class="headerlink" href="#turn-model" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="turnneck-model">
-<h3><span class="section-number">4.5.8. </span>TurnNeck Model<a class="headerlink" href="#turnneck-model" title="Permalink to this headline">¶</a></h3>
+<h3>4.5.8. TurnNeck Model<a class="headerlink" href="#turnneck-model" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
 <div class="section" id="heterogeneous-players">
-<span id="sec-heterogeneousplayers"></span><h2><span class="section-number">4.6. </span>Heterogeneous Players<a class="headerlink" href="#heterogeneous-players" title="Permalink to this headline">¶</a></h2>
-<table class="docutils align-default">
-<colgroup>
-<col style="width: 30%" />
-<col style="width: 70%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Parameter</p></th>
-<th class="head"><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>PlayerSpeedMax</p></td>
-<td><p>maximum speed</p></td>
-</tr>
-<tr class="row-odd"><td><p>StaminaIncMax</p></td>
-<td><p>Amount of stamina recovered in one step</p></td>
-</tr>
-<tr class="row-even"><td><p>PlayerDecay</p></td>
-<td><p>Player speed decay rate</p></td>
-</tr>
-<tr class="row-odd"><td><p>InertiaMoment</p></td>
-<td><p>Player inertia force when moving</p></td>
-</tr>
-<tr class="row-even"><td><p>DashPowerRate</p></td>
-<td><p>Dash acceleration rate</p></td>
-</tr>
-<tr class="row-odd"><td><p>PlayerSize</p></td>
-<td><p>Player size</p></td>
-</tr>
-<tr class="row-even"><td><p>KickableMargin</p></td>
-<td><p>Kickable area radius</p></td>
-</tr>
-<tr class="row-odd"><td><p>KickRand</p></td>
-<td><p>The amount of noise added to the kick</p></td>
-</tr>
-<tr class="row-even"><td><p>ExtraStamina</p></td>
-<td><p>Extra stamina available when stamina is exhausted</p></td>
-</tr>
-<tr class="row-odd"><td><p>EffortMax</p></td>
-<td><p>Maximum value of the player’s effort amount</p></td>
-</tr>
-<tr class="row-even"><td><p>EffortMin</p></td>
-<td><p>The minimum amount of effort for the player</p></td>
-</tr>
-</tbody>
-</table>
-<p>Heterogeneous player parameters given for each match are different.
-Therefore, each agent does not necessarily have the parameters needed to implement the tactics.
-Whatever the situation, you need a way to choose the best combination of heterogeneous players.</p>
+<span id="sec-heterogeneousplayers"></span><h2>4.6. Heterogeneous Players<a class="headerlink" href="#heterogeneous-players" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="referee-model">
-<h2><span class="section-number">4.7. </span>Referee Model<a class="headerlink" href="#referee-model" title="Permalink to this headline">¶</a></h2>
+<h2>4.7. Referee Model<a class="headerlink" href="#referee-model" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="play-modes-and-referee-messages">
-<h3><span class="section-number">4.7.1. </span>Play Modes and referee messages<a class="headerlink" href="#play-modes-and-referee-messages" title="Permalink to this headline">¶</a></h3>
+<h3>4.7.1. Play Modes and referee messages<a class="headerlink" href="#play-modes-and-referee-messages" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
 <div class="section" id="the-soccer-simulation">
-<h2><span class="section-number">4.8. </span>The Soccer Simulation<a class="headerlink" href="#the-soccer-simulation" title="Permalink to this headline">¶</a></h2>
+<h2>4.8. The Soccer Simulation<a class="headerlink" href="#the-soccer-simulation" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="description-of-the-simulation-algorithm">
-<h3><span class="section-number">4.8.1. </span>Description of the simulation algorithm<a class="headerlink" href="#description-of-the-simulation-algorithm" title="Permalink to this headline">¶</a></h3>
+<h3>4.8.1. Description of the simulation algorithm<a class="headerlink" href="#description-of-the-simulation-algorithm" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
 <div class="section" id="using-soccerserver">
-<h2><span class="section-number">4.9. </span>Using Soccerserver<a class="headerlink" href="#using-soccerserver" title="Permalink to this headline">¶</a></h2>
+<h2>4.9. Using Soccerserver<a class="headerlink" href="#using-soccerserver" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="the-soccerserver-parameters">
-<h3><span class="section-number">4.9.1. </span>The Soccerserver Parameters<a class="headerlink" href="#the-soccerserver-parameters" title="Permalink to this headline">¶</a></h3>
+<h3>4.9.1. The Soccerserver Parameters<a class="headerlink" href="#the-soccerserver-parameters" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
 </div>
@@ -1499,12 +1449,12 @@ Whatever the situation, you need a way to choose the best combination of heterog
         <li class="right" >
           <a href="gettingstarted.html" title="3. Getting Started"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">The RoboCup Soccer Simulator  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">The RoboCup Soccer Simulator  documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright The RoboCup Soccer Simulator Maintenance Committee.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.0.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
     </div>
   </body>
 </html>
