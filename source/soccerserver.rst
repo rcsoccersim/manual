@@ -1058,3 +1058,14 @@ Using Soccerserver
 --------------------------------------------------
 The Soccerserver Parameters
 --------------------------------------------------
+YuShan2020 RoboCup Soccer Simulation 2D Server version adopted by YuShan2020 is 15.3.0.
+YuShan has modified some default setting parameters, as shown in the following:
+1. RCG file compression format level: 
+server::game_log_version = 5, server::game_log_compression = 1.
+2. RCG and RCL files save path. YuShan2020 has been changed the parameters of game_log_dir and text_log_dir to rcsc_log.
+3. Accorfing to setting parameters: nr_normal_halfs = 0 and nr_extra_halfs = 0, YuShan2020 tested the penalty kick module. The former means half-court number of normal matches. The laeter represents half-court number of overtime matches.
+4. Server::dash_angle_step from 45.0 to 1.0, which implies that players can dash to almost any direction.
+5. In Agent2D, some parameters of non-play-on module are inconsistent with those of server, which also need to be modified.
+6. The server execution parameters of the tackle were also modified.
+7. In TDP and submitted materials, YuShan2020 utilizes version 14, and the version parameters of coach.conf and player.conf are set to 14.
+
