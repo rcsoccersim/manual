@@ -1009,7 +1009,9 @@ Kick Model
 Move Model
 --------------------------------------------------
 
-Uesing the say command, players can broadcast messages to other players. Messages can be say_msg_size characters long, where valid characters for say messages are from the set [-0-9a-zA-Z ().+*/?<> ] (without the square brackets). Messages players say can be heard within a distance of audio_cut_dist by members of both teams . Say messages sent to the server will be sent back to players within that distance immediately. The use of the say command is only restricted by the limited capacity of the players of hearing messages.
+The *move command* can be used to place a player directly onto a desired position on the field. move exists to set up the team and does not work during normal play. It is available at the beginning of each half (play mode ‘**before_kick_off**’) and after a goal has been scored (play modes ‘**goal_r_n **’ or ‘**goal_l_n** ’). In these situations, players can be placed on any position in their own half (i.e. X < 0) and can be moved any number of times, as long as the play mode does not change. Players moved to a position on the opponent half will be set to a random position on their own side by the server.
+A second purpose of the *move command* is to move the goalie within the penalty area after the goalie caught the ball. If the goalie caught the ball, it can move together with the ball within the penalty area. The goalie is allowed to move *goalie_max_moves* times before it kicks the ball. Additional *move commands* do not have any effect and the server will respond with (error too_many_moves).
+
 
                  Parameter for the move_command 
 +-------------------------------------------------+-----------+
@@ -1023,14 +1025,14 @@ Uesing the say command, players can broadcast messages to other players. Message
 Say Model
 --------------------------------------------------
 
-Using the say command, players can broadcast messages to other players. Messages can be say_msg_size characters long, where valid characters for say messages are from the set [-0-9a-zA-Z ().+*/?<> ] (without the square brackets). Messages players say can be heard within a distance of audio_cut_dist by members of both teams . Say messages sent to the server will be sent back to players within that distance immediately. The use of the say command is only restricted by the limited capacity of the players of hearing messages.
+Using the *say command*, players can broadcast messages to other players. Messages can be say_msg_size characters long, where valid characters for say messages are from the set sth (without the square brackets). Messages players say can be heard within a distance of *audio_cut_dist* by members of both teams . **Say messages** sent to the server will be sent back to players within that distance immediately. The use of the *say command* is only restricted by the limited capacity of the players of hearing messages.
 
 
                      Parameter for the say command
 +-------------------------------------------------+-----------+
 |Parameter in ``server.conf``                     | Value     |
 +=================================================+===========+
-|say_msg_size                                     | 10        |
+|say_msg_size                                     |10         |
 +-------------------------------------------------+-----------+
 |audio_cut_dist                                   |50         |
 +-------------------------------------------------+-----------+
@@ -1047,38 +1049,8 @@ Tackle Model
 --------------------------------------------------
 
 
-While dash is used to accelerate the player in direction of its body, the turn command is used to change the players body direction. The argument for the turn command is the moment; valid values for the moment are between minmoment and maxmoment. If the player does not move, the moment is equal to the angle the player will turn. However, there is a concept of inertia that makes it more difficult to turn when you are moving. Specifically, the actual angle the player is turned is as follows:
-
-actual_angle = moment/(1.0 + inertia_moment · player_speed) (4.22)
-
-Inertia_moment is a server.conf parameter with default value 5.0. Therefore (with default values), when the player is at speed 1.0, the maximum effective turn he can do is ±30. However, notice that because you can not dash and turn during the same cycle, the fastest that a player can be going when executing a turn is player_speed_max · player decay, which means the effective turn for a default player (with default values) is ±60.
-
-For heterogeneous players, the inertia moment is the default inertia value plus a value between min. player_decay_delta_min · inertia_moment_delta_factor and max. player_decay_delta_max · inertia_moment_delta_factor.
-
-
-                       Turn Model Parameter
-+---------------------------------+------------------------------------------+
-| Basic Parameter                 | Parameters for heterofenous              | 
-|  ''server.conf''                |  ''player.conf''                         |
-+======= =========================+==========================================+
-|Name                 |Value      |   Name                    | Value |Range |
-+---------------------+-----------+---------------------------+-------+------+
-|minmoment            |-180       | player_decay_delta_min    | 0.0   | 5    |
-+---------------------+-----------+---------------------------+-------+------+
-|maxmoment            |180        |player_decay_delta_max     |   0.4 | 10   |
-+---------------------+-----------+---------------------------+-------+------+
-| inertia_moment      | 5.0       |    inertia                |       |      |
-|                     |           |  _moment_delta_factor     | 25    |      |
-+---------------------+-----------+---------------------------+-------+------+
-
-
---------------------------------------------------
-Turn Model
---------------------------------------------------
-
-With turn_neck, a player can turn its neck somewhat independently of its body. The angle of the head of the player is the viewing angle of the player. The turn command changes the angle of the body of the player while turn_neck changes the neck angle of the player relative to its body. The minimum and maximum relative angle for the player’s neck are given by minmoment and maxmoment in server.conf. Remember that the neck angle is relative to the body of the player so if the client issues a turn command, the viewing angle changes even if no turn_neck command was issued.
-
-Also, turn_neck commands can be executed during the same cycle as turn, dash, and kick commands. turn_neck is not affected by momentum like turn is. The argument for a turn_neck command must be in the range between minneckmoment and maxneckmoment.
+With *turn_neck*, a player can turn its neck somewhat independently of its body. The angle of the head of the player is the viewing angle of the player. The *turn command* changes the angle of the body of the player while turn_neck changes the neck angle of the player relative to its body. The **minimum** and **maximum** relative angle for the player’s neck are given by **minmoment** and **maxmoment** in server.conf. Remember that the neck angle is relative to the body of the player so if the client issues a *turn command*, the viewing angle changes even if no turn_neck command was issued.
+Also, *turn_neck commands* can be executed during the same cycle as turn, dash, and *kick commands*. turn_neck is not affected by momentum like turn is. The argument for a *turn_neck command* must be in the range between **minneckmoment** and **maxneckmoment**.
 
 
                 Parameter for the turn neck command
@@ -1087,12 +1059,36 @@ Also, turn_neck commands can be executed during the same cycle as turn, dash, an
 +=================================================+===========+
 |minneckang                                       | -90       |
 +-------------------------------------------------+-----------+
-|maxneckang                                       |90         |
+|maxneckang                                       |  90       |
 +-------------------------------------------------+-----------+
-|minneckmoment                                    |-180       |
+|minneckmoment                                    | -180      |
 +-------------------------------------------------+-----------+
-|maxneckmoment                                    |180        |
+|maxneckmoment                                    |  180      |
 +-------------------------------------------------+-----------+
+
+
+--------------------------------------------------
+Turn Model
+--------------------------------------------------
+
+While *dash* is used to accelerate the player in direction of its body, the *turn command* is used to change the players body direction. The argument for the turn command is the moment; valid values for the moment are between **minmoment** and **maxmoment**. If the player does not move, the moment is equal to the angle the player will turn. However, there is a concept of inertia that makes it more difficult to turn when you are moving. Specifically, the actual angle the player is turned is as follows:
+**actual_angle = moment/(1.0 + inertia_moment · player_speed)** (4.22)
+*Inertia_moment* is a server.conf parameter with default value 5.0. Therefore (with default values), when the player is at speed 1.0, the *maximum effective* turn he can do is ±30. However, notice that because you can not dash and turn during the same cycle, the fastest that a player can be going when executing a turn is *player_speed_max* · player decay, which means the effective turn for a default player (with default values) is ±60.
+For heterogeneous players, the inertia moment is the default inertia value plus a value between min. *player_decay_delta_min* · *inertia_moment_delta_factor and max*. *player_decay_delta_max* · *inertia_moment_delta_factor*.
+
+                           Turn Model Parameter
++----------------------------------+------------------------------------------------+
+| Basic Parameter ``server.conf``  |  Parameter for heterofenous ``player.conf``    | 
++=====================+============+================================+=======+=======+
+|       Name          |   Value    |         Name                   | Value |Range  |
++---------------------+------------+--------------------------------+-------+-------+
+|minmoment            || -180      | | player_decay_delta_min       | | 0.0 | | 5   |
++---------------------+------------+--------------------------------+-------+-------+
+|maxmoment            ||  180      | | player_decay_delta_max       | | 0.4 | | 1   |
++---------------------+------------+--------------------------------+-------+-------+
+|inertia_moment       ||  5.0      | | inertia_moment_delta_factor  | | 25  |       |
++---------------------+------------+--------------------------------+-------+-------+
+
 
 
 

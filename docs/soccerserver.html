@@ -135,7 +135,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <p>Last update: Mar 02, 2020</p>
+  <p>Last update: Mar 03, 2020</p>
 <div class="section" id="soccer-server">
 <span id="cha-soccerserver"></span><h1>4. Soccer Server<a class="headerlink" href="#soccer-server" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="objects">
@@ -1394,7 +1394,8 @@ be increased during a game.</p>
 </div>
 <div class="section" id="move-model">
 <h3>4.5.4. Move Model<a class="headerlink" href="#move-model" title="Permalink to this headline">¶</a></h3>
-<p>Uesing the say command, players can broadcast messages to other players. Messages can be say_msg_size characters long, where valid characters for say messages are from the set [-0-9a-zA-Z ().+*/?&lt;&gt; ] (without the square brackets). Messages players say can be heard within a distance of audio_cut_dist by members of both teams . Say messages sent to the server will be sent back to players within that distance immediately. The use of the say command is only restricted by the limited capacity of the players of hearing messages.</p>
+<p>The <em>move command</em> can be used to place a player directly onto a desired position on the field. move exists to set up the team and does not work during normal play. It is available at the beginning of each half (play mode ‘<strong>before_kick_off</strong>’) and after a goal has been scored (play modes ‘<strong>goal_r_n **’ or ‘**goal_l_n</strong> ’). In these situations, players can be placed on any position in their own half (i.e. X &lt; 0) and can be moved any number of times, as long as the play mode does not change. Players moved to a position on the opponent half will be set to a random position on their own side by the server.
+A second purpose of the <em>move command</em> is to move the goalie within the penalty area after the goalie caught the ball. If the goalie caught the ball, it can move together with the ball within the penalty area. The goalie is allowed to move <em>goalie_max_moves</em> times before it kicks the ball. Additional <em>move commands</em> do not have any effect and the server will respond with (error too_many_moves).</p>
 <blockquote>
 <div>Parameter for the move_command</div></blockquote>
 <table border="1" class="docutils">
@@ -1416,7 +1417,7 @@ be increased during a game.</p>
 </div>
 <div class="section" id="say-model">
 <h3>4.5.5. Say Model<a class="headerlink" href="#say-model" title="Permalink to this headline">¶</a></h3>
-<p>Using the say command, players can broadcast messages to other players. Messages can be say_msg_size characters long, where valid characters for say messages are from the set [-0-9a-zA-Z ().+*/?&lt;&gt; ] (without the square brackets). Messages players say can be heard within a distance of audio_cut_dist by members of both teams . Say messages sent to the server will be sent back to players within that distance immediately. The use of the say command is only restricted by the limited capacity of the players of hearing messages.</p>
+<p>Using the <em>say command</em>, players can broadcast messages to other players. Messages can be say_msg_size characters long, where valid characters for say messages are from the set sth (without the square brackets). Messages players say can be heard within a distance of <em>audio_cut_dist</em> by members of both teams . <strong>Say messages</strong> sent to the server will be sent back to players within that distance immediately. The use of the <em>say command</em> is only restricted by the limited capacity of the players of hearing messages.</p>
 <blockquote>
 <div>Parameter for the say command</div></blockquote>
 <table border="1" class="docutils">
@@ -1450,67 +1451,8 @@ be increased during a game.</p>
 </div>
 <div class="section" id="tackle-model">
 <h3>4.5.6. Tackle Model<a class="headerlink" href="#tackle-model" title="Permalink to this headline">¶</a></h3>
-<p>While dash is used to accelerate the player in direction of its body, the turn command is used to change the players body direction. The argument for the turn command is the moment; valid values for the moment are between minmoment and maxmoment. If the player does not move, the moment is equal to the angle the player will turn. However, there is a concept of inertia that makes it more difficult to turn when you are moving. Specifically, the actual angle the player is turned is as follows:</p>
-<p>actual_angle = moment/(1.0 + inertia_moment · player_speed) (4.22)</p>
-<p>Inertia_moment is a server.conf parameter with default value 5.0. Therefore (with default values), when the player is at speed 1.0, the maximum effective turn he can do is ±30. However, notice that because you can not dash and turn during the same cycle, the fastest that a player can be going when executing a turn is player_speed_max · player decay, which means the effective turn for a default player (with default values) is ±60.</p>
-<p>For heterogeneous players, the inertia moment is the default inertia value plus a value between min. player_decay_delta_min · inertia_moment_delta_factor and max. player_decay_delta_max · inertia_moment_delta_factor.</p>
-<blockquote>
-<div>Turn Model Parameter</div></blockquote>
-<table border="1" class="docutils">
-<colgroup>
-<col width="29%" />
-<col width="15%" />
-<col width="38%" />
-<col width="10%" />
-<col width="8%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td colspan="2" rowspan="2"><blockquote class="first last">
-<div><dl class="docutils">
-<dt>Basic Parameter</dt>
-<dd>‘’server.conf’‘</dd>
-</dl>
-</div></blockquote>
-</td>
-<td colspan="3" rowspan="2"><blockquote class="first">
-<div><dl class="docutils">
-<dt>Parameters for heterofenous</dt>
-<dd>‘’player.conf’‘</dd>
-</dl>
-</div></blockquote>
-<blockquote class="last">
-<div>Name                    | Value <a href="#id10"><span class="problematic" id="id11">|</span></a>Range</div></blockquote>
-</td>
-</tr>
-<tr class="row-even"></tr>
-<tr class="row-odd"><td>minmoment</td>
-<td>-180</td>
-<td>player_decay_delta_min</td>
-<td>0.0</td>
-<td>5</td>
-</tr>
-<tr class="row-even"><td>maxmoment</td>
-<td>180</td>
-<td>player_decay_delta_max</td>
-<td>0.4</td>
-<td>10</td>
-</tr>
-<tr class="row-odd"><td>inertia_moment</td>
-<td>5.0</td>
-<td><blockquote class="first">
-<div>inertia</div></blockquote>
-<p class="last">_moment_delta_factor</p>
-</td>
-<td>25</td>
-<td>&#160;</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section" id="turn-model">
-<h3>4.5.7. Turn Model<a class="headerlink" href="#turn-model" title="Permalink to this headline">¶</a></h3>
-<p>With turn_neck, a player can turn its neck somewhat independently of its body. The angle of the head of the player is the viewing angle of the player. The turn command changes the angle of the body of the player while turn_neck changes the neck angle of the player relative to its body. The minimum and maximum relative angle for the player’s neck are given by minmoment and maxmoment in server.conf. Remember that the neck angle is relative to the body of the player so if the client issues a turn command, the viewing angle changes even if no turn_neck command was issued.</p>
-<p>Also, turn_neck commands can be executed during the same cycle as turn, dash, and kick commands. turn_neck is not affected by momentum like turn is. The argument for a turn_neck command must be in the range between minneckmoment and maxneckmoment.</p>
+<p>With <em>turn_neck</em>, a player can turn its neck somewhat independently of its body. The angle of the head of the player is the viewing angle of the player. The <em>turn command</em> changes the angle of the body of the player while turn_neck changes the neck angle of the player relative to its body. The <strong>minimum</strong> and <strong>maximum</strong> relative angle for the player’s neck are given by <strong>minmoment</strong> and <strong>maxmoment</strong> in server.conf. Remember that the neck angle is relative to the body of the player so if the client issues a <em>turn command</em>, the viewing angle changes even if no turn_neck command was issued.
+Also, <em>turn_neck commands</em> can be executed during the same cycle as turn, dash, and <em>kick commands</em>. turn_neck is not affected by momentum like turn is. The argument for a <em>turn_neck command</em> must be in the range between <strong>minneckmoment</strong> and <strong>maxneckmoment</strong>.</p>
 <blockquote>
 <div>Parameter for the turn neck command</div></blockquote>
 <table border="1" class="docutils">
@@ -1535,6 +1477,88 @@ be increased during a game.</p>
 </tr>
 <tr class="row-odd"><td>maxneckmoment</td>
 <td>180</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="turn-model">
+<h3>4.5.7. Turn Model<a class="headerlink" href="#turn-model" title="Permalink to this headline">¶</a></h3>
+<p>While <em>dash</em> is used to accelerate the player in direction of its body, the <em>turn command</em> is used to change the players body direction. The argument for the turn command is the moment; valid values for the moment are between <strong>minmoment</strong> and <strong>maxmoment</strong>. If the player does not move, the moment is equal to the angle the player will turn. However, there is a concept of inertia that makes it more difficult to turn when you are moving. Specifically, the actual angle the player is turned is as follows:
+<strong>actual_angle = moment/(1.0 + inertia_moment · player_speed)</strong> (4.22)
+<em>Inertia_moment</em> is a server.conf parameter with default value 5.0. Therefore (with default values), when the player is at speed 1.0, the <em>maximum effective</em> turn he can do is ±30. However, notice that because you can not dash and turn during the same cycle, the fastest that a player can be going when executing a turn is <em>player_speed_max</em> · player decay, which means the effective turn for a default player (with default values) is ±60.
+For heterogeneous players, the inertia moment is the default inertia value plus a value between min. <em>player_decay_delta_min</em> · <em>inertia_moment_delta_factor and max</em>. <em>player_decay_delta_max</em> · <em>inertia_moment_delta_factor</em>.</p>
+<blockquote>
+<div>Turn Model Parameter</div></blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="27%" />
+<col width="15%" />
+<col width="41%" />
+<col width="9%" />
+<col width="9%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head" colspan="2">Basic Parameter <code class="docutils literal notranslate"><span class="pre">server.conf</span></code></th>
+<th class="head" colspan="3">Parameter for heterofenous <code class="docutils literal notranslate"><span class="pre">player.conf</span></code></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Name</td>
+<td>Value</td>
+<td>Name</td>
+<td>Value</td>
+<td>Range</td>
+</tr>
+<tr class="row-odd"><td>minmoment</td>
+<td><div class="first last line-block">
+<div class="line">-180</div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">player_decay_delta_min</div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">0.0</div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">5</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>maxmoment</td>
+<td><div class="first last line-block">
+<div class="line">180</div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">player_decay_delta_max</div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">0.4</div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">1</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>inertia_moment</td>
+<td><div class="first last line-block">
+<div class="line">5.0</div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">inertia_moment_delta_factor</div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">25</div>
+</div>
+</td>
+<td>&#160;</td>
 </tr>
 </tbody>
 </table>
