@@ -209,7 +209,7 @@ server will additionally send following messages: <code class="docutils literal 
 containing the server parameters), <code class="docutils literal notranslate"><span class="pre">player_param</span></code> (a message containing the
 player parameters) and <code class="docutils literal notranslate"><span class="pre">player_type</span></code> (a message containing the player types).
 Finally, the player will receive a message on changed
-players (see Sec. <a class="reference internal" href="#sec-heterogeneousplayers"><span class="std std-ref">Heterogeneous Players</span></a>).</p>
+players (see Sec. <span class="xref std std-ref">sec-heterogeneousplayers</span>).</p>
 </div>
 <div class="section" id="initial-settings">
 <h4>Initial Settings<a class="headerlink" href="#initial-settings" title="Permalink to this headline">¶</a></h4>
@@ -1451,35 +1451,6 @@ A second purpose of the <em>move command</em> is to move the goalie within the p
 </div>
 <div class="section" id="tackle-model">
 <h3>4.5.6. Tackle Model<a class="headerlink" href="#tackle-model" title="Permalink to this headline">¶</a></h3>
-<p>With <em>turn_neck</em>, a player can turn its neck somewhat independently of its body. The angle of the head of the player is the viewing angle of the player. The <em>turn command</em> changes the angle of the body of the player while turn_neck changes the neck angle of the player relative to its body. The <strong>minimum</strong> and <strong>maximum</strong> relative angle for the player’s neck are given by <strong>minmoment</strong> and <strong>maxmoment</strong> in server.conf. Remember that the neck angle is relative to the body of the player so if the client issues a <em>turn command</em>, the viewing angle changes even if no turn_neck command was issued.
-Also, <em>turn_neck commands</em> can be executed during the same cycle as turn, dash, and <em>kick commands</em>. turn_neck is not affected by momentum like turn is. The argument for a <em>turn_neck command</em> must be in the range between <strong>minneckmoment</strong> and <strong>maxneckmoment</strong>.</p>
-<blockquote>
-<div>Parameter for the turn neck command</div></blockquote>
-<table border="1" class="docutils">
-<colgroup>
-<col width="82%" />
-<col width="18%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Parameter in <code class="docutils literal notranslate"><span class="pre">server.conf</span></code></th>
-<th class="head">Value</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>minneckang</td>
-<td>-90</td>
-</tr>
-<tr class="row-odd"><td>maxneckang</td>
-<td>90</td>
-</tr>
-<tr class="row-even"><td>minneckmoment</td>
-<td>-180</td>
-</tr>
-<tr class="row-odd"><td>maxneckmoment</td>
-<td>180</td>
-</tr>
-</tbody>
-</table>
 </div>
 <div class="section" id="turn-model">
 <h3>4.5.7. Turn Model<a class="headerlink" href="#turn-model" title="Permalink to this headline">¶</a></h3>
@@ -1565,10 +1536,39 @@ For heterogeneous players, the inertia moment is the default inertia value plus 
 </div>
 <div class="section" id="turnneck-model">
 <h3>4.5.8. TurnNeck Model<a class="headerlink" href="#turnneck-model" title="Permalink to this headline">¶</a></h3>
+<p>With <em>turn_neck</em>, a player can turn its neck somewhat independently of its body. The angle of the head of the player is the viewing angle of the player. The <em>turn command</em> changes the angle of the body of the player while turn_neck changes the neck angle of the player relative to its body. The <strong>minimum</strong> and <strong>maximum</strong> relative angle for the player’s neck are given by <strong>minmoment</strong> and <strong>maxmoment</strong> in server.conf. Remember that the neck angle is relative to the body of the player so if the client issues a <em>turn command</em>, the viewing angle changes even if no turn_neck command was issued.
+Also, <em>turn_neck commands</em> can be executed during the same cycle as turn, dash, and <em>kick commands</em>. turn_neck is not affected by momentum like turn is. The argument for a <em>turn_neck command</em> must be in the range between <strong>minneckmoment</strong> and <strong>maxneckmoment</strong>.</p>
+<blockquote>
+<div>Parameter for the turn neck command</div></blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="82%" />
+<col width="18%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Parameter in <code class="docutils literal notranslate"><span class="pre">server.conf</span></code></th>
+<th class="head">Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>minneckang</td>
+<td>-90</td>
+</tr>
+<tr class="row-odd"><td>maxneckang</td>
+<td>90</td>
+</tr>
+<tr class="row-even"><td>minneckmoment</td>
+<td>-180</td>
+</tr>
+<tr class="row-odd"><td>maxneckmoment</td>
+<td>180</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="section" id="heterogeneous-players">
-<span id="sec-heterogeneousplayers"></span><h2>4.6. Heterogeneous Players<a class="headerlink" href="#heterogeneous-players" title="Permalink to this headline">¶</a></h2>
+<h2>4.6. Heterogeneous Players<a class="headerlink" href="#heterogeneous-players" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="referee-model">
 <h2>4.7. Referee Model<a class="headerlink" href="#referee-model" title="Permalink to this headline">¶</a></h2>
