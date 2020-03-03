@@ -856,6 +856,8 @@ the following list:
 +---------------------------------+----------------------------+-------------------------------------------+------------+
 | server::stamina_max             |8000.0                      |                                           |            |
 +---------------------------------+----------------------------+-------------------------------------------+------------+
+| server::stamina_capacity        |130600.0                    |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
 || server::stamina_inc_max        || 45.0  ([40.2, 52.2])      || player::new_dash_power_rate_delta_min    || -0.0012   |
 || server::dash_power_rate        || 0.006 ([0.0048, 0.0068])  || player::new_dash_power_rate_delta_max    || 0.0008    |
 |                                 |                            || player::new_stamina_inc_max_delta_factor || -6000     |
@@ -995,8 +997,38 @@ be increased during a game.
         effort = min(effort, effort_max)
 
     # recover the stamina a bit
-    stamina = stamina + recovery * stamina_inc_max
-    stamina = min(stamina, stamina_max)
+    stamina_inc = recovery * stamina_inc_max
+    stamina = min(stamina + stamina_inc, stamina_max)
+
+In rcssserver version 13 or later, the **stamina_capacity** variable
+has been implemented as one of the player's stamina models in addition to the above
+three *stamina* variables.
+*stamina_capacity* is defined as the maximum recovery capacity of each player's stamina.
+When a player's *stamina* is recovered during a game, the same amount of *stamina* is also consumed from one's *stamina_capacity*.
+Once the player's *stamina_capacity* becomes 0, one's stamina is never recovered and the only **extra_stamina** is consumed instead of the normal *stamina*.
+The updated algorithm is shown in the following code block.
+``stamina_inc`` can be available from the previous code block.
+
+::
+
+   # stamina_inc is restricted by the residual capacity
+   if stamina_capacity >= 0.0
+     if stamina_inc > stamina_capacity
+       stamina_inc = stamina_capacity
+   stamina = min(stamina + stamina_inc, stamina_max)
+
+   # stamina capacity is reduced as the same amount as stamina_inc
+   if stamina_capacity >= 0.0
+     stamina_capacity = max(0.0, stamina_capacity - stamina_inc)
+
+*stamina_capacity* is reset to the initial value just after the kick-off of normal halves as well as the other stamina-related variables.
+However, *stamina_capacity* is never recovered at the half time of extra-inning games and before the penalty shootouts.
+The *stamina_capacity* is defined as one of the parameters of rcssserver **server::stamina_capacity** (the default value of *stamina_capacity* is 130600 as of rcsserver version 16.0.0).
+If *server::stamina_capacity* is set to a negative value, each player has an infinite stamina capacity.
+This setting makes the stamina-model including stamina_capacity
+completely the same with the stamina model before rcssserver version 13.
+*stamina_capacity* information is received as the following *sense_body message*:
+    `(stamina <STAMINA> <EFFORT> <CAPACITY>)`
 
 
 .. _sec-kickmodel:
