@@ -1005,7 +1005,30 @@ be increased during a game.
 Kick Model
 --------------------------------------------------
 
+The tackle command is to accelerate the ball towards the player's body. Players can kick the ball that can not be kicked with the kick command by executing the tackle command. The success of tackle depends on a random probability related to the position of the ball. It can be obtained by the following formula.
 
+The probability of a tackle failure when the ball is in front of the player is:
+:math: fail_prob = (|player_to_ball.x| / tackle_dist)^tackle_exponent + (|player_to_ball.y| / tackle_width)^tackle_exponent
+The probability of a tackle failure when the ball is behind the player is:
+:math: fail_prob = (|player_to_ball.x| / tackle_back_dist)^tackle_exponent + (|player_to_ball.y| / tackle_back__width)^tackle_exponent
+The probability of processing success is:
+:math: tackle_prob = 1.0 – fail_prob
+
+In this case, when the ball is in front of the player, it is used to *tackle_dist* (default is 2.0), otherwise it is used to *tackle_back_dist* (default is 0.5); *player_to_ball* is a vector from the player to the ball, relative to the body direction of the player. When the tackle command is successful, it will give the ball an acceleration in its own body direction.
+
+When the player is seen by other players, they can also see the tackled state of the player through a sign `'t'`, such as the following format:
+((p "<TEAMNAME>" <UNUM>) <DIST> <DIR> <DISTCHG> <DIRCHG> 
+                         <BDIR> <HDIR> [<POINTDIR>] [t])  
+((p "<TEAMNAME>") <DIST> <DIR> [<POINTDIR>] [t]) 
+
+Players can know their own tackle status according to the arm information in the sensebody information, as follows:
+(tackle (expires <EXPIRES>) (count <COUNT>))
+Where `EXPIRES` is the duration of the tackle, 0 means there is no tackle; `COUNT` is the number of times the player has tackled.
+
+The execution effect of tackle is similar to that of kick, which is obtained by multiplying the parameter *tackle_power_rate* (default is 0.027) with power. It can be expressed by the following formula:
+:math: effective_power = power × tackle_power_rate
+
+Once the player executes the tackle command, whether successful or not, the player can no longer move within 10 tackle_cycles.
 
 --------------------------------------------------
 Move Model
