@@ -1023,13 +1023,13 @@ The probability of a tackle failure when the ball is in front of the player is:
 
 .. math::
 
-  fail_prob = (player_to_ball.x / tackle_dist)^tackle_exponent + (player_to_ball.y / tackle_width)^tackle_exponent
+  fail_prob = (player_to_ball.x/tackle_dist)^tackle_exponent + (player_to_ball.y/tackle_width)^tackle_exponent
 
 The probability of a tackle failure when the ball is behind the player is:
 
 .. math::
 
-  fail_prob = (player_to_ball.x / tackle_back_dist)^tackle_exponent + (player_to_ball.y / tackle_back__width)^tackle_exponent
+  fail_prob = (player_to_ball.x/tackle_back_dist)^tackle_exponent + (player_to_ball.y/tackle_back__width)^tackle_exponent
 
 The probability of processing success is:
 
