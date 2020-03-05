@@ -1004,6 +1004,18 @@ be increased during a game.
 --------------------------------------------------
 Kick Model
 --------------------------------------------------
+		     
+--------------------------------------------------
+Move Model
+--------------------------------------------------
+
+--------------------------------------------------
+Say Model
+--------------------------------------------------
+
+--------------------------------------------------
+Tackle Model
+--------------------------------------------------
 
 The tackle command is to accelerate the ball towards the player's body. Players can kick the ball that can not be kicked with the kick command by executing the tackle command. The success of tackle depends on a random probability related to the position of the ball. It can be obtained by the following formula.
 
@@ -1045,19 +1057,31 @@ The execution effect of tackle is similar to that of kick, which is obtained by 
 
 effective_power = power × tackle_power_rate
 
-Once the player executes the tackle command, whether successful or not, the player can no longer move within 10 tackle_cycles.
+Once the player executes the tackle command, whether successful or not, the player can no longer move within 10 cycles. The following table shows the parameters used in tackle command.
 
---------------------------------------------------
-Move Model
---------------------------------------------------
+ Parameters for the tackle command
 
---------------------------------------------------
-Say Model
---------------------------------------------------
-
---------------------------------------------------
-Tackle Model
---------------------------------------------------
++-------------------------------------------------+-----------+
+|Parameter in ``server.conf``                     | Value     |
++=================================================+===========+
+|tackle_dist                                      |2          |
++-------------------------------------------------+-----------+
+|tackle_back_dist                                 |0          |
++-------------------------------------------------+-----------+
+|tackle_width                                     |1.25       |
++-------------------------------------------------+-----------+
+|tackle_cycles                                    |10         |
++-------------------------------------------------+-----------+
+|tackle_exponent                                  |6          |
++-------------------------------------------------+-----------+
+|tackle_power_rate                                |0.027      |
++-------------------------------------------------+-----------+
+|max_tackle_power                                 |100        |
++-------------------------------------------------+-----------+
+|max_back_tackle_power                            |0          |
++-------------------------------------------------+-----------+
+|tackle_rand_factor                               |2          |
++-------------------------------------------------+-----------+
 
 --------------------------------------------------
 Turn Model
@@ -1080,6 +1104,71 @@ Referee Model
 --------------------------------------------------
 Play Modes and referee messages
 --------------------------------------------------
+
+The change of the play mode is announced by the referee. Additionally, there are some
+referee messages announcing events like a goal or a foul. If you have a look into the
+server source code, you will notice some additional play modes that are currently not
+used. Both play modes and referee messages are announced using (referee String ),
+where String is the respective play mode or message string. The play modes are listed
+in Tab. 1, for the messages see Tab. 2.
+
+                		Table 1	Play Modes
++-------------------------+------+----------------------+----------------------------------------+
+|Play Mode	 	  |tc    | subsequent play mode | comment  			         |
++=========================+======+======================+========================================+
+|before_kick_off          |0     |  kick_off_Side	|at the beginning of a half       	 |
++-------------------------+------+----------------------+----------------------------------------+
+|play_on                  |      |       		|during normal play			 |
++-------------------------+------+----------------------+----------------------------------------+
+|time_over   		  |      |       		|					 |
++-------------------------+------+----------------------+----------------------------------------+
+|kick_off_Side            |      | 	        	|announce start of play 	 	 |
+|			  |      |		        |(after pressing the Kick Off button)	 |
++-------------------------+------+----------------------+----------------------------------------+
+|kick_in_Side             |      | 	        	|					 |
++-------------------------+------+----------------------+----------------------------------------+
+|free_kick_Side           |      |      		|					 |
++-------------------------+------+----------------------+----------------------------------------+
+|corner_kick_Side         |      |       		|					 |
++-------------------------+------+----------------------+----------------------------------------+
+|goal_kick_Side           |      |  play_on      	|play mode changes once			 |
+|			  |	 |			|the ball leaves the penalty are	 |
++-------------------------+------+----------------------+----------------------------------------+
+|goal_Side                |      |     			|currently unused			 |
++-------------------------+------+----------------------+----------------------------------------+
+|drop_ball                |0     | play_on	        |					 |
++-------------------------+------+----------------------+----------------------------------------+
+|offside_Side             |30    | free_kick_Side       |for the opposite side			 |
++-------------------------+------+----------------------+----------------------------------------+
+where Side is either the character *l* or *r*, OSide means opponent’s side.
+tc is the time (in number of cycles) until the subsequent play mode will be announced
+
+
+
+                		Table 2	Referee Messages
++-------------------------+------+----------------------+----------------------------------------+
+|Message	 	  |tc    | subsequent play mode | comment  			         |
++=========================+======+======================+========================================+
+|goal_Side_n              | 50   | kick_off_OSide       |announce the *n* th goal for a team     |
++-------------------------+------+----------------------+----------------------------------------+
+|foul_Side                | 0    | free_kick_OSide      |announce a foul			 |
++-------------------------+------+----------------------+----------------------------------------+
+|goalie_catch_ball_Side   | 0    | free_kick_OSide      |					 |
++-------------------------+------+----------------------+----------------------------------------+
+|time_up_without_a_team   | 0    | time_over	        |sent if there was no opponent until     |
+|			  |      |		        |the end of the second half		 |
++-------------------------+------+----------------------+----------------------------------------+
+|time_up                  | 0    | time_over	        |sent once the game is over		 |
+|			  |	 |			|(if the time is ≥ second half and	 |
+|			  |	 |			|the scores for each team are different) |
++-------------------------+------+----------------------+----------------------------------------+
+|half_time                | 0    | before_kick_off      |					 |
++-------------------------+------+----------------------+----------------------------------------+
+|time_extended            | 0    | before_kick_off      |					 |
++-------------------------+------+----------------------+----------------------------------------+
+
+where Side is either the character *l* or *r*, OSide means opponent’s side.
+tc is the time (in number of cycles) until the subsequent play mode will be announced.
 
 ==================================================
 The Soccer Simulation
