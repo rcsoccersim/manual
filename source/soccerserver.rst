@@ -1023,31 +1023,34 @@ The probability of a tackle failure when the ball is in front of the player is:
 
 .. math::
 
-fail_prob = (player_to_ball.x / tackle_dist)^tackle_exponent + (player_to_ball.y / tackle_width)^tackle_exponent
+  fail_prob = (player_to_ball.x / tackle_dist)^tackle_exponent + (player_to_ball.y / tackle_width)^tackle_exponent
 
 The probability of a tackle failure when the ball is behind the player is:
 
 .. math::
 
-fail_prob = (player_to_ball.x / tackle_back_dist)^tackle_exponent + (player_to_ball.y / tackle_back__width)^tackle_exponent
+  fail_prob = (player_to_ball.x / tackle_back_dist)^tackle_exponent + (player_to_ball.y / tackle_back__width)^tackle_exponent
 
 The probability of processing success is:
 
 .. math::
 
-tackle_prob = 1.0 – fail_prob
+  tackle_prob = 1.0 – fail_prob
 
 In this case, when the ball is in front of the player, it is used to *tackle_dist* (default is 2.0), otherwise it is used to **tackle_back_dist** (default is 0.5); **player_to_ball** is a vector from the player to the ball, relative to the body direction of the player. When the tackle command is successful, it will give the ball an acceleration in its own body direction.
 
 When the player is seen by other players, they can also see the tackled state of the player through a sign ``'t'``, such as the following format:
 
-((p "<TEAMNAME>" <UNUM>) <DIST> <DIR> <DISTCHG> <DIRCHG> <BDIR> <HDIR> [<POINTDIR>] [t])  
+.. math::
 
-((p "<TEAMNAME>") <DIST> <DIR> [<POINTDIR>] [t]) 
+  ((p "<TEAMNAME>" <UNUM>) <DIST> <DIR> <DISTCHG> <DIRCHG> <BDIR> <HDIR> [<POINTDIR>] [t])  
+  ((p "<TEAMNAME>") <DIST> <DIR> [<POINTDIR>] [t]) 
 
 Players can know their own tackle status according to the arm information in the sensebody information, as follows:
 
-(tackle (expires <EXPIRES>) (count <COUNT>))
+.. math::
+
+  (tackle (expires <EXPIRES>) (count <COUNT>))
 
 where ``'EXPIRES'`` is the duration of the tackle, 0 means there is no tackle; ``'COUNT'`` is the number of times the player has tackled.
 
@@ -1055,7 +1058,7 @@ The execution effect of tackle is similar to that of kick, which is obtained by 
 
 .. math::
 
-effective_power = power × tackle_power_rate
+  effective_power = power * tackle_power_rate
 
 Once the player executes the tackle command, whether successful or not, the player can no longer move within 10 cycles. The following table shows the parameters used in tackle command.
 
@@ -1132,7 +1135,7 @@ in Tab. 1, for the messages see Tab. 2.
 |corner_kick_Side         |      |       		|					 |
 +-------------------------+------+----------------------+----------------------------------------+
 |goal_kick_Side           |      |  play_on      	|play mode changes once			 |
-|			  |	 |			|the ball leaves the penalty are	 |
+|			  |	 |			|the ball leaves the penalty area	 |
 +-------------------------+------+----------------------+----------------------------------------+
 |goal_Side                |      |     			|currently unused			 |
 +-------------------------+------+----------------------+----------------------------------------+
