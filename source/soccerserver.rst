@@ -847,7 +847,7 @@ the following list:
 |                                 |                            || player::inertia_moment_delta_factor      || 25.0      |
 +---------------------------------+----------------------------+-------------------------------------------+------------+
 | server::player_accel_max        | 1.0                        |                                           |            |
- The visible range of an individual agent in the +---------------------------------+----------------------------+-------------------------------------------+------------+
++---------------------------------+----------------------------+-------------------------------------------+------------+
 | server::player_rand             | 0.1                        |                                           |            |
 +---------------------------------+----------------------------+-------------------------------------------+------------+
 | server::player_speed_max        | 1.05                       |                                           |            |
@@ -1032,7 +1032,7 @@ TurnNeck Model
 ==================================================
 Heterogeneous Players
 ==================================================
-Heterogeneous Players are players whose values ​​of some parameters are different from those of a normal player.
+Heterogeneous Players are players whose values <200b><200b>of some parameters are different from those of a normal player.
 In the case of heterogeneous players, Soccer Server will randomly create a player type on startup.
 Player types have different capabilities based on the trade-offs defined in the player.conf file.
 Soccer Server generates player types random player types at startup.
@@ -1084,6 +1084,7 @@ Whatever the situation, you need a way to choose the best combination of heterog
 
 
 
+
 +----------------------------+---------+
 |Parameter in player.conf    |Value    |
 +============================+=========+
@@ -1093,7 +1094,6 @@ Whatever the situation, you need a way to choose the best combination of heterog
 +----------------------------+---------+
 
 Table Parameter for substitutions and heterogeneous player types 
-
 ==================================================
 Referee Model
 ==================================================
