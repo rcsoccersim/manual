@@ -1032,11 +1032,10 @@ TurnNeck Model
 ==================================================
 Heterogeneous Players
 ==================================================
-__________________________________________________
 Heterogeneous Players are players whose values ​​of some parameters are different from those of a normal player.
 In the case of heterogeneous players, Soccer Server will randomly create a player type on startup.
 Player types have different capabilities based on the trade-offs defined in the player.conf file.
-The server generates 18 heterogeneous players based on an arbitrary number called a seed.
+Soccer Server generates player types random player types at startup.
 Randomly select and combine 10 of the 18 heterogeneous players provided by the server.
 Both teams in the match use the same player type. Type 0 is the default type and is always the same.
 When players connect to the server, they receive information about the available player types.
@@ -1045,17 +1044,6 @@ Each time a player is replaced by another player type, their stamina, recovery, 
 Heterogeneous players can be replaced by coaches other than the keeper.
 The normal player can be used by any number of players, but the use of heterogeneous players is limited, and only three players can be used for each type.
 Heterogeneous players has the following parameter differences.
-PlayerSpeedMax: maximum speed
-StaminaIncMax:	Amount of stamina recovered in one step
-PlayerDecay:	  Player speed decay rate
-InertiaMoment:	Player inertia force when moving
-DashPowerRate:	Dash acceleration rate
-PlayerSize:	    Player size
-KickableMargin:	Kickable area radius
-KickRand:       The amount of noise added to the kick
-ExtraStamina:   Extra stamina available when stamina is exhausted
-EffortMax:      Maximum value of the player's effort amount
-EffortMin:      The minimum amount of effort for the player
 
 
 +----------------------+----------------------------------------------------+
@@ -1084,6 +1072,14 @@ EffortMin:      The minimum amount of effort for the player
 |EffortMin             |The minimum amount of effort for the player         |
 +----------------------+----------------------------------------------------+
 
++----------------------------+---------+
+|Parameter in player.conf    |Value    |
++============================+=========+
+|player types                |7        |
++----------------------------+---------+
+|subs max                    |3        |
++----------------------------+---------+
+This Table Parameter for substitutions and heterogeneous player types
 
 Heterogeneous player parameters given for each match are different.
 Therefore, each agent does not necessarily have the parameters needed to implement the tactics.
