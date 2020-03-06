@@ -1093,7 +1093,9 @@ Whatever the situation, you need a way to choose the best combination of heterog
 |subs max                    |3        |
 +----------------------------+---------+
 
-Table Parameter for substitutions and heterogeneous player types 
+Table Parameter for substitutions and heterogeneous player types
+
+
 ==================================================
 Referee Model
 ==================================================
