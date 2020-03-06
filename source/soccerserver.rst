@@ -847,7 +847,7 @@ the following list:
 |                                 |                            || player::inertia_moment_delta_factor      || 25.0      |
 +---------------------------------+----------------------------+-------------------------------------------+------------+
 | server::player_accel_max        | 1.0                        |                                           |            |
-+---------------------------------+----------------------------+-------------------------------------------+------------+
+ The visible range of an individual agent in the +---------------------------------+----------------------------+-------------------------------------------+------------+
 | server::player_rand             | 0.1                        |                                           |            |
 +---------------------------------+----------------------------+-------------------------------------------+------------+
 | server::player_speed_max        | 1.05                       |                                           |            |
@@ -1071,6 +1071,18 @@ Heterogeneous players has the following parameter differences.
 +----------------------+----------------------------------------------------+
 |EffortMin             |The minimum amount of effort for the player         |
 +----------------------+----------------------------------------------------+
+|CatchAreaLengthStretch|Streach Length to Catch                             |
++----------------------+----------------------------------------------------+
+|KickPowerRate         |Kick Power Rate                                     |
++----------------------+----------------------------------------------------+
+|FoulDetectProbability |Probability that the referee will take the foul     |
++----------------------+----------------------------------------------------+
+
+Heterogeneous player parameters given for each match are different.
+Therefore, each agent does not necessarily have the parameters needed to implement the tactics.
+Whatever the situation, you need a way to choose the best combination of heterogeneous players.
+
+
 
 +----------------------------+---------+
 |Parameter in player.conf    |Value    |
@@ -1079,11 +1091,8 @@ Heterogeneous players has the following parameter differences.
 +----------------------------+---------+
 |subs max                    |3        |
 +----------------------------+---------+
-This Table Parameter for substitutions and heterogeneous player types
 
-Heterogeneous player parameters given for each match are different.
-Therefore, each agent does not necessarily have the parameters needed to implement the tactics.
-Whatever the situation, you need a way to choose the best combination of heterogeneous players.
+Table Parameter for substitutions and heterogeneous player types 
 
 ==================================================
 Referee Model
