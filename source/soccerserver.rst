@@ -954,6 +954,97 @@ At the transition from simulation step $n$ to simulation step
    :math:`\vec{v}_{n+1} = \vec{v}_{n} \cdot {\rm player\_decay}`.
    Acceleration :math:`\vec{a}_{n+1}` is set to zero.
 
+   
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Sideward and Omni-Directional Dashes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Besides the forward and backward dashes that were already described in 
+the previous section, since version 13 the Soccer Server also supports the 
+possibility to perform sideward and even omni-directional dashes. 
+In addition to the already known 
+parameter of the **dash(x)** command where :math:`x\in[-100,100]` determines 
+the relativ strength of the dash (with negative sign indicating a backward
+dash), the omni-directional dash model uses two parameters to the **dash** 
+command:
+
+.. math::
+  :label: eq:omniDash
+  
+  dash(power,dir)
+
+where :math:`power` determines the relative strength of the dash 
+and :math:`dir` represents the direction of the dash accelaration 
+relative to the player's body
+angle. The format in which the command needs to be sent to the Soccer Server 
+is ``(dash <power> <dir>)``.
+If a negative value is used for :math:`power`, then the reverse side angle 
+of :math:`dir` 
+will be used. Practically, the direction of the dash is restricted to by the 
+corresponding Soccer Server parameters to
+
+.. math::
+   dir \in [server::min\_dash\_angle,server::max\_dash\_angle]
+
+The effective power of the dash command is determined by the absolute value 
+of the dash direction. Players will always dash with full effective power 
+(100\%) alongside their current body orientation, i.e. when using a zero 
+direction angle as described in the preceding section. 
+Two further Soccer Server parameters, ``server::side_dash_rate``
+and ``server::back_dash_rate``, determine the 
+effective power that is applied when a non-straight dash is performed.
+
+Thus, for example, strafing movements (90 degrees left/right to the player) 
+will be performed with 40\% of effective power, 
+whereas backward dashes will performed with 60\%
+(according to current Soccer Server parameter default values). 
+For values between these four main 
+directions a linear interpolation of the effective power will be applied.
+The following formula explains the maths behind the sideward dash model.
+
+.. math::
+   :label: eq:omniDashEffPower
+   
+   dir\_rate = \begin{cases}
+                  back\_dash\_rate - ( back\_dash\_rate - side\_dash\_rate ) * ( 1.0 - ( fabs( dir ) - 90.0 ) / 90.0 ) & \text{if } fabs( dir ) > 90.0 \\
+                  side\_dash\_rate + ( 1.0 - side\_dash\_rate ) * ( 1.0 - fabs( dir ) / 90.0 ) ) & \text{else}
+               \end{cases}
+   
+As discussed in the description of the forward/backward dash model in the 
+preceding section, there exists the server parameter
+``server::min_dash_power`` which determines the highest minimal value 
+that can be used for the first parameter :math:`power` of the dash command. 
+It is expected that 
+this parameter will be set to zero in future versions of the Soccer Server,
+while, for reasons of compatibility with older team binaries, its default value 
+of -100 is encouraged currently.
+
+Finally, the parameter ``server::dash_angle_step`` allows for a finer 
+discreteness
+of players' dash directions. If this value is set to 90.0 degrees, players are 
+allowed to dash into the four main directions, for a setting of 45.0 we 
+arrive at eight different directions. Setting this parameter to 1.0, 
+the Soccer Server is capable of emulating an omnidirectional movement 
+model as it is commen, for example, in the MidSize League.
+
+The following table summarizes all Soccer Server parameters that are of 
+relevance for omni-directional dashing.
+
++---------------------------------+----------------------------+-------------------------------------------+------------+
+|| Default Parameters             || Default Value (Range)     || Heterogeneous Player Parameters          || Value     |
+||  ``server.conf``               ||                           ||   ``player.conf``                        ||           |
++=================================+============================+===========================================+============+
+| server::server::max\_dash\_angle| 180.0                      |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+| server::server::min\_dash\_angle|-180.0                      |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+| server::side\_dash\_rate        | 0.4                        |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+| server::back\_dash\_rate        | 0.6                        |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+| server::dash\_angle\_step       | 1                          |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Stamina Model
