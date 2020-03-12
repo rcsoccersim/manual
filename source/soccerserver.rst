@@ -1060,13 +1060,13 @@ The Soccerserver Parameters
 --------------------------------------------------
 
 |
-.. list-table:: Parameters adhystable in **server.conf**
+.. list-table:: Parameters adhystable in ``server.conf``
    :widths: 100 20 30 100
-   :header-rows: 2
+   :header-rows: 1
 
    * - Name
      - Default Value
-     - Current Value  in **server.conf** 
+     - Current Value  in ``server.conf``
      - Description
    * - goal_width
      - 7.32
