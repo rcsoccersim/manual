@@ -1060,7 +1060,7 @@ The Soccerserver Parameters
 --------------------------------------------------
 
 |
-.. list-table:: Parameters adhystable in ``server.conf``
+.. list-table:: Parameters adjustable in ``server.conf``
    :widths: 100 20 30 100
    :header-rows: 1
 
