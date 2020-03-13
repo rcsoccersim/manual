@@ -1,0 +1,596 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>9. Server param &#8212; The RoboCup Soccer Simulator  documentation</title>
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="8. References and Furter Reading" href="references.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="references.html" title="8. References and Furter Reading"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">The RoboCup Soccer Simulator  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="references.html"
+                        title="previous chapter">8. References and Furter Reading</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/param.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="server-param">
+<h1>9. Server param<a class="headerlink" href="#server-param" title="Permalink to this headline">¶</a></h1>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="36%" />
+<col width="17%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Current Value in server.conf</th>
+<th class="head" colspan="2">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>goal_width</td>
+<td>14.02</td>
+<td colspan="2">goal width</td>
+</tr>
+<tr class="row-odd"><td>player_size</td>
+<td>0.3</td>
+<td colspan="2">player size</td>
+</tr>
+<tr class="row-even"><td>player_decay</td>
+<td>0.4</td>
+<td colspan="2">player decay</td>
+</tr>
+<tr class="row-odd"><td>player_rand</td>
+<td>0.1</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>player_weight</td>
+<td>60.0</td>
+<td colspan="2">player weight</td>
+</tr>
+<tr class="row-odd"><td>player_speed_max</td>
+<td>1.05</td>
+<td colspan="2">max. player velocity</td>
+</tr>
+<tr class="row-even"><td>player_accel_max</td>
+<td>1.0</td>
+<td colspan="2">max. player acceleration</td>
+</tr>
+<tr class="row-odd"><td>stamina_max</td>
+<td>8000</td>
+<td colspan="2">max. player stamina</td>
+</tr>
+<tr class="row-even"><td>stamina_inc_max</td>
+<td>45.0</td>
+<td colspan="2">max. player stamina increment</td>
+</tr>
+<tr class="row-odd"><td>recover_dec_thr</td>
+<td>0.3</td>
+<td colspan="2">player recovery decrement threshold</td>
+</tr>
+<tr class="row-even"><td>recover_min</td>
+<td>0.5</td>
+<td colspan="2">min. player recovery</td>
+</tr>
+<tr class="row-odd"><td>recover_dec</td>
+<td>0.002</td>
+<td colspan="2">player recovery decrement</td>
+</tr>
+<tr class="row-even"><td>effort_dec_thr</td>
+<td>0.3</td>
+<td colspan="2">player dash effort decrement threshold</td>
+</tr>
+<tr class="row-odd"><td>effort_min</td>
+<td>0.6</td>
+<td colspan="2">min. player dash effort</td>
+</tr>
+<tr class="row-even"><td>effort_dec</td>
+<td>0.005</td>
+<td colspan="2">dash effort decrement</td>
+</tr>
+<tr class="row-odd"><td>effort_inc_thr</td>
+<td>0.6</td>
+<td colspan="2">dash effort increment treshold</td>
+</tr>
+<tr class="row-even"><td>effort_inc</td>
+<td>0.01</td>
+<td colspan="2">dash effort increment</td>
+</tr>
+<tr class="row-odd"><td>kick_rand</td>
+<td>0.1</td>
+<td colspan="2">noise added directly to kicks</td>
+</tr>
+<tr class="row-even"><td>team_actuator_noise</td>
+<td>false</td>
+<td colspan="2"><dl class="first last docutils">
+<dt>flag whether to use team specific</dt>
+<dd>actuator noise</dd>
+</dl>
+</td>
+</tr>
+<tr class="row-odd"><td>prand_factor_l</td>
+<td>1</td>
+<td colspan="2">factor to multiply prand for left team</td>
+</tr>
+<tr class="row-even"><td>prand_factor_r</td>
+<td>1</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-odd"><td>kick_rand_factor_l</td>
+<td>1</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>kick_rand_factor_r</td>
+<td>1</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-odd"><td>ball_size</td>
+<td>0.085</td>
+<td colspan="2">ball size</td>
+</tr>
+<tr class="row-even"><td>ball_decay</td>
+<td>0.94</td>
+<td colspan="2">ball decay</td>
+</tr>
+<tr class="row-odd"><td>ball_rand</td>
+<td>0.05</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>ball_weight</td>
+<td>0.2</td>
+<td colspan="2">weight of the ball</td>
+</tr>
+<tr class="row-odd"><td>ball_speed_max</td>
+<td>3</td>
+<td colspan="2">max. ball velocity</td>
+</tr>
+<tr class="row-even"><td>ball_accel_max</td>
+<td>2.7</td>
+<td colspan="2">max. ball acceleration</td>
+</tr>
+<tr class="row-odd"><td>dash_power_rate</td>
+<td>0.006</td>
+<td colspan="2">dash power rate</td>
+</tr>
+<tr class="row-even"><td>kick_power_rate</td>
+<td>0.027</td>
+<td colspan="2">kick power rate</td>
+</tr>
+<tr class="row-odd"><td>kickable_margin</td>
+<td>0.7</td>
+<td colspan="2">kickable margin</td>
+</tr>
+<tr class="row-even"><td>control_radius</td>
+<td>2</td>
+<td colspan="2">control radius</td>
+</tr>
+<tr class="row-odd"><td>catch_probability</td>
+<td>1.0</td>
+<td colspan="2">goalie catch probability</td>
+</tr>
+<tr class="row-even"><td>catchable_area_l</td>
+<td>1.2</td>
+<td colspan="2">goalie catchable area length</td>
+</tr>
+<tr class="row-odd"><td>catchable_area_w</td>
+<td>1.0</td>
+<td colspan="2">goalie catchable area width</td>
+</tr>
+<tr class="row-even"><td>goalie_max_moves</td>
+<td>2</td>
+<td colspan="2">goalie max. moves after a catch</td>
+</tr>
+<tr class="row-odd"><td>maxpower</td>
+<td>100</td>
+<td colspan="2">max power</td>
+</tr>
+<tr class="row-even"><td>minpower</td>
+<td>-100</td>
+<td colspan="2">min power</td>
+</tr>
+<tr class="row-odd"><td>maxmoment</td>
+<td>180</td>
+<td colspan="2">max. moment</td>
+</tr>
+<tr class="row-even"><td>minmoment</td>
+<td>-180</td>
+<td colspan="2">min. moment</td>
+</tr>
+<tr class="row-odd"><td>maxneckmoment</td>
+<td>180</td>
+<td colspan="2">max. neck moment</td>
+</tr>
+<tr class="row-even"><td>minneckmoment</td>
+<td>-180</td>
+<td colspan="2">min. neck moment</td>
+</tr>
+<tr class="row-odd"><td>maxneckang</td>
+<td>90</td>
+<td colspan="2">max. neck angle</td>
+</tr>
+<tr class="row-even"><td>minneckang</td>
+<td>-90</td>
+<td colspan="2">min. neck angle</td>
+</tr>
+<tr class="row-odd"><td>visible_angle</td>
+<td>90.0</td>
+<td colspan="2">visible angle</td>
+</tr>
+<tr class="row-even"><td>visible_distance</td>
+<td>3</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-odd"><td>audio_cut_dist</td>
+<td>50.0</td>
+<td colspan="2">audio cut off distance</td>
+</tr>
+<tr class="row-even"><td>quantize_step</td>
+<td>0.01</td>
+<td colspan="2">quantize step of distance</td>
+</tr>
+<tr class="row-odd"><td>quantize_step_dir</td>
+<td>&#160;</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>ckick_margin</td>
+<td>1.0</td>
+<td colspan="2">corner kick margin</td>
+</tr>
+<tr class="row-odd"><td>wind_dir</td>
+<td>0.0</td>
+<td colspan="2">wind direction</td>
+</tr>
+<tr class="row-even"><td>wind_force</td>
+<td>0.0</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-odd"><td>wind_rand</td>
+<td>0.0</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>wind_none</td>
+<td>&#160;</td>
+<td colspan="2">wind factor is none</td>
+</tr>
+<tr class="row-odd"><td>wind_random</td>
+<td>false</td>
+<td colspan="2">wind factor is random</td>
+</tr>
+<tr class="row-even"><td>inertia_moment</td>
+<td>5.0</td>
+<td colspan="2">intertia moment for turn</td>
+</tr>
+<tr class="row-odd"><td>half_time</td>
+<td>300</td>
+<td colspan="2">length of a half time in seconds</td>
+</tr>
+<tr class="row-even"><td>drop_ball_time</td>
+<td>100</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-odd"><td>port</td>
+<td>6000</td>
+<td colspan="2">player port number</td>
+</tr>
+<tr class="row-even"><td>coach_port</td>
+<td>6001</td>
+<td colspan="2">(offline) coach port</td>
+</tr>
+<tr class="row-odd"><td>olcoach_port</td>
+<td>6002</td>
+<td colspan="2">online coach port</td>
+</tr>
+<tr class="row-even"><td>say_coach_cnt_max</td>
+<td>128</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-odd"><td>say_coach_msg_size</td>
+<td>128</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>simulator_step</td>
+<td>100</td>
+<td colspan="2">time step of simulation [unit:msec]</td>
+</tr>
+<tr class="row-odd"><td>send_step</td>
+<td>150</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>recv_step</td>
+<td>10</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-odd"><td>sense_body_step</td>
+<td>100</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>say_msg_size</td>
+<td>10</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-odd"><td>clang_win_size</td>
+<td>300</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>clang_define_win</td>
+<td>1</td>
+<td colspan="2">number of messages per window</td>
+</tr>
+<tr class="row-odd"><td>clang_meta_win</td>
+<td>1</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>clang_advice_win</td>
+<td>1</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-odd"><td>clang_info_win</td>
+<td>1</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>clang_mess_delay</td>
+<td>50</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-odd"><td>clang_mess_per_cycle</td>
+<td>1</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>hear_max</td>
+<td>1</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-odd"><td>hear_inc</td>
+<td>1</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>hear_decay</td>
+<td>1</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-odd"><td>catch_ban_cycle</td>
+<td>5</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>coach</td>
+<td>false</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-odd"><td>coach_w_referee</td>
+<td>false</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>old_coach_hear</td>
+<td>false</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-odd"><td>send_vi_step</td>
+<td>100</td>
+<td colspan="2">interval of online coachA1AFs look</td>
+</tr>
+<tr class="row-even"><td>use_offside</td>
+<td>true</td>
+<td colspan="2">flag for using off side rule</td>
+</tr>
+<tr class="row-odd"><td>record_version</td>
+<td>3</td>
+<td colspan="2">flag for record log</td>
+</tr>
+<tr class="row-even"><td>record_log</td>
+<td>on</td>
+<td colspan="2">flag for record client command log</td>
+</tr>
+<tr class="row-odd"><td>record_messages</td>
+<td>false</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>send_log</td>
+<td>on</td>
+<td colspan="2">flag for send client command log</td>
+</tr>
+<tr class="row-odd"><td>log_times</td>
+<td>false</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>verbose</td>
+<td>false</td>
+<td colspan="2">flag for verbose mode</td>
+</tr>
+<tr class="row-odd"><td>offside_kick_margin</td>
+<td>9.15</td>
+<td colspan="2">offside kick margin</td>
+</tr>
+<tr class="row-even"><td>slow_down_factor</td>
+<td>1</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-odd"><td>start_goal_l</td>
+<td>0</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>start_goal_r</td>
+<td>0</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-odd"><td>fullstate_l</td>
+<td>false</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>fullstate_r</td>
+<td>false</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-odd"><td>version</td>
+<td>15.4.0</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>clang_del_win</td>
+<td>1</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-odd"><td>clang_rule_win</td>
+<td>1</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>connect_wait</td>
+<td>300</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-odd"><td>extra_half_time</td>
+<td>100</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>foul_cycles</td>
+<td>5</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-odd"><td>freeform_send_period</td>
+<td>20</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>freeform_wait_period</td>
+<td>600</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-odd"><td>game_log_compression</td>
+<td>0</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>game_log_version</td>
+<td>5</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-odd"><td>game_over_wait</td>
+<td>100</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>keepaway_start</td>
+<td>-1</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-odd"><td>kick_off_wait</td>
+<td>100</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>max_goal_kicks</td>
+<td>3</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-odd"><td>max_monitors</td>
+<td>-1</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>nr_extra_halfs</td>
+<td>2</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-odd"><td>nr_normal_halfs</td>
+<td>2</td>
+<td colspan="2">Number of normal halfs in a game</td>
+</tr>
+<tr class="row-even"><td>pen_max_extra_kicks</td>
+<td>5</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-odd"><td>pen_nr_kicks</td>
+<td>5</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>pen_ready_wait</td>
+<td>10</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-odd"><td>pen_setup_wait</td>
+<td>70</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>pen_taken_wait</td>
+<td>150</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-odd"><td>point_to_ban</td>
+<td>5</td>
+<td colspan="2">&#160;</td>
+</tr>
+<tr class="row-even"><td>point_to_duration</td>
+<td>20</td>
+<td colspan="2">&#160;</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="references.html" title="8. References and Furter Reading"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">The RoboCup Soccer Simulator  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright The RoboCup Soccer Simulator Maintenance Committee.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.9.
+    </div>
+  </body>
+</html>

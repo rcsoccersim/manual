@@ -21,6 +21,7 @@ last update: |today|
    soccerclient
    coach
    references
+   param
 
 
 .. Indices and tables
