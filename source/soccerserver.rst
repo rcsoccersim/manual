@@ -1032,7 +1032,17 @@ TurnNeck Model
 ==================================================
 Heterogeneous Players
 ==================================================
+With Soccer Server 7, heterogeneous players were introduced. For heterogeneous players, Soccer Server generates **player types** random player types at startup. The player types have different abilities based on the tradeoffs defined in the ``player.conf`` file. Both teams of a match use the same player types. Type 0 is the default type and always the same. 
+When the players connect to the server, the receive information on the available player types (see Sec. 4.2.1). The online coach can change player types unlimited times in ``before kick off`` mode and change player types **subs max** times during other non-``play_on`` play modes using the **change player** type ... command (see Sec. 7.4). 
+Each time a player is substituted by some other player type, its stamina, recovery and effort is reset to the initial (maximum) value of the respective player type.
 
++-------------------------------+-----------+
+|Parameter in ``player.conf``   | **Value** |
++===============================+===========+
+|**player_types**               |     7     |
++-------------------------------+-----------+
+|**subs_max**                   |     3     |
++-------------------------------+-----------+
 ==================================================
 Referee Model
 ==================================================
