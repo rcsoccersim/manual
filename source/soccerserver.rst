@@ -1045,7 +1045,7 @@ Play Modes and referee messages
 Illegal Defense Referee
 --------------------------------------------------
 
-nader zare
+
 
 ==================================================
 The Soccer Simulation
@@ -1055,6 +1055,67 @@ The Soccer Simulation
 Description of the simulation algorithm
 --------------------------------------------------
 
+==================================================
+Referee Model
+==================================================
+
+--------------------------------------------------
+Play Modes and referee messages
+--------------------------------------------------
+
+--------------------------------------------------
+Illegal Defense Referee
+--------------------------------------------------
+In new version of the Server, a referee has been added to control the number of Defensive of a Defender team.
+
+We have three new variables in **ServerParam** to change the parameters of this referee.
+
+::
+
+    int M_illegal_defense_duration = 20;
+
+this parameter determines the number of cycles that illegal defense situation would have to remain before calling a free kick.
+
+::
+
+    int M_illegal_defense_number = 7;
+
+This parameter determines how many players would need to be
+in the specified zone before the illegal defense situation countdown starts
+
+::
+
+    double M_illegal_defense_dist_x = 16.5;
+
+This parsmeter determines the distance from the field's half line. Players contribute to an illegal defense situation
+if they are in their own field and are farther from the halfline than this distance
+
+::
+
+    double M_illegal_defense_width = 40.32;
+
+This parameter determines the horizontal distance from the horizontal symmetry line.
+Players count towards an illegal defense situation if their distance to the horizontal axis is less than this value
+
+--------------------------------------------------
+Rules
+--------------------------------------------------
+
+Players which are behind the **X: -36** of their defense line,
+if the number of them becomes **greater than or equal 7** and this continues for **20 Cycles**
+then play mode will change to **Free Kick** for the offensive team.
+
+A team is considered as the **offensive team** when their player is the **latest player to kick** the ball.
+If both teams perform a kick on the same cycle, neither team is considered as offensive, and the countdown resets.
+
+The above rule is true about **Tackle** too.
+
+Play Mode Changes do **not** affect cycles of illegal defense situation.
+
+
+------------------
+Subsection title..
+------------------
 
 
 ==================================================
