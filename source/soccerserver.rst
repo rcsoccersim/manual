@@ -1004,7 +1004,40 @@ be increased during a game.
 --------------------------------------------------
 Kick Model
 --------------------------------------------------
+Kicking in football means hitting the ball to move the ball, with power that can change its direction or speed. We can have two different head for kicking the ball, passing or shooting  that increase the speed and power of the shoot, and the pass is divided into three straight, deep, and lateral sections based on different head and situations.               
+ 
+ .. figure:: ./images/pass.*
+  :align: center
+  :scale: 80%
+  :name: pass 
 
+
+1.1 Pass: 
+ 
+We can have a variety of reasons for passing, for example if a player comes in for the defense and we can't keep going we pass, or we pass early and counterattack or even to confuse the opponent. Soccer Simulation is considered to be the most important behavior in the two-dimensional simulation league as well as the most complex behavior. If a team has a strong pass, it will not allow the ball to attack the opponent because of the high possession of the ball. 
+ 
+1.1.1 	Direct pass: 
+ 
+In this type of pass we set the target's own player's position and the ball's direction  Simulate at different speeds and call passes that the opponent cannot get between the  ball's paths. In this example, the ball's passage is simulated in such a way that the player himself is exactly where the ball is standing. Receive and need no movement sample. 
+
+ .. figure:: ./images/direct.*
+  :align: center
+  :scale: 80%
+  :name: direct
+ 
+ 
+1.1.2 Side pass: 
+ 
+This type of pass that results in 2D gain leads to a power transfer that can allow you. The   opponent saw the Raver ball at your disposal. This enables enormous 2D sampling and you can use it. 
+ 
+1.1.3 Deep pass: 
+ 
+This example is one of the strengths of each of the teams, especially against the Iranian  teams that play for these teams. There is a need for counter attack.  In this type of pass the  player passes the ball a little further than the target player. The target player moves some of  the path forward and then receives the ball. 
+ 
+ 
+1.2 Shoot: 
+ 
+Shoot is a behavior and involves the final blow The goal was scored by the ball into the  opponent's goal.  All efforts during the football game to score the goal is to bring the ball to  the opponent It's their goal, but the closer we get to the opponent's goal, the more likely we are to miss the ball and score.  The shooting range is usually chosen from the front of the opponent's midfield, depending on the ability .Player shooters, game strategy and other factors. 
 
 
 --------------------------------------------------
