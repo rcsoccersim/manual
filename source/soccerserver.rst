@@ -1097,9 +1097,9 @@ if they are in their own field and are farther from the halfline than this dista
 This parameter determines the horizontal distance from the horizontal symmetry line.
 Players count towards an illegal defense situation if their distance to the horizontal axis is less than this value
 
---------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Rules
---------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Players which are behind the **X: -36** of their defense line,
 if the number of them becomes **greater than or equal 7** and this continues for **20 Cycles**
@@ -1111,11 +1111,6 @@ If both teams perform a kick on the same cycle, neither team is considered as of
 The above rule is true about **Tackle** too.
 
 Play Mode Changes do **not** affect cycles of illegal defense situation.
-
-
-------------------
-Subsection title..
-------------------
 
 
 ==================================================
