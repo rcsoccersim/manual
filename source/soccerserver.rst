@@ -1037,6 +1037,12 @@ Heterogeneous Players
 Referee Model
 ==================================================
 
+The Automated Referee sends messages to the players, so that players know the actual
+play mode of the game. The rules and the behavior for the automated referee are
+described in Sec. 2.2.1. Players receive the referee messages as hear messages. A player
+can hear referee messages in every situation independent of the number of messages the
+player heard from other players.
+
 --------------------------------------------------
 Play Modes and referee messages
 --------------------------------------------------
