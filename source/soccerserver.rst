@@ -490,7 +490,7 @@ is used as the name of the object rather than "b", "p", "g" and "f".
   **server::visible_distance** of the viewing agent can be seen.
   **unum_far_length**, **unum_too_far_length**, **team_far_length**, and
   **team_too_far_length** affect the amount of precision
-  with which a players’ identity is given. Taken from [Stone98]_.
+  with which a player's identity is given. Taken from [Stone98]_.
 
 
 The following example and Fig.:ref:`view-example` are taken from [Stone98]_.
