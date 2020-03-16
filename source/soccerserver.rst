@@ -1124,6 +1124,9 @@ tc is the time (in number of cycles) until the subsequent play mode will be anno
 The Soccer Simulation
 ==================================================
 
+In Sec. 4.4, we gave a description on how the objects are moved with respect to their accelerations and velocities. In this section, we describe at what point in time acceleration
+and velocities are applied to the objects during the simulation.
+
 --------------------------------------------------
 Description of the simulation algorithm
 --------------------------------------------------
