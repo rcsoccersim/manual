@@ -1047,6 +1047,79 @@ player heard from other players.
 Play Modes and referee messages
 --------------------------------------------------
 
+The change of the play mode is announced by the referee. Additionally, there are some
+referee messages announcing events like a goal or a foul. If you have a look into the
+server source code, you will notice some additional play modes that are currently not
+used. Both play modes and referee messages are announced using *(referee String )*,
+where String is the respective play mode or message string. The play modes are listed
+in Tab. 4.12, for the messages see Tab. 4.13.
+
++------------------------------+---------------+-----------------------+---------------------------------------+
+|Play Mode                     |:sub:t`c`      |subsequent play mode   | comment                               |
++==============================+===============+=======================+=======================================+
+|*'before kick off'*           |0              |*'kick_off_Side'*      |at the beginning of a half             | 
++------------------------------+---------------+-----------------------+---------------------------------------+
+|*'play_on'*                   |               |                       |during normal play                     |
++------------------------------+---------------+-----------------------+---------------------------------------+
+|*'time_over'*                 |               |                       |                                       |
++------------------------------+---------------+-----------------------+---------------------------------------+
+|*'kick_off_Side'*             |               |                       |announce start of play                 |
+|                              |               |                       |(after pressing the Kick Off button)   |
++------------------------------+---------------+-----------------------+---------------------------------------+
+|*'kick_in_Side'*              |               |                       |                                       |
++------------------------------+---------------+-----------------------+---------------------------------------+
+|*'free_kick_Side'*            |               |                       |                                       |
++------------------------------+---------------+-----------------------+---------------------------------------+
+|*'corner_kick_Side'*          |               |                       |                                       |
++------------------------------+---------------+-----------------------+---------------------------------------+
+|*'goal_kick_Side'*            |               |*'play_on'*            |play mode changes once                 |
+|                              |               |                       |the ball leaves the penalty area       |
++------------------------------+---------------+-----------------------+---------------------------------------+
+|*'goal_Side'*                 |               |                       |currently unused                       |
+|                              |               |                       |(but see Tab. 4.13)                    |
++------------------------------+---------------+-----------------------+---------------------------------------+
+|*'drop_ball'*                 |0              |*'play_on'*            |                                       |
++------------------------------+---------------+-----------------------+---------------------------------------+
+|*'offside_Side'*              |30             |*'free_kick_Side'*     |for the opposite side                  |
++------------------------------+---------------+-----------------------+---------------------------------------+
+
+where Side is either the character 'l' or 'r', OSide means opponent's side.
+tc is the time (in number of cycles) until the subsequent play mode will be announced
+
+.. centered::
+    Table 4.12: Play Modes
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Soccer Server
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
++-------------------------+---------------+-----------------------+---------------------------------------+
+|Message                  |:sub:t`c`      |subsequent play mode   | comment                               |
++=========================+===============+=======================+=======================================+
+|goal_Side_n              |50             |*'kick_off_OSide'*     |announce the nth goal for a team       | 
++-------------------------+---------------+-----------------------+---------------------------------------+
+|foul_Side                |0              |*'free_kick_OSide'*    |announce a foul                        |
++-------------------------+---------------+-----------------------+---------------------------------------+
+|goalie_catch_ball_Side   |0              |*'free_kick_OSide'*    |                                       |
++-------------------------+---------------+-----------------------+---------------------------------------+
+|time_up_without_a_team   |0              |*'time_over'*          |sent if there was no opponent until    |
+|                         |               |                       |the end of the second half             |
++-------------------------+---------------+-----------------------+---------------------------------------+
+|time_up                  |0              |*'time_over'*          |sent once the game is over             |
+|                         |               |                       |(if the time is ? second half and      |
+|                         |               |                       |the scores for each team are different)|
++-------------------------+---------------+-----------------------+---------------------------------------+
+|half_time                |0              |*'before_kick_off'*    |                                       |
++-------------------------+---------------+-----------------------+---------------------------------------+
+|time_extended            |0              |*'before_kick_off'*    |                                       |
++-------------------------+---------------+-----------------------+---------------------------------------+
+
+where Side is either the character 'l' or 'r', OSide means opponent's side.
+tc is the time (in number of cycles) until the subsequent play mode will be announced
+
+.. centered::
+  Table 4.13: Referee Messages
+
 ==================================================
 The Soccer Simulation
 ==================================================
