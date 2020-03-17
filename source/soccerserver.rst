@@ -1022,6 +1022,21 @@ Tackle Model
 --------------------------------------------------
 Turn Model
 --------------------------------------------------
+While dash is used to accelerate the player in direction of its body, the turn command
+is used to change the players body direction. The argument for the turn command is
+the moment; valid values for the moment are between minmoment and maxmoment.
+If the player does not move, the moment is equal to the angle the player will turn.
+However, there is a concept of inertia that makes it more difficult to turn when you are
+moving. Specifically, the actual angle the player is turned is as follows:
+actual angle = moment/(1.0 + inertia moment · player speed) (4.22)
+inertia moment is a server.conf parameter with default value 5.0. Therefore
+(with default values), when the player is at speed 1.0, the maximum effective turn
+he can do is ±30. However, notice that because you can not dash and turn during the same cycle, the fastest that a player can be going when executing a turn is
+player speed max · player decay, which means the effective turn for a default player
+(with default values) is ±60.
+For heterogeneous players, the inertia moment is the default inertia value plus a
+value between min. player decay delta min · inertia moment delta factor and
+max. player decay delta max · inertia moment delta factor.
 
 --------------------------------------------------
 TurnNeck Model
