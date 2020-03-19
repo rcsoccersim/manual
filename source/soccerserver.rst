@@ -1033,21 +1033,124 @@ TurnNeck Model
 Heterogeneous Players
 ==================================================
 
+With Soccer Server 7, heterogeneous players were introduced. For heterogeneous players, Soccer Server generates **player_types** random player types at startup. The player types have different abilities based on the tradeoffs defined in the ``player.conf`` file. Both teams of a match use the same player types. Type 0 is the default type and always the same. 
+
+When the players connect to the server, the receive information on the available player types (see Sec. 4.2.1). The online coach can change player types unlimited times in ``before_kick_off`` mode and change player types **subs_max** times during other ``non-play_on`` play modes using the **change_player_type** ... command (see Sec. 7.4). 
+
+Each time a player is substituted by some other player type, its stamina, recovery and effort is reset to the initial (maximum) value of the respective player type.
+
++--------------------------------+-----------+
+| Parameter in ``player.conf``   | **Value** |
++================================+===========+
+| player_types          	 |     7     |
++--------------------------------+-----------+
+| subs_max	                 |     3     |
++--------------------------------+-----------+
+
+.. centered::
+  Table 4.11: Parameter for substitutions and heterogeneous player types
+
 ==================================================
 Referee Model
 ==================================================
+
+The Automated Referee sends messages to the players, so that players know the actual
+play mode of the game. The rules and the behavior for the automated referee are
+described in Sec. 2.2.1. Players receive the referee messages as hear messages. A player
+can hear referee messages in every situation independent of the number of messages the
+player heard from other players.
 
 --------------------------------------------------
 Play Modes and referee messages
 --------------------------------------------------
 
+The change of the play mode is announced by the referee. Additionally, there are some
+referee messages announcing events like a goal or a foul. If you have a look into the
+server source code, you will notice some additional play modes that are currently not
+used. Both play modes and referee messages are announced using **(referee String )**,
+where String is the respective play mode or message string. The play modes are listed
+in Tab. 4.12, for the messages see Tab. 4.13.
+
+
++------------------------------+---------------+---------------------------+---------------------------------------+
+|**Play Mode**                 | **tc**        |**Subsequent Play Mode**   | **Comment**                           |
++==============================+===============+===========================+=======================================+
+|**'before kick off'**         |0              | *'kick_off_Side'*   	   |at the beginning of a half             | 
++------------------------------+---------------+---------------------------+---------------------------------------+
+| **'play_on'**                |                                   	   |during normal play                     |
++------------------------------+---------------+---------------------------+---------------------------------------+
+| **'time_over'**              |                       							           |
++------------------------------+---------------+---------------------------+---------------------------------------+
+| **'kick_off_Side'**          |                 			   |announce start of play                 |
+|                              |		                    	   |(after pressing the Kick Off button)   |
++------------------------------+---------------+---------------------------+---------------------------------------+
+| **'kick_in_Side'**           |    										   |
++------------------------------+---------------+---------------------------+---------------------------------------+
+| **'free_kick_Side'**         |           							                   |
++------------------------------+---------------+---------------------------+---------------------------------------+
+| **'corner_kick_Side'**       |								                   |
++------------------------------+---------------+---------------------------+---------------------------------------+
+| **'goal_kick_Side'**         |  	       | *'play_on'*      	   |play mode changes once                 |
+|                              |               |                    	   |the ball leaves the penalty area       |
++------------------------------+---------------+---------------------------+---------------------------------------+
+| **'goal_Side'**              |			               	   |currently unused                       |
+|                              |        		          	   |(but see Tab. 4.13)                    |
++------------------------------+---------------+---------------------------+---------------------------------------+
+| **'drop_ball'**              |0              | *'play_on'*        	                                           |
++------------------------------+---------------+---------------------------+---------------------------------------+
+| **'offside_Side'**           |30             | *'free_kick_Side'*  	   |for the opposite side                  |
++------------------------------+---------------+---------------------------+---------------------------------------+
+
+Where Side is either the character 'l' or 'r', OSide means opponent's side.
+tc is the time (in number of cycles) until the subsequent play mode will be announced
+
+.. centered::
+  Table 4.12: Play Modes
+
+
++------------------------------+---------------+------------------------+---------------------------------------+
+|**Message**                   |**tc**         |**subsequent play mode**| **comment**                           |
++==============================+===============+========================+=======================================+
+| **goal_Side_n**              |50             |*'kick_off_OSide'*      |announce the nth goal for a team       | 
++------------------------------+---------------+------------------------+---------------------------------------+
+| **foul_Side**                |0              |*'free_kick_OSide'*     |announce a foul                        |
++------------------------------+---------------+------------------------+---------------------------------------+
+| **goalie_catch_ball_Side**   |0              |*'free_kick_OSide'*     |                                       |
++------------------------------+---------------+------------------------+---------------------------------------+
+| **time_up_without_a_team**   |0              |*'time_over'*           |sent if there was no opponent until    |
+|                      	       |               |                        |the end of the second half             |
++------------------------------+---------------+------------------------+---------------------------------------+
+| **time_up**                  |0              |*'time_over'*           |sent once the game is over             |
+|                              |               | 		        |(if the time is ? second half and      |
+|                              |               |                        |the scores for each team are different)|
++------------------------------+---------------+------------------------+---------------------------------------+
+| **half_time**                |0              |*'before_kick_off'*     |                                       |
++------------------------------+---------------+------------------------+---------------------------------------+
+| **time_extended**            |0              |*'before_kick_off'*     |                                       |
++------------------------------+---------------+------------------------+---------------------------------------+
+
+Where Side is either the character 'l' or 'r', OSide means opponent's side.
+tc is the time (in number of cycles) until the subsequent play mode will be announced
+
+.. centered::
+  Table 4.13: Referee Messages
+
 ==================================================
 The Soccer Simulation
 ==================================================
 
+In Sec. 4.4, we gave a description on how the objects are moved with respect to their accelerations and velocities. In this section, we describe at what point in time acceleration and velocities are applied to the objects during the simulation.
+
 --------------------------------------------------
 Description of the simulation algorithm
 --------------------------------------------------
+
+
+In Soccer Server, time is updated in discrete steps. A simulation step is 100ms. During each simulation step, objects (i.e. players and the ball) stay on their positions. If players decide to act within a step, actions are applied to the players and the ball at the transition from one simulation cycle to the next. Depending on the play mode, not all actions are allowed for the players (for instance in ``before_kick_off`` mode, players can **turn** and **move**, but they cannot **dash**), so only allowed actions will be applied and take effect.
+
+If during a step, several players kick the ball, all the kicks are applied to the ball and a resulting acceleration is calculated. If the resulting acceleration is larger than the maximum acceleration for the ball, acceleration is normalized to its maximum value. After moving the objects, the server checks for collisions and updates velocities if a collision occurred (see also Sec. 4.4.2).
+
+When applying accelerations and velocities to the objects, the order of application is randomized. After changing objects positions, and updating velocities and accelerations, the automated referee checks the situation and changes the play mode or the object positions, if necessary. Changes to the play mode are announced immediately. Finally, stamina for each player is updated.
 
 
 
