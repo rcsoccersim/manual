@@ -188,10 +188,10 @@ The following table shows the protocol for client version 14 or later.
 | |    *ObjInfo* ::=                                                                                                       |
 | |               (*ObjName* *Distance* *Diretion* *DistChange* *DirChange* *BodyFacingDir* *HeadFacingDir*                |
 |                       [*PointDir*] [t] [k]])                                                                             |
-| |               \| (*ObjName* *Distance* *Diretion* *DistChange* *DirChange* [*PointDir*] [t] [k]])                      |
+| |               \| (*ObjName* *Distance* *Diretion* *DistChange* *DirChange* [*PointDir*] [{t|k}])                       |
 | |               \| (*ObjName* *Distance* *Diretion*)                                                                     |
 | |               \| (*ObjName* *Diretion*)                                                                                |
-| |    *ObjName* ::= (p ["*TeamName*" [*UniformNumber* [goalie]]])                                                         |
+| |    *ObjName* ::= (p ["*TeamName*" [*UniformNumber* [goalie] [*PointDir*] [{t|k}]]])                                    |
 | |               \| (b)                                                                                                   |
 | |               \| (g {l\|r})                                                                                            |
 | |               \| (f c)                                                                                                 |
@@ -392,7 +392,7 @@ following way:
   HeadDir &= PlayerHeadDir - AgentBodyDir - AgentHeadDir
 
 
-where :math:`(p_{xt},p_{yt}) is the absolute position of the target object,
+where :math:`(p_{xt},p_{yt})` is the absolute position of the target object,
 :math:`(p_{xo},p_{yo})` is the absolute position of the sensing player,
 :math:`(v_{xt},v_{yt})` is the absolute velocity of the target object,
 :math:`(v_{xo},v_{yo})` is the absolute velocity of the sensing player,
@@ -436,6 +436,11 @@ seen. All of the flags and lines are shown in Fig. :ref:`field-detailed`.
 
   The flags and lines in the simulation.
 
+In protocol versions 13+, when a player's team is visible, their tackling and 
+kicking state is also visible via `t` and `k`. If the player is tackling, 
+`t` is present. If they are kicking, `k` is present instead. If an observed 
+player is tackling, the kicking flag is always overwritten by the tackle flag. 
+The kicking state is visible the cycle directly after kicking.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Range of View
@@ -506,7 +511,7 @@ Thus, objects *b* and *g* are not visible; all of the rest are.
 As object *f* is directly in front of the viewing agent, its angle would be
 reported as 0 degrees.
 Object *e* would be reported as being roughly :math:`-40^\circ`, while object
-*d* is at roughly :math:`20^\circ.
+*d* is at roughly :math:`20^\circ`.
 
 Also illustrated in Fig.:ref:`view-example`, the amount of information
 describing a player varies with how far away the player is.
