@@ -1,19 +1,19 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>5. Soccer Monitor &#8212; The RoboCup Soccer Simulator  documentation</title>
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="6. Soccer Client" href="soccerclient.html" />
@@ -31,69 +31,10 @@
         <li class="right" >
           <a href="soccerserver.html" title="4. Soccer Server"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">The RoboCup Soccer Simulator  documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">The RoboCup Soccer Simulator  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><span class="section-number">5. </span>Soccer Monitor</a></li> 
       </ul>
-    </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">5. Soccer Monitor</a><ul>
-<li><a class="reference internal" href="#introduction">5.1. Introduction</a></li>
-<li><a class="reference internal" href="#getting-started">5.2. Getting started</a></li>
-<li><a class="reference internal" href="#communication-from-server-to-monitor">5.3. Communication from Server to Monitor</a><ul>
-<li><a class="reference internal" href="#version-1">5.3.1. Version 1</a><ul>
-<li><a class="reference internal" href="#showinfo">Showinfo</a></li>
-<li><a class="reference internal" href="#messageinfo">Messageinfo</a></li>
-<li><a class="reference internal" href="#drawinfo">Drawinfo</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#version-2">5.3.2. Version 2</a></li>
-<li><a class="reference internal" href="#version-3">5.3.3. Version 3</a></li>
-<li><a class="reference internal" href="#version-4">5.3.4. Version 4</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#communication-from-monitor-to-server">5.4. Communication from Monitor to Server</a><ul>
-<li><a class="reference internal" href="#how-to-record-and-playback-a-game">5.4.1. How to record and playback a game</a><ul>
-<li><a class="reference internal" href="#version-1-protocol">Version 1 Protocol</a></li>
-<li><a class="reference internal" href="#version-2-protocol">Version 2 Protocol</a></li>
-<li><a class="reference internal" href="#version-3-protocol">Version 3 Protocol</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#settings-and-parameters">5.4.2. Settings and Parameters</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="soccerserver.html"
-                        title="previous chapter">4. Soccer Server</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="soccerclient.html"
-                        title="next chapter">6. Soccer Client</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/soccermonitor.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
@@ -101,9 +42,9 @@
           <div class="body" role="main">
             
   <div class="section" id="soccer-monitor">
-<span id="cha-soccermonitor"></span><h1>5. Soccer Monitor<a class="headerlink" href="#soccer-monitor" title="Permalink to this headline">¶</a></h1>
+<span id="cha-soccermonitor"></span><h1><span class="section-number">5. </span>Soccer Monitor<a class="headerlink" href="#soccer-monitor" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
-<h2>5.1. Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">5.1. </span>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>Soccer monitor provides a visual interface.
 Using the monitor we can watch a game vividly and control the proceeding of
 the game.
@@ -111,7 +52,7 @@ the game.
 .. becomes very convenient to analyze and debug clients.</p>
 </div>
 <div class="section" id="getting-started">
-<h2>5.2. Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">5.2. </span>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
 <p>To connect the soccer monitor with the soccer server, you can use the command
 following:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ rcssmonitor
@@ -130,7 +71,7 @@ automatically started and connected with the server:</p>
 </div>
 </div>
 <div class="section" id="communication-from-server-to-monitor">
-<h2>5.3. Communication from Server to Monitor<a class="headerlink" href="#communication-from-server-to-monitor" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">5.3. </span>Communication from Server to Monitor<a class="headerlink" href="#communication-from-server-to-monitor" title="Permalink to this headline">¶</a></h2>
 <p>Soccer monitor and rcssserver are connected via UDP/IP on port 6000 (default).
 When the server is connected with the monitor, it will send information to
 the monitor every cycle.
@@ -140,15 +81,15 @@ sent by the monitor (see <span class="xref std std-ref">sec-commandsfrommonitor<
 The detailed data structure information can be found in
 appendix <span class="xref std std-ref">sec-appendixmonitorstructs</span>.</p>
 <div class="section" id="version-1">
-<h3>5.3.1. Version 1<a class="headerlink" href="#version-1" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.3.1. </span>Version 1<a class="headerlink" href="#version-1" title="Permalink to this headline">¶</a></h3>
 <p>rcssserver sends dispinfo_t structs to the soccer monitor.
 dispinfo_t contains a union with three different types of information:</p>
 <ul class="simple">
-<li>showinfo_t: information needed to draw the scene</li>
-<li>msginfo_t : contains the messages from the players and the referee shown
-in the bottom windows</li>
-<li>drawinfo_t: information for monitor to draw circles, lines or points
-(not used by the server)</li>
+<li><p>showinfo_t: information needed to draw the scene</p></li>
+<li><p>msginfo_t : contains the messages from the players and the referee shown
+in the bottom windows</p></li>
+<li><p>drawinfo_t: information for monitor to draw circles, lines or points
+(not used by the server)</p></li>
 </ul>
 <p>The size of dispinfo_t is determined by its largest subpart (msg) and is
 2052 bytes (the union causes some extra network load and may be changed
@@ -180,7 +121,7 @@ contains the state and positions of players and the ball:</p>
 </pre></div>
 </div>
 <ul>
-<li><p class="first">pmode: currently active playmode of the game (see rcssserver-*/src/types.h):</p>
+<li><p>pmode: currently active playmode of the game (see rcssserver-*/src/types.h):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PM_Null</span><span class="p">,</span>
 <span class="n">PM_BeforeKickOff</span><span class="p">,</span>
 <span class="n">PM_TimeOver</span><span class="p">,</span>
@@ -235,7 +176,7 @@ contains the state and positions of players and the ball:</p>
 </pre></div>
 </div>
 </li>
-<li><p class="first">team: information about the teams. Index 0 is for team playing
+<li><p>team: information about the teams. Index 0 is for team playing
 from left to right:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">typedef</span> <span class="n">struct</span> <span class="p">{</span>
   <span class="n">char</span>  <span class="n">name</span><span class="p">[</span><span class="mi">16</span><span class="p">];</span>  <span class="o">/*</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">team</span> <span class="o">*/</span>
@@ -244,7 +185,7 @@ from left to right:</p>
 </pre></div>
 </div>
 </li>
-<li><p class="first">pos: position information of ball and players. Index 0 represents the ball,
+<li><p>pos: position information of ball and players. Index 0 represents the ball,
 indices 1 to 11 is for team[0] (left to right) and 12 to 22 for team[1]:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">typedef</span> <span class="n">struct</span> <span class="p">{</span>
   <span class="n">short</span> <span class="n">enable</span><span class="p">;</span>
@@ -257,12 +198,11 @@ indices 1 to 11 is for team[0] (left to right) and 12 to 22 for team[1]:</p>
 </pre></div>
 </div>
 </li>
-<li><p class="first">time: current game time.</p>
-</li>
+<li><p>time: current game time.</p></li>
 </ul>
 <p>Values of the elements can be</p>
 <ul>
-<li><p class="first">enable: state of the object.
+<li><p>enable: state of the object.
 Players not on the field (and the ball) have state DISABLE.</p>
 <blockquote>
 <div><p>The other bits of enable allow monitors to draw the state and action of</p>
@@ -292,7 +232,7 @@ Players not on the field (and the ball) have state DISABLE.</p>
 </pre></div>
 </div>
 </li>
-<li><p class="first">side: side the player is playing on. LEFT means from left to right,
+<li><p>side: side the player is playing on. LEFT means from left to right,
 NEUTRAL is the ball (rcssserver-*/src/types.h):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LEFT</span>     <span class="mi">1</span>
 <span class="n">NEUTRAL</span>  <span class="mi">0</span>
@@ -300,18 +240,15 @@ NEUTRAL is the ball (rcssserver-*/src/types.h):</p>
 </pre></div>
 </div>
 </li>
-<li><p class="first">unum: uniform number of a player ranging from 1 to 11</p>
-</li>
-<li><p class="first">angle: angle the agent is facing ranging from -180 to 180 degrees,
+<li><p>unum: uniform number of a player ranging from 1 to 11</p></li>
+<li><p>angle: angle the agent is facing ranging from -180 to 180 degrees,
 where -180 is view to the left side of the screen, -90 to the top,
-0 to the right and 90 to the bottom.</p>
-</li>
-<li><p class="first">x, y: position of the ball or player on the screen. (0, 0) is the midpoint
+0 to the right and 90 to the bottom.</p></li>
+<li><p>x, y: position of the ball or player on the screen. (0, 0) is the midpoint
 of the field, x increases to the right, y to the bottom of the screen.
 Values are multiplied by SHOWINFO_SCALE (16) to reduce aliasing, so field
 size is PITCH_LENGTH * SHOWINFO_SCALE in x direction
-and PITCH_WIDTH * SHOWINFO_SCALE in y direction.</p>
-</li>
+and PITCH_WIDTH * SHOWINFO_SCALE in y direction.</p></li>
 </ul>
 </div>
 <div class="section" id="messageinfo">
@@ -324,7 +261,7 @@ and PITCH_WIDTH * SHOWINFO_SCALE in y direction.</p>
 </pre></div>
 </div>
 <ul>
-<li><p class="first">board: indicates the type of message.
+<li><p>board: indicates the type of message.
 A message with type MSG_BOARD is a message of the referee, LOG_BOARD are
 messages from and to the players.
 (rcssserver-*/param.h):</p>
@@ -333,8 +270,7 @@ messages from and to the players.
 </pre></div>
 </div>
 </li>
-<li><p class="first">message: zero terminated string containing the message.</p>
-</li>
+<li><p>message: zero terminated string containing the message.</p></li>
 </ul>
 </div>
 <div class="section" id="drawinfo">
@@ -343,22 +279,22 @@ messages from and to the players.
 </div>
 </div>
 <div class="section" id="version-2">
-<h3>5.3.2. Version 2<a class="headerlink" href="#version-2" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.3.2. </span>Version 2<a class="headerlink" href="#version-2" title="Permalink to this headline">¶</a></h3>
 <p>rcssserver sends dispinfo_t2 structs to the soccer monitor instead of
 dispinfo_t structs which is used in version 1.
 dispinfo_t2 contains a union with five different types of information
 (the data structures are printed in appendix :ref”<cite>sec-appendixmonitorstructs</cite>:</p>
 <ul class="simple">
-<li>showinfo_t2: information needed to draw the scene.
+<li><p>showinfo_t2: information needed to draw the scene.
 It includes all information on coordinates and speed of players and
-the ball, teamnames, scores, etc.</li>
-<li>msginfo_t : contains the messages from the players and the referee.
+the ball, teamnames, scores, etc.</p></li>
+<li><p>msginfo_t : contains the messages from the players and the referee.
 It also contains information on team’s images and information on
-player exchanges.</li>
+player exchanges.</p></li>
 </ul>
 <blockquote>
 <div><ul>
-<li><p class="first">team graphic: The team graphic format requires a 256x64 image to
+<li><p>team graphic: The team graphic format requires a 256x64 image to
 be broken up into 8x8 tiles and has the form:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">team_graphic_</span><span class="p">{</span><span class="n">l</span><span class="o">|</span><span class="n">r</span><span class="p">}</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">X</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">Y</span><span class="o">&gt;</span> <span class="s2">&quot;&lt;XPM line&gt;&quot;</span> <span class="o">...</span> <span class="s2">&quot;&lt;XPM line&gt;&quot;</span><span class="p">))</span>
 </pre></div>
@@ -367,7 +303,7 @@ be broken up into 8x8 tiles and has the form:</p>
 image, starting at 0 and ranging upto 31 and 7 respectively.
 Each XPM line is a line from the 8x8 xpm tile.</p>
 </li>
-<li><p class="first">substitutions: substitutions are now explicitly recorded in the
+<li><p>substitutions: substitutions are now explicitly recorded in the
 message board in the form:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">change_player_type</span> <span class="p">{</span><span class="n">l</span><span class="o">|</span><span class="n">r</span><span class="p">}</span> <span class="o">&lt;</span><span class="n">unum</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">player_type</span><span class="o">&gt;</span><span class="p">)</span>
 </pre></div>
@@ -376,9 +312,9 @@ message board in the form:</p>
 </ul>
 </div></blockquote>
 <ul class="simple">
-<li>player_type_t: information describing different player’s abilities and tradeoffs</li>
-<li>server_params_t: parameters and configurations of soccerserver</li>
-<li>player_params_t: parameters of players</li>
+<li><p>player_type_t: information describing different player’s abilities and tradeoffs</p></li>
+<li><p>server_params_t: parameters and configurations of soccerserver</p></li>
+<li><p>player_params_t: parameters of players</p></li>
 </ul>
 <p>Which information is contained in the union is determined by the mode field.
 NO_INFO indicates no valid info contained (never sent by the server).
@@ -394,14 +330,14 @@ BLANK_MODE tells the monitor to show a blank screen:</p>
 </div>
 </div>
 <div class="section" id="version-3">
-<h3>5.3.3. Version 3<a class="headerlink" href="#version-3" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.3.3. </span>Version 3<a class="headerlink" href="#version-3" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="version-4">
-<h3>5.3.4. Version 4<a class="headerlink" href="#version-4" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.3.4. </span>Version 4<a class="headerlink" href="#version-4" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
 <div class="section" id="communication-from-monitor-to-server">
-<h2>5.4. Communication from Monitor to Server<a class="headerlink" href="#communication-from-monitor-to-server" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">5.4. </span>Communication from Monitor to Server<a class="headerlink" href="#communication-from-monitor-to-server" title="Permalink to this headline">¶</a></h2>
 <p>The monitor can send to the server the following commands
 (in all commands, <em>&lt;variable&gt;</em> has to be replaced with proper values):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">dispinit</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">dispinit</span> <span class="n">version</span> <span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="p">)</span>
@@ -454,7 +390,7 @@ If a compression level above zero is selected, then the monitor is
 expected to compress its commands to the server.
 Specifying a level of zero turns off compression completely (default).</p>
 <div class="section" id="how-to-record-and-playback-a-game">
-<h3>5.4.1. How to record and playback a game<a class="headerlink" href="#how-to-record-and-playback-a-game" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.4.1. </span>How to record and playback a game<a class="headerlink" href="#how-to-record-and-playback-a-game" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="version-1-protocol">
 <h4>Version 1 Protocol<a class="headerlink" href="#version-1-protocol" title="Permalink to this headline">¶</a></h4>
 <p>Logfiles of version 1 (server versions up to 4.16) are a stream of
@@ -469,32 +405,32 @@ This lead to the introduction of a new logfile format 2.</p>
 the price of not having uniform data structs.
 The format is as follows:</p>
 <ul class="simple">
-<li>head of the file:
+<li><p>head of the file:
 the head of the file is used to autodetect the version of the logfile.
 If there is no head, Unix-version 1 is assumed.
 3 chars ‘ULG’ : indicating that this is a Unix logfile (to distinguish
-from Windows format)</li>
-<li>char version : version of the logfile format</li>
-<li>body: the rest of the file contains the data in chunks of
-the following format:</li>
+from Windows format)</p></li>
+<li><p>char version : version of the logfile format</p></li>
+<li><p>body: the rest of the file contains the data in chunks of
+the following format:</p></li>
 </ul>
 <blockquote>
 <div><ul class="simple">
-<li>short mode:
+<li><p>short mode:
 this is the mode part of the dispinfo_t struct
 (see <span class="xref std std-ref">sec-version1protocol</span> Version 1) SHOW_MODE for showinfo_t
-information MSG_MODE for msginfo_t information</li>
+information MSG_MODE for msginfo_t information</p></li>
 </ul>
 <blockquote>
 <div><ul class="simple">
-<li>If mode is SHOW_MODE, a showinfo_t struct is following.</li>
-<li>If mode is MSG_MODE, next bytes are</li>
+<li><p>If mode is SHOW_MODE, a showinfo_t struct is following.</p></li>
+<li><p>If mode is MSG_MODE, next bytes are</p></li>
 </ul>
 <blockquote>
 <div><ul class="simple">
-<li>short board: containing the board info</li>
-<li>short length: containing the length of the message (including zero terminator)</li>
-<li>string msg: length chars containing the message</li>
+<li><p>short board: containing the board info</p></li>
+<li><p>short length: containing the length of the message (including zero terminator)</p></li>
+<li><p>string msg: length chars containing the message</p></li>
 </ul>
 </div></blockquote>
 </div></blockquote>
@@ -517,104 +453,168 @@ represented by network byte order.</p>
 <p>The version 3 protocol contains player parameter information for
 heterogenous players and optimizes space. The format is as follows:</p>
 <ul class="simple">
-<li>head of the file: Just like version 2, the file starts with the magic
-characters ‘ULG’.</li>
-<li>char version : version of the logfile format, i.e. 3</li>
-<li>body: The rest of the file contains shorts that specify which data
-structures will follow.</li>
+<li><p>head of the file: Just like version 2, the file starts with the magic
+characters ‘ULG’.</p></li>
+<li><p>char version : version of the logfile format, i.e. 3</p></li>
+<li><p>body: The rest of the file contains shorts that specify which data
+structures will follow.</p></li>
 </ul>
 <blockquote>
 <div><ul class="simple">
-<li>If the short is PM_MODE,</li>
+<li><p>If the short is PM_MODE,</p></li>
 </ul>
 <blockquote>
 <div><ul class="simple">
-<li>a char specifying the play mode follows.</li>
+<li><p>a char specifying the play mode follows.</p></li>
 </ul>
 <blockquote>
-<div>This is only written when the playmode changes.</div></blockquote>
+<div><p>This is only written when the playmode changes.</p>
+</div></blockquote>
 </div></blockquote>
 <ul class="simple">
-<li>If the short is TEAM_MODE,</li>
+<li><p>If the short is TEAM_MODE,</p></li>
 </ul>
 <blockquote>
 <div><ul class="simple">
-<li>a team_t struct for the left side and</li>
-<li>a team_t struct for the right side follow.</li>
+<li><p>a team_t struct for the left side and</p></li>
+<li><p>a team_t struct for the right side follow.</p></li>
 </ul>
 <blockquote>
-<div>Team data is only written if a new team connects or the score changes.</div></blockquote>
+<div><p>Team data is only written if a new team connects or the score changes.</p>
+</div></blockquote>
 </div></blockquote>
 <ul class="simple">
-<li>If the short is SHOW_MODE,</li>
+<li><p>If the short is SHOW_MODE,</p></li>
 </ul>
 <blockquote>
 <div><ul class="simple">
-<li>a short_showinfo_t2 struct specifying ball and player positions and
-states follows.</li>
-</ul>
-</div></blockquote>
-<ul class="simple">
-<li>If the short is MSG_MODE,</li>
-</ul>
-<blockquote>
-<div><ul class="simple">
-<li>a short specifying the message board,</li>
-<li>a short specifying the length of the message,</li>
-<li>a string containing the message will follow.</li>
+<li><p>a short_showinfo_t2 struct specifying ball and player positions and
+states follows.</p></li>
 </ul>
 </div></blockquote>
 <ul class="simple">
-<li>If the short is PARAM_MODE,</li>
+<li><p>If the short is MSG_MODE,</p></li>
 </ul>
 <blockquote>
 <div><ul class="simple">
-<li>a server_params_t struct specifying the current server parameters follows.</li>
+<li><p>a short specifying the message board,</p></li>
+<li><p>a short specifying the length of the message,</p></li>
+<li><p>a string containing the message will follow.</p></li>
 </ul>
-<blockquote>
-<div>This is only written once at the beginning of the logfile.</div></blockquote>
 </div></blockquote>
 <ul class="simple">
-<li>If the short is PPARAM_MODE,</li>
+<li><p>If the short is PARAM_MODE,</p></li>
 </ul>
 <blockquote>
 <div><ul class="simple">
-<li>a player_params_t struct specifying the current hetro player parameters.</li>
+<li><p>a server_params_t struct specifying the current server parameters follows.</p></li>
 </ul>
 <blockquote>
-<div>This is only written once at the beginning of the logfile.</div></blockquote>
+<div><p>This is only written once at the beginning of the logfile.</p>
+</div></blockquote>
 </div></blockquote>
 <ul class="simple">
-<li>If the short is PT_MODE,</li>
+<li><p>If the short is PPARAM_MODE,</p></li>
 </ul>
 <blockquote>
 <div><ul class="simple">
-<li>a player_type_t struct specifying the parameters of a specific player type
-follows.</li>
+<li><p>a player_params_t struct specifying the current hetro player parameters.</p></li>
 </ul>
 <blockquote>
-<div>This is only written once for each player type at the beginning of the logfile.</div></blockquote>
+<div><p>This is only written once at the beginning of the logfile.</p>
+</div></blockquote>
+</div></blockquote>
+<ul class="simple">
+<li><p>If the short is PT_MODE,</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p>a player_type_t struct specifying the parameters of a specific player type
+follows.</p></li>
+</ul>
+<blockquote>
+<div><p>This is only written once for each player type at the beginning of the logfile.</p>
+</div></blockquote>
 </div></blockquote>
 </div></blockquote>
 <p>Data Conversion:</p>
 <ul class="simple">
-<li>Values such as x, y positions are meters multiplied by SHOWINFO_SCALE2.</li>
-<li>Values such as deltax, deltay are meters/cycle multiplied by SHOWINFO_SCALE2.</li>
-<li>Values such as body_angle, head_angle and view_width are in radians
-multiplied by SHOWINFO_SCALE2.</li>
-<li>Other values such as stamina, effort and recovery have also been multiplied
-by SHOWINFO_SCALE2.</li>
+<li><p>Values such as x, y positions are meters multiplied by SHOWINFO_SCALE2.</p></li>
+<li><p>Values such as deltax, deltay are meters/cycle multiplied by SHOWINFO_SCALE2.</p></li>
+<li><p>Values such as body_angle, head_angle and view_width are in radians
+multiplied by SHOWINFO_SCALE2.</p></li>
+<li><p>Other values such as stamina, effort and recovery have also been multiplied
+by SHOWINFO_SCALE2.</p></li>
 </ul>
 </div>
 </div>
 <div class="section" id="settings-and-parameters">
-<h3>5.4.2. Settings and Parameters<a class="headerlink" href="#settings-and-parameters" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.4.2. </span>Settings and Parameters<a class="headerlink" href="#settings-and-parameters" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
 </div>
 
 
+            <div class="clearer"></div>
           </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">5. Soccer Monitor</a><ul>
+<li><a class="reference internal" href="#introduction">5.1. Introduction</a></li>
+<li><a class="reference internal" href="#getting-started">5.2. Getting started</a></li>
+<li><a class="reference internal" href="#communication-from-server-to-monitor">5.3. Communication from Server to Monitor</a><ul>
+<li><a class="reference internal" href="#version-1">5.3.1. Version 1</a><ul>
+<li><a class="reference internal" href="#showinfo">Showinfo</a></li>
+<li><a class="reference internal" href="#messageinfo">Messageinfo</a></li>
+<li><a class="reference internal" href="#drawinfo">Drawinfo</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version-2">5.3.2. Version 2</a></li>
+<li><a class="reference internal" href="#version-3">5.3.3. Version 3</a></li>
+<li><a class="reference internal" href="#version-4">5.3.4. Version 4</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#communication-from-monitor-to-server">5.4. Communication from Monitor to Server</a><ul>
+<li><a class="reference internal" href="#how-to-record-and-playback-a-game">5.4.1. How to record and playback a game</a><ul>
+<li><a class="reference internal" href="#version-1-protocol">Version 1 Protocol</a></li>
+<li><a class="reference internal" href="#version-2-protocol">Version 2 Protocol</a></li>
+<li><a class="reference internal" href="#version-3-protocol">Version 3 Protocol</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#settings-and-parameters">5.4.2. Settings and Parameters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="soccerserver.html"
+                        title="previous chapter"><span class="section-number">4. </span>Soccer Server</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="soccerclient.html"
+                        title="next chapter"><span class="section-number">6. </span>Soccer Client</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/soccermonitor.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -631,12 +631,13 @@ by SHOWINFO_SCALE2.</li>
         <li class="right" >
           <a href="soccerserver.html" title="4. Soccer Server"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">The RoboCup Soccer Simulator  documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">The RoboCup Soccer Simulator  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><span class="section-number">5. </span>Soccer Monitor</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright The RoboCup Soccer Simulator Maintenance Committee.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.1.2.
     </div>
   </body>
 </html>

@@ -128,6 +128,8 @@ game.
 Rules Judged by the Automated Referee
 ---------------------------------------------------
 
+.. _sec-overview-referee:
+
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Kick-Off
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -197,11 +199,9 @@ Offside
 
 A player is marked offside, if it is
 - in the opponent half of the field,
-- closer to the opponent goal than at least two defending
-  players,
+- closer to the opponent goal than at least two defending players,
 - closer to the opponent goal than the ball,\\
-- closer to the ball than 2.5 meters (this can be changed
-  with the server parameter **server::offside_active_area_size**).
+- closer to the ball than 2.5 meters (this can be changed with the server parameter **server::offside_active_area_size**).
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Backpasses

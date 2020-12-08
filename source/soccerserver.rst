@@ -186,10 +186,10 @@ The following table shows the protocol for client version 14 or later.
 | | (see *Time* *ObjInfo*\+)                                                                                               |
 | |    *Time* ::= simulation cycle of rcssserver                                                                           |
 | |    *ObjInfo* ::=                                                                                                       |
-| |               (*ObjName* *Distance* *Direction* *DistChange* *DirChange* *BodyFacingDir* *HeadFacingDir*                |
+| |               (*ObjName* *Distance* *Direction* *DistChange* *DirChange* *BodyFacingDir* *HeadFacingDir*               |
 |                       [*PointDir*] [t] [k]])                                                                             |
-| |               \| (*ObjName* *Distance* *Direction* *DistChange* *DirChange* [*PointDir*] [{t|k}])                       |
-| |               \| (*ObjName* *Distance* *Direction*)                                                                     |
+| |               \| (*ObjName* *Distance* *Direction* *DistChange* *DirChange* [*PointDir*] [{t|k}])                      |
+| |               \| (*ObjName* *Distance* *Direction*)                                                                    |
 | |               \| (*ObjName* *Diretion*)                                                                                |
 | |    *ObjName* ::= (p ["*TeamName*" [*UniformNumber* [goalie]]])                                                         |
 | |               \| (b)                                                                                                   |
@@ -278,40 +278,41 @@ All messages are received immediately.
 
 The format of the aural sensor message from the soccer server is:
 
-  (hear *Time* *Sender* ''*Message*'')
+  (hear  *Time*  *Sender*  ''*Message*'')
 
 - *Time* indicates the current time.
 - *Sender* is the relative direction to the sender if it is another player,
   otherwise it is one of the following:
-   - ``self``: when the sender is yourself.
-   - ``referee``: when the sender is the referee.
-   - ``online_coach_left`` or ``online_coach_right``: when the sender is one of the online coaches.
+
+  - ``self``: when the sender is yourself.
+  - ``referee``: when the sender is the referee.
+  - ``online_coach_left`` or ``online_coach_right``: when the sender is one of the online coaches.
+
 - *Message* is the message. The maximum length is **server::say_msg_size** bytes.
   The possible messages from the referee are described in Section :ref:`sec-playmodes`.
 
 
-The server parameters that affects the aural sensor are described in the
-following table:
+The server parameters that affects the aural sensor are described in :numref:`param-auralsensor`.
 
+.. list-table:: Parameters for the aural sensor.
+   :name: param-auralsensor
+   :header-rows: 1
+   :widths: 60 40
 
-  Parameters for the aural sensor.
-+-------------------------------------------+-----------+
-|Parameter in server.conf                   |Value      |
-+===========================================+===========+
-|autio_cut_dist                             |50.0       |
-+-------------------------------------------+-----------+
-|hear_max                                   |1          |
-+-------------------------------------------+-----------+
-|hear_inc                                   |1          |
-+-------------------------------------------+-----------+
-|hear_decay                                 |1          |
-+-------------------------------------------+-----------+
-
+   * - Parameter in server.conf
+     - Value
+   * - audio_cut_dist
+     - 50.0
+   * - hear_max
+     - 1
+   * - hear_inc
+     - 1
+   * - hear_decay
+     - 1
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Capacity of the Aural Sensor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
 
 A player can only hear a message if the player's hear capacity is at least
 **server::hear_decay**, since the hear capacity of the player is decreased by
@@ -428,7 +429,7 @@ the center line of the player's view crosses the line, and *Direction* is
 the direction of the line.
 
 Currently there are 55 flags (the goals counts as flags) and 4 lines to be
-seen. All of the flags and lines are shown in Fig. :ref:`field-detailed`.
+seen. All of the flags and lines are shown in :numref:`field-detailed`.
 
 .. figure:: ./images/field-detailed.*
   :align: center
@@ -436,10 +437,10 @@ seen. All of the flags and lines are shown in Fig. :ref:`field-detailed`.
 
   The flags and lines in the simulation.
 
-In protocol versions 13+, when a player's team is visible, their tackling and 
-kicking state is also visible via `t` and `k`. If the player is tackling, 
-`t` is present. If they are kicking, `k` is present instead. If an observed 
-player is tackling, the kicking flag is always overwritten by the tackle flag. 
+In protocol versions 13+, when a player's team is visible, their tackling and
+kicking state is also visible via `t` and `k`. If the player is tackling,
+`t` is present. If they are kicking, `k` is present instead. If an observed
+player is tackling, the kicking flag is always overwritten by the tackle flag.
 The kicking state is visible the cycle directly after kicking.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -456,10 +457,10 @@ The player can also influence the frequency and quality of the information
 by changing *ViewWidth* and *ViewQuality*.
 
 To calculate the current view frequency and view angle of the agent
-use equations :ref:`eq:view-freq` and :ref:`eq:view-angle`.
+use equations :eq:`view-freq` and :eq:`view-angle`.
 
 .. math::
-  :label: eq:view-freq
+  :label: view-freq
 
   view\_frequency = sense\_step * view\_quality\_factor * view\_width\_factor
 
@@ -469,7 +470,7 @@ view_width_factor is 2 if *ViewWidth* is ``narrow``,
 1 if *ViewWidth* is ``normal``, and 0.5 if *ViewWidth* is ``wide``.
 
 .. math::
-  :label: eq:view-angle
+  :label: view-angle
 
   view\_angle = visible\_angle * view\_width\_factor
 
@@ -498,9 +499,9 @@ is used as the name of the object rather than "b", "p", "g" and "f".
   with which a player's identity is given. Taken from [Stone98]_.
 
 
-The following example and Fig.:ref:`view-example` are taken from [Stone98]_.
+The following example and :numref:`view-example` are taken from [Stone98]_.
 
-The meaning of the view_angle parameter is illustrated in Fig.:ref:`view-example`.
+The meaning of the view_angle parameter is illustrated in :numref:`view-example`.
 In this figure, the viewing agent is the one shown as two semi-circles.
 The light semi-circle is its front.
 The black circles represent objects in the world.
@@ -513,7 +514,7 @@ reported as 0 degrees.
 Object *e* would be reported as being roughly :math:`-40^\circ`, while object
 *d* is at roughly :math:`20^\circ`.
 
-Also illustrated in Fig.:ref:`view-example`, the amount of information
+Also illustrated in :numref:`view-example`, the amount of information
 describing a player varies with how far away the player is.
 For nearby players, both the team and the uniform number of the player are
 reported.
@@ -538,38 +539,40 @@ Let the player's distance be *dist*. Then
 - If *dist* :math:`\geq` **team_too_far_length**, then the team name is not
   visible.
 
-For example, in Fig.:ref:`view-example`, assume that all of the labeled circles
+For example, in :numref:`view-example`, assume that all of the labeled circles
 are players.
 Then player *c* would be identified by both team name and uniform number;
 player *d* by team name, and with about a 50% chance, uniform number;
 player *e* with about a 25% chance, just by team name, otherwise with neither;
 and player *f* would be identified simply as an anonymous player.
 
+.. list-table:: Parameters for the visual sensors.
+   :name: param-visualsensor
+   :header-rows: 1
+   :widths: 60 40
 
-  Parameters for the visual sensors.
-+---------------------------------------+-----------+
-|Parameter in ``server.conf``           |Value      |
-+=======================================+===========+
-|server::sense_step                     |150        |
-+---------------------------------------+-----------+
-|server::visible_angle                  |90.0       |
-+---------------------------------------+-----------+
-|server::visible_distance               |3.0        |
-+---------------------------------------+-----------+
-|unum_far_length :math:`^\dagger`       |20.0       |
-+---------------------------------------+-----------+
-|unum_too_far_length :math:`^\dagger`   |40.0       |
-+---------------------------------------+-----------+
-|team_far_length :math:`^\dagger`       |40.0       |
-+---------------------------------------+-----------+
-|team_too_far_length :math:`^\dagger`   |60.0       |
-+---------------------------------------+-----------+
-|server::quantize_step                  |0.1        |
-+---------------------------------------+-----------+
-|server::quantize_step_l                |0.01       |
-+---------------------------------------+-----------+
+   * - Parameter in ``server.conf``
+     - Value
+   * - server::sense_step
+     - 150
+   * - server::visible_angle
+     - 90.0
+   * - server::visible_distance
+     - 3.0
+   * - unum_far_length :math:`^\dagger`
+     - 20.0
+   * - unum_too_far_length :math:`^\dagger`
+     - 40.0
+   * - team_far_length :math:`^\dagger`
+     - 40.0
+   * - team_too_far_length :math:`^\dagger`
+     - 60.0
+   * - server::quantize_step
+     - 0.1
+   * - server::quantize_step_l
+     - 0.01
+
 :math:`^\dagger` : Not in ``server.conf``, but compiled into the server.
-
 
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -613,30 +616,30 @@ Body Sensor Model
 The body sensor reports the current "physical" status of the
 player.
 he information is automatically sent to the player every
-**server::sense_body_step**, currently 100,  milli-seconds.
+**server::sense_body_step**, currently 100, milli-seconds.
 
 The format of the body sensor message is:
 
-+-------------+-----------------------------------------------------------------------------------------+
-| (sense_body | | *Time*                                                                                |
-|             | | (view_mode *ViewQuality* *ViewWidth*)                                                 |
-|             | | (stamina *Stamina* *Effort* *Capacity*)                                               |
-|             | | (speed *AmountOfSpeed* *DirectionOfSpeed*)                                            |
-|             | | (head_angle *HeadAngle*)                                                              |
-|             | | (kick *KickCount*)                                                                    |
-|             | | (dash *DashCount*)                                                                    |
-|             | | (turn *TurnCount*)                                                                    |
-|             | | (say *SayCount*)                                                                      |
-|             | | (turn_neck *TurnNeckCount*)                                                           |
-|             | | (catch *CatchCount*)                                                                  |
-|             | | (move *MoveCount*)                                                                    |
-|             | | (change_view *ChangeViewCount*)                                                       |
-|             | | (arm (movable *MovableCycles*) (expires *ExpireCycles*) (count *PointtoCount*))       |
-|             | | (focus (target {none\|{l\|r} *Unum*}) (count *AttentiontoCount*))                     |
-|             | | (tackle (expires *ExpireCycles*) (count *TackleCount*))                               |
-|             | | (collision {none\|[(ball)] [(player)] [(post)]})                                      |
-|             | | (foul (charged *FoulCycles*) (card {red\|yellow\|none})))                             |
-+-------------+-----------------------------------------------------------------------------------------+
++------------------------------------------------------------------------------------------------+
+| | (sense_body *Time*                                                                           |
+| |              (view_mode *ViewQuality* *ViewWidth*)                                           |
+| |              (stamina *Stamina* *Effort* *Capacity*)                                         |
+| |              (speed *AmountOfSpeed* *DirectionOfSpeed*)                                      |
+| |              (head_angle *HeadAngle*)                                                        |
+| |              (kick *KickCount*)                                                              |
+| |              (dash *DashCount*)                                                              |
+| |              (turn *TurnCount*)                                                              |
+| |              (say *SayCount*)                                                                |
+| |              (turn_neck *TurnNeckCount*)                                                     |
+| |              (catch *CatchCount*)                                                            |
+| |              (move *MoveCount*)                                                              |
+| |              (change_view *ChangeViewCount*)                                                 |
+| |              (arm (movable *MovableCycles*) (expires *ExpireCycles*) (count *PointtoCount*)) |
+| |              (focus (target {none\|{l\|r} *Unum*}) (count *AttentiontoCount*))               |
+| |              (tackle (expires *ExpireCycles*) (count *TackleCount*))                         |
+| |              (collision {none\|[(ball)] [(player)] [(post)]})                                |
+| |              (foul (charged *FoulCycles*) (card {red\|yellow\|none})))                       |
++------------------------------------------------------------------------------------------------+
 
 - *ViewQuality* is one of ``high`` and ``low``.
 - *ViewWidth* is one of ``narrow``, ``normal``, and ``wide``.
@@ -659,13 +662,15 @@ in the Section :ref:`sec-visionsensor`.
 The server parameters that affects the body sensor are described in
 the following table:
 
- Parameters for the body sensors.
-+---------------------------------------+-----------+
-|Parameter in ``server.conf``           |Value      |
-+=======================================+===========+
-|server::sense_body_step                |100        |
-+---------------------------------------+-----------+
+.. list-table::  Parameters for the body sensor.
+   :name: param-bodysensor
+   :header-rows: 1
+   :widths: 60 40
 
+   * - Parameter in server.conf
+     - Value
+   * - server::sense_body_step
+     - 100
 
 
 ==================================================
@@ -773,95 +778,94 @@ if the ball is within the catchable area and the goalie is inside the
 penalty area.  If the goalie catches into direction :math:`\varphi`,
 the catchable area is a rectangular area of length
 **server::catchable_area_l** and width **server::catchable_area_w** in
-direction :math:`\varphi` (see Fig.:ref:`catcharea`).
+direction :math:`\varphi` (see :numref:`catcharea`).
 The ball will be caught with probability
 **server::catch_probability**, if it is inside this area (and it will
 not be caught if it is outside this area).
-For the current values of catch command parameters see
-the following table:
+For the current values of catch command parameters see :numref:`param-goaliecatch`:
 
- Parameters for the goalie catch command
+.. table::  Parameters for the goalie catch command
+   :name: param-goaliecatch
 
-+-------------------------------------------------+-----------+
-|Parameter in ``server.conf`` and ``player.conf`` |Value      |
-+=================================================+===========+
-|server::catchable_area_l                         |2.0        |
-+-------------------------------------------------+-----------+
-|server::catchable_area_w                         |1.0        |
-+-------------------------------------------------+-----------+
-|server::catch_probability                        |1.0        |
-+-------------------------------------------------+-----------+
-|server::catch_ban_cycle                          |5          |
-+-------------------------------------------------+-----------+
-|server::goalie-max_moves                         |2          |
-+-------------------------------------------------+-----------+
-|player::catchable_area_l_stretch_max             |1.3        |
-+-------------------------------------------------+-----------+
-|player::catchable_area_l_stretch_min             |1          |
-+-------------------------------------------------+-----------+
+   +-------------------------------------------------+-----------+
+   |Parameter in ``server.conf`` and ``player.conf`` |Value      |
+   +=================================================+===========+
+   |server::catchable_area_l                         |2.0        |
+   +-------------------------------------------------+-----------+
+   |server::catchable_area_w                         |1.0        |
+   +-------------------------------------------------+-----------+
+   |server::catch_probability                        |1.0        |
+   +-------------------------------------------------+-----------+
+   |server::catch_ban_cycle                          |5          |
+   +-------------------------------------------------+-----------+
+   |server::goalie_max_moves                         |2          |
+   +-------------------------------------------------+-----------+
+   |player::catchable_area_l_stretch_max             |1.3        |
+   +-------------------------------------------------+-----------+
+   |player::catchable_area_l_stretch_min             |1          |
+   +-------------------------------------------------+-----------+
 
 
 **TODO** about heterogenous parameters.
 
 First time when goalie has been introduced in Soccer Simulation 2D was with server
 version 4.0.0:
-
 When a client connects the server with '(init TEAMNAME (goalie)',
 the client becomes a goalies. The goalie can use '(catch DIR)' command
 that enable to capture the ball.
 
-With server version 4.0.2 another parameter named `goalie_catch_probability' has
+With server version 4.0.2 another parameter named **server::catch_probability** has
 been introduced. This parameter represents the probability that a goalie succeed to
 catch the ball by a catch command. (default value: 1.0)
 
-In 2008 a new catch model has been introduced in server version 12.0.0. In the old model 
-if the ball would been in the rectangle determined by the position of the goalie and ball, 
-catch direction from the catch command, catchable_area_l and catchabale_area_w, the ball 
-would been successfully caught. In the new designed model, the catch probability is set to 
-unreliable catches. If ball is not within the goalie's reliable catch area, the catch 
-probability is calculated according to the ball position, so the goalie's catch command might 
-be failed. With this server version, the value of the parameter catchable_area_l has been 
-changed from 2.0 to 1.2. If you want to test this rule, you need to change the 
-server::catchable_area_l (default value: 1.2) parameter to the value greater than 
-server::reliable_catch_area_l (default value: 1.2). 
-And server::min_catch_probability (default value: 1) also need to be change to [0, 1]. 
-All these parameters are defined in server.conf file.
+.. In 2008 a new catch model has been introduced in server version 12.0.0. In the old model
+.. if the ball would been in the rectangle determined by the position of the goalie and ball,
+.. catch direction from the catch command, catchable_area_l and catchabale_area_w, the ball
+.. would been successfully caught. In the new designed model, the catch probability is set to
+.. unreliable catches. If ball is not within the goalie's reliable catch area, the catch
+.. probability is calculated according to the ball position, so the goalie's catch command might
+.. be failed. With this server version, the value of the parameter catchable_area_l has been
+.. changed from 2.0 to 1.2. If you want to test this rule, you need to change the
+.. **server::catchable_area_l** (default value: 1.2) parameter to the value greater than
+.. **server::reliable_catch_area_l** (default value: 1.2).
+.. And **server::min_catch_probability** (default value: 1) also need to be change to [0, 1].
+.. All these parameters are defined in server.conf file.
 
 Later, in server version 14.0.0 a heterogeneous goalie has been introduced. Beginning
 with this version online coaches can change the player type of goalie. The
-'catchable_area_l_stretch' variable was added to each heterogeneous player type through 
-two new parameters: player::catchable_area_l_stretch_min (default value: 1.0) and 
+'catchable_area_l_stretch' variable was added to each heterogeneous player type through
+two new parameters: player::catchable_area_l_stretch_min (default value: 1.0) and
 player::catchable_area_l_stretch_max (default value: 1.3)
 
 The following pseudo code shows a trade-off rule of the catch model:
 
-// catchable_area_l_stretch is the heterogeneous parameter, currenlty within [1.0,1.3]
+.. code-block:: c
 
-double this_catchable_are_delta = server::catchable_area_l * (catchable_area_l_stretch - 1.0)
+ // catchable_area_l_stretch is the heterogeneous parameter, currenlty within [1.0,1.3]
 
-double this_catchable_area_l_max = server::catchable_area_l + this_catchable_are_delta
+ double this_catchable_are_delta = server::catchable_area_l * (catchable_area_l_stretch - 1.0)
+ double this_catchable_area_l_max = server::catchable_area_l + this_catchable_are_delta
+ double this_catchable_area_l_min = server::catchable_area_l - this_catchable_are_delta
 
-double this_catchable_area_l_min = server::catchable_area_l - this_catchable_are_delta
-
-	if (ball_pos is inside the MINIMAL catch area)
-	{
-		// the MINIMAL catch area has a length of this_catchable_area_l_min and width server::catchable_area_w goalie 
-		catches the ball with probability server::catch_probability (which is 1.0 by default)
-	}
-	else if (ball_pos is beyond the MAXIMAL (stretched) area)
-	{
-		// the MAXIMAL catch area has a length of this_catchable_area_l_max and width server::catchable_area_w goalie 
-		definitely misses the ball
-	}
-	else
-	{
-		double ball_relative_x = (ball_pos - goalie_pos).rotate(-(goalie_body + catch_dir)).x
-
-		double catch_prob = server::catch_probability - server::catch_probability * (ball_relative_x - this_catchable_area_l_min) / 
-		(this_catchable_area_l_max - this_catchable_area_l_min)
-
-		// goalie catches the ball with probability catch_prob it holds: catch_prob is in [0.0,1.0]
-	}
+ if (ball_pos is inside the MINIMAL catch area)
+ {
+     // the MINIMAL catch area has a length of this_catchable_area_l_min and width server::catchable_area_w goalie
+     // catches the ball with probability server::catch_probability (which is 1.0 by default)
+ }
+ else if (ball_pos is beyond the MAXIMAL (stretched) area)
+ {
+     // the MAXIMAL catch area has a length of this_catchable_area_l_max and width server::catchable_area_w goalie
+     // definitely misses the ball
+ }
+ else
+ {
+     double ball_relative_x = (ball_pos - goalie_pos).rotate(-(goalie_body + catch_dir)).x
+     double catch_prob = server::catch_probability
+                         - server::catch_probability
+                           * (ball_relative_x - this_catchable_area_l_min)
+                           / (this_catchable_area_l_max - this_catchable_area_l_min)
+     // goalie catches the ball with probability catch_prob it holds: catch_prob is in [0.0,1.0]
+ }
 
 If a catch command was unsuccessful, it takes
 **server::catch_ban_cycle** cycles until another catch command can be
@@ -893,7 +897,7 @@ The valid range for the acceleration *power* can be configured in
 ``server.conf``, the respective parameters are **server::min_dash_power**
 and **server::max_dash_power**.
 For the current values of parameters for the dash model, see
-the following list:
+the following table:
 
 +---------------------------------+----------------------------+-------------------------------------------+------------+
 || Default Parameters             || Default Value (Range)     || Heterogeneous Player Parameters          || Value     |
@@ -981,15 +985,15 @@ it is dependent on the stamina management of the player (see below).
 .. math::
   :label: eq:effectivedash
 
-  {\rm edp} = {\rm effort} \cdot {\rm dash_power_rate} \cdot {\rm power}
+  {\rm edp} = {\rm effort} \cdot {\rm dash\_power\_rate} \cdot {\rm power}
 
 *edp* and the players current body direction are tranformed into vector and
 added to the players current acceleration vector :math:`\vec{a}_n`
 (usually, that should be 0 before, since a player cannot dash more than once
 a cycle and a player does not get accelerated by other means than dashing).
 
-At the transition from simulation step $n$ to simulation step
-:math:`n + 1$, acceleration :math:`\vec{a}_n` is applied:
+At the transition from simulation step :math:`n` to simulation step
+:math:`n + 1`, acceleration :math:`\vec{a}_n` is applied:
 
 1. :math:`\vec{a}_n` is normalized to a maximum length of **server::player_accel_max**.
 2. :math:`\vec{a}_n` is added to current players speed
@@ -1012,7 +1016,7 @@ At the transition from simulation step $n$ to simulation step
 4. The new position of the player :math:`\vec{p}_{n+1}` is the old position
    :math:`\vec{p}_{n}` plus the velocity vector :math:`\vec{v}_{n}`
    (i.e.\ the maximum distance difference for the player between two
-   simulation steps is **player_speed_max).
+   simulation steps is **player_speed_max**).
 5. **player_decay** is applied for the velocity of the player:
    :math:`\vec{v}_{n+1} = \vec{v}_{n} \cdot {\rm player\_decay}`.
    Acceleration :math:`\vec{a}_{n+1}` is set to zero.
@@ -1047,7 +1051,7 @@ will be used. Practically, the direction of the dash is restricted to by the
 corresponding Soccer Server parameters to
 
 .. math::
-   dir \in [server::min\_dash\_angle,server::max\_dash\_angle]
+   dir \in [server::min\_dash\_angle, server::max\_dash\_angle]
 
 The effective power of the dash command is determined by the absolute value
 of the dash direction. Players will always dash with full effective power
@@ -1180,7 +1184,8 @@ If *server::stamina_capacity* is set to a negative value, each player has an inf
 This setting makes the stamina-model including stamina_capacity
 completely the same with the stamina model before rcssserver version 13.
 *stamina_capacity* information is received as the following *sense_body message*:
-    `(stamina <STAMINA> <EFFORT> <CAPACITY>)`
+
+  (stamina <STAMINA> <EFFORT> <CAPACITY>)
 
 
 .. _sec-kickmodel:
@@ -1189,20 +1194,22 @@ completely the same with the stamina model before rcssserver version 13.
 Kick Model
 --------------------------------------------------
 
+**TODO**
+
 --------------------------------------------------
 Move Model
 --------------------------------------------------
 
-The *move command* can be used to place a player directly onto a desired position on the field. move exists to set up the team and does not work during normal play. It is available at the beginning of each half (play mode ‘**before_kick_off**’) and after a goal has been scored (play modes ‘**goal_r_n **’ or ‘**goal_l_n** ’). In these situations, players can be placed on any position in their own half (i.e. X < 0) and can be moved any number of times, as long as the play mode does not change. Players moved to a position on the opponent half will be set to a random position on their own side by the server.
+The *move command* can be used to place a player directly onto a desired position on the field. move exists to set up the team and does not work during normal play. It is available at the beginning of each half (play mode ``before_kick_off``’) and after a goal has been scored (play modes ``goal_l_?`` or ``goal_r_?`` ’). In these situations, players can be placed on any position in their own half (i.e. X < 0) and can be moved any number of times, as long as the play mode does not change. Players moved to a position on the opponent half will be set to a random position on their own side by the server.
 A second purpose of the *move command* is to move the goalie within the penalty area after the goalie caught the ball. If the goalie caught the ball, it can move together with the ball within the penalty area. The goalie is allowed to move *goalie_max_moves* times before it kicks the ball. Additional *move commands* do not have any effect and the server will respond with (error too_many_moves).
 
+.. table:: Parameter for the move_command
 
-                 Parameter for the move_command
-+-------------------------------------------------+-----------+
-|Parameter in ``server.conf``                     | Value     |
-+=================================================+===========+
-|goalie_max_moves                                 |2          |
-+-------------------------------------------------+-----------+
+   +-------------------------------------------------+-----------+
+   |Parameter in ``server.conf``                     | Value     |
+   +=================================================+===========+
+   |goalie_max_moves                                 |2          |
+   +-------------------------------------------------+-----------+
 
 
 --------------------------------------------------
@@ -1211,21 +1218,21 @@ Say Model
 
 Using the *say command*, players can broadcast messages to other players. Messages can be say_msg_size characters long, where valid characters for say messages are from the set sth (without the square brackets). Messages players say can be heard within a distance of *audio_cut_dist* by members of both teams . **Say messages** sent to the server will be sent back to players within that distance immediately. The use of the *say command* is only restricted by the limited capacity of the players of hearing messages.
 
+.. table:: Parameter for the say command
 
-                     Parameter for the say command
-+-------------------------------------------------+-----------+
-|Parameter in ``server.conf``                     | Value     |
-+=================================================+===========+
-|say_msg_size                                     |10         |
-+-------------------------------------------------+-----------+
-|audio_cut_dist                                   |50         |
-+-------------------------------------------------+-----------+
-|hear_max                                         |1          |
-+-------------------------------------------------+-----------+
-|hear_inc                                         |1          |
-+-------------------------------------------------+-----------+
-|hear_decay                                       |1          |
-+-------------------------------------------------+-----------+
+   +-------------------------------------------------+-----------+
+   |Parameter in ``server.conf``                     | Value     |
+   +=================================================+===========+
+   |say_msg_size                                     |10         |
+   +-------------------------------------------------+-----------+
+   |audio_cut_dist                                   |50         |
+   +-------------------------------------------------+-----------+
+   |hear_max                                         |1          |
+   +-------------------------------------------------+-----------+
+   |hear_inc                                         |1          |
+   +-------------------------------------------------+-----------+
+   |hear_decay                                       |1          |
+   +-------------------------------------------------+-----------+
 
 
 --------------------------------------------------
@@ -1238,19 +1245,19 @@ The probability of a tackle failure when the ball is in front of the player is:
 
 .. math::
 
-  fail_prob = (player_to_ball.x/tackle_dist)^tackle_exponent + (player_to_ball.y/tackle_width)^tackle_exponent
+  {\rm fail\_prob = (player\_to\_ball.x \div tackle\_dist)^{tackle\_exponent} + (player\_to\_ball.y \div tackle\_width)^{tackle\_exponent}}
 
 The probability of a tackle failure when the ball is behind the player is:
 
 .. math::
 
-  fail_prob = (player_to_ball.x/tackle_back_dist)^tackle_exponent + (player_to_ball.y/tackle_back__width)^tackle_exponent
+  {\rm fail\_prob = (player\_to\_ball.x \div tackle\_back\_dist)^{tackle\_exponent} + (player\_to\_ball.y \div tackle\_back\_width)^{tackle\_exponent}}
 
 The probability of processing success is:
 
 .. math::
 
-  tackle_prob = 1.0 – fail_prob
+  {\rm tackle\_prob = 1.0 – fail\_prob}
 
 In this case, when the ball is in front of the player, it is used to *tackle_dist* (default is 2.0), otherwise it is used to **tackle_back_dist** (default is 0.5); **player_to_ball** is a vector from the player to the ball, relative to the body direction of the player. When the tackle command is successful, it will give the ball an acceleration in its own body direction.
 
@@ -1258,165 +1265,213 @@ The execution effect of tackle is similar to that of kick, which is obtained by 
 
 .. math::
 
-  effective_power = power * tackle_power_rate
+  {\rm effective\_power} = {\rm power} \times {\rm tackle\_power\_rate}
 
 Once the player executes the tackle command, whether successful or not, the player can no longer move within 10 cycles. The following table shows the parameters used in tackle command.
 
- Parameters for the tackle command
+.. table:: Parameters for the tackle command
 
-+-------------------------------------------------+-----------+
-|Parameter in ``server.conf``                     | Value     |
-+=================================================+===========+
-|tackle_dist                                      |2          |
-+-------------------------------------------------+-----------+
-|tackle_back_dist                                 |0          |
-+-------------------------------------------------+-----------+
-|tackle_width                                     |1.25       |
-+-------------------------------------------------+-----------+
-|tackle_cycles                                    |10         |
-+-------------------------------------------------+-----------+
-|tackle_exponent                                  |6          |
-+-------------------------------------------------+-----------+
-|tackle_power_rate                                |0.027      |
-+-------------------------------------------------+-----------+
-|max_tackle_power                                 |100        |
-+-------------------------------------------------+-----------+
-|max_back_tackle_power                            |0          |
-+-------------------------------------------------+-----------+
-|tackle_rand_factor                               |2          |
-+-------------------------------------------------+-----------+
+   +-------------------------------------------------+-----------+
+   |Parameter in ``server.conf``                     | Value     |
+   +=================================================+===========+
+   |tackle_dist                                      |2          |
+   +-------------------------------------------------+-----------+
+   |tackle_back_dist                                 |0          |
+   +-------------------------------------------------+-----------+
+   |tackle_width                                     |1.25       |
+   +-------------------------------------------------+-----------+
+   |tackle_cycles                                    |10         |
+   +-------------------------------------------------+-----------+
+   |tackle_exponent                                  |6          |
+   +-------------------------------------------------+-----------+
+   |tackle_power_rate                                |0.027      |
+   +-------------------------------------------------+-----------+
+   |max_tackle_power                                 |100        |
+   +-------------------------------------------------+-----------+
+   |max_back_tackle_power                            |0          |
+   +-------------------------------------------------+-----------+
+   |tackle_rand_factor                               |2          |
+   +-------------------------------------------------+-----------+
 
 --------------------------------------------------
 Turn Model
 --------------------------------------------------
 
-While *dash* is used to accelerate the player in direction of its body, the *turn command* is used to change the players body direction. The argument for the turn command is the moment; valid values for the moment are between **minmoment** and **maxmoment**. If the player does not move, the moment is equal to the angle the player will turn. However, there is a concept of inertia that makes it more difficult to turn when you are moving. Specifically, the actual angle the player is turned is as follows:
-**actual_angle = moment/(1.0 + inertia_moment · player_speed)** (4.22)
-*Inertia_moment* is a server.conf parameter with default value 5.0. Therefore (with default values), when the player is at speed 1.0, the *maximum effective* turn he can do is ±30. However, notice that because you can not dash and turn during the same cycle, the fastest that a player can be going when executing a turn is *player_speed_max* · player decay, which means the effective turn for a default player (with default values) is ±60.
-For heterogeneous players, the inertia moment is the default inertia value plus a value between min. *player_decay_delta_min* · *inertia_moment_delta_factor and max*. *player_decay_delta_max* · *inertia_moment_delta_factor*.
+While *dash* is used to accelerate the player in direction of its
+body, the *turn command* is used to change the players body direction.
+The argument for the turn command is the moment; valid values for the
+moment are between **server::minmoment** and **server::maxmoment**.
+If the player does not move, the moment is equal to the angle the
+player will turn. However, there is a concept of inertia that makes it
+more difficult to turn when you are moving.
+Specifically, the actual angle the player is turned is as follows:
 
-                           Turn Model Parameter
-+----------------------------------+------------------------------------------------+
-| Basic Parameter ``server.conf``  |  Parameter for heterofenous ``player.conf``    |
-+=====================+============+================================+=======+=======+
-|       Name          |   Value    |         Name                   | Value |Range  |
-+---------------------+------------+--------------------------------+-------+-------+
-|minmoment            || -180      | | player_decay_delta_min       | | 0.0 | | 5   |
-+---------------------+------------+--------------------------------+-------+-------+
-|maxmoment            ||  180      | | player_decay_delta_max       | | 0.4 | | 1   |
-+---------------------+------------+--------------------------------+-------+-------+
-|inertia_moment       ||  5.0      | | inertia_moment_delta_factor  | | 25  |       |
-+---------------------+------------+--------------------------------+-------+-------+
+.. math::
 
+   {\rm actual\_angle} = {\rm moment \div (1.0 + inertia\_moment} \times {\rm player\_speed)}
 
+**server::inertia_moment** is a server.conf parameter with default
+value 5.0.
+Therefore (with default values), when the player is at speed 1.0, the
+*maximum effective* turn he can do is :math:`\pm30`.
+However, notice that because you can not dash and turn during the same
+cycle, the fastest that a player can be going when executing a turn is
+:math:`player_speed_max \dot player\_decay`, which means the effective turn for a default player
+(with default values) is :math:`\pm60`.
+
+For heterogeneous players, the inertia moment is the default inertia
+value plus a value between
+:math:`{\rm player\_decay\_delta\_min \times inertia\_moment\_delta\_factor}` and
+:math:`{\rm player\_decay\_delta\_max \times inertia\_moment\_delta\_factor}`.
+
+.. table:: Turn Model Parameter
+
+   +----------------------------------+------------------------------------------------+
+   | Basic Parameter ``server.conf``  |  Parameter for heterofenous ``player.conf``    |
+   +=====================+============+================================+=======+=======+
+   |       Name          |   Value    |         Name                   | Value |Range  |
+   +---------------------+------------+--------------------------------+-------+-------+
+   |minmoment            || -180      | | player_decay_delta_min       | | 0.0 | | 5   |
+   +---------------------+------------+--------------------------------+-------+-------+
+   |maxmoment            ||  180      | | player_decay_delta_max       | | 0.4 | | 1   |
+   +---------------------+------------+--------------------------------+-------+-------+
+   |inertia_moment       ||  5.0      | | inertia_moment_delta_factor  | | 25  |       |
+   +---------------------+------------+--------------------------------+-------+-------+
 
 
 --------------------------------------------------
 TurnNeck Model
 --------------------------------------------------
 
-With *turn_neck*, a player can turn its neck somewhat independently of its body. The angle of the head of the player is the viewing angle of the player. The *turn command* changes the angle of the body of the player while turn_neck changes the neck angle of the player relative to its body. The **minimum** and **maximum** relative angle for the player’s neck are given by **minmoment** and **maxmoment** in server.conf. Remember that the neck angle is relative to the body of the player so if the client issues a *turn command*, the viewing angle changes even if no turn_neck command was issued.
-Also, *turn_neck commands* can be executed during the same cycle as turn, dash, and *kick commands*. turn_neck is not affected by momentum like turn is. The argument for a *turn_neck command* must be in the range between **minneckmoment** and **maxneckmoment**.
+With *turn_neck*, a player can turn its neck somewhat independently of
+its body.
+The angle of the head of the player is the viewing angle of the
+player.
+The *turn command* changes the angle of the body of the player while
+turn_neck changes the neck angle of the player relative to its body.
+The **minimum** and **maximum** relative angle for the player’s neck
+are given by **server::minneckang** and **server::maxneckang** in
+server.conf.
+Remember that the neck angle is relative to the body of the player so
+if the client issues a *turn command*, the viewing angle changes even
+if no turn_neck command was issued.
+Also, *turn_neck commands* can be executed during the same cycle as
+turn, dash, and *kick commands*.
+turn_neck is not affected by momentum like turn is.
+The argument for a *turn_neck command* must be in the range between
+**server::minneckmoment** and **server::maxneckmoment**.
+
+.. table:: Parameter for the turn neck command
+
+   +-------------------------------------------------+-----------+
+   |Parameter in ``server.conf``                     | Value     |
+   +=================================================+===========+
+   |minneckang                                       | -90       |
+   +-------------------------------------------------+-----------+
+   |maxneckang                                       |  90       |
+   +-------------------------------------------------+-----------+
+   |minneckmoment                                    | -180      |
+   +-------------------------------------------------+-----------+
+   |maxneckmoment                                    |  180      |
+   +-------------------------------------------------+-----------+
 
 
-                Parameter for the turn neck command
-+-------------------------------------------------+-----------+
-|Parameter in ``server.conf``                     | Value     |
-+=================================================+===========+
-|minneckang                                       | -90       |
-+-------------------------------------------------+-----------+
-|maxneckang                                       |  90       |
-+-------------------------------------------------+-----------+
-|minneckmoment                                    | -180      |
-+-------------------------------------------------+-----------+
-|maxneckmoment                                    |  180      |
-+-------------------------------------------------+-----------+
-
-
+.. _sec-heterogeneousplayers:
 
 ==================================================
 Heterogeneous Players
 ==================================================
-Heterogeneous Players are players whose values <200b><200b>of some parameters are different from those of a normal player.
-In the case of heterogeneous players, Soccer Server will randomly create a player type on startup.
-Player types have different capabilities based on the trade-offs defined in the player.conf file.
-Soccer Server generates player types random player types at startup.
-Randomly select and combine 10 of the 18 heterogeneous players provided by the server.
-Both teams in the match use the same player type. Type 0 is the default type and is always the same.
-When players connect to the server, they receive information about the available player types.
-Online coaches can change the player type indefinitely in "Before Kick Off" mode, and can use “Player Type Change” to change the player type during play modes other than "Play On".
-Each time a player is replaced by another player type, their stamina, recovery, and effort are reset to the initial (maximum) value for that player type.
-Heterogeneous players can be replaced by coaches other than the keeper.
-The normal player can be used by any number of players, but the use of heterogeneous players is limited, and only three players can be used for each type.
-Heterogeneous players has the following parameter differences.
 
+With the rcssserver version 7, heterogeneous players were introduced.
+For heterogeneous players, the server generates
+**player::player_types** random player types at startup.
+The player types have different capabilities based on the trade-offs
+defined in the player.conf file.
+Both teams of a match use the same player types.
+Type 0 is the default type and is always the same.
+If **player::random_seed** is not 0, the fixed set of heterogenous
+player paramters can be generated based on the given seed value.
+:numref:`tab-hetero` shows the differences of heterogeneous players:
 
-+----------------------+----------------------------------------------------+
-|Parameter             |Description                                         |
-+======================+====================================================+
-|PlayerSpeedMax        |maximum speed                                       |
-+----------------------+----------------------------------------------------+
-|StaminaIncMax         |Amount of stamina recovered in one step             |
-+----------------------+----------------------------------------------------+
-|PlayerDecay           |Player speed decay rate                             |
-+----------------------+----------------------------------------------------+
-|InertiaMoment         |Player inertia force when moving                    |
-+----------------------+----------------------------------------------------+
-|DashPowerRate         |Dash acceleration rate                              |
-+----------------------+----------------------------------------------------+
-|PlayerSize            | Player size                                        |
-+----------------------+----------------------------------------------------+
-|KickableMargin        |Kickable area radius                                |
-+----------------------+----------------------------------------------------+
-|KickRand              |The amount of noise added to the kick               |
-+----------------------+----------------------------------------------------+
-|ExtraStamina          |Extra stamina available when stamina is exhausted   |
-+----------------------+----------------------------------------------------+
-|EffortMax             |Maximum value of the player's effort amount         |
-+----------------------+----------------------------------------------------+
-|EffortMin             |The minimum amount of effort for the player         |
-+----------------------+----------------------------------------------------+
-|CatchAreaLengthStretch|Streach Length to Catch                             |
-+----------------------+----------------------------------------------------+
-|KickPowerRate         |Kick Power Rate                                     |
-+----------------------+----------------------------------------------------+
-|FoulDetectProbability |Probability that the referee will take the foul     |
-+----------------------+----------------------------------------------------+
+When players and coaches connect to the server, they can receive
+information about the available player types.
+The online coaches can change player types unlimited times before the
+first kick off and change player types **player::subs_max** times
+during other non-`play_on` play modes using the `change_player_type`
+command (see :ref:`sec-coachcommand`).
+
+The online coach can substitute a same player type within
+**player::pt_max** times.
+This restriction also applied to the default player type.
+This means that all field players have to be changed to the
+non-default type.
+In version 16, the goalie is still allowed to be assigned the default type.
+However, if server::allow_mult_default_type is false and teams
+use the default player type more than player::pt_max, rcssserver
+automatically assign the heterogeneous player type to field
+players just before the playmode is changed to kick-off.
+
+The online coach can substitute a same player type within
+**player::pt_max** times.
+This restriction is not applied to the default player type.
+If player::pt_max is 1, each player type except the default type can be used only once.
+
+Each time a player is substituted by some other player type, its
+stamina, recovery and effort is reset to the initial (maximum) value
+of the respective player type.
+
+.. table:: The parameter differences of heterogeneous players
+   :name: tab-hetero
+
+   +----------------------+----------------------------------------------------+
+   |Parameter             |Description                                         |
+   +======================+====================================================+
+   |PlayerSpeedMax        |maximum speed                                       |
+   +----------------------+----------------------------------------------------+
+   |StaminaIncMax         |Amount of stamina recovered in one step             |
+   +----------------------+----------------------------------------------------+
+   |PlayerDecay           |Player speed decay rate                             |
+   +----------------------+----------------------------------------------------+
+   |InertiaMoment         |Player inertia force when moving                    |
+   +----------------------+----------------------------------------------------+
+   |DashPowerRate         |Dash acceleration rate                              |
+   +----------------------+----------------------------------------------------+
+   |PlayerSize            | Player size                                        |
+   +----------------------+----------------------------------------------------+
+   |KickableMargin        |Kickable area radius                                |
+   +----------------------+----------------------------------------------------+
+   |KickRand              |The amount of noise added to the kick               |
+   +----------------------+----------------------------------------------------+
+   |ExtraStamina          |Extra stamina available when stamina is exhausted   |
+   +----------------------+----------------------------------------------------+
+   |EffortMax             |Maximum value of the player's effort amount         |
+   +----------------------+----------------------------------------------------+
+   |EffortMin             |The minimum amount of effort for the player         |
+   +----------------------+----------------------------------------------------+
+   |CatchAreaLengthStretch|Streach Length to Catch                             |
+   +----------------------+----------------------------------------------------+
+   |KickPowerRate         |Kick Power Rate                                     |
+   +----------------------+----------------------------------------------------+
+   |FoulDetectProbability |Probability that the referee will take the foul     |
+   +----------------------+----------------------------------------------------+
 
 Heterogeneous player parameters given for each match are different.
 Therefore, each agent does not necessarily have the parameters needed to implement the tactics.
 Whatever the situation, you need a way to choose the best combination of heterogeneous players.
 
 
+.. table:: Parameter for substitutions and heterogeneous player types
 
+   +----------------------------+---------+
+   |Parameter in player.conf    |Value    |
+   +============================+=========+
+   |player_types                |18       |
+   +----------------------------+---------+
+   |subs_max                    |3        |
+   +----------------------------+---------+
+   |pt_max                      |1        |
+   +----------------------------+---------+
 
-+----------------------------+---------+
-|Parameter in player.conf    |Value    |
-+============================+=========+
-|player types                |7        |
-+----------------------------+---------+
-|subs max                    |3        |
-+----------------------------+---------+
-
-Table Parameter for substitutions and heterogeneous player types
-
-
-With Soccer Server 7, heterogeneous players were introduced. For heterogeneous players, Soccer Server generates **player_types** random player types at startup. The player types have different abilities based on the tradeoffs defined in the ``player.conf`` file. Both teams of a match use the same player types. Type 0 is the default type and always the same. 
-
-When the players connect to the server, the receive information on the available player types (see Sec. 4.2.1). The online coach can change player types unlimited times in ``before_kick_off`` mode and change player types **subs_max** times during other ``non-play_on`` play modes using the **change_player_type** ... command (see Sec. 7.4). 
-
-Each time a player is substituted by some other player type, its stamina, recovery and effort is reset to the initial (maximum) value of the respective player type.
-
-+--------------------------------+-----------+
-| Parameter in ``player.conf``   | **Value** |
-+================================+===========+
-| player_types          	 |     7     |
-+--------------------------------+-----------+
-| subs_max	                 |     3     |
-+--------------------------------+-----------+
-
-.. centered::
-  Table 4.11: Parameter for substitutions and heterogeneous player types
 
 ==================================================
 Referee Model
@@ -1424,9 +1479,12 @@ Referee Model
 
 The Automated Referee sends messages to the players, so that players know the actual
 play mode of the game. The rules and the behavior for the automated referee are
-described in Sec. 2.2.1. Players receive the referee messages as hear messages. A player
-can hear referee messages in every situation independent of the number of messages the
-player heard from other players.
+described in Sec. :ref:`sec-overview-referee`.
+Players receive the referee messages as hear messages.
+A player can hear referee messages in every situation independent of
+the number of messages the player heard from other players.
+
+.. _sec-playmodes:
 
 --------------------------------------------------
 Play Modes and referee messages
@@ -1437,64 +1495,67 @@ referee messages announcing events like a goal or a foul. If you have a look int
 server source code, you will notice some additional play modes that are currently not
 used. Both play modes and referee messages are announced using (referee String ),
 where String is the respective play mode or message string. The play modes are listed
-in Tab. 1, for the messages see Tab. 2.
+in :numref:`tab-playmode`, for the messages see :numref:`tab-refereemessages`.
 
-                		Table 1	Play Modes
-+-------------------------+------+----------------------+----------------------------------------+
-|Play Mode	 	  |tc    | subsequent play mode | comment  			         |
-+=========================+======+======================+========================================+
-|before_kick_off          |0     |  kick_off_Side	|at the beginning of a half       	 |
-+-------------------------+------+----------------------+----------------------------------------+
-|play_on                  |      |       		|during normal play			 |
-+-------------------------+------+----------------------+----------------------------------------+
-|time_over   		  |      |       		|					 |
-+-------------------------+------+----------------------+----------------------------------------+
-|kick_off_Side            |      | 	        	|announce start of play 	 	 |
-|			  |      |		        |(after pressing the Kick Off button)	 |
-+-------------------------+------+----------------------+----------------------------------------+
-|kick_in_Side             |      | 	        	|					 |
-+-------------------------+------+----------------------+----------------------------------------+
-|free_kick_Side           |      |      		|					 |
-+-------------------------+------+----------------------+----------------------------------------+
-|corner_kick_Side         |      |       		|					 |
-+-------------------------+------+----------------------+----------------------------------------+
-|goal_kick_Side           |      |  play_on      	|play mode changes once			 |
-|			  |	 |			|the ball leaves the penalty area	 |
-+-------------------------+------+----------------------+----------------------------------------+
-|goal_Side                |      |     			|currently unused			 |
-+-------------------------+------+----------------------+----------------------------------------+
-|drop_ball                |0     | play_on	        |					 |
-+-------------------------+------+----------------------+----------------------------------------+
-|offside_Side             |30    | free_kick_Side       |for the opposite side			 |
-+-------------------------+------+----------------------+----------------------------------------+
+.. table:: Play Modes
+   :name: tab-playmode
+
+   +-------------------------+------+----------------------+----------------------------------------+
+   |Play Mode                |tc    | subsequent play mode | comment                                |
+   +=========================+======+======================+========================================+
+   |before_kick_off          |0     |  kick_off_*Side*     |at the beginning of a half              |
+   +-------------------------+------+----------------------+----------------------------------------+
+   |play_on                  |      |       	           |during normal play                      |
+   +-------------------------+------+----------------------+----------------------------------------+
+   |time_over                |      |                      |                                        |
+   +-------------------------+------+----------------------+----------------------------------------+
+   |kick_off_*Side*          |      |                      |announce start of play                  |
+   |                         |      |                      |(after pressing the Kick Off button)    |
+   +-------------------------+------+----------------------+----------------------------------------+
+   |kick_in_*Side*           |      | 	                   |                                        |
+   +-------------------------+------+----------------------+----------------------------------------+
+   |free_kick_*Side*         |      |                      |                                        |
+   +-------------------------+------+----------------------+----------------------------------------+
+   |corner_kick_*Side*       |      |                      |                                        |
+   +-------------------------+------+----------------------+----------------------------------------+
+   |goal_kick_*Side*         |      |  play_on             |play mode changes once                  |
+   |                         |      |                      |the ball leaves the penalty area        |
+   +-------------------------+------+----------------------+----------------------------------------+
+   |goal_*Side*              |      |                      |currently unused                        |
+   +-------------------------+------+----------------------+----------------------------------------+
+   |drop_ball                |0     | play_on              |                                        |
+   +-------------------------+------+----------------------+----------------------------------------+
+   |offside_*Side*           |30    | free_kick_*Side*     |for the opposite side                   |
+   +-------------------------+------+----------------------+----------------------------------------+
+
 where Side is either the character *l* or *r*, OSide means opponent’s side.
 tc is the time (in number of cycles) until the subsequent play mode will be announced
 
+.. table:: Referee Messages
+   :name: tab-refereemessages
 
+   +-------------------------+------+----------------------+----------------------------------------+
+   |Message                  |tc    | subsequent play mode | comment                                |
+   +=========================+======+======================+========================================+
+   |goal_*Side*_*n*          | 50   | kick_off_*OSide*     |announce the *n* th goal for a team     |
+   +-------------------------+------+----------------------+----------------------------------------+
+   |foul_*Side*              | 0    | free_kick_*OSide*    |announce a foul                         |
+   +-------------------------+------+----------------------+----------------------------------------+
+   |goalie_catch_ball_*Side* | 0    | free_kick_*OSide*    |                                        |
+   +-------------------------+------+----------------------+----------------------------------------+
+   |time_up_without_a_team   | 0    | time_over	           |sent if there was no opponent until     |
+   |                         |      |                      |the end of the second half              |
+   +-------------------------+------+----------------------+----------------------------------------+
+   |time_up                  | 0    | time_over	           |sent once the game is over	            |
+   |                         |      |                      |(if the time is ≥ second half and       |
+   |                         |      |                      |the scores for each team are different) |
+   +-------------------------+------+----------------------+----------------------------------------+
+   |half_time                | 0    | before_kick_off      |                                        |
+   +-------------------------+------+----------------------+----------------------------------------+
+   |time_extended            | 0    | before_kick_off      |                                        |
+   +-------------------------+------+----------------------+----------------------------------------+
 
-                		Table 2	Referee Messages
-+-------------------------+------+----------------------+----------------------------------------+
-|Message	 	  |tc    | subsequent play mode | comment  			         |
-+=========================+======+======================+========================================+
-|goal_Side_n              | 50   | kick_off_OSide       |announce the *n* th goal for a team     |
-+-------------------------+------+----------------------+----------------------------------------+
-|foul_Side                | 0    | free_kick_OSide      |announce a foul			 |
-+-------------------------+------+----------------------+----------------------------------------+
-|goalie_catch_ball_Side   | 0    | free_kick_OSide      |					 |
-+-------------------------+------+----------------------+----------------------------------------+
-|time_up_without_a_team   | 0    | time_over	        |sent if there was no opponent until     |
-|			  |      |		        |the end of the second half		 |
-+-------------------------+------+----------------------+----------------------------------------+
-|time_up                  | 0    | time_over	        |sent once the game is over		 |
-|			  |	 |			|(if the time is ≥ second half and	 |
-|			  |	 |			|the scores for each team are different) |
-+-------------------------+------+----------------------+----------------------------------------+
-|half_time                | 0    | before_kick_off      |					 |
-+-------------------------+------+----------------------+----------------------------------------+
-|time_extended            | 0    | before_kick_off      |					 |
-+-------------------------+------+----------------------+----------------------------------------+
-
-where Side is either the character *l* or *r*, OSide means opponent’s side.
+where *Side* is either the character `l` or `r`, *OSide* means opponent’s side.
 tc is the time (in number of cycles) until the subsequent play mode will be announced.
 
 --------------------------------------------------
