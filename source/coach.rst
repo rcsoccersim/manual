@@ -1,10 +1,5 @@
 .. -*- coding: utf-8; -*-
 
-=================================================
-Coach
-=================================================
-.. -*- coding: utf-8; -*-
-
 *************************************************
 Coach
 *************************************************
@@ -76,7 +71,6 @@ which the trainer-client can connect. The default port number is 6001.  If a dif
 port number is needed the new port can be set by assigning its value to the *coach_port* 
 parameter (see Section B.1).
 
-=================================================
 =================================================
 Commands
 =================================================
@@ -226,6 +220,7 @@ trainer and only to teammates in the case of the online coach. For the trainer
 the format of MESSAGE is the same as for a player-client. It must be a string
 whose length is less than *say_coach_msg_size*(see Section B.1) and it must consist
 of alphanumeric characters and/or the symbols().+*/?<>_ 
+
 The format which the players hear these messages can be found in Section 4.3.1.
 
 Possible replies by the soccerserver:
@@ -557,17 +552,17 @@ number 11 if it has the ball and is in the middle of the field can be defined as
 
     (define
         (definerule
-
+            
             MyRule1
-
+            
             direc (
-
+            
             (and
-
+            
                 (bowner our 5)
-
+                
                 (bpos (rec (pt -10 -10) (pt 10 10))))
-
+            
             (do our 5 (pass 11)))))
 
 Each of the primitives will be explained in detail later. For now it should suffice to
@@ -599,28 +594,29 @@ the players, like conditions, directives, regions, actions, and rules. By defini
 acomponent its is assigned an ID which the coach can use to refer to it in later 
 messages.
 
+    
     **Conditions**: Formatfor defining a condition: **(definec CLANG_STR CONDITION)** 
-
+    
         Example: **(definec "Defense" (bowner opp 0))** This defines the condition 
         in which any player of the opponent team owns the ball.
 
     **Actions**: Format for defining an action:**(definea CLANG_STR ACTION)**
-
+        
         Example: **(definea "Pass7" (pass 7))** 
-
+    
     **Directives**: Format for defining a directive:**(defined CLANG_STR DIRECTIVE)**
-
+    
         Example: **(defined "Pass10to11" (doour 10 (pass 11)))** This directives 
         denotes player 10 passing to player 11.
-
+    
     **Regions**: Format for defining a region:**(defined CLANG_STR REGION)** 
-
+    
         Example: **(defined "OURHALF" (rec (pt -52.5 -34) (pt 0 34)))** A
         rectangle which covers the team's own half is defined.
-
+    
     **Rules**: Formatfor defining a rule:**(definerule CLANG_VAR model RULE)** or 
     **(definerule CLANG_VAR direc RULE)**
-
+    
         Example: **(definerule Rule1 direc ((playm bko) (do our 7 (pos (pt -20 20)))))**
         This rule states that player 7 should position itself at the given 
         point before kick-off.
@@ -630,15 +626,15 @@ messages.
 defining a rule, it is off by default.
 
     Format: **(rule ACTIVATION_LIST)**
-
+    
     Example: **(rule (on rule2) (off rule1))**
 
 **Delete-message**: The delete message tells a player that a rule will not be used again and
 can be removed from the memory. This also means that after deleting a rule, its 
 ID should not appear in other nested rule-definitions (see section 7.7.4) anymore. 
-
+    
     Format: **(delete ID_LIST)**
-
+    
     Examples: **(delete Rule1) (delete (Rule1 Rule2)) (delete all)** Deletes one 
     rule, a list of two rules, or all rules, respectively. 
 
@@ -669,7 +665,7 @@ the following components:
     <RULE>: (<CONDITION> <DIRECTIVE_LIST>)
             | (<CONDITION> <RULE_LIST>)
             | <ID_LIST>
-
+            
 Each rule is assigned a name complying the definition of **CLANG_VAR**. Additionally, 
 rules are in one of two modes, either **model** which states that the rule is a description
 of observed behavior, or **direc** which states that the rule is a directive to behave in a
