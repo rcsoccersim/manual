@@ -17,8 +17,7 @@ To build the html files, type the following command in the top of working direct
 The outputs are written under the `build/html` directory.
 In our repository, `build/html` is a symbolic link to `doc` directory, the location published as https://rcsoccersim.github.io/manual.
 
-If successfully built, you can browse the local html files by your favarite web browser.
-Then, you can commit and push source files and html files.
+If successfully built, you can browse the local html files by your favorite web browser.
+Please note that the docs directory will be immediately published as our web site if changes are pushed to the master branch.
+In order to avoid useless conflicts, please fork the official repository or create another branch, then push **only source (.rst) files** and create a pull request.
 
-Please note that the `docs` directory of master branch will be immediately published as web site. 
-If your changes has to be reviewed, please create another branch and push changes to there.
