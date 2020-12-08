@@ -1396,6 +1396,23 @@ Whatever the situation, you need a way to choose the best combination of heterog
 Table Parameter for substitutions and heterogeneous player types
 
 
+With Soccer Server 7, heterogeneous players were introduced. For heterogeneous players, Soccer Server generates **player_types** random player types at startup. The player types have different abilities based on the tradeoffs defined in the ``player.conf`` file. Both teams of a match use the same player types. Type 0 is the default type and always the same. 
+
+When the players connect to the server, the receive information on the available player types (see Sec. 4.2.1). The online coach can change player types unlimited times in ``before_kick_off`` mode and change player types **subs_max** times during other ``non-play_on`` play modes using the **change_player_type** ... command (see Sec. 7.4). 
+
+Each time a player is substituted by some other player type, its stamina, recovery and effort is reset to the initial (maximum) value of the respective player type.
+
++--------------------------------+-----------+
+| Parameter in ``player.conf``   | **Value** |
++================================+===========+
+| player_types          	 |     7     |
++--------------------------------+-----------+
+| subs_max	                 |     3     |
++--------------------------------+-----------+
+
+.. centered::
+  Table 4.11: Parameter for substitutions and heterogeneous player types
+
 ==================================================
 Referee Model
 ==================================================
@@ -1558,6 +1575,13 @@ randomized. After changing objects positions, and updating velocities and accele
 the automated referee checks the situation and changes the play mode or the object
 positions, if necessary. Changes to the play mode are announced immediately. Finally,
 stamina for each player is updated.
+
+In Soccer Server, time is updated in discrete steps. A simulation step is 100ms. During each simulation step, objects (i.e. players and the ball) stay on their positions. If players decide to act within a step, actions are applied to the players and the ball at the transition from one simulation cycle to the next. Depending on the play mode, not all actions are allowed for the players (for instance in ``before_kick_off`` mode, players can **turn** and **move**, but they cannot **dash**), so only allowed actions will be applied and take effect.
+
+If during a step, several players kick the ball, all the kicks are applied to the ball and a resulting acceleration is calculated. If the resulting acceleration is larger than the maximum acceleration for the ball, acceleration is normalized to its maximum value. After moving the objects, the server checks for collisions and updates velocities if a collision occurred (see also Sec. 4.4.2).
+
+When applying accelerations and velocities to the objects, the order of application is randomized. After changing objects positions, and updating velocities and accelerations, the automated referee checks the situation and changes the play mode or the object positions, if necessary. Changes to the play mode are announced immediately. Finally, stamina for each player is updated.
+
 
 
 ==================================================
