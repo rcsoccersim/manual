@@ -1413,6 +1413,61 @@ tc is the time (in number of cycles) until the subsequent play mode will be anno
 where Side is either the character *l* or *r*, OSide means opponent’s side.
 tc is the time (in number of cycles) until the subsequent play mode will be announced.
 
+--------------------------------------------------
+Illegal Defense Referee
+--------------------------------------------------
+From the server version 16, a new referee module has been added to control the number of defensive players.
+We have four new variables in **server_param** to change the parameters of this referee.
+
+::
+
+    server::illegal_defense_duration = 20
+
+This parameter determines the number of cycles that illegal defense situation would have to remain before calling a free kick.
+
+::
+
+    server::illegal_defense_number = 0
+
+This parameter determines how many players would need to be
+in the specified zone before the illegal defense situation countdown
+starts.
+If the value is set to 0, the referee never detects illegal defense situations.
+
+::
+
+    server::illegal_defense_dist_x = 16.5
+
+This parameter determines the distance from the field's goal lines for
+detecting defensive players.
+
+
+::
+
+    server::illegal_defense_width = 40.32
+
+This parameter determines the horizontal distance from the horizontal
+symmetry line for detecting defensive players.
+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Rules
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If defensive players exists within the rectangle defined by
+**illegal_defense_dist_x** and **illegal_defense_width**, they are
+marked as an illegal state.
+if the number of markerd players becomes greater than or equal to
+**illegal_defense_number** and this continues for
+**illegal_defense_duration** cycles, then play mode will change to
+**free_kick_[lr]** for the offensive team.
+
+A team is considered as the offensive team when their player is the latest player to kick the ball.
+If both teams perform a kick on the same cycle, neither team is considered as offensive, and the countdown resets.
+The above rule is applied to the tackle action too.
+The change of play mode does not affect cycles of illegal defense situations.
+
+
 ==================================================
 The Soccer Simulation
 ==================================================
@@ -1420,8 +1475,6 @@ The Soccer Simulation
 --------------------------------------------------
 Description of the simulation algorithm
 --------------------------------------------------
-
-
 
 ==================================================
 Using Soccerserver
