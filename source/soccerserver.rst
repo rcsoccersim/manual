@@ -956,80 +956,80 @@ At the transition from simulation step $n$ to simulation step
    :math:`\vec{v}_{n+1} = \vec{v}_{n} \cdot {\rm player\_decay}`.
    Acceleration :math:`\vec{a}_{n+1}` is set to zero.
 
-   
+
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Sideward and Omni-Directional Dashes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Besides the forward and backward dashes that were already described in 
-the previous section, since version 13 the Soccer Server also supports the 
-possibility to perform sideward and even omni-directional dashes. 
-In addition to the already known 
-parameter of the **dash(x)** command where :math:`x\in[-100,100]` determines 
+Besides the forward and backward dashes that were already described in
+the previous section, since version 13 the Soccer Server also supports the
+possibility to perform sideward and even omni-directional dashes.
+In addition to the already known
+parameter of the **dash(x)** command where :math:`x\in[-100,100]` determines
 the relativ strength of the dash (with negative sign indicating a backward
-dash), the omni-directional dash model uses two parameters to the **dash** 
+dash), the omni-directional dash model uses two parameters to the **dash**
 command:
 
 .. math::
   :label: eq:omniDash
-  
+
   dash(power,dir)
 
-where :math:`power` determines the relative strength of the dash 
-and :math:`dir` represents the direction of the dash accelaration 
+where :math:`power` determines the relative strength of the dash
+and :math:`dir` represents the direction of the dash accelaration
 relative to the player's body
-angle. The format in which the command needs to be sent to the Soccer Server 
+angle. The format in which the command needs to be sent to the Soccer Server
 is ``(dash <power> <dir>)``.
-If a negative value is used for :math:`power`, then the reverse side angle 
-of :math:`dir` 
-will be used. Practically, the direction of the dash is restricted to by the 
+If a negative value is used for :math:`power`, then the reverse side angle
+of :math:`dir`
+will be used. Practically, the direction of the dash is restricted to by the
 corresponding Soccer Server parameters to
 
 .. math::
    dir \in [server::min\_dash\_angle,server::max\_dash\_angle]
 
-The effective power of the dash command is determined by the absolute value 
-of the dash direction. Players will always dash with full effective power 
-(100\%) alongside their current body orientation, i.e. when using a zero 
-direction angle as described in the preceding section. 
+The effective power of the dash command is determined by the absolute value
+of the dash direction. Players will always dash with full effective power
+(100\%) alongside their current body orientation, i.e. when using a zero
+direction angle as described in the preceding section.
 Two further Soccer Server parameters, ``server::side_dash_rate``
-and ``server::back_dash_rate``, determine the 
+and ``server::back_dash_rate``, determine the
 effective power that is applied when a non-straight dash is performed.
 
-Thus, for example, strafing movements (90 degrees left/right to the player) 
-will be performed with 40\% of effective power, 
+Thus, for example, strafing movements (90 degrees left/right to the player)
+will be performed with 40\% of effective power,
 whereas backward dashes will performed with 60\%
-(according to current Soccer Server parameter default values). 
-For values between these four main 
+(according to current Soccer Server parameter default values).
+For values between these four main
 directions a linear interpolation of the effective power will be applied.
 The following formula explains the maths behind the sideward dash model.
 
 .. math::
    :label: eq:omniDashEffPower
-   
+
    dir\_rate = \begin{cases}
                   back\_dash\_rate - ( back\_dash\_rate - side\_dash\_rate ) * ( 1.0 - ( fabs( dir ) - 90.0 ) / 90.0 ) & \text{if } fabs( dir ) > 90.0 \\
                   side\_dash\_rate + ( 1.0 - side\_dash\_rate ) * ( 1.0 - fabs( dir ) / 90.0 ) ) & \text{else}
                \end{cases}
-   
-As discussed in the description of the forward/backward dash model in the 
+
+As discussed in the description of the forward/backward dash model in the
 preceding section, there exists the server parameter
-``server::min_dash_power`` which determines the highest minimal value 
-that can be used for the first parameter :math:`power` of the dash command. 
-It is expected that 
+``server::min_dash_power`` which determines the highest minimal value
+that can be used for the first parameter :math:`power` of the dash command.
+It is expected that
 this parameter will be set to zero in future versions of the Soccer Server,
-while, for reasons of compatibility with older team binaries, its default value 
+while, for reasons of compatibility with older team binaries, its default value
 of -100 is encouraged currently.
 
-Finally, the parameter ``server::dash_angle_step`` allows for a finer 
+Finally, the parameter ``server::dash_angle_step`` allows for a finer
 discreteness
-of players' dash directions. If this value is set to 90.0 degrees, players are 
-allowed to dash into the four main directions, for a setting of 45.0 we 
-arrive at eight different directions. Setting this parameter to 1.0, 
-the Soccer Server is capable of emulating an omnidirectional movement 
+of players' dash directions. If this value is set to 90.0 degrees, players are
+allowed to dash into the four main directions, for a setting of 45.0 we
+arrive at eight different directions. Setting this parameter to 1.0,
+the Soccer Server is capable of emulating an omnidirectional movement
 model as it is commen, for example, in the MidSize League.
 
-The following table summarizes all Soccer Server parameters that are of 
+The following table summarizes all Soccer Server parameters that are of
 relevance for omni-directional dashing.
 
 +---------------------------------+----------------------------+-------------------------------------------+------------+
@@ -1136,7 +1136,7 @@ The *move command* can be used to place a player directly onto a desired positio
 A second purpose of the *move command* is to move the goalie within the penalty area after the goalie caught the ball. If the goalie caught the ball, it can move together with the ball within the penalty area. The goalie is allowed to move *goalie_max_moves* times before it kicks the ball. Additional *move commands* do not have any effect and the server will respond with (error too_many_moves).
 
 
-                 Parameter for the move_command 
+                 Parameter for the move_command
 +-------------------------------------------------+-----------+
 |Parameter in ``server.conf``                     | Value     |
 +=================================================+===========+
@@ -1236,7 +1236,7 @@ For heterogeneous players, the inertia moment is the default inertia value plus 
 
                            Turn Model Parameter
 +----------------------------------+------------------------------------------------+
-| Basic Parameter ``server.conf``  |  Parameter for heterofenous ``player.conf``    | 
+| Basic Parameter ``server.conf``  |  Parameter for heterofenous ``player.conf``    |
 +=====================+============+================================+=======+=======+
 |       Name          |   Value    |         Name                   | Value |Range  |
 +---------------------+------------+--------------------------------+-------+-------+
@@ -1431,3 +1431,451 @@ Using Soccerserver
 The Soccerserver Parameters
 --------------------------------------------------
 
+.. list-table:: Parameters adjustable in ``server.conf``
+   :widths: 100 20 30 100
+   :header-rows: 1
+
+   * - Name
+     - Default Value
+     - Current Value  in ``server.conf``
+     - Description
+   * - goal_width
+     - 7.32
+     - 14.0
+     - goal width
+   * - player_size
+     -
+     - 0.3
+     - player size
+   * - player_decay
+     -
+     - 0.4
+     - player decay
+   * - player_rand
+     -
+     - 0.1
+     -
+   * - playerـweight
+     -
+     - 60.0
+     - player weight
+   * - playerـspeedـmax
+     -
+     - 1.0
+     - max. player velocity
+   * - player-accelـmax
+     -
+     - 1.0
+     - max. player acceleration
+   * - playerـaccelـmax
+     -
+     - 1.0
+     - max. player acceleration
+   * - staminaـmax
+     -
+     - 4000.0
+     - max. player stamina
+   * - staminaـincـmax
+     -
+     - 45.0
+     - max. player stamina increment
+   * - recoverـdecـthr
+     -
+     - 0.3
+     - player recovery decrement threshold
+   * - recover_min
+     -
+     - 0.5
+     - min. player recovery
+   * - recover_dec
+     -
+     - 0.002
+     - player recovery decrement
+   * - effort_dec_thr
+     -
+     - 0.3
+     - player dash effort decrement threshold
+   * - effort_min
+     -
+     - 0.6
+     - min. player dash effort
+   * - effort_dec
+     -
+     - 0.005
+     - dash effort decrement
+   * - effort_inc_thr
+     -
+     - 0.6
+     - dash effort increment treshold
+   * - effort_inc
+     -
+     - 0.01
+     - dash effort increment
+   * - kick_rand
+     -
+     - 0.0
+     - noise added directly to kicks
+   * - team_actuator_noise
+     -
+     -
+     - flag whether to use team specic actuator noise
+   * - prand_factor_l
+     -
+     -
+     - factor to multiply prand for left team
+   * - prand_factor_r
+     -
+     -
+     - factor to multiply prand for right team
+   * - kick_rand_factor_l
+     -
+     -
+     - factor to multiply kick rand for left team
+   * - kick_rand_factor_r
+     -
+     -
+     - factor to multiply kick rand for right team
+   * - ball_size
+     -
+     - 0.085
+     - ball size
+   * - ball_decay
+     -
+     - 0.94
+     - ball decay
+   * - ball_rand
+     -
+     - 0.05
+     -
+   * - ballـweight
+     -
+     - 0.2
+     - weight of the ball
+   * - ballـspeedـmax
+     -
+     - 2.7
+     - max. ball velocity
+   * - ballـaccelـmax
+     -
+     - 2.7
+     - max. ball acceleration
+   * - dashـpowerـrate
+     -
+     - 0.006
+     - dash power rate
+   * - kickـpowerـrate
+     -
+     - 0.027
+     - kick power rate
+   * - kickableـmargin
+     -
+     - 0.7
+     - kickable margin
+   * - controlـradius
+     -
+     -
+     - control radius
+   * - catchـprobability
+     -
+     - 1.0
+     - goalie catch probability
+   * - catchableـareaـl
+     -
+     - 2.0
+     - goalie catchable area length
+   * - catchableـareaـw
+     -
+     - 1.0
+     - goalie catchable area width
+   * - goalieـmaxـmoves
+     -
+     - 2
+     - goalie max. moves after a catch
+   * - maxpower
+     -
+     - 100
+     - max power
+   * - minpower
+     -
+     - -100
+     - min power
+   * - maxmoment
+     -
+     - 180
+     - max. moment
+   * - minmoment
+     -
+     - -180
+     - min. moment
+   * - maxneckmoment
+     -
+     - 180
+     - max. neck moment
+   * - minneckmoment
+     -
+     - -180
+     - min. neck moment
+   * - maxneckang
+     -
+     - 90
+     - max. neck angle
+   * - minneckang
+     -
+     - -90
+     - min. neck angle
+   * - visibleـangle
+     -
+     - 90.0
+     - visible angle
+   * - visibleـdistance
+     -
+     -
+     - visible distance
+   * - audioـcutـdist
+     -
+     - 50.0
+     - audio cut off distance
+   * - quantize_step
+     -
+     - 0.1
+     - quantize step of distance for movable objects
+   * - quantize_step_l
+     -
+     - 0.01
+     - quantize step of distance for landmarks
+   * - quantize_step_dir
+     -
+     -
+     -
+   * - quantize_step_dist_team_l
+     -
+     -
+     -
+   * - quantize_step_dist_team_r
+     -
+     -
+     -
+   * - quantize_step_dist_l_team_l
+     -
+     -
+     -
+   * - quantize_step_dist_l_team_r
+     -
+     -
+     -
+   * - quantize_step_dir_team_l
+     -
+     -
+     -
+   * - quantize_step_dir_team_r
+     -
+     -
+     -
+   * - ckick_margin
+     -
+     - 1.0
+     - corner kick margin
+   * - wind_dir
+     - 0.0
+     - 0.0
+     - wind direction
+   * - wind_force
+     - 10.0
+     - 0.0
+     -
+   * - wind_rand
+     - 0.3
+     - 0.0
+     -
+   * - wind_none
+     -
+     -
+     - wind factor is none
+   * - wind_random
+     -
+     - false
+     - wind factor is random
+   * - inertia_moment
+     -
+     - 5.0
+     - intertia moment for turn
+   * - half_time
+     -
+     - 300
+     - length of a half time in seconds
+   * - drop_ball_time
+     -
+     - 200
+     - number of cycles to wait until dropping the ball automatically
+   * - port
+     -
+     - 6000
+     - player port number
+   * - coach_port
+     -
+     - 6001
+     - (offine) coach port
+   * - olcoach_port_online
+     -
+     -
+     - coach port
+   * - say_coach_cnt_max
+     -
+     - 128
+     - upper limit of the number of online coach's message
+   * - say_coach_msg_size
+     -
+     - 128
+     - upper limit of length of online coach's message
+   * - simulator_step
+     -
+     - 100
+     - time step of simulation [unit:msec]
+   * - send_step
+     -
+     - 150
+     - time step of visual information [unit:msec]
+   * - recv_step
+     -
+     - 10
+     - time step of acception of commands [unit: msec]
+   * - sense_body_step
+     -
+     - 100
+     -
+   * - say_msg_size
+     -
+     - 512
+     - string size of say message [unit:byte]
+   * - clang_win_size
+     -
+     - 300
+     - time window which controls how many messages can be sent (coach language)
+   * - clang_define_win
+     -
+     - 1
+     - number of messages per window
+   * - clang_meta_win
+     -
+     - 1
+     -
+   * - clang_advice_win
+     -
+     - 1
+     -
+   * - clang_info_win
+     -
+     - 1
+     -
+   * - clang_mess_delay
+     -
+     - 50
+     - delay between receipt of message and send to players
+   * - clang_mess_per_cycle
+     -
+     - 1
+     - maximum number of coach messages sent per cycle
+   * - hear_max
+     -
+     - 2
+     -
+   * - hear_inc
+     -
+     - 1
+     -
+   * - hear_decay
+     -
+     - 2
+     -
+   * - catch_ban_cycle
+     -
+     - 5
+     -
+   * - coach
+     -
+     -
+     -
+   * - coach_w_referee
+     -
+     -
+     -
+   * - old_coach_hear
+     -
+     -
+     -
+   * - send_vi_step
+     -
+     - 100
+     - interval of online coach's look
+   * - use_offside
+     -
+     - on
+     - flag for using off side rule
+   * - offside_active_area_size
+     -
+     - 5
+     - offside active area size
+   * - forbid_kick_off_offside
+     -
+     - on
+     - forbid kick off offside
+   * - log_file
+     -
+     -
+     -
+   * - record
+     -
+     -
+     -
+   * - record_version
+     -
+     - 3
+     - flaag for record log
+   * - record_log
+     -
+     - on
+     - flag for record client command log
+   * - record messages
+     -
+     -
+     -
+   * - send_log
+     -
+     - on
+     - flag for send client command log
+   * - log_times
+     -
+     - off
+     - flag for writing cycle lenth to log file
+   * - verbose
+     -
+     - off
+     - flag for verbose mode
+   * - replay
+     -
+     -
+     -
+   * - offside_kick_margin
+     -
+     - 9.15
+     - offside kick margin
+   * - slow_down_factor
+     -
+     -
+     -
+   * - start_goal_l
+     -
+     -
+     -
+   * - start_goal_r
+     -
+     -
+     -
+   * - fullstate_l
+     -
+     -
+     -
+   * - fullstate_r
+     -
+     -
+     -
