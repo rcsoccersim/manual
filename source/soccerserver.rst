@@ -186,11 +186,11 @@ The following table shows the protocol for client version 14 or later.
 | | (see *Time* *ObjInfo*\+)                                                                                               |
 | |    *Time* ::= simulation cycle of rcssserver                                                                           |
 | |    *ObjInfo* ::=                                                                                                       |
-| |               (*ObjName* *Distance* *Diretion* *DistChange* *DirChange* *BodyFacingDir* *HeadFacingDir*                |
+| |               (*ObjName* *Distance* *Direction* *DistChange* *DirChange* *BodyFacingDir* *HeadFacingDir*                |
 |                       [*PointDir*] [t] [k]])                                                                             |
-| |               \| (*ObjName* *Distance* *Diretion* *DistChange* *DirChange* [*PointDir*] [t] [k]])                      |
-| |               \| (*ObjName* *Distance* *Diretion*)                                                                     |
-| |               \| (*ObjName* *Diretion*)                                                                                |
+| |               \| (*ObjName* *Distance* *Direction* *DistChange* *DirChange* [*PointDir*] [t] [k]])                      |
+| |               \| (*ObjName* *Distance* *Direction*)                                                                     |
+| |               \| (*ObjName* *Direction*)                                                                                |
 | |    *ObjName* ::= (p ["*TeamName*" [*UniformNumber* [goalie]]])                                                         |
 | |               \| (b)                                                                                                   |
 | |               \| (g {l\|r})                                                                                            |
