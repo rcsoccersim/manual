@@ -186,12 +186,12 @@ The following table shows the protocol for client version 14 or later.
 | | (see *Time* *ObjInfo*\+)                                                                                               |
 | |    *Time* ::= simulation cycle of rcssserver                                                                           |
 | |    *ObjInfo* ::=                                                                                                       |
-| |               (*ObjName* *Distance* *Diretion* *DistChange* *DirChange* *BodyFacingDir* *HeadFacingDir*                |
+| |               (*ObjName* *Distance* *Direction* *DistChange* *DirChange* *BodyFacingDir* *HeadFacingDir*                |
 |                       [*PointDir*] [t] [k]])                                                                             |
-| |               \| (*ObjName* *Distance* *Diretion* *DistChange* *DirChange* [*PointDir*] [{t|k}])                       |
-| |               \| (*ObjName* *Distance* *Diretion*)                                                                     |
+| |               \| (*ObjName* *Distance* *Direction* *DistChange* *DirChange* [*PointDir*] [{t|k}])                       |
+| |               \| (*ObjName* *Distance* *Direction*)                                                                     |
 | |               \| (*ObjName* *Diretion*)                                                                                |
-| |    *ObjName* ::= (p ["*TeamName*" [*UniformNumber* [goalie] [*PointDir*] [{t|k}]]])                                    |
+| |    *ObjName* ::= (p ["*TeamName*" [*UniformNumber* [goalie]]])                                                         |
 | |               \| (b)                                                                                                   |
 | |               \| (g {l\|r})                                                                                            |
 | |               \| (f c)                                                                                                 |
@@ -495,7 +495,7 @@ is used as the name of the object rather than "b", "p", "g" and "f".
   **server::visible_distance** of the viewing agent can be seen.
   **unum_far_length**, **unum_too_far_length**, **team_far_length**, and
   **team_too_far_length** affect the amount of precision
-  with which a players’ identity is given. Taken from [Stone98]_.
+  with which a player's identity is given. Taken from [Stone98]_.
 
 
 The following example and Fig.:ref:`view-example` are taken from [Stone98]_.
@@ -780,7 +780,6 @@ not be caught if it is outside this area).
 For the current values of catch command parameters see
 the following table:
 
-
  Parameters for the goalie catch command
 
 +-------------------------------------------------+-----------+
@@ -804,8 +803,65 @@ the following table:
 
 **TODO** about heterogenous parameters.
 
+First time when goalie has been introduced in Soccer Simulation 2D was with server
+version 4.0.0:
 
+When a client connects the server with '(init TEAMNAME (goalie)',
+the client becomes a goalies. The goalie can use '(catch DIR)' command
+that enable to capture the ball.
 
+With server version 4.0.2 another parameter named `goalie_catch_probability' has
+been introduced. This parameter represents the probability that a goalie succeed to
+catch the ball by a catch command. (default value: 1.0)
+
+In 2008 a new catch model has been introduced in server version 12.0.0. In the old model 
+if the ball would been in the rectangle determined by the position of the goalie and ball, 
+catch direction from the catch command, catchable_area_l and catchabale_area_w, the ball 
+would been successfully caught. In the new designed model, the catch probability is set to 
+unreliable catches. If ball is not within the goalie's reliable catch area, the catch 
+probability is calculated according to the ball position, so the goalie's catch command might 
+be failed. With this server version, the value of the parameter catchable_area_l has been 
+changed from 2.0 to 1.2. If you want to test this rule, you need to change the 
+server::catchable_area_l (default value: 1.2) parameter to the value greater than 
+server::reliable_catch_area_l (default value: 1.2). 
+And server::min_catch_probability (default value: 1) also need to be change to [0, 1]. 
+All these parameters are defined in server.conf file.
+
+Later, in server version 14.0.0 a heterogeneous goalie has been introduced. Beginning
+with this version online coaches can change the player type of goalie. The
+'catchable_area_l_stretch' variable was added to each heterogeneous player type through 
+two new parameters: player::catchable_area_l_stretch_min (default value: 1.0) and 
+player::catchable_area_l_stretch_max (default value: 1.3)
+
+The following pseudo code shows a trade-off rule of the catch model:
+
+// catchable_area_l_stretch is the heterogeneous parameter, currenlty within [1.0,1.3]
+
+double this_catchable_are_delta = server::catchable_area_l * (catchable_area_l_stretch - 1.0)
+
+double this_catchable_area_l_max = server::catchable_area_l + this_catchable_are_delta
+
+double this_catchable_area_l_min = server::catchable_area_l - this_catchable_are_delta
+
+	if (ball_pos is inside the MINIMAL catch area)
+	{
+		// the MINIMAL catch area has a length of this_catchable_area_l_min and width server::catchable_area_w goalie 
+		catches the ball with probability server::catch_probability (which is 1.0 by default)
+	}
+	else if (ball_pos is beyond the MAXIMAL (stretched) area)
+	{
+		// the MAXIMAL catch area has a length of this_catchable_area_l_max and width server::catchable_area_w goalie 
+		definitely misses the ball
+	}
+	else
+	{
+		double ball_relative_x = (ball_pos - goalie_pos).rotate(-(goalie_body + catch_dir)).x
+
+		double catch_prob = server::catch_probability - server::catch_probability * (ball_relative_x - this_catchable_area_l_min) / 
+		(this_catchable_area_l_max - this_catchable_area_l_min)
+
+		// goalie catches the ball with probability catch_prob it holds: catch_prob is in [0.0,1.0]
+	}
 
 If a catch command was unsuccessful, it takes
 **server::catch_ban_cycle** cycles until another catch command can be
@@ -860,6 +916,8 @@ the following list:
 | server::player_speed_max_min    | 0.75                       |                                           |            |
 +---------------------------------+----------------------------+-------------------------------------------+------------+
 | server::stamina_max             |8000.0                      |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+| server::stamina_capacity        |130600.0                    |                                           |            |
 +---------------------------------+----------------------------+-------------------------------------------+------------+
 || server::stamina_inc_max        || 45.0  ([40.2, 52.2])      || player::new_dash_power_rate_delta_min    || -0.0012   |
 || server::dash_power_rate        || 0.006 ([0.0048, 0.0068])  || player::new_dash_power_rate_delta_max    || 0.0008    |
@@ -961,6 +1019,97 @@ At the transition from simulation step $n$ to simulation step
 
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Sideward and Omni-Directional Dashes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Besides the forward and backward dashes that were already described in
+the previous section, since version 13 the Soccer Server also supports the
+possibility to perform sideward and even omni-directional dashes.
+In addition to the already known
+parameter of the **dash(x)** command where :math:`x\in[-100,100]` determines
+the relativ strength of the dash (with negative sign indicating a backward
+dash), the omni-directional dash model uses two parameters to the **dash**
+command:
+
+.. math::
+  :label: eq:omniDash
+
+  dash(power,dir)
+
+where :math:`power` determines the relative strength of the dash
+and :math:`dir` represents the direction of the dash accelaration
+relative to the player's body
+angle. The format in which the command needs to be sent to the Soccer Server
+is ``(dash <power> <dir>)``.
+If a negative value is used for :math:`power`, then the reverse side angle
+of :math:`dir`
+will be used. Practically, the direction of the dash is restricted to by the
+corresponding Soccer Server parameters to
+
+.. math::
+   dir \in [server::min\_dash\_angle,server::max\_dash\_angle]
+
+The effective power of the dash command is determined by the absolute value
+of the dash direction. Players will always dash with full effective power
+(100\%) alongside their current body orientation, i.e. when using a zero
+direction angle as described in the preceding section.
+Two further Soccer Server parameters, ``server::side_dash_rate``
+and ``server::back_dash_rate``, determine the
+effective power that is applied when a non-straight dash is performed.
+
+Thus, for example, strafing movements (90 degrees left/right to the player)
+will be performed with 40\% of effective power,
+whereas backward dashes will performed with 60\%
+(according to current Soccer Server parameter default values).
+For values between these four main
+directions a linear interpolation of the effective power will be applied.
+The following formula explains the maths behind the sideward dash model.
+
+.. math::
+   :label: eq:omniDashEffPower
+
+   dir\_rate = \begin{cases}
+                  back\_dash\_rate - ( back\_dash\_rate - side\_dash\_rate ) * ( 1.0 - ( fabs( dir ) - 90.0 ) / 90.0 ) & \text{if } fabs( dir ) > 90.0 \\
+                  side\_dash\_rate + ( 1.0 - side\_dash\_rate ) * ( 1.0 - fabs( dir ) / 90.0 ) ) & \text{else}
+               \end{cases}
+
+As discussed in the description of the forward/backward dash model in the
+preceding section, there exists the server parameter
+``server::min_dash_power`` which determines the highest minimal value
+that can be used for the first parameter :math:`power` of the dash command.
+It is expected that
+this parameter will be set to zero in future versions of the Soccer Server,
+while, for reasons of compatibility with older team binaries, its default value
+of -100 is encouraged currently.
+
+Finally, the parameter ``server::dash_angle_step`` allows for a finer
+discreteness
+of players' dash directions. If this value is set to 90.0 degrees, players are
+allowed to dash into the four main directions, for a setting of 45.0 we
+arrive at eight different directions. Setting this parameter to 1.0,
+the Soccer Server is capable of emulating an omnidirectional movement
+model as it is commen, for example, in the MidSize League.
+
+The following table summarizes all Soccer Server parameters that are of
+relevance for omni-directional dashing.
+
++---------------------------------+----------------------------+-------------------------------------------+------------+
+|| Default Parameters             || Default Value (Range)     || Heterogeneous Player Parameters          || Value     |
+||  ``server.conf``               ||                           ||   ``player.conf``                        ||           |
++=================================+============================+===========================================+============+
+| server::server::max\_dash\_angle| 180.0                      |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+| server::server::min\_dash\_angle|-180.0                      |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+| server::side\_dash\_rate        | 0.4                        |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+| server::back\_dash\_rate        | 0.6                        |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+| server::dash\_angle\_step       | 1                          |                                           |            |
++---------------------------------+----------------------------+-------------------------------------------+------------+
+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Stamina Model
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -1000,8 +1149,38 @@ be increased during a game.
         effort = min(effort, effort_max)
 
     # recover the stamina a bit
-    stamina = stamina + recovery * stamina_inc_max
-    stamina = min(stamina, stamina_max)
+    stamina_inc = recovery * stamina_inc_max
+    stamina = min(stamina + stamina_inc, stamina_max)
+
+In rcssserver version 13 or later, the **stamina_capacity** variable
+has been implemented as one of the player's stamina models in addition to the above
+three *stamina* variables.
+*stamina_capacity* is defined as the maximum recovery capacity of each player's stamina.
+When a player's *stamina* is recovered during a game, the same amount of *stamina* is also consumed from one's *stamina_capacity*.
+Once the player's *stamina_capacity* becomes 0, one's stamina is never recovered and the only **extra_stamina** is consumed instead of the normal *stamina*.
+The updated algorithm is shown in the following code block.
+``stamina_inc`` can be available from the previous code block.
+
+::
+
+   # stamina_inc is restricted by the residual capacity
+   if stamina_capacity >= 0.0
+     if stamina_inc > stamina_capacity
+       stamina_inc = stamina_capacity
+   stamina = min(stamina + stamina_inc, stamina_max)
+
+   # stamina capacity is reduced as the same amount as stamina_inc
+   if stamina_capacity >= 0.0
+     stamina_capacity = max(0.0, stamina_capacity - stamina_inc)
+
+*stamina_capacity* is reset to the initial value just after the kick-off of normal halves as well as the other stamina-related variables.
+However, *stamina_capacity* is never recovered at the half time of extra-inning games and before the penalty shootouts.
+The *stamina_capacity* is defined as one of the parameters of rcssserver **server::stamina_capacity** (the default value of *stamina_capacity* is 130600 as of rcsserver version 16.0.0).
+If *server::stamina_capacity* is set to a negative value, each player has an infinite stamina capacity.
+This setting makes the stamina-model including stamina_capacity
+completely the same with the stamina model before rcssserver version 13.
+*stamina_capacity* information is received as the following *sense_body message*:
+    `(stamina <STAMINA> <EFFORT> <CAPACITY>)`
 
 
 .. _sec-kickmodel:
@@ -1010,49 +1189,403 @@ be increased during a game.
 Kick Model
 --------------------------------------------------
 
-
-
 --------------------------------------------------
 Move Model
 --------------------------------------------------
+
+The *move command* can be used to place a player directly onto a desired position on the field. move exists to set up the team and does not work during normal play. It is available at the beginning of each half (play mode ‘**before_kick_off**’) and after a goal has been scored (play modes ‘**goal_r_n **’ or ‘**goal_l_n** ’). In these situations, players can be placed on any position in their own half (i.e. X < 0) and can be moved any number of times, as long as the play mode does not change. Players moved to a position on the opponent half will be set to a random position on their own side by the server.
+A second purpose of the *move command* is to move the goalie within the penalty area after the goalie caught the ball. If the goalie caught the ball, it can move together with the ball within the penalty area. The goalie is allowed to move *goalie_max_moves* times before it kicks the ball. Additional *move commands* do not have any effect and the server will respond with (error too_many_moves).
+
+
+                 Parameter for the move_command
++-------------------------------------------------+-----------+
+|Parameter in ``server.conf``                     | Value     |
++=================================================+===========+
+|goalie_max_moves                                 |2          |
++-------------------------------------------------+-----------+
+
 
 --------------------------------------------------
 Say Model
 --------------------------------------------------
 
+Using the *say command*, players can broadcast messages to other players. Messages can be say_msg_size characters long, where valid characters for say messages are from the set sth (without the square brackets). Messages players say can be heard within a distance of *audio_cut_dist* by members of both teams . **Say messages** sent to the server will be sent back to players within that distance immediately. The use of the *say command* is only restricted by the limited capacity of the players of hearing messages.
+
+
+                     Parameter for the say command
++-------------------------------------------------+-----------+
+|Parameter in ``server.conf``                     | Value     |
++=================================================+===========+
+|say_msg_size                                     |10         |
++-------------------------------------------------+-----------+
+|audio_cut_dist                                   |50         |
++-------------------------------------------------+-----------+
+|hear_max                                         |1          |
++-------------------------------------------------+-----------+
+|hear_inc                                         |1          |
++-------------------------------------------------+-----------+
+|hear_decay                                       |1          |
++-------------------------------------------------+-----------+
+
+
 --------------------------------------------------
 Tackle Model
 --------------------------------------------------
+
+The tackle command is to accelerate the ball towards the player's body. Players can kick the ball that can not be kicked with the kick command by executing the tackle command. The success of tackle depends on a random probability related to the position of the ball. It can be obtained by the following formula.
+
+The probability of a tackle failure when the ball is in front of the player is:
+
+.. math::
+
+  fail_prob = (player_to_ball.x/tackle_dist)^tackle_exponent + (player_to_ball.y/tackle_width)^tackle_exponent
+
+The probability of a tackle failure when the ball is behind the player is:
+
+.. math::
+
+  fail_prob = (player_to_ball.x/tackle_back_dist)^tackle_exponent + (player_to_ball.y/tackle_back__width)^tackle_exponent
+
+The probability of processing success is:
+
+.. math::
+
+  tackle_prob = 1.0 – fail_prob
+
+In this case, when the ball is in front of the player, it is used to *tackle_dist* (default is 2.0), otherwise it is used to **tackle_back_dist** (default is 0.5); **player_to_ball** is a vector from the player to the ball, relative to the body direction of the player. When the tackle command is successful, it will give the ball an acceleration in its own body direction.
+
+The execution effect of tackle is similar to that of kick, which is obtained by multiplying the parameter **tackle_power_rate** (default is 0.027) with power. It can be expressed by the following formula:
+
+.. math::
+
+  effective_power = power * tackle_power_rate
+
+Once the player executes the tackle command, whether successful or not, the player can no longer move within 10 cycles. The following table shows the parameters used in tackle command.
+
+ Parameters for the tackle command
+
++-------------------------------------------------+-----------+
+|Parameter in ``server.conf``                     | Value     |
++=================================================+===========+
+|tackle_dist                                      |2          |
++-------------------------------------------------+-----------+
+|tackle_back_dist                                 |0          |
++-------------------------------------------------+-----------+
+|tackle_width                                     |1.25       |
++-------------------------------------------------+-----------+
+|tackle_cycles                                    |10         |
++-------------------------------------------------+-----------+
+|tackle_exponent                                  |6          |
++-------------------------------------------------+-----------+
+|tackle_power_rate                                |0.027      |
++-------------------------------------------------+-----------+
+|max_tackle_power                                 |100        |
++-------------------------------------------------+-----------+
+|max_back_tackle_power                            |0          |
++-------------------------------------------------+-----------+
+|tackle_rand_factor                               |2          |
++-------------------------------------------------+-----------+
 
 --------------------------------------------------
 Turn Model
 --------------------------------------------------
 
+While *dash* is used to accelerate the player in direction of its body, the *turn command* is used to change the players body direction. The argument for the turn command is the moment; valid values for the moment are between **minmoment** and **maxmoment**. If the player does not move, the moment is equal to the angle the player will turn. However, there is a concept of inertia that makes it more difficult to turn when you are moving. Specifically, the actual angle the player is turned is as follows:
+**actual_angle = moment/(1.0 + inertia_moment · player_speed)** (4.22)
+*Inertia_moment* is a server.conf parameter with default value 5.0. Therefore (with default values), when the player is at speed 1.0, the *maximum effective* turn he can do is ±30. However, notice that because you can not dash and turn during the same cycle, the fastest that a player can be going when executing a turn is *player_speed_max* · player decay, which means the effective turn for a default player (with default values) is ±60.
+For heterogeneous players, the inertia moment is the default inertia value plus a value between min. *player_decay_delta_min* · *inertia_moment_delta_factor and max*. *player_decay_delta_max* · *inertia_moment_delta_factor*.
+
+                           Turn Model Parameter
++----------------------------------+------------------------------------------------+
+| Basic Parameter ``server.conf``  |  Parameter for heterofenous ``player.conf``    |
++=====================+============+================================+=======+=======+
+|       Name          |   Value    |         Name                   | Value |Range  |
++---------------------+------------+--------------------------------+-------+-------+
+|minmoment            || -180      | | player_decay_delta_min       | | 0.0 | | 5   |
++---------------------+------------+--------------------------------+-------+-------+
+|maxmoment            ||  180      | | player_decay_delta_max       | | 0.4 | | 1   |
++---------------------+------------+--------------------------------+-------+-------+
+|inertia_moment       ||  5.0      | | inertia_moment_delta_factor  | | 25  |       |
++---------------------+------------+--------------------------------+-------+-------+
+
+
+
+
 --------------------------------------------------
 TurnNeck Model
 --------------------------------------------------
 
-.. _sec-heterogeneousplayers:
+With *turn_neck*, a player can turn its neck somewhat independently of its body. The angle of the head of the player is the viewing angle of the player. The *turn command* changes the angle of the body of the player while turn_neck changes the neck angle of the player relative to its body. The **minimum** and **maximum** relative angle for the player’s neck are given by **minmoment** and **maxmoment** in server.conf. Remember that the neck angle is relative to the body of the player so if the client issues a *turn command*, the viewing angle changes even if no turn_neck command was issued.
+Also, *turn_neck commands* can be executed during the same cycle as turn, dash, and *kick commands*. turn_neck is not affected by momentum like turn is. The argument for a *turn_neck command* must be in the range between **minneckmoment** and **maxneckmoment**.
+
+
+                Parameter for the turn neck command
++-------------------------------------------------+-----------+
+|Parameter in ``server.conf``                     | Value     |
++=================================================+===========+
+|minneckang                                       | -90       |
++-------------------------------------------------+-----------+
+|maxneckang                                       |  90       |
++-------------------------------------------------+-----------+
+|minneckmoment                                    | -180      |
++-------------------------------------------------+-----------+
+|maxneckmoment                                    |  180      |
++-------------------------------------------------+-----------+
+
+
 
 ==================================================
 Heterogeneous Players
 ==================================================
+Heterogeneous Players are players whose values <200b><200b>of some parameters are different from those of a normal player.
+In the case of heterogeneous players, Soccer Server will randomly create a player type on startup.
+Player types have different capabilities based on the trade-offs defined in the player.conf file.
+Soccer Server generates player types random player types at startup.
+Randomly select and combine 10 of the 18 heterogeneous players provided by the server.
+Both teams in the match use the same player type. Type 0 is the default type and is always the same.
+When players connect to the server, they receive information about the available player types.
+Online coaches can change the player type indefinitely in "Before Kick Off" mode, and can use “Player Type Change” to change the player type during play modes other than "Play On".
+Each time a player is replaced by another player type, their stamina, recovery, and effort are reset to the initial (maximum) value for that player type.
+Heterogeneous players can be replaced by coaches other than the keeper.
+The normal player can be used by any number of players, but the use of heterogeneous players is limited, and only three players can be used for each type.
+Heterogeneous players has the following parameter differences.
+
+
++----------------------+----------------------------------------------------+
+|Parameter             |Description                                         |
++======================+====================================================+
+|PlayerSpeedMax        |maximum speed                                       |
++----------------------+----------------------------------------------------+
+|StaminaIncMax         |Amount of stamina recovered in one step             |
++----------------------+----------------------------------------------------+
+|PlayerDecay           |Player speed decay rate                             |
++----------------------+----------------------------------------------------+
+|InertiaMoment         |Player inertia force when moving                    |
++----------------------+----------------------------------------------------+
+|DashPowerRate         |Dash acceleration rate                              |
++----------------------+----------------------------------------------------+
+|PlayerSize            | Player size                                        |
++----------------------+----------------------------------------------------+
+|KickableMargin        |Kickable area radius                                |
++----------------------+----------------------------------------------------+
+|KickRand              |The amount of noise added to the kick               |
++----------------------+----------------------------------------------------+
+|ExtraStamina          |Extra stamina available when stamina is exhausted   |
++----------------------+----------------------------------------------------+
+|EffortMax             |Maximum value of the player's effort amount         |
++----------------------+----------------------------------------------------+
+|EffortMin             |The minimum amount of effort for the player         |
++----------------------+----------------------------------------------------+
+|CatchAreaLengthStretch|Streach Length to Catch                             |
++----------------------+----------------------------------------------------+
+|KickPowerRate         |Kick Power Rate                                     |
++----------------------+----------------------------------------------------+
+|FoulDetectProbability |Probability that the referee will take the foul     |
++----------------------+----------------------------------------------------+
+
+Heterogeneous player parameters given for each match are different.
+Therefore, each agent does not necessarily have the parameters needed to implement the tactics.
+Whatever the situation, you need a way to choose the best combination of heterogeneous players.
+
+
+
+
++----------------------------+---------+
+|Parameter in player.conf    |Value    |
++============================+=========+
+|player types                |7        |
++----------------------------+---------+
+|subs max                    |3        |
++----------------------------+---------+
+
+Table Parameter for substitutions and heterogeneous player types
+
+
+With Soccer Server 7, heterogeneous players were introduced. For heterogeneous players, Soccer Server generates **player_types** random player types at startup. The player types have different abilities based on the tradeoffs defined in the ``player.conf`` file. Both teams of a match use the same player types. Type 0 is the default type and always the same. 
+
+When the players connect to the server, the receive information on the available player types (see Sec. 4.2.1). The online coach can change player types unlimited times in ``before_kick_off`` mode and change player types **subs_max** times during other ``non-play_on`` play modes using the **change_player_type** ... command (see Sec. 7.4). 
+
+Each time a player is substituted by some other player type, its stamina, recovery and effort is reset to the initial (maximum) value of the respective player type.
+
++--------------------------------+-----------+
+| Parameter in ``player.conf``   | **Value** |
++================================+===========+
+| player_types          	 |     7     |
++--------------------------------+-----------+
+| subs_max	                 |     3     |
++--------------------------------+-----------+
+
+.. centered::
+  Table 4.11: Parameter for substitutions and heterogeneous player types
 
 ==================================================
 Referee Model
 ==================================================
 
+The Automated Referee sends messages to the players, so that players know the actual
+play mode of the game. The rules and the behavior for the automated referee are
+described in Sec. 2.2.1. Players receive the referee messages as hear messages. A player
+can hear referee messages in every situation independent of the number of messages the
+player heard from other players.
+
 --------------------------------------------------
 Play Modes and referee messages
 --------------------------------------------------
+
+The change of the play mode is announced by the referee. Additionally, there are some
+referee messages announcing events like a goal or a foul. If you have a look into the
+server source code, you will notice some additional play modes that are currently not
+used. Both play modes and referee messages are announced using (referee String ),
+where String is the respective play mode or message string. The play modes are listed
+in Tab. 1, for the messages see Tab. 2.
+
+                		Table 1	Play Modes
++-------------------------+------+----------------------+----------------------------------------+
+|Play Mode	 	  |tc    | subsequent play mode | comment  			         |
++=========================+======+======================+========================================+
+|before_kick_off          |0     |  kick_off_Side	|at the beginning of a half       	 |
++-------------------------+------+----------------------+----------------------------------------+
+|play_on                  |      |       		|during normal play			 |
++-------------------------+------+----------------------+----------------------------------------+
+|time_over   		  |      |       		|					 |
++-------------------------+------+----------------------+----------------------------------------+
+|kick_off_Side            |      | 	        	|announce start of play 	 	 |
+|			  |      |		        |(after pressing the Kick Off button)	 |
++-------------------------+------+----------------------+----------------------------------------+
+|kick_in_Side             |      | 	        	|					 |
++-------------------------+------+----------------------+----------------------------------------+
+|free_kick_Side           |      |      		|					 |
++-------------------------+------+----------------------+----------------------------------------+
+|corner_kick_Side         |      |       		|					 |
++-------------------------+------+----------------------+----------------------------------------+
+|goal_kick_Side           |      |  play_on      	|play mode changes once			 |
+|			  |	 |			|the ball leaves the penalty area	 |
++-------------------------+------+----------------------+----------------------------------------+
+|goal_Side                |      |     			|currently unused			 |
++-------------------------+------+----------------------+----------------------------------------+
+|drop_ball                |0     | play_on	        |					 |
++-------------------------+------+----------------------+----------------------------------------+
+|offside_Side             |30    | free_kick_Side       |for the opposite side			 |
++-------------------------+------+----------------------+----------------------------------------+
+where Side is either the character *l* or *r*, OSide means opponent’s side.
+tc is the time (in number of cycles) until the subsequent play mode will be announced
+
+
+
+                		Table 2	Referee Messages
++-------------------------+------+----------------------+----------------------------------------+
+|Message	 	  |tc    | subsequent play mode | comment  			         |
++=========================+======+======================+========================================+
+|goal_Side_n              | 50   | kick_off_OSide       |announce the *n* th goal for a team     |
++-------------------------+------+----------------------+----------------------------------------+
+|foul_Side                | 0    | free_kick_OSide      |announce a foul			 |
++-------------------------+------+----------------------+----------------------------------------+
+|goalie_catch_ball_Side   | 0    | free_kick_OSide      |					 |
++-------------------------+------+----------------------+----------------------------------------+
+|time_up_without_a_team   | 0    | time_over	        |sent if there was no opponent until     |
+|			  |      |		        |the end of the second half		 |
++-------------------------+------+----------------------+----------------------------------------+
+|time_up                  | 0    | time_over	        |sent once the game is over		 |
+|			  |	 |			|(if the time is ≥ second half and	 |
+|			  |	 |			|the scores for each team are different) |
++-------------------------+------+----------------------+----------------------------------------+
+|half_time                | 0    | before_kick_off      |					 |
++-------------------------+------+----------------------+----------------------------------------+
+|time_extended            | 0    | before_kick_off      |					 |
++-------------------------+------+----------------------+----------------------------------------+
+
+where Side is either the character *l* or *r*, OSide means opponent’s side.
+tc is the time (in number of cycles) until the subsequent play mode will be announced.
+
+--------------------------------------------------
+Illegal Defense Referee
+--------------------------------------------------
+From the server version 16, a new referee module has been added to control the number of defensive players.
+We have four new variables in **server_param** to change the parameters of this referee.
+
+::
+
+    server::illegal_defense_duration = 20
+
+This parameter determines the number of cycles that illegal defense situation would have to remain before calling a free kick.
+
+::
+
+    server::illegal_defense_number = 0
+
+This parameter determines how many players would need to be
+in the specified zone before the illegal defense situation countdown
+starts.
+If the value is set to 0, the referee never detects illegal defense situations.
+
+::
+
+    server::illegal_defense_dist_x = 16.5
+
+This parameter determines the distance from the field's goal lines for
+detecting defensive players.
+
+
+::
+
+    server::illegal_defense_width = 40.32
+
+This parameter determines the horizontal distance from the horizontal
+symmetry line for detecting defensive players.
+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Rules
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If defensive players exists within the rectangle defined by
+**illegal_defense_dist_x** and **illegal_defense_width**, they are
+marked as an illegal state.
+if the number of markerd players becomes greater than or equal to
+**illegal_defense_number** and this continues for
+**illegal_defense_duration** cycles, then play mode will change to
+**free_kick_[lr]** for the offensive team.
+
+A team is considered as the offensive team when their player is the latest player to kick the ball.
+If both teams perform a kick on the same cycle, neither team is considered as offensive, and the countdown resets.
+The above rule is applied to the tackle action too.
+The change of play mode does not affect cycles of illegal defense situations.
+
 
 ==================================================
 The Soccer Simulation
 ==================================================
 
+In Sec. 4.4, we gave a description on how the objects are moved with respect to their accelerations and velocities. In this section, we describe at what point in time acceleration
+and velocities are applied to the objects during the simulation.
+
 --------------------------------------------------
 Description of the simulation algorithm
 --------------------------------------------------
+
+In Soccer Server, time is updated in discrete steps. A simulation step is 100ms. During
+each simulation step, objects (i.e. players and the ball) stay on their positions. If
+players decide to act within a step, actions are applied to the players and the ball at the
+transition from one simulation cycle to the next. Depending on the play mode, not all
+actions are allowed for the players (for instance in 'before kick off' mode, players can
+**turn** and **move**, but they cannot **dash**), so only allowed actions will be applied and
+take effect.
+If during a step, several players kick the ball, all the kicks are applied to the ball
+and a resulting acceleration is calculated. If the resulting acceleration is larger than the
+maximum acceleration for the ball, acceleration is normalized to its maximum value.
+After moving the objects, the server checks for collisions and updates velocities if a
+collision occurred (see also Sec. 4.4.2).
+When applying accelerations and velocities to the objects, the order of application is
+randomized. After changing objects positions, and updating velocities and accelerations,
+the automated referee checks the situation and changes the play mode or the object
+positions, if necessary. Changes to the play mode are announced immediately. Finally,
+stamina for each player is updated.
+
+In Soccer Server, time is updated in discrete steps. A simulation step is 100ms. During each simulation step, objects (i.e. players and the ball) stay on their positions. If players decide to act within a step, actions are applied to the players and the ball at the transition from one simulation cycle to the next. Depending on the play mode, not all actions are allowed for the players (for instance in ``before_kick_off`` mode, players can **turn** and **move**, but they cannot **dash**), so only allowed actions will be applied and take effect.
+
+If during a step, several players kick the ball, all the kicks are applied to the ball and a resulting acceleration is calculated. If the resulting acceleration is larger than the maximum acceleration for the ball, acceleration is normalized to its maximum value. After moving the objects, the server checks for collisions and updates velocities if a collision occurred (see also Sec. 4.4.2).
+
+When applying accelerations and velocities to the objects, the order of application is randomized. After changing objects positions, and updating velocities and accelerations, the automated referee checks the situation and changes the play mode or the object positions, if necessary. Changes to the play mode are announced immediately. Finally, stamina for each player is updated.
 
 
 
@@ -1063,3 +1596,452 @@ Using Soccerserver
 --------------------------------------------------
 The Soccerserver Parameters
 --------------------------------------------------
+
+.. list-table:: Parameters adjustable in ``server.conf``
+   :widths: 100 20 30 100
+   :header-rows: 1
+
+   * - Name
+     - Default Value
+     - Current Value  in ``server.conf``
+     - Description
+   * - goal_width
+     - 7.32
+     - 14.0
+     - goal width
+   * - player_size
+     -
+     - 0.3
+     - player size
+   * - player_decay
+     -
+     - 0.4
+     - player decay
+   * - player_rand
+     -
+     - 0.1
+     -
+   * - playerـweight
+     -
+     - 60.0
+     - player weight
+   * - playerـspeedـmax
+     -
+     - 1.0
+     - max. player velocity
+   * - player-accelـmax
+     -
+     - 1.0
+     - max. player acceleration
+   * - playerـaccelـmax
+     -
+     - 1.0
+     - max. player acceleration
+   * - staminaـmax
+     -
+     - 4000.0
+     - max. player stamina
+   * - staminaـincـmax
+     -
+     - 45.0
+     - max. player stamina increment
+   * - recoverـdecـthr
+     -
+     - 0.3
+     - player recovery decrement threshold
+   * - recover_min
+     -
+     - 0.5
+     - min. player recovery
+   * - recover_dec
+     -
+     - 0.002
+     - player recovery decrement
+   * - effort_dec_thr
+     -
+     - 0.3
+     - player dash effort decrement threshold
+   * - effort_min
+     -
+     - 0.6
+     - min. player dash effort
+   * - effort_dec
+     -
+     - 0.005
+     - dash effort decrement
+   * - effort_inc_thr
+     -
+     - 0.6
+     - dash effort increment treshold
+   * - effort_inc
+     -
+     - 0.01
+     - dash effort increment
+   * - kick_rand
+     -
+     - 0.0
+     - noise added directly to kicks
+   * - team_actuator_noise
+     -
+     -
+     - flag whether to use team specic actuator noise
+   * - prand_factor_l
+     -
+     -
+     - factor to multiply prand for left team
+   * - prand_factor_r
+     -
+     -
+     - factor to multiply prand for right team
+   * - kick_rand_factor_l
+     -
+     -
+     - factor to multiply kick rand for left team
+   * - kick_rand_factor_r
+     -
+     -
+     - factor to multiply kick rand for right team
+   * - ball_size
+     -
+     - 0.085
+     - ball size
+   * - ball_decay
+     -
+     - 0.94
+     - ball decay
+   * - ball_rand
+     -
+     - 0.05
+     -
+   * - ballـweight
+     -
+     - 0.2
+     - weight of the ball
+   * - ballـspeedـmax
+     -
+     - 2.7
+     - max. ball velocity
+   * - ballـaccelـmax
+     -
+     - 2.7
+     - max. ball acceleration
+   * - dashـpowerـrate
+     -
+     - 0.006
+     - dash power rate
+   * - kickـpowerـrate
+     -
+     - 0.027
+     - kick power rate
+   * - kickableـmargin
+     -
+     - 0.7
+     - kickable margin
+   * - controlـradius
+     -
+     -
+     - control radius
+   * - catchـprobability
+     -
+     - 1.0
+     - goalie catch probability
+   * - catchableـareaـl
+     -
+     - 2.0
+     - goalie catchable area length
+   * - catchableـareaـw
+     -
+     - 1.0
+     - goalie catchable area width
+   * - goalieـmaxـmoves
+     -
+     - 2
+     - goalie max. moves after a catch
+   * - maxpower
+     -
+     - 100
+     - max power
+   * - minpower
+     -
+     - -100
+     - min power
+   * - maxmoment
+     -
+     - 180
+     - max. moment
+   * - minmoment
+     -
+     - -180
+     - min. moment
+   * - maxneckmoment
+     -
+     - 180
+     - max. neck moment
+   * - minneckmoment
+     -
+     - -180
+     - min. neck moment
+   * - maxneckang
+     -
+     - 90
+     - max. neck angle
+   * - minneckang
+     -
+     - -90
+     - min. neck angle
+   * - visibleـangle
+     -
+     - 90.0
+     - visible angle
+   * - visibleـdistance
+     -
+     -
+     - visible distance
+   * - audioـcutـdist
+     -
+     - 50.0
+     - audio cut off distance
+   * - quantize_step
+     -
+     - 0.1
+     - quantize step of distance for movable objects
+   * - quantize_step_l
+     -
+     - 0.01
+     - quantize step of distance for landmarks
+   * - quantize_step_dir
+     -
+     -
+     -
+   * - quantize_step_dist_team_l
+     -
+     -
+     -
+   * - quantize_step_dist_team_r
+     -
+     -
+     -
+   * - quantize_step_dist_l_team_l
+     -
+     -
+     -
+   * - quantize_step_dist_l_team_r
+     -
+     -
+     -
+   * - quantize_step_dir_team_l
+     -
+     -
+     -
+   * - quantize_step_dir_team_r
+     -
+     -
+     -
+   * - ckick_margin
+     -
+     - 1.0
+     - corner kick margin
+   * - wind_dir
+     - 0.0
+     - 0.0
+     - wind direction
+   * - wind_force
+     - 10.0
+     - 0.0
+     -
+   * - wind_rand
+     - 0.3
+     - 0.0
+     -
+   * - wind_none
+     -
+     -
+     - wind factor is none
+   * - wind_random
+     -
+     - false
+     - wind factor is random
+   * - inertia_moment
+     -
+     - 5.0
+     - intertia moment for turn
+   * - half_time
+     -
+     - 300
+     - length of a half time in seconds
+   * - drop_ball_time
+     -
+     - 200
+     - number of cycles to wait until dropping the ball automatically
+   * - port
+     -
+     - 6000
+     - player port number
+   * - coach_port
+     -
+     - 6001
+     - (offine) coach port
+   * - olcoach_port_online
+     -
+     -
+     - coach port
+   * - say_coach_cnt_max
+     -
+     - 128
+     - upper limit of the number of online coach's message
+   * - say_coach_msg_size
+     -
+     - 128
+     - upper limit of length of online coach's message
+   * - simulator_step
+     -
+     - 100
+     - time step of simulation [unit:msec]
+   * - send_step
+     -
+     - 150
+     - time step of visual information [unit:msec]
+   * - recv_step
+     -
+     - 10
+     - time step of acception of commands [unit: msec]
+   * - sense_body_step
+     -
+     - 100
+     -
+   * - say_msg_size
+     -
+     - 512
+     - string size of say message [unit:byte]
+   * - clang_win_size
+     -
+     - 300
+     - time window which controls how many messages can be sent (coach language)
+   * - clang_define_win
+     -
+     - 1
+     - number of messages per window
+   * - clang_meta_win
+     -
+     - 1
+     -
+   * - clang_advice_win
+     -
+     - 1
+     -
+   * - clang_info_win
+     -
+     - 1
+     -
+   * - clang_mess_delay
+     -
+     - 50
+     - delay between receipt of message and send to players
+   * - clang_mess_per_cycle
+     -
+     - 1
+     - maximum number of coach messages sent per cycle
+   * - hear_max
+     -
+     - 2
+     -
+   * - hear_inc
+     -
+     - 1
+     -
+   * - hear_decay
+     -
+     - 2
+     -
+   * - catch_ban_cycle
+     -
+     - 5
+     -
+   * - coach
+     -
+     -
+     -
+   * - coach_w_referee
+     -
+     -
+     -
+   * - old_coach_hear
+     -
+     -
+     -
+   * - send_vi_step
+     -
+     - 100
+     - interval of online coach's look
+   * - use_offside
+     -
+     - on
+     - flag for using off side rule
+   * - offside_active_area_size
+     -
+     - 5
+     - offside active area size
+   * - forbid_kick_off_offside
+     -
+     - on
+     - forbid kick off offside
+   * - log_file
+     -
+     -
+     -
+   * - record
+     -
+     -
+     -
+   * - record_version
+     -
+     - 3
+     - flaag for record log
+   * - record_log
+     -
+     - on
+     - flag for record client command log
+   * - record messages
+     -
+     -
+     -
+   * - send_log
+     -
+     - on
+     - flag for send client command log
+   * - log_times
+     -
+     - off
+     - flag for writing cycle lenth to log file
+   * - verbose
+     -
+     - off
+     - flag for verbose mode
+   * - replay
+     -
+     -
+     -
+   * - offside_kick_margin
+     -
+     - 9.15
+     - offside kick margin
+   * - slow_down_factor
+     -
+     -
+     -
+   * - start_goal_l
+     -
+     -
+     -
+   * - start_goal_r
+     -
+     -
+     -
+   * - fullstate_l
+     -
+     -
+     -
+   * - fullstate_r
+     -
+     -
+     -
