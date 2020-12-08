@@ -490,7 +490,7 @@ is used as the name of the object rather than "b", "p", "g" and "f".
   **server::visible_distance** of the viewing agent can be seen.
   **unum_far_length**, **unum_too_far_length**, **team_far_length**, and
   **team_too_far_length** affect the amount of precision
-  with which a players’ identity is given. Taken from [Stone98]_.
+  with which a player's identity is given. Taken from [Stone98]_.
 
 
 The following example and Fig.:ref:`view-example` are taken from [Stone98]_.
@@ -1400,6 +1400,12 @@ Table Parameter for substitutions and heterogeneous player types
 Referee Model
 ==================================================
 
+The Automated Referee sends messages to the players, so that players know the actual
+play mode of the game. The rules and the behavior for the automated referee are
+described in Sec. 2.2.1. Players receive the referee messages as hear messages. A player
+can hear referee messages in every situation independent of the number of messages the
+player heard from other players.
+
 --------------------------------------------------
 Play Modes and referee messages
 --------------------------------------------------
@@ -1528,9 +1534,31 @@ The change of play mode does not affect cycles of illegal defense situations.
 The Soccer Simulation
 ==================================================
 
+In Sec. 4.4, we gave a description on how the objects are moved with respect to their accelerations and velocities. In this section, we describe at what point in time acceleration
+and velocities are applied to the objects during the simulation.
+
 --------------------------------------------------
 Description of the simulation algorithm
 --------------------------------------------------
+
+In Soccer Server, time is updated in discrete steps. A simulation step is 100ms. During
+each simulation step, objects (i.e. players and the ball) stay on their positions. If
+players decide to act within a step, actions are applied to the players and the ball at the
+transition from one simulation cycle to the next. Depending on the play mode, not all
+actions are allowed for the players (for instance in 'before kick off' mode, players can
+**turn** and **move**, but they cannot **dash**), so only allowed actions will be applied and
+take effect.
+If during a step, several players kick the ball, all the kicks are applied to the ball
+and a resulting acceleration is calculated. If the resulting acceleration is larger than the
+maximum acceleration for the ball, acceleration is normalized to its maximum value.
+After moving the objects, the server checks for collisions and updates velocities if a
+collision occurred (see also Sec. 4.4.2).
+When applying accelerations and velocities to the objects, the order of application is
+randomized. After changing objects positions, and updating velocities and accelerations,
+the automated referee checks the situation and changes the play mode or the object
+positions, if necessary. Changes to the play mode are announced immediately. Finally,
+stamina for each player is updated.
+
 
 ==================================================
 Using Soccerserver
