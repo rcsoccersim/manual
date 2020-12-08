@@ -268,7 +268,7 @@ Additionally, the soccerserver can send the following replies to the online coac
         If the coach tries to change the player type of the goalie.
 
 The server responds to the teammates with:
-    
+
     * **(change_player_type UNUM TYPE)**
 
 and opponents (including opponent coach) with:
@@ -297,7 +297,7 @@ Possible replies by the soccerserver:
 
     * **(ok look TIME (OBJ1 OBJDESC1) (OBJ2 OBJDESC2) ... )** 
         OBJj can be any of the objects mentioned above.  See Section 4.3 for information about the way the names for those objects are composed. OBJDESCj have the following form:
-        
+
         * For goals: X Y
         * For the ball: X Y DELTAx DELTAy
         * For players: X Y DELTAx DELTAy BODYANGLE NECKANGLE [POINTING_DIRECTION]
@@ -593,6 +593,7 @@ they define and combine the components which the coach wants to share with
 the players, like conditions, directives, regions, actions, and rules. By defining
 acomponent its is assigned an ID which the coach can use to refer to it in later 
 messages.
+
     
     **Conditions**: Formatfor defining a condition: **(definec CLANG_STR CONDITION)** 
     
@@ -722,10 +723,521 @@ These can be combined into a behavior for player 2:
 Semantics and Syntax Details of the Components
 ------------------------------------------------
 
+In the following the syntax and semantics of the non-terminal symbols which were used
+in the format outlines above will be described.
+Rules have a condition on the left-hand side, and a set of actions on the right hand
+side. Thus each rule can be thought of as essentially specifying an if-then statement:
+
+.. code-block::
+
+    if CONDITION
+    then { DIRECTIVE_1 DIRECTIVE_2 ... }
+
+In the player’s programs, it is easy to represent all the advice given by the coach as
+a small rule-base. Following the advice would be easy by matching the current world
+state against the condition, and trying to act on the directives. Note: If more than one
+condition applies to the current situation and the corresponding directives differ, it is
+up to the player to choose the directive. Note that the player should also exercise some
+discretion in following directives. For example, if the only directive which matches is to
+pass to player 5, but player 5 is well-covered by opponents, the player with the ball may
+choose to ignore the directive for now.
+
+* Conditions:
+
+    A condition is made from the logical connectives over atomic state description
+    propositions:
+
+        * **(ture)**
+            Always true.
+
+        * **(false)**
+            Always false.
+
+        * **(ppos TEAM UNUM SET INT INT REGION)**
+            The first INT is the MINIMUM and the second is the MAXIMUM At least
+            MINUMUM but no more than MAXIMUM players in UNUM SET from team
+            TEAM are in region REGION. Regions and unum sets are more precisely
+            defined below. TEAM is either ”our” or ”opp”. There is no ambiguity since
+            the coach can only be heard by its own players.
+
+        * **(bpos REGION)**
+            The ball is in region REGION.
+
+        * **(bowner TEAM UNUM SET)**
+            The ball is controlled by some player in UNUM SET of team TEAM. The
+            ball-owner is the last player that had ball contact (i.e. the ball was in his
+            kickable area), even if the ball left his control after that.
+
+        * **(playm PLAY MODE)**
+            The play-mode is PLAY MODE. See Section 7.7.7 for the valid values of
+            PLAY MODE.
+
+        * **(COND COMP)**
+            The time, goal-difference, number of own or opponent goals can be compared
+            with constants, using the operators < > <= == != >=.
+            Examples: (time > 20) (2 >= opp goals)
+
+        * **unum CLANG VAR UNUM SET**
+            If CLANG VAR is instantiated, it is checked whether the unum denoted by
+            the variable CLANG VAR is in the set UNUM SET. If the variable is still
+            unbound, it is bound to the specific set.
+
+    The logical connectives are:
+
+        * **(and CONDITION_1 CONDITION_2 . . . CONDITION_n )**
+        * **(or CONDITION_1 CONDITION_2 . . . CONDITION_n )**
+        * **(not CONDITION)**
+
+    An example condition: ”When opponent player 3 is in region X and controls the
+    ball” would be
+    **(and (ppos opp {3} X) (bowner opp {3}))**
+
+* Directives:
+
+    Directives are basically lists of actions for individual sets of players and come in
+    two forms:
+
+        * **(do TEAM UNUM SET ACTION LIST)** (affirmative mode: players
+        should take thess actions)
+
+        * **(dont TEAM UNUM SET ACTION LIST)** (negative mode: players
+        should avoid taking these actions)
+
+    If the actions in the affirmative mode are mutually exclusive, it is up to the player to
+    decide which one is to be followed. In rules which are in the model-mode, directives
+    convey knowledge about the plans/behaviors of the players or their opponents.
+
+* Actions:
+
+    * **(pos REGION)**
+        The player should position itself in REGION.
+
+    * **(home REGION)**
+        The player’s default position should be in REGION. This directive is intended
+        largely to specify formations for the team.
+    
+    * **(mark UNUM SET)**
+        The player should mark some opponent player in UNUM SET.
+
+    * **(markl REGION)**
+        The passing lane from the current ball position to REGION should be marked.
+
+    * **(markl UNUM SET)**
+        The passing lane from the current ball position to some opponent player in
+        UNUM SET should be marked.
+    * **(oline REGION)**
+        The offside-trap line for the player/team should be set at REGION.
+    * **(htype TYPE)**
+        The player is of heterogeneous type TYPE. The TYPE number is as described
+        in Section 4.6. A value of -1 should clear the player’s idea of the heterogeneous
+        type.
+    * **(pass REGION)**
+        The ball should be passed to some player in REGION.
+    * **(pass UNUM SET)**
+        The ball should be passed to some player in UNUM SET.
+    * **(dribble REGION)**
+        The ball should be dribbled to REGION.
+    * **(clear REGION)**
+        The ball should be cleared from REGION, which means to shoot the ball to
+        a point outside of REGION.
+    * **(shoot)**
+        The ball should be shot at the goal.
+    * **(hold)**
+        The player should hold the ball, i. e. stand at his position and keeping the
+        ball away from opponents.
+    * **(intercept)**
+        The player should go to the ball and try to control it.
+    * **(tackle UNUM SET)**
+        The player should tackle some player in UNUM SET (or the ballowner?).
+
+* Regions:
+
+    Any REGION token can be any of the following:
+        * a POINT
+            This is defined more precisely below
+        * **(rec POINT 1 POINT 2 )**
+            Defines a rectangle with its sides parallel to the pitch-lines, respectively.
+        * **(tri POINT 1 POINT 2 POINT 3 )**
+            Defines a triangle made up of the given points.
+        * **(arc POINT RADIUS SMALL RADIUS LARGE ANGLE BEGIN
+            ANGLE SPAN)**
+            Defines a donut-arc: the area between two circles co-centered at point POINT,
+            having the given radii, with the arc defined starting at the beginning angle
+            and covering the spannign angle. For example a, a circle with radius r could
+            be defined as “(arc (pt 0 0) 0 r 0 360)”, and a U-shaped region could be
+            defined as “(arc (pt 0 0) 5 10 0 180)”
+        * **(null)**
+            The null (empty) region.
+        * **(reg REG_1 REG_2 . . . REG_n )**
+            Defines a region made up from the union of the given regions.
+    A POINT is any of the following:
+        
+        * **(pt X Y)**
+            X and Y are reals and in global coordinates. This is the absolute position
+            (X,Y);
+        * **(pt ball)** The current global position of the ball.
+        * **(pt TEAM UNUM)** The current position of player number UNUM on team
+            TEAM (either ’our’ or ’opp’). Remember that UNUM can be a variable.
+        * **(POINT 1 OP POINT 2 )**
+            This arithmetically combines two points to a new point. POINT i can be
+            made up of arithmetic operators, resulting in a recursive structure.
+            The operators are defined in the natural way, for example:
+            
+                **(pt** :math:`X_1Y_1` **) OP (pt** :math:`X_2Y_2` **)** :math:`=` **(pt** :math:`X_1` **OP** :math:`X_2` :math:`Y_1`**OP** :math:`Y_2` **)**
+        where **OP** is one of + − ∗ /
+    
+    The use of these relative points makes it easy to express ideas such as “Move to
+    the ball”, “If there are 2 teammates within 10m of the ball”, etc.
+    Remember that the online coach receives visual information alway in left-hand
+    orientation, no matter which side its team plays on. Yet, when sending messages
+    to a team that plays on the right side, the coach must use right-hand orientation
+    in the messages. Transforming coordinates from left- to right-hand orientation is
+    done by negating them.
+
+* UNUM SETS:
+
+    Unum sets are sets of player numbers. These are sets in the sense that order does
+    not matter and may be changed by the server. If 0 is included anywhere in the
+    set, then the set contains all players 1 - 11. The set can contain variables.
+    
+    Format: { :math: `NUM_1 NUM_2 ... NUM_n` }
+
+* Variables:
+
+    Technically, everywhere where UNUM occurs, a variable can be used. Yet, it is
+    important to make sure that the variables are instantiated or ground. The scope
+    is the innermost spanning rule, e.g. in
+
+    .. code-block::
+
+        1   (definerule rule1 model
+        2       (bowner our {0})
+        3       ((true)             (do our {5} (mark 11)))
+        4       ((bowner our {X}) (do our {X} (shoot)))
+        5   )
+
+    the scope of **X** is the complete line 4. This also shows how variables can be instan-
+    tiated: Only in conditions which have UNUMs as fixed argument (i. e. UNUMs
+    in POINTs do not count as condition UNUMS) a variable may be introduced. Its
+    value is set by checking which unums make the condition true. In the example **X**
+    is instantiated with the uniform number of the ballowner. In a condition like **ppos**
+    it can be necessary to instantiate the variable as a set of unums:
+
+        (ppos our {X} 1 11 REGION)
+        In this example **X** has to be instantiated as the set of unums which are in **REGION**.
+        Note that an instantiation as in
+        (ppos our {5} 1 1 (rec (pt ball) (pt our {X}))) is not supported.
+
+
 ------------------------------------------------
 Futher Resources
 ------------------------------------------------
 
+* The CLang Corpus contains examples of actual CLang messages:
+    http://www-2.cs.cmu.edu/ ̃ pfr/soccer/clang corpus.html
+
+* The Multi-Agent Modeling Special Interest Group (MAMSIG) provides binaries
+    and sources of coachable teams and online coaches:
+
+    http://www.cl-ki.uni-osnabrueck.de/ ̃ tsteffen/mamsig
+
+* The Coach-mailing-list discusses Clang details, competition rules, and coaching
+    methods:
+    http://robocup.biglist.com/coach-l/
+
 ------------------------------------------------
 Syntax
 ------------------------------------------------
+
+The complete grammar of the standard coach language:
+
+<MESSAGE> : <FREEFORM_MESS> | <DEFINE_MESS> | <RULE_MESS> | <DEL_MESS>
+
+<RULE_MESS> : (rule <ACTIVATION_LIST>)
+
+<DEL_MESS> : (delete <ID_LIST>)
+
+<DEFINE_MESS> : (define <DEFINE_TOKEN_LIST>)
+
+<FREEFORM_MESS> : (freeform <CLANG_STR>)
+
+<DEFINE_TOKEN_LIST> : <DEFINE_TOKEN_LIST> <DEFINE_TOKEN>
+                                        | <DEFINE_TOKEN>
+
+<DEFINE_TOKEN> : (definec <CLANG_STR> <CONDITION>)
+                                | (defined <CLANG_STR> <DIRECTIVE>)
+                                | (definer <CLANG_STR> <REGION>)
+                                | (definea <CLANG_STR> <ACTION>)
+                                | (definerule <DEFINE_RULE>)
+
+<DEFINE_RULE> : <CLANG_VAR> model <RULE>
+                                | <CLANG_VAR> direc <RULE>
+
+<RULE> : (<CONDITION> <DIRECTIVE_LIST>)
+                | (<CONDITION> <RULE_LIST>)
+                | <ID_LIST>
+
+<ACTIVATION_LIST> : <ACTIVATION_LIST> <ACTIVATION_ELEMENT>
+                                        | <ACTIVATION_ELEMENT>
+
+<ACTIVATION_ELEMENT> : (on|off <ID_LIST>)
+
+<ACTION> : (pos <REGION>)
+                        |(home <REGION>)
+                        |(mark <UNUM_SET>)
+                        |(markl <UNUM_SET>)
+                        |(markl <REGION>)
+                        |(oline <REGION>)
+                        |(htype <INTEGER>)
+                        |<CLANG_STR>
+                        |(pass <REGION>)
+                        |(pass <UNUM_SET>)
+                        |(dribble <REGION>)
+                        |(clear <REGION>)
+                        |(shoot)
+                        |(hold)
+                        |(intercept)
+                        |(tackle <UNUM_SET>)
+
+<CONDITION> : (true)
+                        |(false)
+                        |(ppos <TEAM> <UNUM_SET> <INTEGER> <INTEGER> <REGION>)
+                        |(bpos <REGION>)
+                        |(bowner <TEAM> <UNUM_SET>)
+                        |(playm <PLAY_MODE>)
+                        |(and <CONDITION_LIST>)
+                        |(or <CONDITION_LIST>)
+                        |(not <CONDITION>)
+                        |<CLANG_STR>
+                        |(<COND_COMP>)
+                        |(unum <CLANG_VAR> <UNUM_SET>)
+                        |(unum <CLANG_STR> <UNUM_SET>)
+
+<COND_COMP> : <TIME_COMP>
+                        | <OPP_GOAL_COMP>
+                        | <OUR_GOAL_COMP>
+                        | <GOAL_DIFF_COMP>
+
+<TIME_COMP> : time <COMP> <INTEGER>
+                        | <INTEGER> <COMP> time
+
+<OPP_GOAL_COMP> : opp_goals <COMP> <INTEGER>
+                        | <INTEGER> <COMP> opp_goals
+
+<OUR_GOAL_COMP> : our_goals <COMP> <INTEGER>
+                        | <INTEGER> <COMP> our_goals
+
+<GOAL_DIFF_COMP> : goal_diff <COMP> <INTEGER>
+                        | <INTEGER> <COMP> goal_diff
+                        
+<COMP> : < | <= | == | != | >= | >
+
+<PLAY_MODE> : bko | time_over | play_on | ko_our | ko_opp
+                | ki_our | ki_opp | fk_our | fk_opp
+                | ck_our | ck_opp | gk_opp | gk_our
+                            | gc_our | gc_opp | ag_opp | ag_our
+
+<DIRECTIVE> : (do|dont <TEAM> <UNUM_SET> <ACTION_LIST>)
+                        | <CLANG_STR>
+
+<REGION> : (null)
+                        |(arc <POINT> <REAL> <REAL> <REAL> <REAL>)
+                        |(reg <REGION_LIST>)
+                        |<CLANG_STR>
+                        |<POINT>
+                        |(tri <POINT> <POINT> <POINT>)
+                        |(rec <POINT> <POINT>)
+
+<POINT> : (pt <REAL> <REAL>)
+                | (pt ball)
+                | (pt <TEAM> <INTEGER>)
+                | (pt <TEAM> <CLANG_VAR>)
+                | (pt <TEAM> <CLANG_STR>)
+                | (<POINT_ARITH>)
+
+<POINT_ARITH> : <POINT_ARITH> <OP> <POINT_ARITH>
+                                | <POINT>
+
+<OP> : + | - | * | /
+
+<REGION> : <REGION_LIST> <REGION>
+                        | <REGION>
+
+<UNUM_SET> : { <UNUM_LIST> }
+
+<UNUM_LIST> : <UNUM>
+                        | <UNUM_LIST> <UNUM>
+
+<UNUM> : <INTEGER> | <CLANG_VAR> | <CLANG_STR>
+
+<ACTION_LIST> : <ACTION_LIST> <ACTION>
+                                | <ACTION>
+
+<DIRECTIVE_LIST> : <DIRECTIVE_LIST> <DIRECTIVE>
+                                | <DIRECTIVE>
+
+<CONDITION_LIST> : <CONDITION_LIST> <CONDITION>
+                                | <CONDITION>
+
+<RULE_LIST> : <RULE_LIST> <RULE>
+                        | <RULE>
+
+<ID-LIST> : <CLANG_VAR>
+                        | (<ID_LIST2>)
+                        | all
+
+<ID-LIST2> : <ID_LIST2> <CLANG_VAR>
+                        | <CLANG_VAR>
+
+<CLANG_STR> : "[0-9A-Za-z\(\)\.\+\-\*\/\?\<\>\_ ]+"
+
+<CLANG_VAR> : [abe-oqrt-zA-Z_]+[a-zA-Z0-9_]*
+
++----------------------+-------------+----------------+------------------------------------------------+
+| Parameter name       |Used value   | Default value  | Explanation                                    |
++======================+=============+================+================================================+
+| coach_port           | 6001        | 6001           | The port number the trainer connects to.       |
++----------------------+-------------+----------------+------------------------------------------------+
+| say_msg_size         | 512         | 256            | Maximum length of a freeform message a         |
+|                      |             |                | player, trainer, or coach can say.             |
++----------------------+-------------+----------------+------------------------------------------------+
+| say_coach_cnt_max    | 128         | 128            | Upper limit of freeform messages an online     |
+|                      |             |                | coach can say                                  |
++----------------------+-------------+----------------+------------------------------------------------+
+| send_vi_step         | 100         | 100            | Interval of online coach’s look.               |
++----------------------+-------------+----------------+------------------------------------------------+
+| clang_win_size       | 100         | 100            | Number of cycles that lie between online coach |
+|                      |             |                | messages                                       |
++----------------------+-------------+----------------+------------------------------------------------+
+| clang_define_win     | 1           | 1              | Number of define messages that can be sent in  |
+|                      |             |                | the aforementioned interval.                   |
++----------------------+-------------+----------------+------------------------------------------------+
+| clang_rule_win       | 1           | 1              | Number of rule messages that can be sent in    |
+|                      |             |                | the aforementioned interval.                   |
++----------------------+-------------+----------------+------------------------------------------------+
+| clang_del_win        | 1           | 1              | Number of delete messages that can be sent in  |
+|                      |             |                | the aforementioned interval.                   |
++----------------------+-------------+----------------+------------------------------------------------+
+| clang_mess_delay     | 50          | 50             | Number of cycles messages from the online      |
+|                      |             |                | coach will be delayed.                         |
++----------------------+-------------+----------------+------------------------------------------------+
+| clang mess per cycle | 1           | 1              | Number of messages that will be sent to the    |
+|                      |             |                | players during non-play on modes.              |
++----------------------+-------------+----------------+------------------------------------------------+
+
+|
+|
+|
+.. table:: Trainer Interactions with the Server
+
+    +----------------------------------------+----------------------------------+
+    | From trainer to server                 | From server to trainer           |
+    +========================================+==================================+
+    | (init (version VERSION))               | trainer: (init ok)               |
+    |    VERSION ::= a real number           |                                  |
+    +----------------------------------------+----------------------------------+
+    | (change mode PLAY_MODE)                | (ok change_mode)                 |
+    |    PLAY MODE ::= one of the play-modes | (error illegal_mode)             |
+    |                                        | (error illegal_command_form)     |
+    +----------------------------------------+----------------------------------+
+    | | (move OBJECT X Y                     | | (ok move)                      |
+    | |       [VDIR [DELTA_X DELTA_Y]])      | | (error illegal_object_form)    |
+    | |   OBJECT ::= One of object names     | | (error illegal_command_form)   |
+    | |   X ::= -52–52                       |                                  |
+    | |   Y ::= -32–32                       |                                  |
+    | |   VDIR ::= -180–180                  |                                  |
+    | |   DELTA_X, DELTA_Y ::= [float]       |                                  |
+    +----------------------------------------+----------------------------------+
+    | (check_ball)                           | | (ok check_ball TIME BPOS)      |
+    |                                        | |    TIME ::= sim. time of server|
+    |                                        | |    BPOS ::= in_field |         |
+    |                                        | |       goal SIDE |              |
+    |                                        | |       out of field             |
+    |                                        | |    SIDE ::= l | r              |
+    +----------------------------------------+----------------------------------+
+    | | (start)                              | | (ok start)                     |
+    | | (recover)                            | | (ok recover)                   |
+    +----------------------------------------+----------------------------------+
+    | | (change_player_type                  |  |  (warning no_team_found)      |
+    | |       TEAM_NAME UNUM                 |  |  (error illegal_command_form) |
+    | |       PLAYER_TYPE)                   |  |  (warning no_such_player)     |
+    | |   TEAM_NAME ::= string               |  |  (ok change_player_type       |
+    | |   UNUM ::= 1–11                      |  |       TEAM UNUM TYPE)         |
+    | |   PLAYER_TYPE ::= 0–6                |  |                               |
+    +----------------------------------------+----------------------------------+
+    | | (ear MODE)                           | | (ok ear on)                    |
+    | |    MODE ::= on | off                 | | (ok ear off)                   |
+    |                                        | | (error illegal mode)           |
+    |                                        | | (error illegal_command_form)   |
+    +----------------------------------------+----------------------------------+
+
+|
+|
+|
+.. table:: Online Coach Interactions with the Server
+
+    +----------------------------------------+--------------------------------------+
+    | From trainer to server                 | From server to online coach          |
+    +========================================+======================================+
+    | (init TEAMNAME                         | (init SIDE ok)                       |
+    |        (version VERSION))              |    SIDE ::= l | r                    |
+    |    VERSION ::= a real number           |                                      |
+    |    TEAMNAME ::= string                 |                                      |
+    +----------------------------------------+--------------------------------------+
+    | | (change_player_type                  | | (warning no_team_found)            |
+    | |    UNUM PLAYER_TYPE)                 | | (error illegal_command_form)       |
+    | |   UNUM ::= 1–11                      | | (warning no_such_player)           |
+    | |   PLAYER TYPE ::= 0–6                | | (ok change_player_type             |
+    |                                        | |      TEAM UNUM TYPE)               |
+    |                                        | | (warning cannot_sub_while_playon)  |
+    |                                        | | (warning no_subs_left)             |
+    |                                        | | (warning max_of_that_type_on_field)|
+    |                                        | | (warning cannot_change_goalie)     |
+    +----------------------------------------+--------------------------------------+
+
+|
+|
+|
+.. table:: Server Interactions with Trainer/Coach
+
+    +----------------------------------------+--------------------------------------------+
+    | From client to server                  | From server to client                      |
+    +========================================+============================================+
+    | (say MESSAGE)                          | (ok say)                                   |
+    |        (see Section 7.4.2)             | (error illegal command form)               |
+    +----------------------------------------+--------------------------------------------+
+    | (look)                                 | (ok look TIME                              |
+    |                                        |      (:math:`OBJ_1` :math:`OBJDESC_1` )    |
+    |                                        |      (:math:`OBJ_2` :math:`OBJDESC_2` )..) |
+    |                                        |   :math:`OBJ_j` ::= object name            |
+    |                                        |              (see Section 4.3              |
+    |                                        |          :math:`OBJDESC_j` ::= X Y |       |
+    |                                        |       X Y :math:`DELTA_x` :math:`DELTA_y`| |
+    |                                        |       X Y :math:`DELTA_x` :math:`DELTA_y`  |
+    |                                        |           BODYANG NECKANG                  | 
+    +----------------------------------------+--------------------------------------------+
+    | | (eye MODE)                           | | (ok eye on)                              |
+    | |    MODE ::= on | off                 | | (ok eye off)                             |
+    |                                        | | (error illegal mode)                     |
+    |                                        | | (error illegal command form)             |
+    +----------------------------------------+--------------------------------------------+
+    | This message is sent automatically ev- | |                                          |
+    | ery send_vi_step milliseconds when the | | (see_global TIME                         |
+    | coach/trainer eye is on (see the “eye” | |    (:math:`OBJ_1` :math:`OBJDESC_1` )    |
+    | commands below).                       | |    (:math:`OBJ_2` :math:`OBJDESC_2` )...)|
+    |                                        |                                            |
+    +----------------------------------------+--------------------------------------------+
+    | The trainer must use the ‘ear’ command | |                                          |
+    | to get these messages. The online coach| | (hear TIME referee MESSAGE)              |
+    | always gets these messages.            | | (hear TIME                               |
+    |                                        | |        (p ”TEAMNAME” NUM)                |
+    |                                        | |    ”MESSAGE”)                            |
+    |                                        | |   TIME ::= time message was sent         |
+    |                                        | |   TEAMNAME ::= string                    |
+    |                                        | |   NUM ::= 1–11                           |
+    |                                        | |   MESSAGE ::= string                     |
+    +----------------------------------------+--------------------------------------------+
+    | (team_names)                           | | (ok team_names                           |
+    |                                        | |    [(team l TEAMNAME1)                   |
+    |                                        | |    [(team r TEAMNAME2)]])                |
+    +----------------------------------------+--------------------------------------------+
