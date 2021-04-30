@@ -375,6 +375,34 @@ Specifying a level of zero turns off compression completely (default).
 How to record and playback a game
 -------------------------------------------------
 
+To record games, you can call server with the argument:
+
+::
+
+  -record LOGFILE
+
+(LOGFILE is the logfile name) or set the parameter in server.conf file:
+
+::
+
+  record.log : on.
+
+To specify the logfile version, you can call server with the argument:
+
+::
+
+  -record_version [1/2/3]
+  
+or set the parameter in server.conf file:
+
+::
+
+  record_version : 2
+
+The logplayer allows you to replay recorded games. Logfiles can be read in by the
+logplayer and sent to the connected soccermonitors. To replay logfiles just call logplayer
+with the logfile name as argument, start a soccermonitor and then use the buttons on
+the logplayer window to start, stop, play backward, play stepwise.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Version 1 Protocol
