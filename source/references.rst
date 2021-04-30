@@ -37,20 +37,42 @@ Doctrial Theses
 Undergraduate and Master's Theses
 ---------------------------------------------------
 
+.. [Heintz00] Fredrik Heintz. RoboSoc a System for Developing RoboCup Agents for Educational Use. Master’s thesis, IDA 00/26, Linköping university, Sweden, March 2000.
+.. [Murray99] Jan Murray. My goal is my castle – Die höheren Fähigkeiten eines RoboCup-Agenten am Beispiel des Torwarts. Studienarbeit, Universität Koblenz-Landau,Germany, March 1999. (German only).
+.. [Murray01] Jan Murray. Soccer Agents Think in UML. Diploma thesis, Universität KoblenzLandau, 2001.
+.. [Obst99] Oliver Obst. RoboLog: Eine deduktive Schnittstelle zum RoboCup Soccer Server. Diploma thesis, Universität Koblenz-Landau, February 1999. (German only)
+
+---------------------------------------------------
+Platforms to start building team upon
+---------------------------------------------------
+
+---------------------------------------------------
+Education-related articles
+---------------------------------------------------
 
 ---------------------------------------------------
 Machine Learning
 ---------------------------------------------------
 
+.. [Buck00] Sebastian Buck and Martin A. Riedmiller. Learning situation dependent successrates of actions in a robocup scenario. In Pacific Rim International Conference on Artificial Intelligence, page 809, 2000.
+.. [Stone00] Peter Stone. Layered Learning in Multiagent Systems: A Winning Approach toRobotic Soccer. MIT Press, 2000.
+
 ---------------------------------------------------
 Decision Making
 ---------------------------------------------------
 
+.. [Subrahmanian00] Piero Bonatti, Jürgen Dix, Thomas Eiter, Sarit Kraus, Fatma Ozcan, and Robert Ross. Heterogeneous Agent Systems. MIT Press, Cambridge, Massachusetts, 2000.
+
+---------------------------------------------------
+Other supporting documents
+---------------------------------------------------
+
+.. [FIFA01] Laws of the games. by FIFA on http://www.fifa.com, 2000. Verified on 12th February 2001.
+.. [Stevens90] W.R. Stevens. UNIX Network Programming. Prentice Hall, 1990.
 
 ---------------------------------------------------
 Team Descriptions
 ---------------------------------------------------
-
 
 .. [CMUnited98] Peter Stone, Manuela Veloso, and Patrick Riley. The CMUnited-98 Champion Simulator Team. In Minoru Asada and Hiroaki Kitano, editors, RoboCup-98: Robot Soccer World Cup II. RoboCup Federation, Springer–Verlag, 1998.
 .. [CMUnited99] Peter Stone, Manuela Veloso, and Patrick Riley. The CMUnited-99 Simulator Team. In Silvia Coradeschi, Tucker Balch, Gerhard Kraetzschmar, and Peter Stone, editors, Team Descriptions Simulation League RoboCup’99, pages 7–11. RoboCup Federation, Linköping University Electronic Press, 1999.

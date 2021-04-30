@@ -404,6 +404,33 @@ command, for example: ``killall rcssserver`` is
 sufficient to kill all processes with the name **rcssserver**.
 
 =================================================
+Supported platforms
+=================================================
+
+The Soccer Server supports quite a few unix style platforms but we haven’t actually
+compiled a list. The simulator (grouped by version numbers) is known to work on the
+following platforms [#f2]_:
+
+- 9.2.2
+  
+  - SuSE 7.3 with gcc 2.95.3 or 3.2 (Tom Howard)
+  - Windows 2000 with Cygwin with gcc 2.95.3 (Tom Howard)
+  - SuSE 8.1 with gcc 3.2 (Jan Murray)
+  - Debian 3.0 (woody) with gcc 2.95.4 (Jan Murray)
+  - SuSE 7.0 Linux with gcc 2.95.2 (Kernel 2.4.16) (Goetz Schwandtner)
+
+- 9.1.5
+
+  - SuSE 8.1 with gcc 3.2 (Jan Murray)
+  - Debian 3.0 (woody) with gcc 2.95.4 (Jan Murray)
+  - SuSE 7.3 with gcc 2.95.3 or 3.2 (Tom Howard)
+  - Windows 2000 with Cygwin with gcc 2.95.3 (Tom Howard)
+
+If you have a platform not listed above for a particular simulator version and
+you have managed to get the simulator running on it, please let us know at
+<sserver-admin@lists.sf.net>.
+
+=================================================
 Troubleshooting
 =================================================
 
@@ -423,3 +450,5 @@ problem.
          side, has the number one and the play mode is before_kick_off.
          The other lines correspond the the current server parameters and
          player types.
+
+.. [#f2] The names listed are the names of the people who have verified the platform.
