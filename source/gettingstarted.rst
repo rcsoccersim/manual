@@ -39,28 +39,27 @@ repository:
 * `rcssmonitor <https://github.com/rcsoccersim/rcssmonitor/releases>`_ allows you to watch game in progress.
 * `rcsslogplayer <https://github.com/rcsoccersim/rcsslogplayer/releases>`_ allows you to replay logs (\*.rcg files) created by rcssserver. 
 
-At the time of this writing (Oct-12-2018) the latest version is 15.5.0
-and will be used in the example below. Please substitute 15.5.0 for the
+At the time of this writing (May-1-2021) the latest version is 16.0.0
+and will be used in the example below. Please substitute 16.0.0 for the
 latest version available.
 
 
 If you have downloaded rcssserver-\*.tar.gz, then first extract the
 source files by running::
 
-  $ tar zxvf rcssserver-15.5.0.tar.gz
+  $ tar zxvf rcssserver-16.0.0.tar.gz
 
-directory to **rcssserver-15.5.0**. This directory contains the following
+directory to **rcssserver-16.0.0**. This directory contains the following
 files::
 
-  $ cd rcssserver-15.5.0
+  $ cd rcssserver-16.0.0
   $ ls
-  AUTHORS         NEWS          config.h.in   ltmain.sh
-  COPYING.LESSER  README        config.sub    m4
-  ChangeLog       acinclude.m4  configure     missing
-  INSTALL         aclocal.m4    configure.ac  rcssbase
-  Makefile.am     compile       depcomp       src
-  Makefile.in     config.guess  install-sh    ylwrap
-
+  acinclude.m4    compile        configure       install-sh
+  Makefile.in     README.md      aclocal.m4      config.guess
+  configure.ac    ltmain.sh      missing         src
+  AUTHORS         config.h.in    COPYING.LESSER  m4          
+  NEWS            ylwrap 	       ChangeLog       config.sub 
+  depcomp         Makefile.am    rcssbase
 
 Always read the **README** file first::
 
