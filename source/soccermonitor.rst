@@ -479,3 +479,32 @@ Data Conversion:
 -------------------------------------------------
 Settings and Parameters
 -------------------------------------------------
+Soccermonitor has the following modiable parameters:
+"UsedValue"is the current value of the parameter which is encoded in the monitor.con file."DefaultValue" is the value encodedin the source files and will be used if the use rdoesn't give one.
+You can specify parameters described in the tableabove in command lineas following: You can also modify the parameters by specifying them in configuration file monitor.conf. In the configuration file, each line consists a pair of name and value of a parameteras follows: ParameterName: Value Lines that start with '#' are comment lines.
+
+-------------------------------------------------
+What's New
+-------------------------------------------------
+V8.03:
+* The server supports compressed communication to monitors as described insection 5.4.
+* Player substitution information is added to the message log.
+* Team graphics information is added to the message log.
+V7.07:
+* The log player did not send server param, player param, and player type messages. This has been fixed.
+* The monitor would crash on some log files because stamina max seemed to be set to 0. The monitor will no longer crash this way.
+V7.05:
+* For quite some time, the logplayer has occasionally "skipped" so that certain cycles were never displayed by the logplayer. This seems to be caused by  the logplayer sending too many  UDP packets for the monitor to receive. Therefore, a new parameter has been added to the logplayer 'message delay interval'.After sending that many messages, the logplayer sleeps for 1 microsecond, giving the monitor a chance to catch up. This is not a guaranteed to work, but it seems to help significantly. If you still have a problem with the logplayer/monitor "skipping",try reducing message delay interval from it's default value of 10. Setting message delay interval to a negative number causes there to be no delay.
+* The server used to truncate messages received from the players and coach to 128 characters before recording the min the log file.This has been fixed.
+V7.04:
+* If a client connects with version > 7.0, all angles sent out by the server are rounded instead of truncated (astheywerepreviously) This makes the error from quantization of angles (i.e. conversion of  floats to ints) both uniform throughout the domainand two sided. This change was also made to all values put into the dispinfo_t structure for the monitors and logfiles.
+V7.02:
+* A new command has been added to the monitor protocol: (dispplayer side unum posx posy ang)
+(contributedby ArturMerke)
+See5.4CommandsFromMonitorto Server
+V7.00:
+* Included the head angle into the display of the soccermonitor. (source contributed by Ken Nguyen)
+* Included visualization effect when the player collided with the ball or the player collided with another player. The monitor displays both cases with a black circle around the player.
+* Introduced new monitor protocol version 2. (See 5.5.2 Version 2 and 5.4 Commands From Monitor to Server)
+* Introduced new logging protocol version 3. (See 5.5.3 Version 3  Protocol)
+* Fixed logging so that the last cycle of a game is logged.
