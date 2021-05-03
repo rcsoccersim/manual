@@ -1625,15 +1625,27 @@ Here we are going to mention the server parameters relevent to offside rule:
 
 ::
 
-    OFFSIDE_ACTIVE_AREA_SIZE = 2.5
+    use_offside = true
 
-This parameter ...
+This parameter determines whether the rule should be effective and applied during the game or not. Setting it to **false** will deactivate the offside rule.
 
 ::
 
-    OFFSIDE_KICK_MARGIN = 9.15
+    offside_active_area_size = 2.5
     
-This parameter ...
+This parameter is wisely designed by H. Akiyama and helps to find the potential ball receievers who are candidate to activate the offiside rule. In fact, the server checks if any of the players in offside position is in the sufficient vicinity of the ball. More specifically, the server calculates the distance of each candidate player from ball and checks if this distance is less than or equal to the squared value of **offside_active_area_size** parameter. If that happens, the offside will be given. This is helpful in cases where the teammate has shot the ball towards opponent's goal and another teammate is in offside position but far from ball; in this case, since the intention of the kicker is to shoot the ball towards goal, not to send a pass to the teammate, the rule should not get activated.    
+
+::
+
+    forbid_kick_off_offside = true
+    
+Setting this parameter to "true" **permits kick off offside**. 
+
+::
+
+    offside_kick_margin = 9.15
+    
+This value sets a margin in which the opponent players should stay away from ball after the offside foul is taken until set piece taker kicks the ball. The server automatically throws all opponents away from ball position relative to their angle from it (if their distance is less than margin). 
 
 ==================================================
 The Soccer Simulation
