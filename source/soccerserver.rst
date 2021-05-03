@@ -1613,6 +1613,47 @@ The above rule is applied to the tackle action too.
 The change of play mode does not affect cycles of illegal defense situations.
 
 
+
+--------------------------------------------------
+Offside Rule
+--------------------------------------------------
+Offside rule is a very sensitive and challenging law in soccer game. The law states that a player is in an **offside position** if its body is located in the opponents' half of the pitch, and closer to the opponents' goal line than both the ball and the second-last opponent (the last opponent is usually, but not necessarily, the goalkeeper). If the player located in offside position receives a pass from a teammate player, the refree has to stop the game and a freekick will be given to the opponent team. Note that the reciever should make sure not to be in offside postion when the pass is initiated; any time later than that is safe for the receiver to locate in the field to receive the ball (including the offside position). 
+
+The server has implemented this rule for soccer agents and teams must program their teams regardingly.
+
+Here we are going to mention the server parameters relevent to offside rule:
+
+::
+
+    OFFSIDE_ACTIVE_AREA_SIZE = 2.5
+
+This parameter ...
+
+::
+
+    OFFSIDE_KICK_MARGIN = 9.15
+    
+This parameter ...
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Rules
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If defensive players exists within the rectangle defined by
+**illegal_defense_dist_x** and **illegal_defense_width**, they are
+marked as an illegal state.
+if the number of markerd players becomes greater than or equal to
+**illegal_defense_number** and this continues for
+**illegal_defense_duration** cycles, then play mode will change to
+**free_kick_[lr]** for the offensive team.
+
+A team is considered as the offensive team when their player is the latest player to kick the ball.
+If both teams perform a kick on the same cycle, neither team is considered as offensive, and the countdown resets.
+The above rule is applied to the tackle action too.
+The change of play mode does not affect cycles of illegal defense situations.
+
+
+
 ==================================================
 The Soccer Simulation
 ==================================================
