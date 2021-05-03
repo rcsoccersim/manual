@@ -1635,25 +1635,6 @@ This parameter ...
     
 This parameter ...
 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Rules
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-If defensive players exists within the rectangle defined by
-**illegal_defense_dist_x** and **illegal_defense_width**, they are
-marked as an illegal state.
-if the number of markerd players becomes greater than or equal to
-**illegal_defense_number** and this continues for
-**illegal_defense_duration** cycles, then play mode will change to
-**free_kick_[lr]** for the offensive team.
-
-A team is considered as the offensive team when their player is the latest player to kick the ball.
-If both teams perform a kick on the same cycle, neither team is considered as offensive, and the countdown resets.
-The above rule is applied to the tackle action too.
-The change of play mode does not affect cycles of illegal defense situations.
-
-
-
 ==================================================
 The Soccer Simulation
 ==================================================
