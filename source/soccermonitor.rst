@@ -479,3 +479,13 @@ Data Conversion:
 -------------------------------------------------
 Settings and Parameters
 -------------------------------------------------
+
+Soccermonitor has the following modifiable parameters:
+
+“Used Value” is the current value of the parameter which is encoded in the moni￾tor.conf file.
+“Default Value” is the value encoded in the source files and will be used if the user doesn’t give one.
+
+You can specify parameters described in the table above in command line as following:
+You can also modify the parameters by specifying them in configuration file monitor.conf.
+In the configuration file, 
+each line consists a pair of name and value of a parameter as follows: ParameterName : Value Lines that start with ’#’ are comment lines.
