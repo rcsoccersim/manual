@@ -1505,7 +1505,12 @@ in :numref:`tab-playmode`, for the messages see :numref:`tab-refereemessages`.
    +=========================+======+======================+========================================+
    |before_kick_off          |0     |  kick_off_*Side*     |at the beginning of a half              |
    +-------------------------+------+----------------------+----------------------------------------+
-   |play_on                  |      |       	           |during normal play                      |
+   |play_on                  |      |       	             |(after pressing the start button of the |
+   |                         |      |                      |game), after the game starts,           |
+   |                         |      |                      |it is in a state of smooth progress,    |
+   |                         |      |                      |there is still time left for the game,  |
+   |                         |      |                      |and the process of the game is in an    |
+   |                         |      |                      |undisturbed state                       |
    +-------------------------+------+----------------------+----------------------------------------+
    |time_over                |      |                      |                                        |
    +-------------------------+------+----------------------+----------------------------------------+
@@ -1514,7 +1519,11 @@ in :numref:`tab-playmode`, for the messages see :numref:`tab-refereemessages`.
    +-------------------------+------+----------------------+----------------------------------------+
    |kick_in_*Side*           |      | 	                   |                                        |
    +-------------------------+------+----------------------+----------------------------------------+
-   |free_kick_*Side*         |      |                      |                                        |
+   |free_kick_*Side*         |      |                      |When the player of one side makes       |
+   |                         |      |                      |irregular actions such as pushing       |
+   |                         |      |                      |and blocking, or the goalkeeper breaks  |
+   |                         |      |                      |  some rules, the other side will       |
+   |                         |      |                      | be given the chance of free kick.      |
    +-------------------------+------+----------------------+----------------------------------------+
    |corner_kick_*Side*       |      |                      |                                        |
    +-------------------------+------+----------------------+----------------------------------------+
@@ -1523,7 +1532,14 @@ in :numref:`tab-playmode`, for the messages see :numref:`tab-refereemessages`.
    +-------------------------+------+----------------------+----------------------------------------+
    |goal_*Side*              |      |                      |currently unused                        |
    +-------------------------+------+----------------------+----------------------------------------+
-   |drop_ball                |0     | play_on              |                                        |
+   |drop_ball                |0     | play_on              |    When the game is in a normal state, |
+   |                         |      |                      | the one who controls the football loses|
+   |                         |      |                      |the control right of the football       |
+   |                         |      |                      |because of mistakes, and the control    |
+   |                         |      |                      |  right is taken away by                |
+   |                         |      |                      |the other party, or the defending party |
+   |                         |      |                      |grabs the control right of the football |
+   |                         |      |                      |when confronting the other party directly| 
    +-------------------------+------+----------------------+----------------------------------------+
    |offside_*Side*           |30    | free_kick_*Side*     |for the opposite side                   |
    +-------------------------+------+----------------------+----------------------------------------+
