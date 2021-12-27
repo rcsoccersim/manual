@@ -371,14 +371,27 @@ If a compression level above zero is selected, then the monitor is
 expected to compress its commands to the server.
 Specifying a level of zero turns off compression completely (default).
 
--------------------------------------------------
+=================================================
 How to record and playback a game
+=================================================
+
+To record games, you can call server with the argument:
+-record LOGFILE
+(LOGFILE is the logfile name) or set the parameter in server.conf file:
+record.log : on.
+To specify the logfile version, you can call server with the argument:
+-record_version [1/2/3]
+or set the parameter in server.conf file:
+record_version : 2
+  The logplayer allows you to replay recorded games. Logfiles can be
+read in by the logplayer and sent to the connected soccermonitors.
+To replay logfiles just call logplayer with the logfile name as argument,
+start a soccermonitor and then use the buttons on the logplayer window to start,
+stop, play backward, play stepwise.
+
 -------------------------------------------------
-
-
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Version 1 Protocol
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------------------
 
 Logfiles of version 1 (server versions up to 4.16) are a stream of
 consecutive dispinfo_t chunks.
@@ -386,9 +399,9 @@ Due to the structure of dispinfo_t as a union, a lot of bytes have been
 wasted leading to impractical logfile sizes.
 This lead to the introduction of a new logfile format 2.
 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------------------
 Version 2 Protocol
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------------------
 
 Version 2 logfile protocol tries to avoid redundant or unused data for
 the price of not having uniform data structs.
@@ -429,9 +442,9 @@ log files backward.
 In order to keep compatibility between different platforms, values are
 represented by network byte order.
 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------------------
 Version 3 Protocol
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------------------
 
 The version 3 protocol contains player parameter information for
 heterogenous players and optimizes space. The format is as follows:
@@ -476,6 +489,20 @@ Data Conversion:
 * Other values such as stamina, effort and recovery have also been multiplied
   by SHOWINFO_SCALE2.
 
--------------------------------------------------
+=================================================
 Settings and Parameters
--------------------------------------------------
+=================================================
+
+Soccermonitor has the following modifiable parameters:
+  "Used Value" is the current value of the parameter which is encoded in the
+monitor.conf file. "Default Value" is the value encoded in the source files
+and will be used if the user doesn’t give one.
+  You can specify parameters described in the table above in command line as following: 
+You can also modify the parameters by specifying them in configuration file
+monitor.conf. In the configuration file, each line consists a pair of name and
+value of a parameter as follows: ParameterName : Value Lines that start with 
+'#'are comment lines.
+
+=================================================
+What's New
+=================================================
