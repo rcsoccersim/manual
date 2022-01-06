@@ -16,8 +16,7 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
-
-# -- Project information -----------------------------------------------------
+# -- Project information
 
 project = 'The RoboCup Soccer Simulator'
 copyright = 'The RoboCup Soccer Simulator Maintenance Committee'
@@ -28,8 +27,7 @@ version = ''
 # The full version, including alpha/beta/rc tags
 release = ''
 
-
-# -- General configuration ---------------------------------------------------
+# -- General configuration
 
 # If your documentation needs a minimal Sphinx version, state it here.
 #
@@ -39,11 +37,21 @@ release = ''
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinx.ext.duration',
+    'sphinx.ext.doctest',
     'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
+    'sphinx.ext.intersphinx',
     'sphinx.ext.mathjax',
 #    'sphinx.ext.imgmath',
     'sphinx.ext.githubpages',
 ]
+
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/3/', None),
+    'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
+}
+intersphinx_disabled_domains = ['std']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -72,16 +80,16 @@ exclude_patterns = []
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
 
-
-# -- Options for HTML output -------------------------------------------------
+# -- Options for HTML output
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
 #html_theme = 'alabaster'
 #html_theme = 'classic'
-html_theme = 'sphinxdoc'
 #html_theme = 'bizstyle'
+html_theme = 'sphinxdoc'
+#html_theme = 'sphinx_rtd_theme'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -164,3 +172,6 @@ texinfo_documents = [
 
 # -- Extension configuration -------------------------------------------------
 numfig = True
+
+# -- Options for EPUB output
+epub_show_urls = 'footnote'
