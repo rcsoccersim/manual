@@ -189,7 +189,7 @@ The following table shows the protocol for client version 14 or later.
 | |               (*ObjName* *Distance* *Direction* *DistChange* *DirChange* *BodyFacingDir* *HeadFacingDir*               |
 |                       [*PointDir*] [t] [k]])                                                                             |
 | |               \| (*ObjName* *Distance* *Direction* *DistChange* *DirChange* [*PointDir*] [{t|k}])                      |
-| |               \| (*ObjName* *Distance* *Direction*)                                                                    |
+| |               \| (*ObjName* *Distance* *Direction* [t] [k])                                                            |
 | |               \| (*ObjName* *Diretion*)                                                                                |
 | |    *ObjName* ::= (p ["*TeamName*" [*UniformNumber* [goalie]]])                                                         |
 | |               \| (b)                                                                                                   |
