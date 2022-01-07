@@ -481,9 +481,12 @@ Settings and Parameters
 -------------------------------------------------
 
 Soccermonitor has the following modifiable parameters:
-    “Used Value” is the current value of the parameter which is encoded in the monitor.conf file.
-    “Default Value” is the value encoded in the source files and will be used if
-    the user doesn’t give one.
+
+"Used Value” is the current value of the parameter which is encoded
+in the monitor.conf file.
+“Default Value” is the value encoded in the source files and will be
+used if the user doesn’t give one.
+
 You can specify parameters described in the table above in command line as following:
 You can also modify the parameters by specifying them in configuration file monitor.conf.
 In the configuration file, each line consists a pair of name and value of a parameter as
@@ -624,4 +627,3 @@ What’s New
   Commands From Monitor to Server)
 * Introduced new logging protocol version 3. (See 5.5.3 Version 3 Protocol)
 * Fixed logging so that the last cycle of a game is logged.
-
