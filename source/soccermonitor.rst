@@ -179,7 +179,7 @@ Values of the elements can be
 
 * enable: state of the object.
   Players not on the field (and the ball) have state DISABLE.
-	The other bits of enable allow monitors to draw the state and action of
+  The other bits of enable allow monitors to draw the state and action of
   a player more detailed (see rcssserver-\*/src/types.h)::
 
     DISABLE         0x00000000
@@ -266,6 +266,7 @@ dispinfo_t2 contains a union with five different types of information
 * msginfo_t : contains the messages from the players and the referee.
   It also contains information on team's images and information on
   player exchanges.
+
  - team graphic: The team graphic format requires a 256x64 image to
    be broken up into 8x8 tiles and has the form::
 
@@ -304,6 +305,7 @@ Version 3
 Version 4
 -------------------------------------------------
 
+.. _sec-commandsfrommonitor:
 
 =================================================
 Communication from Monitor to Server
@@ -319,7 +321,7 @@ a player, that connects on port 6000 as well) .
 "(dispinit)" is for information version 1, while "(dispinit version 2)" is
 for version 2.
 You can change the version by setting the according monitor parameter.
-(See :ref:`sec-settingsvariables` Parameters and Configurations)
+(See :ref:`sec-settingsvariables`)
 
 ::
 
@@ -392,7 +394,7 @@ To specify the logfile version, you can call server with the argument:
 ::
 
   -record_version [1/2/3]
-  
+
 or set the parameter in server.conf file:
 
 ::
@@ -403,6 +405,9 @@ The logplayer allows you to replay recorded games. Logfiles can be read in by th
 logplayer and sent to the connected soccermonitors. To replay logfiles just call logplayer
 with the logfile name as argument, start a soccermonitor and then use the buttons on
 the logplayer window to start, stop, play backward, play stepwise.
+
+
+.. _sec-version1protocol:
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Version 1 Protocol
@@ -438,9 +443,9 @@ The format is as follows:
 
   * If mode is SHOW_MODE, a showinfo_t struct is following.
   * If mode is MSG_MODE, next bytes are
-   * short board: containing the board info
-   * short length: containing the length of the message (including zero terminator)
-   * string msg: length chars containing the message
+     * short board: containing the board info
+     * short length: containing the length of the message (including zero terminator)
+     * string msg: length chars containing the message
 
 Other info such as DRAW_MODE and BLANK_MODE are not saved to log files.
 There is still room for optimization of space.
@@ -467,32 +472,31 @@ heterogenous players and optimizes space. The format is as follows:
 * head of the file: Just like version 2, the file starts with the magic
   characters 'ULG'.
 * char version : version of the logfile format, i.e. 3
-* body: The rest of the file contains shorts that specify which data
-  structures will follow.
- - If the short is PM_MODE,
-  * a char specifying the play mode follows.
-   This is only written when the playmode changes.
- - If the short is TEAM_MODE,
-  * a team_t struct for the left side and
-  * a team_t struct for the right side follow.
-   Team data is only written if a new team connects or the score changes.
- - If the short is SHOW_MODE,
-  * a short_showinfo_t2 struct specifying ball and player positions and
-    states follows.
- - If the short is MSG_MODE,
-  * a short specifying the message board,
-  * a short specifying the length of the message,
-  * a string containing the message will follow.
- - If the short is PARAM_MODE,
-  * a server_params_t struct specifying the current server parameters follows.
-   This is only written once at the beginning of the logfile.
- - If the short is PPARAM_MODE,
-  * a player_params_t struct specifying the current hetro player parameters.
-   This is only written once at the beginning of the logfile.
- - If the short is PT_MODE,
-  * a player_type_t struct specifying the parameters of a specific player type
-    follows.
-   This is only written once for each player type at the beginning of the logfile.
+* body: The rest of the file contains shorts that specify which data structures will follow.
+   - If the short is PM_MODE,
+      * a char specifying the play mode follows.
+        This is only written when the playmode changes.
+   - If the short is TEAM_MODE,
+      * a team_t struct for the left side and
+      * a team_t struct for the right side follow.
+        Team data is only written if a new team connects or the score changes.
+   - If the short is SHOW_MODE,
+      * a short_showinfo_t2 struct specifying ball and player positions and
+        states follows.
+   - If the short is MSG_MODE,
+      * a short specifying the message board,
+      * a short specifying the length of the message,
+      * a string containing the message will follow.
+   - If the short is PARAM_MODE,
+      * a server_params_t struct specifying the current server parameters follows.
+        This is only written once at the beginning of the logfile.
+   - If the short is PPARAM_MODE,
+      * a player_params_t struct specifying the current hetro player parameters.
+        This is only written once at the beginning of the logfile.
+   - If the short is PT_MODE,
+      * a player_type_t struct specifying the parameters of a specific player type
+        follows.
+        This is only written once for each player type at the beginning of the logfile.
 
 
 Data Conversion:
@@ -503,6 +507,9 @@ Data Conversion:
   multiplied by SHOWINFO_SCALE2.
 * Other values such as stamina, effort and recovery have also been multiplied
   by SHOWINFO_SCALE2.
+
+
+.. _sec-settingsvariables:
 
 -------------------------------------------------
 Settings and Parameters
@@ -640,10 +647,11 @@ What’s New
 
 7.02:
 
-* A new command has been added to the monitor protocol:
- (dispplayer side unum posx posy ang)
- (contributed by Artur Merke)
-   See 5.4 Commands From Monitor to Server
+* A new command has been added to the monitor protocol::
+
+    (dispplayer side unum posx posy ang)
+
+  (contributed by Artur Merke) See :ref:`sec-commandsfrommonitor`.
 
 7.00:
 

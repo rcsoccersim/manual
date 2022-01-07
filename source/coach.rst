@@ -71,11 +71,11 @@ which the trainer-client can connect. The default port number is 6001.  If a dif
 port number is needed the new port can be set by assigning its value to the *coach_port*
 parameter (see Section B.1).
 
+.. _sec-coachcommand:
+
 =================================================
 Commands
 =================================================
-
-.. _sec-coachcommand:
 
 The trainer and the online coach can use the following set of commands. The items are
 listed in three categories. The first category includes commands that can be used only
@@ -676,6 +676,7 @@ certain way.
 Now,the actual content of a rule can be specified in several ways:
 
 * **(CONDITION DIRECTIVE_LIST)**
+
 This is the straight-forward way. The example in section 7.7.3 complies to this
 format. The CONDITION denotes a situation, and DIRECTIVE_LIST denotes
 the appropriate directives. Note that the list can contain directives for one, several,
@@ -799,11 +800,9 @@ choose to ignore the directive for now.
     Directives are basically lists of actions for individual sets of players and come in
     two forms:
 
-        * **(do TEAM UNUM SET ACTION LIST)** (affirmative mode: players
-        should take thess actions)
+        * **(do TEAM UNUM SET ACTION LIST)** (affirmative mode: players should take thess actions)
 
-        * **(dont TEAM UNUM SET ACTION LIST)** (negative mode: players
-        should avoid taking these actions)
+        * **(dont TEAM UNUM SET ACTION LIST)** (negative mode: players should avoid taking these actions)
 
     If the actions in the affirmative mode are mutually exclusive, it is up to the player to
     decide which one is to be followed. In rules which are in the model-mode, directives
@@ -861,8 +860,7 @@ choose to ignore the directive for now.
             Defines a rectangle with its sides parallel to the pitch-lines, respectively.
         * **(tri POINT 1 POINT 2 POINT 3 )**
             Defines a triangle made up of the given points.
-        * **(arc POINT RADIUS SMALL RADIUS LARGE ANGLE BEGIN
-            ANGLE SPAN)**
+        * **(arc POINT RADIUS SMALL RADIUS LARGE ANGLE BEGIN ANGLE SPAN)**
             Defines a donut-arc: the area between two circles co-centered at point POINT,
             having the given radii, with the arc defined starting at the beginning angle
             and covering the spannign angle. For example a, a circle with radius r could
@@ -873,7 +871,6 @@ choose to ignore the directive for now.
         * **(reg REG_1 REG_2 . . . REG_n )**
             Defines a region made up from the union of the given regions.
     A POINT is any of the following:
-
         * **(pt X Y)**
             X and Y are reals and in global coordinates. This is the absolute position
             (X,Y);
@@ -884,9 +881,8 @@ choose to ignore the directive for now.
             This arithmetically combines two points to a new point. POINT i can be
             made up of arithmetic operators, resulting in a recursive structure.
             The operators are defined in the natural way, for example:
-
-                **(pt** :math:`X_1Y_1` **) OP (pt** :math:`X_2Y_2` **)** :math:`=` **(pt** :math:`X_1` **OP** :math:`X_2` :math:`Y_1`**OP** :math:`Y_2` **)**
-        where **OP** is one of + − ∗ /
+            **(pt** :math:`X_1Y_1` **) OP (pt** :math:`X_2Y_2` **)** :math:`=` **(pt** :math:`X_1` **OP** :math:`X_2` :math:`Y_1`**OP** :math:`Y_2` **)**
+            where **OP** is one of :math:`+ − * /`
 
     The use of these relative points makes it easy to express ideas such as “Move to
     the ball”, “If there are 2 teammates within 10m of the ball”, etc.
@@ -953,147 +949,147 @@ Syntax
 
 The complete grammar of the standard coach language:
 
-<MESSAGE> : <FREEFORM_MESS> | <DEFINE_MESS> | <RULE_MESS> | <DEL_MESS>
-
-<RULE_MESS> : (rule <ACTIVATION_LIST>)
-
-<DEL_MESS> : (delete <ID_LIST>)
-
-<DEFINE_MESS> : (define <DEFINE_TOKEN_LIST>)
-
-<FREEFORM_MESS> : (freeform <CLANG_STR>)
-
-<DEFINE_TOKEN_LIST> : <DEFINE_TOKEN_LIST> <DEFINE_TOKEN>
-                                        | <DEFINE_TOKEN>
-
-<DEFINE_TOKEN> : (definec <CLANG_STR> <CONDITION>)
-                                | (defined <CLANG_STR> <DIRECTIVE>)
-                                | (definer <CLANG_STR> <REGION>)
-                                | (definea <CLANG_STR> <ACTION>)
-                                | (definerule <DEFINE_RULE>)
-
-<DEFINE_RULE> : <CLANG_VAR> model <RULE>
-                                | <CLANG_VAR> direc <RULE>
-
-<RULE> : (<CONDITION> <DIRECTIVE_LIST>)
-                | (<CONDITION> <RULE_LIST>)
-                | <ID_LIST>
-
-<ACTIVATION_LIST> : <ACTIVATION_LIST> <ACTIVATION_ELEMENT>
-                                        | <ACTIVATION_ELEMENT>
-
-<ACTIVATION_ELEMENT> : (on|off <ID_LIST>)
-
-<ACTION> : (pos <REGION>)
-                        |(home <REGION>)
-                        |(mark <UNUM_SET>)
-                        |(markl <UNUM_SET>)
-                        |(markl <REGION>)
-                        |(oline <REGION>)
-                        |(htype <INTEGER>)
-                        |<CLANG_STR>
-                        |(pass <REGION>)
-                        |(pass <UNUM_SET>)
-                        |(dribble <REGION>)
-                        |(clear <REGION>)
-                        |(shoot)
-                        |(hold)
-                        |(intercept)
-                        |(tackle <UNUM_SET>)
-
-<CONDITION> : (true)
-                        |(false)
-                        |(ppos <TEAM> <UNUM_SET> <INTEGER> <INTEGER> <REGION>)
-                        |(bpos <REGION>)
-                        |(bowner <TEAM> <UNUM_SET>)
-                        |(playm <PLAY_MODE>)
-                        |(and <CONDITION_LIST>)
-                        |(or <CONDITION_LIST>)
-                        |(not <CONDITION>)
-                        |<CLANG_STR>
-                        |(<COND_COMP>)
-                        |(unum <CLANG_VAR> <UNUM_SET>)
-                        |(unum <CLANG_STR> <UNUM_SET>)
-
-<COND_COMP> : <TIME_COMP>
-                        | <OPP_GOAL_COMP>
-                        | <OUR_GOAL_COMP>
-                        | <GOAL_DIFF_COMP>
-
-<TIME_COMP> : time <COMP> <INTEGER>
-                        | <INTEGER> <COMP> time
-
-<OPP_GOAL_COMP> : opp_goals <COMP> <INTEGER>
-                        | <INTEGER> <COMP> opp_goals
-
-<OUR_GOAL_COMP> : our_goals <COMP> <INTEGER>
-                        | <INTEGER> <COMP> our_goals
-
-<GOAL_DIFF_COMP> : goal_diff <COMP> <INTEGER>
-                        | <INTEGER> <COMP> goal_diff
-
-<COMP> : < | <= | == | != | >= | >
-
-<PLAY_MODE> : bko | time_over | play_on | ko_our | ko_opp
-                | ki_our | ki_opp | fk_our | fk_opp
-                | ck_our | ck_opp | gk_opp | gk_our
-                            | gc_our | gc_opp | ag_opp | ag_our
-
-<DIRECTIVE> : (do|dont <TEAM> <UNUM_SET> <ACTION_LIST>)
-                        | <CLANG_STR>
-
-<REGION> : (null)
-                        |(arc <POINT> <REAL> <REAL> <REAL> <REAL>)
-                        |(reg <REGION_LIST>)
-                        |<CLANG_STR>
-                        |<POINT>
-                        |(tri <POINT> <POINT> <POINT>)
-                        |(rec <POINT> <POINT>)
-
-<POINT> : (pt <REAL> <REAL>)
-                | (pt ball)
-                | (pt <TEAM> <INTEGER>)
-                | (pt <TEAM> <CLANG_VAR>)
-                | (pt <TEAM> <CLANG_STR>)
-                | (<POINT_ARITH>)
-
-<POINT_ARITH> : <POINT_ARITH> <OP> <POINT_ARITH>
-                                | <POINT>
-
-<OP> : + | - | * | /
-
-<REGION> : <REGION_LIST> <REGION>
-                        | <REGION>
-
-<UNUM_SET> : { <UNUM_LIST> }
-
-<UNUM_LIST> : <UNUM>
-                        | <UNUM_LIST> <UNUM>
-
-<UNUM> : <INTEGER> | <CLANG_VAR> | <CLANG_STR>
-
-<ACTION_LIST> : <ACTION_LIST> <ACTION>
-                                | <ACTION>
-
-<DIRECTIVE_LIST> : <DIRECTIVE_LIST> <DIRECTIVE>
-                                | <DIRECTIVE>
-
-<CONDITION_LIST> : <CONDITION_LIST> <CONDITION>
-                                | <CONDITION>
-
-<RULE_LIST> : <RULE_LIST> <RULE>
-                        | <RULE>
-
-<ID-LIST> : <CLANG_VAR>
-                        | (<ID_LIST2>)
-                        | all
-
-<ID-LIST2> : <ID_LIST2> <CLANG_VAR>
-                        | <CLANG_VAR>
-
-<CLANG_STR> : "[0-9A-Za-z\(\)\.\+\-\*\/\?\<\>\_ ]+"
-
-<CLANG_VAR> : [abe-oqrt-zA-Z_]+[a-zA-Z0-9_]*
+| <MESSAGE> : <FREEFORM_MESS> | <DEFINE_MESS> | <RULE_MESS> | <DEL_MESS>
+|
+| <RULE_MESS> : (rule <ACTIVATION_LIST>)
+|
+| <DEL_MESS> : (delete <ID_LIST>)
+|
+| <DEFINE_MESS> : (define <DEFINE_TOKEN_LIST>)
+|
+| <FREEFORM_MESS> : (freeform <CLANG_STR>)
+|
+| <DEFINE_TOKEN_LIST> : <DEFINE_TOKEN_LIST> <DEFINE_TOKEN>
+|                      \| <DEFINE_TOKEN>
+|
+| <DEFINE_TOKEN> : (definec <CLANG_STR> <CONDITION>)
+|                 \| (defined <CLANG_STR> <DIRECTIVE>)
+|                 \| (definer <CLANG_STR> <REGION>)
+|                 \| (definea <CLANG_STR> <ACTION>)
+|                 \| (definerule <DEFINE_RULE>)
+|
+| <DEFINE_RULE> : <CLANG_VAR> model <RULE>
+|                \| <CLANG_VAR> direc <RULE>
+|
+| <RULE> : (<CONDITION> <DIRECTIVE_LIST>)
+|                 \| (<CONDITION> <RULE_LIST>)
+|                 \| <ID_LIST>
+|
+| <ACTIVATION_LIST> : <ACTIVATION_LIST> <ACTIVATION_ELEMENT>
+|                    \| <ACTIVATION_ELEMENT>
+|
+| <ACTIVATION_ELEMENT> : (on|off <ID_LIST>)
+|
+| <ACTION> : (pos <REGION>)
+|               \| (home <REGION>)
+|               \| (mark <UNUM_SET>)
+|               \| (markl <UNUM_SET>)
+|               \| (markl <REGION>)
+|               \| (oline <REGION>)
+|               \| (htype <INTEGER>)
+|               \| <CLANG_STR>
+|               \| (pass <REGION>)
+|               \| (pass <UNUM_SET>)
+|               \| (dribble <REGION>)
+|               \| (clear <REGION>)
+|               \| (shoot)
+|               \| (hold)
+|               \| (intercept)
+|               \| (tackle <UNUM_SET>)
+|
+| <CONDITION> : (true)
+|               \| (false)
+|               \| (ppos <TEAM> <UNUM_SET> <INTEGER> <INTEGER> <REGION>)
+|               \| (bpos <REGION>)
+|               \| (bowner <TEAM> <UNUM_SET>)
+|               \| (playm <PLAY_MODE>)
+|               \| (and <CONDITION_LIST>)
+|               \| (or <CONDITION_LIST>)
+|               \| (not <CONDITION>)
+|               \| <CLANG_STR>
+|               \| (<COND_COMP>)
+|               \| (unum <CLANG_VAR> <UNUM_SET>)
+|               \| (unum <CLANG_STR> <UNUM_SET>)
+|
+| <COND_COMP> : <TIME_COMP>
+|               \| <OPP_GOAL_COMP>
+|               \| <OUR_GOAL_COMP>
+|               \| <GOAL_DIFF_COMP>
+|
+| <TIME_COMP> : time <COMP> <INTEGER>
+|               \| <INTEGER> <COMP> time
+|
+| <OPP_GOAL_COMP> : opp_goals <COMP> <INTEGER>
+|               \| <INTEGER> <COMP> opp_goals
+|
+| <OUR_GOAL_COMP> : our_goals <COMP> <INTEGER>
+|               \| <INTEGER> <COMP> our_goals
+|
+| <GOAL_DIFF_COMP> : goal_diff <COMP> <INTEGER>
+|               \| <INTEGER> <COMP> goal_diff
+|
+| <COMP> : < | <= | == | != | >= | >
+|
+| <PLAY_MODE> : bko | time_over | play_on | ko_our | ko_opp
+|               \| ki_our | ki_opp | fk_our | fk_opp
+|               \| ck_our | ck_opp | gk_opp | gk_our
+|               \| gc_our | gc_opp | ag_opp | ag_our
+|
+| <DIRECTIVE> : (do|dont <TEAM> <UNUM_SET> <ACTION_LIST>)
+|               \| <CLANG_STR>
+|
+| <REGION> : (null)
+|           \| (arc <POINT> <REAL> <REAL> <REAL> <REAL>)
+|           \| (reg <REGION_LIST>)
+|           \| <CLANG_STR>
+|           \| <POINT>
+|           \| (tri <POINT> <POINT> <POINT>)
+|           \| (rec <POINT> <POINT>)
+|
+| <POINT> : (pt <REAL> <REAL>)
+|           \| (pt ball)
+|           \| (pt <TEAM> <INTEGER>)
+|           \| (pt <TEAM> <CLANG_VAR>)
+|           \| (pt <TEAM> <CLANG_STR>)
+|           \| (<POINT_ARITH>)
+|
+| <POINT_ARITH> : <POINT_ARITH> <OP> <POINT_ARITH>
+|                \|  <POINT>
+|
+| <OP> : + | - | * | /
+|
+| <REGION> : <REGION_LIST> <REGION>
+|           \| <REGION>
+|
+| <UNUM_SET> : { <UNUM_LIST> }
+|
+| <UNUM_LIST> : <UNUM>
+|              \| <UNUM_LIST> <UNUM>
+|
+| <UNUM> : <INTEGER> | <CLANG_VAR> | <CLANG_STR>
+|
+| <ACTION_LIST> : <ACTION_LIST> <ACTION>
+|                \| <ACTION>
+|
+| <DIRECTIVE_LIST> : <DIRECTIVE_LIST> <DIRECTIVE>
+|                   \| <DIRECTIVE>
+|
+| <CONDITION_LIST> : <CONDITION_LIST> <CONDITION>
+|                   \| <CONDITION>
+|
+| <RULE_LIST> : <RULE_LIST> <RULE>
+|              \| <RULE>
+|
+| <ID-LIST> : <CLANG_VAR>
+|            \| (<ID_LIST2>)
+|            \| all
+|
+| <ID-LIST2> : <ID_LIST2> <CLANG_VAR>
+|             \| <CLANG_VAR>
+|
+| <CLANG_STR> : "[0-9A-Za-z\(\)\.\+\-\*\/\?\<\>\_ ]+"
+|
+| <CLANG_VAR> : [abe-oqrt-zA-Z\_]+[a-zA-Z0-9\_]\*
 
 +----------------------+-------------+----------------+------------------------------------------------+
 | Parameter name       |Used value   | Default value  | Explanation                                    |
@@ -1127,9 +1123,7 @@ The complete grammar of the standard coach language:
 |                      |             |                | players during non-play on modes.              |
 +----------------------+-------------+----------------+------------------------------------------------+
 
-|
-|
-|
+
 .. table:: Trainer Interactions with the Server
 
     +----------------------------------------+----------------------------------+
@@ -1173,18 +1167,16 @@ The complete grammar of the standard coach language:
     |                                        | | (error illegal_command_form)   |
     +----------------------------------------+----------------------------------+
 
-|
-|
-|
+
 .. table:: Online Coach Interactions with the Server
 
     +----------------------------------------+--------------------------------------+
     | From trainer to server                 | From server to online coach          |
     +========================================+======================================+
-    | (init TEAMNAME                         | (init SIDE ok)                       |
-    |        (version VERSION))              |    SIDE ::= l | r                    |
-    |    VERSION ::= a real number           |                                      |
-    |    TEAMNAME ::= string                 |                                      |
+    | | (init TEAMNAME                       | | (init SIDE ok)                     |
+    | |        (version VERSION))            | |    SIDE ::= l | r                  |
+    | |    VERSION ::= a real number         |                                      |
+    | |    TEAMNAME ::= string               |                                      |
     +----------------------------------------+--------------------------------------+
     | | (change_player_type                  | | (warning no_team_found)            |
     | |    UNUM PLAYER_TYPE)                 | | (error illegal_command_form)       |
@@ -1197,49 +1189,47 @@ The complete grammar of the standard coach language:
     |                                        | | (warning cannot_change_goalie)     |
     +----------------------------------------+--------------------------------------+
 
-|
-|
-|
+
 .. table:: Server Interactions with Trainer/Coach
 
-    +----------------------------------------+--------------------------------------------+
-    | From client to server                  | From server to client                      |
-    +========================================+============================================+
-    | (say MESSAGE)                          | (ok say)                                   |
-    |        (see Section 7.4.2)             | (error illegal command form)               |
-    +----------------------------------------+--------------------------------------------+
-    | (look)                                 | (ok look TIME                              |
-    |                                        |      (:math:`OBJ_1` :math:`OBJDESC_1` )    |
-    |                                        |      (:math:`OBJ_2` :math:`OBJDESC_2` )..) |
-    |                                        |   :math:`OBJ_j` ::= object name            |
-    |                                        |              (see Section 4.3              |
-    |                                        |          :math:`OBJDESC_j` ::= X Y |       |
-    |                                        |       X Y :math:`DELTA_x` :math:`DELTA_y`| |
-    |                                        |       X Y :math:`DELTA_x` :math:`DELTA_y`  |
-    |                                        |           BODYANG NECKANG                  |
-    +----------------------------------------+--------------------------------------------+
-    | | (eye MODE)                           | | (ok eye on)                              |
-    | |    MODE ::= on | off                 | | (ok eye off)                             |
-    |                                        | | (error illegal mode)                     |
-    |                                        | | (error illegal command form)             |
-    +----------------------------------------+--------------------------------------------+
-    | This message is sent automatically ev- | |                                          |
-    | ery send_vi_step milliseconds when the | | (see_global TIME                         |
-    | coach/trainer eye is on (see the “eye” | |    (:math:`OBJ_1` :math:`OBJDESC_1` )    |
-    | commands below).                       | |    (:math:`OBJ_2` :math:`OBJDESC_2` )...)|
-    |                                        |                                            |
-    +----------------------------------------+--------------------------------------------+
-    | The trainer must use the ‘ear’ command | |                                          |
-    | to get these messages. The online coach| | (hear TIME referee MESSAGE)              |
-    | always gets these messages.            | | (hear TIME                               |
-    |                                        | |        (p ”TEAMNAME” NUM)                |
-    |                                        | |    ”MESSAGE”)                            |
-    |                                        | |   TIME ::= time message was sent         |
-    |                                        | |   TEAMNAME ::= string                    |
-    |                                        | |   NUM ::= 1–11                           |
-    |                                        | |   MESSAGE ::= string                     |
-    +----------------------------------------+--------------------------------------------+
-    | (team_names)                           | | (ok team_names                           |
-    |                                        | |    [(team l TEAMNAME1)                   |
-    |                                        | |    [(team r TEAMNAME2)]])                |
-    +----------------------------------------+--------------------------------------------+
+    +----------------------------------------+--------------------------------------------------------+
+    | From client to server                  | From server to client                                  |
+    +========================================+========================================================+
+    || (say MESSAGE)                         || (ok say)                                              |
+    ||        (see Section 7.4.2)            || (error illegal command form)                          |
+    +----------------------------------------+--------------------------------------------------------+
+    | (look)                                 || (ok look TIME                                         |
+    |                                        ||      (:math:`OBJ_1` :math:`OBJDESC_1` )               |
+    |                                        ||      (:math:`OBJ_2` :math:`OBJDESC_2` )..)            |
+    |                                        ||   :math:`OBJ_j` ::= object name                       |
+    |                                        ||              (see Section :ref:`sec-sensormodels`)    |
+    |                                        ||          :math:`OBJDESC_j` ::= X Y |                  |
+    |                                        ||       X Y :math:`DELTA_x` :math:`DELTA_y`\|           |
+    |                                        ||       X Y :math:`DELTA_x` :math:`DELTA_y`             |
+    |                                        ||           BODYANG NECKANG                             |
+    +----------------------------------------+--------------------------------------------------------+
+    | | (eye MODE)                           | | (ok eye on)                                          |
+    | |    MODE ::= on | off                 | | (ok eye off)                                         |
+    |                                        | | (error illegal mode)                                 |
+    |                                        | | (error illegal command form)                         |
+    +----------------------------------------+--------------------------------------------------------+
+    | This message is sent automatically ev- | |                                                      |
+    | ery send_vi_step milliseconds when the | | (see_global TIME                                     |
+    | coach/trainer eye is on (see the “eye” | |    (:math:`OBJ_1` :math:`OBJDESC_1` )                |
+    | commands below).                       | |    (:math:`OBJ_2` :math:`OBJDESC_2` )...)            |
+    |                                        |                                                        |
+    +----------------------------------------+--------------------------------------------------------+
+    | The trainer must use the ‘ear’ command | |                                                      |
+    | to get these messages. The online coach| | (hear TIME referee MESSAGE)                          |
+    | always gets these messages.            | | (hear TIME                                           |
+    |                                        | |        (p ”TEAMNAME” NUM)                            |
+    |                                        | |    ”MESSAGE”)                                        |
+    |                                        | |   TIME ::= time message was sent                     |
+    |                                        | |   TEAMNAME ::= string                                |
+    |                                        | |   NUM ::= 1–11                                       |
+    |                                        | |   MESSAGE ::= string                                 |
+    +----------------------------------------+--------------------------------------------------------+
+    | (team_names)                           | | (ok team_names                                       |
+    |                                        | |    [(team l TEAMNAME1)                               |
+    |                                        | |    [(team r TEAMNAME2)]])                            |
+    +----------------------------------------+--------------------------------------------------------+

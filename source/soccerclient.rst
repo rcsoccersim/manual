@@ -131,23 +131,28 @@ factors. For the details of the execution of each command refer to the Soccer Se
 Section.
 
   (turn *Moment*)
+
 The Moment is in degrees from −180 to 180. This command will turn the
 player’s body direction Moment degrees relative to the current direction.
 
   (dash *Power*)
+
 This command accelerates the player in the direction of its body (not direction of the current speed). The Power is between **minpower** (used value:
 −100) and **maxpower** (used value: 100).
 
   (kick *Power Direction*)
+
 Accelerates the ball with the given Power in the given Direction. The direction is relative to the the Direction of the body of the player and the power
 is again between **minpower** and **maxparam**.
 
   (catch *Direction*)
+
 Goalie special command: Tries to catch the ball in the given Direction relative
 to its body direction. If the catch is successful the ball will be in the goalie’s
 hand until kicked away.
 
   (move *X* *Y*)
+
 This command can be executed only before kick off and after a goal. It
 moves the player to the exact position of X (between −54 and 54) and Y
 (between −32 and 32) in one simulation cycle. This is useful for before kick
@@ -158,6 +163,7 @@ executed (i.e. if the client sends more than one command in a single cycle, one 
 will be executed randomly, usually the one received first)
 
   (turn_neck *Angle*)
+
 This command can be sent (and will be executed) each cycle independently, along with
 other action commands. The neck will rotate with the given Angle relative to previous
 Angle. Note that the resulting neck angle will be between **minneckang** (default: −90)
@@ -171,11 +177,13 @@ The only way of communication between two players is broadcasting of messages th
 the **say** command and hearing through the **hear** sensor.
 
   (say *Message*)
+
 This command broadcasts the Message through the field, and any player near enough
 (specified with **audio_cut_dist**, default: 50.0 meters), with enough hearing capacity will
 hear the Message. The message is a string of valid characters.
 
   (ok say)
+
 Command succeeded.
 In case of error there will be the following response from the Server
 
@@ -232,23 +240,24 @@ Visual Sensor is the most important sensor, and is a little bit complicated. Thi
 returns information about the objects that can be seen from the player’s view (i.e.
 objects that are in the view angle and not very far).
 
- The main format of the information is
+The main format of the information is
 
    (see *Time* *ObjInfo* *ObjInfo* . . . )
 
- The ObjInfos are of the format below
+The ObjInfos are of the format below
 
    (*ObjName* *Distance* *Direction* [*DistChange* *DirChange* [*BodyFacingDir* *HeadFacingDir*]])
 
 or
 
-
-
  (*ObjName* *Direction*)
 
-Note that the amount of information returned for each object depends on its distance. The more distant the object is the less information you get. For more detailed
-information regarding ObjInfo refer to Appendix.
- ObjName is in one of the following formats:
+Note that the amount of information returned for each object depends
+on its distance.
+The more distant the object is the less information you get.
+For more detailed information regarding ObjInfo refer to Appendix.
+
+ObjName is in one of the following formats:
 
   (p [*TeamName* [*Unum*]])
 
@@ -258,29 +267,31 @@ information regarding ObjInfo refer to Appendix.
 
   (g *Side*)
 
- **p** stands for player, **b** stands for ball, **f** stands for flag and **g** stands for goal.
- Side is one of **l** for left or **r** for right. For more information on FlagInfo refer to
-Appendix.
+**p** stands for player, **b** stands for ball, **f** stands for flag and **g** stands for goal.
+Side is one of **l** for left or **r** for right. For more information
+on FlagInfo refer to Appendix.
 
 ^^^^^^^^^^^^^^^^^^
 Audio Sensor
 ^^^^^^^^^^^^^^^^^^
+
 Audio sensor returns the messages that can be heard through the field. They may come
 from the online coach, referee, or other players.
-  The format is as follows:
+
+The format is as follows:
 
     (hear *Time* *Sender* *Message*)
 
-  Sender is one of the followings:
-  **self**: when the sender is yourself.
-  **referee**: when the sender is the referee of the game.
-  **online_coach_l** or **online_coach_r**
-  Direction: when the sender is a player other than yourself the relative direction of the
-sender is returned instead.
+Sender is one of the followings:
+ - **self**: when the sender is yourself.
+ - **referee**: when the sender is the referee of the game.
+ - **online_coach_l** or **online_coach_r**
+ - *Direction*: when the sender is a player other than yourself the relative direction of the sender is returned instead.
 
 ^^^^^^^^^^^^^^^^^^
 Body Sensor
 ^^^^^^^^^^^^^^^^^^
+
 Body sensor returns all the states of the player such as remaining stamina, view mode
 and the speed of the player at the beginning of each cycle:
 
@@ -297,11 +308,13 @@ and the speed of the player at the beginning of each cycle:
 ======================
 How to Create Clients
 ======================
+
 This section provides a brief description to write a first-step program of soccer client.
 
 ----------------------
 Sample Client
 ----------------------
+
 The Soccer Server distribution includes a very simple program for soccer clients, called
 sampleclient. It is under the ”sampleclient” directory of the distribution, and is
 automatically compiled when you make the Soccer Server.
@@ -400,9 +413,9 @@ Here is a typical usage of the sampleclient.
 
       Note again that because of endless sensor output, users must type-in these commands blindly.
 
-^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Overall Structure of Sample Client
-^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The structure of the sampleclient is simple. The brief process the client does is as
 follows:
@@ -425,17 +438,17 @@ An important tip in the sampleclient is that the client must change the server�
 number when it receives sensor informations from the server. This is because the server
 assign a new port to a client when it receives an init command. This is done by the
 following statement in ”client.c” (around line 147)
-      ::
 
+    ::
 
         printf( "recv %d : ", ntohs(serv_addr.sin_port));
         sock->serv_addr.sin_port = serv_addr.sin_port ;
         buf[n] = ’\0’
 
 
--------
+----------------
 Simple Clients
--------
+----------------
 
 In order to develop complete soccer clients, what users must do is to write code of a
 ‘brain’ part, which performs the same thing as users do with the sampleclient described
@@ -465,21 +478,18 @@ process, which controls to send commands, in parallel.
 
 Here are two simple examples of stand-alone players, sclient1 and sclient2, which
 just chase the ball and kick it to the opponent goal. The sources are available from
-  ::
 
   ftp://ci.etl.go.jp/pub/soccer/client/noda-client-2.0.tar.gz
 
 In the examples, the functions listed above are realized as follows:
 
 
-  * For Sensing function, both examples use common facilities of class BasePlayer,
-    class FieldState, and estimatePos functions. By these facilities, the example
-    programs do:
+  * For Sensing function, both examples use common facilities of class BasePlayer, class FieldState, and estimatePos functions. By these facilities, the example programs do:
       * receive data from a socket connected with the server,
       * parse the data as S-expression,
       * interpret the expression into internal data format (class SensorInfo),
-      * and in the case the received data is visual sensor information, estimate player’s
-        and other object’s positions.
+      * and in the case the received data is visual sensor information, estimate player’s and other object’s positions.
+
     For more detail, please read the source code.
 
   * For Action Interval and Parallelism functions, the two examples use different methods. The first example, sclient1 uses timeout of select() function. The second
@@ -596,7 +606,7 @@ simulation step by the function ThreadedPlayer::sendCommandPre() defined in
 
 In this function, MutexCondVar cvSend provide a similar timeout facility of select()
 function used in sclient1 described above. (MutexCondVar is a combination of
-condition variable (pthread_cond_t) and mutex (pthread_mutex_ ), and is defined in
+condition variable (pthread_cond_t) and mutex (pthread_mutex\_ ), and is defined in
 ”itk/MutexCondVar.h”.) Because the function is called just before the player sends a
 command to the server, and nextSendBodyTime is controlled to indicate the timestamp
 of the next simulation step, the thread waits to send a command in the next tic.

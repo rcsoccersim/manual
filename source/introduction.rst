@@ -78,10 +78,10 @@ following:
 There will be several technological advancements, even if the goal of
 the robotic soccer team is not reached, starting with
 Team-Partitioned, Opaque-Transition Reinforcement Learning (TPOT-RL)
-[Stone99Layered]_ which has found application in the domain of packet routing in
+[Stone98]_ which has found application in the domain of packet routing in
 computer networks. TPOT-RL is a distributed learning method in domains
 where “agents have limited information about environmental state
-transitions” ([Stone99Layered]_, p. 22).
+transitions” ([Stone98]_, p. 22).
 
 In most RoboCup leagues, the teams consist of either robots or
 programs that cooperate in order to defeat the opponent team. RoboCup

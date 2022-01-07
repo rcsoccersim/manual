@@ -251,7 +251,7 @@ The following table shows the protocol for client version 14 or later.
 +--------------------------------------------------------------------------------------------------------------------------+
 
 
-
+.. _sec-sensormodels:
 
 ==================================================
 Sensor Models
@@ -867,28 +867,16 @@ The following pseudo code shows a trade-off rule of the catch model:
      // goalie catches the ball with probability catch_prob it holds: catch_prob is in [0.0,1.0]
  }
 
-If a catch command was unsuccessful, it takes
-**server::catch_ban_cycle** cycles until another catch command can be
-used (catch commands during this time have simply no effect).
-If the goalie succeeded in catching the ball, the play mode will
-change to ``goalie_catch_ball_[l|r]`` first and ``free_kick_[l|r]``,
-after that during the same cycle.
-nce the goalie caught the ball, it can use the **move** command to
-move with the ball inside the penalty area.
-he goalie can use the **move** command **server::goalie_max_moves**
-times before it kicks the ball.
-dditional **move** commands do not have any effect and the server will
-respond with ``(error too_many_moves)``.
-Please note that catching the ball, moving around, kicking the ball a
-short distance and immediately catching it again to move more than
-**server::goalie_max_moves** times is considered as ungentlemanly
-play.
-
+If a catch command was unsuccessful, it takes **server::catch_ban_cycle** cycles until another catch command can be used (catch commands during this time have simply no effect).
+If the goalie succeeded in catching the ball, the play mode will change to ``goalie_catch_ball_[l|r]`` first and ``free_kick_[l|r]``, after that during the same cycle.
+Once the goalie caught the ball, it can use the **move** command to move with the ball inside the penalty area.
+The goalie can use the **move** command **server::goalie_max_moves** times before it kicks the ball.
+Additional **move** commands do not have any effect and the server will respond with ``(error too_many_moves)``.
+Please note that catching the ball, moving around, kicking the ball a short distance and immediately catching it again to move more than **server::goalie_max_moves** times is considered as ungentlemanly play.
 
 --------------------------------------------------
 Dash Model
 --------------------------------------------------
-
 
 The **dash** command is used to accelerate the player in direction of
 its body.
