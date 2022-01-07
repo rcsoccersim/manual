@@ -908,7 +908,7 @@ the following table:
 | server::max_dash_power          |100.0                       |                                           |            |
 +---------------------------------+----------------------------+-------------------------------------------+------------+
 | server::player_decay            || 0.4 ([0.3, 0.5])          || player::player_decay_delta_min           || -0.1      |
-| server::inertia_moment          || 5.0 ([2.5, 7.5])          || player::player_decay_delta_min           || 0.1       |
+| server::inertia_moment          || 5.0 ([2.5, 7.5])          || player::player_decay_delta_max           || 0.1       |
 |                                 |                            || player::inertia_moment_delta_factor      || 25.0      |
 +---------------------------------+----------------------------+-------------------------------------------+------------+
 | server::player_accel_max        | 1.0                        |                                           |            |
@@ -962,10 +962,10 @@ Each player has a certain amount of stamina that will be consumed by
 **dash** commands.
 At the beginning of each half, the stamina of a player is set to
 **server::stamina_max**.
-If a player accelerates forward (*power* :math:`> 0`), stamina is
+If a player accelerates forward (:math:`power> 0`), stamina is
 reduced by *power*.
-Accelerating backwards (*power* :math:`< 0`) is more expensive for the
-player: stamina is reduced by :math:`-2~\cdot~`*power*.
+Accelerating backwards (:math:`power< 0`) is more expensive for the
+player: stamina is reduced by :math:`-2 \times power`.
 If the player's stamina is lower than the power needed for the
 **dash**, *power* is reduced so that the **dash** command does not
 need more stamina than available.
@@ -973,7 +973,7 @@ Some extra stamina can be used every time the available power is lower
 than the needed stamina.
 The amount of extra stamina depends on the player type and the
 parameters **player::extra_stamina_delta_min** and
-player::extra_stamina_delta_max**.
+**player::extra_stamina_delta_max**.
 
 After reducing the stamina, the server calculates the *effective  dash
 power* for the **dash** command.
@@ -1316,7 +1316,7 @@ Therefore (with default values), when the player is at speed 1.0, the
 *maximum effective* turn he can do is :math:`\pm30`.
 However, notice that because you can not dash and turn during the same
 cycle, the fastest that a player can be going when executing a turn is
-:math:`player_speed_max \dot player\_decay`, which means the effective turn for a default player
+:math:`player\_speed\_max \times player\_decay`, which means the effective turn for a default player
 (with default values) is :math:`\pm60`.
 
 For heterogeneous players, the inertia moment is the default inertia
@@ -1326,17 +1326,20 @@ value plus a value between
 
 .. table:: Turn Model Parameter
 
-   +----------------------------------+------------------------------------------------+
-   | Basic Parameter ``server.conf``  |  Parameter for heterofenous ``player.conf``    |
-   +=====================+============+================================+=======+=======+
-   |       Name          |   Value    |         Name                   | Value |Range  |
-   +---------------------+------------+--------------------------------+-------+-------+
-   |minmoment            || -180      | | player_decay_delta_min       | | 0.0 | | 5   |
-   +---------------------+------------+--------------------------------+-------+-------+
-   |maxmoment            ||  180      | | player_decay_delta_max       | | 0.4 | | 1   |
-   +---------------------+------------+--------------------------------+-------+-------+
-   |inertia_moment       ||  5.0      | | inertia_moment_delta_factor  | | 25  |       |
-   +---------------------+------------+--------------------------------+-------+-------+
+   +-----------------------+------------------------+--------------------------------------+--------+
+   || Default Parameters   || Default Value (Range) || Heterogeneous Player Parameters     || Value |
+   ||  ``server.conf``     |                        ||  ``player.conf``                    |        |
+   +=======================+========================+======================================+========+
+   |       Name            |                        |         Name                         |        |
+   +-----------------------+------------------------+--------------------------------------+--------+
+   |server::minmoment      | -180                   |                                      |        |
+   +-----------------------+------------------------+--------------------------------------+--------+
+   |server::maxmoment      |  180                   |                                      |        |
+   +-----------------------+------------------------+--------------------------------------+--------+
+   |server::inertia_moment | 5.0([2.5, 7.5])        || player::player_decay_delta_min      || -0.1  |
+   |                       |                        || player::player_decay_delta_max      || 0.1   |
+   |                       |                        || player::inertia_moment_delta_factor || 25    |
+   +-----------------------+------------------------+--------------------------------------+--------+
 
 
 --------------------------------------------------
@@ -1505,7 +1508,7 @@ in :numref:`tab-playmode`, for the messages see :numref:`tab-refereemessages`.
    +=========================+======+======================+========================================+
    |before_kick_off          |0     |  kick_off_*Side*     |at the beginning of a half              |
    +-------------------------+------+----------------------+----------------------------------------+
-   |play_on                  |      |       	           |during normal play                      |
+   |play_on                  |      |                      |during normal play                      |
    +-------------------------+------+----------------------+----------------------------------------+
    |time_over                |      |                      |                                        |
    +-------------------------+------+----------------------+----------------------------------------+
