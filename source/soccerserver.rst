@@ -1510,7 +1510,7 @@ in :numref:`tab-playmode`, for the messages see :numref:`tab-refereemessages`.
    +-------------------------+------+----------------------+----------------------------------------+
    |play_on                  |      |                      |during normal play                      |
    +-------------------------+------+----------------------+----------------------------------------+
-   |time_over                |      |                      |                                        |
+   |time_over                |      |                      |End of the game                         |
    +-------------------------+------+----------------------+----------------------------------------+
    |kick_off_*Side*          |      |                      |announce start of play                  |
    |                         |      |                      |(after pressing the Kick Off button)    |
@@ -1519,7 +1519,10 @@ in :numref:`tab-playmode`, for the messages see :numref:`tab-refereemessages`.
    +-------------------------+------+----------------------+----------------------------------------+
    |free_kick_*Side*         |      |                      |                                        |
    +-------------------------+------+----------------------+----------------------------------------+
-   |corner_kick_*Side*       |      |                      |                                        |
+   |corner_kick_*Side*       |      |                      |when the ball goes out of play over the |
+   |                         |      |                      |goal line, without a goal being scored  |
+   |                         |      |                      |and having last been touched by a member|
+   |                         |      |                      |of the defending team.                  |
    +-------------------------+------+----------------------+----------------------------------------+
    |goal_kick_*Side*         |      |  play_on             |play mode changes once                  |
    |                         |      |                      |the ball leaves the penalty area        |
@@ -1528,7 +1531,43 @@ in :numref:`tab-playmode`, for the messages see :numref:`tab-refereemessages`.
    +-------------------------+------+----------------------+----------------------------------------+
    |drop_ball                |0     | play_on              |                                        |
    +-------------------------+------+----------------------+----------------------------------------+
-   |offside_*Side*           |30    | free_kick_*Side*     |for the opposite side                   |
+   |offside_*Side*           |30    | free_kick_*Side*     |An offside player who is closer to the  |
+   |                         |      |                      |opponent's goal when his teammate hits  |
+   |                         |      |                      |the ball, both in front of the ball and |
+   |                         |      |                      |in front of the last player of the      |
+   |                         |      |                      |opposing team.                          |
+   |                         |      |                      |The offside rule prevents players from  |
+   |                         |      |                      |concentrating in front of the opponent's|
+   |                         |      |                      |goal, as no player can stand near the   |
+   |                         |      |                      |opponent's goal and have a chance to    |
+   |                         |      |                      |score by waiting for the ball, and the  |
+   |                         |      |                      |possibility of sending long passes close|
+   |                         |      |                      |to the opponent's goal is limited. In   |
+   |                         |      |                      |this way, defenders can distance        |
+   |                         |      |                      |themselves from their own goal and      |
+   |                         |      |                      |participate more during the game.       |
+   +-------------------------+------+----------------------+----------------------------------------+
+   |penalty_kick_*Side*      |      |                      |When the game ends in a draw of 6,000   |
+   |                         |      |                      |cycles and overtime, the winner will be |
+   |                         |      |                      |determined by penalty kicks.            |
+   +-------------------------+------+----------------------+----------------------------------------+
+   |foul_charge_*Side*       |      |                      |Pushing the opposing player             |
+   +-------------------------+------+----------------------+----------------------------------------+
+   |back_pass_*Side*         |      |                      |A goalkeeper is not allowed to catch the|
+   |                         |      |                      |ball inside his own penalty area if a   |
+   |                         |      |                      |teammate sends the ball to him.         |
+   |                         |      |                      |The opposing team will receive an       |
+   |                         |      |                      |indirect free-kick at the point of touch|
+   |                         |      |                      |if the goalkeeper makes the mistake.    |
+   +-------------------------+------+----------------------+----------------------------------------+
+   |free_kick_fault_*Side*   |      |                      |                                        |
+   +-------------------------+------+----------------------+----------------------------------------+
+   |indirect_free_kick_*Side*|      |                      |In a direct free kick, the player can   |
+   |                         |      |                      |shoot the ball directly towards the goal|
+   |                         |      |                      |, but an indirect free kick cannot and  |
+   |                         |      |                      |must pass the ball to a teammate.       |
+   +-------------------------+------+----------------------+----------------------------------------+
+   |illegal_defense_*Side*   |      |                      |                                        |
    +-------------------------+------+----------------------+----------------------------------------+
 
 where Side is either the character *l* or *r*, OSide means opponent’s side.
