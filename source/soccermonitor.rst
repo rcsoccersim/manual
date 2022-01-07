@@ -479,3 +479,151 @@ Data Conversion:
 -------------------------------------------------
 Settings and Parameters
 -------------------------------------------------
+
+Soccermonitor has the following modifiable parameters:
+
+"Used Value” is the current value of the parameter which is encoded
+in the monitor.conf file.
+“Default Value” is the value encoded in the source files and will be
+used if the user doesn’t give one.
+
+You can specify parameters described in the table above in command line as following:
+You can also modify the parameters by specifying them in configuration file monitor.conf.
+In the configuration file, each line consists a pair of name and value of a parameter as
+follows: ParameterName : Value Lines that start with ’#’ are comment lines.
+
+=================================================
+What’s New
+=================================================
+
+8.03:
+
+* The server supports compressed communication to monitors as described in section 5.4
+* Player substitution information is added to the message log
+* Team graphics information is added to the message log
+
+7.07:
+
+* The logplayer did not send server param, player param, and player type
+  messages. This has been fixed.
+
+* The monitor would crash on some logfiles because stamina max seemed to be
+  set to 0. The monitor will no longer crash this way.
+
+
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+|| Parameter Name                 || Used Value                || Default            || Explanation                          |
++=================================+============================+=====================+=======================================+
+| host                            | localhost                  |Localhost            | hostname of soccerserver              |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| port                            |6000                        |6000                 | port number of soccerserver           |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| version                         | 2                          | 1                   | monitor protocol version              |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| length magnify                  | 6.0                        | 6.0                 | magnification of size of field        |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| goal width                      | 14.02                      | 7.32                | goal width                            |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| print log                       | off                        | On                  | flag for display log of               |
+|                                 |                            |                     | communication [on/off]                |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| Log line                        | 6                          | 6                   | size of log window                    |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| Print mark                      | on                         |On                   | flag for display mark on field        |
+|                                 |                            |                     | [on/off]                              |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| mark file name                  | mark.RoboCup.grey.xbm      | Mark.xbm            | mark on field use file name           |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| ball_file_name                  | ball-s.xbm                 | Ball.xbm            | ball use file name                    |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| player_widget_size              | 9.0                        | 1.0                 | size of player widget                 |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| player_widget_font              | 5x8                        | Fixed               | font(uniform number) of player widget |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| Uniform_num_pos_x               |2                           | 2                   | position (X) of player uniform number |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| Uniform_num_pos_y               | 8                          | 8                   | position (Y) of player uniform number |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| team_l_color                    | Gold                       | Gold                | Team_L color                          |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| team_r_color                    | Red                        | Red                 | Team_R color                          |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| goalie_l_color                  | Green                      | Green               | Team_L Goalie color                   |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| goalie_r_color                  | Purple                     | Purple              | Team_R Goalie color                   |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| neck_l_color                    | Black                      | Black               | Team_L Neck color                     |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| neck_r_color                    | Black                      | Black               | Team_R Neck color                     |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| Goalie_neck_l_color             | Black                      | Black               | Team_L Goalie Neck color              |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| Goalie_neck_r_color             | Black                      | Black               | Team_R Goalie Neck color              |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| status_font                     | 7x14bold                   | Fixed               | status line font [team name and       |
+|                                 |                            |                     | score, time, play_mode]               |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| popup_msg                       | off                        | Off                 | flag for pop up and down “GOAL!!” and |
+|                                 |                            |                     | “Offside!” [on/off]                   |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| Goal_label_width                | 120                        | 120                 | pop up and down “GOAL!!” label width  |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| Goal_label_font                 | -adobe-times               | Fixed               | pop up and down “GOAL!!” label font   |
+|                                 | bold-r-*-*-34-*-*-         |                     |                                       |
+|                                 | *-*-*-*-*                  |                     |                                       |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| Goal_score_width                | 40                         | 40                  | pop up and down “GOAL!!” score width  |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| Goal_score_font                 | -adobe-times               | Fixed               | pop up and down “GOAL!!” score font   |
+|                                 | bold-r-*-*-25-*-*-         |                     |                                       |
+|                                 | *-*-*-*-*                  |                     |                                       |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| Offside_label_width             | 120                        | 120                 | pop up and down“Offside!” label width |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| Offside_label_font              | -adobe-times               | Fixed               | pop up and down “Offside!” label font |
+|                                 | bold-r-*-*-34-*-*-         |                     |                                       |
+|                                 | *-*-*-*-*                  |                     |                                       |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| eval                            | off                        | Off                 | flag for evaluation mode              |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+| redraw_player                   | on                         | Off                 | always redraw player (needed          |
+|                                 |                            |                     | for RH 5.2)                           |
++---------------------------------+----------------------------+---------------------+---------------------------------------+
+
+
+7.05:
+
+* For quite some time, the logplayer has occasionally “skipped” so that certain cycles were never displayed by the logplayer. This seems to be caused
+  by the logplayer sending too many UDP packets for the monitor to receive. Therefore, a new parameter has been added to the logplayer ’message delay interval’. After sending that many messages, the logplayer sleeps
+  for 1 microsecond, giving the monitor a chance to catch up. This is not a guaranteed to work, but it seems to help significantly. If you still have a problem
+  with the logplayer/monitor “skipping”, try reducing message delay interval
+  from it’s default value of 10. Setting message delay interval to a negative
+  number causes there to be no delay.
+* The server used to truncate messages received from the players and coach to
+  128 characters before recording them in the logfile. This has been fixed.
+
+7.04:
+
+* If a client connects with version > 7.0, all angles sent out by the server are
+  rounded instead of truncated (as they were previously) This makes the error
+  from quantization of angles (i.e. conversion of floats to ints) both uniform
+  throughout the domain and two sided. This change was also made to all
+  values put into the dispinfo t structure for the monitors and logfiles.
+
+7.02:
+
+* A new command has been added to the monitor protocol:
+ (dispplayer side unum posx posy ang)
+ (contributed by Artur Merke)
+   See 5.4 Commands From Monitor to Server
+
+7.00:
+
+* Included the head angle into the display of the soccermonitor. (source contributed by Ken Nguyen)
+* Included visualization effect when the player collided with the ball or the
+  player collided with another player. The monitor displays both cases with a
+  black circle around the player.
+* Introduced new monitor protocol version 2. (See 5.5.2 Version 2 and 5.4
+  Commands From Monitor to Server)
+* Introduced new logging protocol version 3. (See 5.5.3 Version 3 Protocol)
+* Fixed logging so that the last cycle of a game is logged.
