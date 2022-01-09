@@ -1712,31 +1712,31 @@ The Soccerserver Parameters
      -
      - 0.1
      -
-   * - playerـweight
+   * - player_weight
      -
      - 60.0
      - player weight
-   * - playerـspeedـmax
+   * - player_speed_max
      -
      - 1.0
      - max. player velocity
-   * - player-accelـmax
+   * - player_accel_max
      -
      - 1.0
      - max. player acceleration
-   * - playerـaccelـmax
+   * - player_accel_max
      -
      - 1.0
      - max. player acceleration
-   * - staminaـmax
+   * - stamina_max
      -
      - 4000.0
      - max. player stamina
-   * - staminaـincـmax
+   * - stamina_inc_max
      -
      - 45.0
      - max. player stamina increment
-   * - recoverـdecـthr
+   * - recover_dec_thr
      -
      - 0.3
      - player recovery decrement threshold
@@ -1804,47 +1804,47 @@ The Soccerserver Parameters
      -
      - 0.05
      -
-   * - ballـweight
+   * - ball_weight
      -
      - 0.2
      - weight of the ball
-   * - ballـspeedـmax
+   * - ball_speed_max
      -
      - 2.7
      - max. ball velocity
-   * - ballـaccelـmax
+   * - ball_accel_max
      -
      - 2.7
      - max. ball acceleration
-   * - dashـpowerـrate
+   * - dash_power_rate
      -
      - 0.006
      - dash power rate
-   * - kickـpowerـrate
+   * - kick_power_rate
      -
      - 0.027
      - kick power rate
-   * - kickableـmargin
+   * - kickable_margin
      -
      - 0.7
      - kickable margin
-   * - controlـradius
+   * - control_radius
      -
      -
      - control radius
-   * - catchـprobability
+   * - catch_probability
      -
      - 1.0
      - goalie catch probability
-   * - catchableـareaـl
+   * - catchable_area_l
      -
      - 2.0
      - goalie catchable area length
-   * - catchableـareaـw
+   * - catchable_area_w
      -
      - 1.0
      - goalie catchable area width
-   * - goalieـmaxـmoves
+   * - goalie_max_moves
      -
      - 2
      - goalie max. moves after a catch
@@ -1880,15 +1880,15 @@ The Soccerserver Parameters
      -
      - -90
      - min. neck angle
-   * - visibleـangle
+   * - visible_angle
      -
      - 90.0
      - visible angle
-   * - visibleـdistance
+   * - visible_distance
      -
      -
      - visible distance
-   * - audioـcutـdist
+   * - audio_cut_dist
      -
      - 50.0
      - audio cut off distance
