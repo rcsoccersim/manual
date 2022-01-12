@@ -806,8 +806,6 @@ For the current values of catch command parameters see :numref:`param-goaliecatc
    +-------------------------------------------------+-----------+
 
 
-**TODO** about heterogenous parameters.
-
 First time when goalie has been introduced in Soccer Simulation 2D was with server
 version 4.0.0:
 When a client connects the server with '(init TEAMNAME (goalie)',
