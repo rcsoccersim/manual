@@ -1855,450 +1855,602 @@ The Soccerserver Parameters
 --------------------------------------------------
 
 .. list-table:: Parameters adjustable in ``server.conf``
-   :widths: 100 20 30 100
+   :widths: 100 30 100
    :header-rows: 1
 
    * - Name
-     - Default Value
      - Current Value  in ``server.conf``
      - Description
-   * - goal_width
-     - 7.32
-     - 14.0
-     - goal width
-   * - player_size
-     -
-     - 0.3
-     - player size
-   * - player_decay
-     -
-     - 0.4
-     - player decay
-   * - player_rand
-     -
-     - 0.1
-     -
-   * - playerـweight
-     -
-     - 60.0
-     - player weight
-   * - playerـspeedـmax
-     -
-     - 1.0
-     - max. player velocity
-   * - player-accelـmax
-     -
-     - 1.0
-     - max. player acceleration
-   * - playerـaccelـmax
-     -
-     - 1.0
-     - max. player acceleration
-   * - staminaـmax
-     -
-     - 4000.0
-     - max. player stamina
-   * - staminaـincـmax
-     -
-     - 45.0
-     - max. player stamina increment
-   * - recoverـdecـthr
-     -
-     - 0.3
-     - player recovery decrement threshold
-   * - recover_min
-     -
-     - 0.5
-     - min. player recovery
-   * - recover_dec
-     -
-     - 0.002
-     - player recovery decrement
-   * - effort_dec_thr
-     -
-     - 0.3
-     - player dash effort decrement threshold
-   * - effort_min
-     -
-     - 0.6
-     - min. player dash effort
-   * - effort_dec
-     -
-     - 0.005
-     - dash effort decrement
-   * - effort_inc_thr
-     -
-     - 0.6
-     - dash effort increment treshold
-   * - effort_inc
-     -
-     - 0.01
-     - dash effort increment
-   * - kick_rand
-     -
-     - 0.0
-     - noise added directly to kicks
-   * - team_actuator_noise
-     -
-     -
-     - flag whether to use team specic actuator noise
-   * - prand_factor_l
-     -
-     -
-     - factor to multiply prand for left team
-   * - prand_factor_r
-     -
-     -
-     - factor to multiply prand for right team
-   * - kick_rand_factor_l
-     -
-     -
-     - factor to multiply kick rand for left team
-   * - kick_rand_factor_r
-     -
-     -
-     - factor to multiply kick rand for right team
-   * - ball_size
-     -
-     - 0.085
-     - ball size
-   * - ball_decay
-     -
-     - 0.94
-     - ball decay
-   * - ball_rand
-     -
-     - 0.05
-     -
-   * - ballـweight
-     -
-     - 0.2
-     - weight of the ball
-   * - ballـspeedـmax
-     -
-     - 2.7
-     - max. ball velocity
-   * - ballـaccelـmax
-     -
-     - 2.7
-     - max. ball acceleration
-   * - dashـpowerـrate
-     -
-     - 0.006
-     - dash power rate
-   * - kickـpowerـrate
-     -
-     - 0.027
-     - kick power rate
-   * - kickableـmargin
-     -
-     - 0.7
-     - kickable margin
-   * - controlـradius
-     -
-     -
-     - control radius
-   * - catchـprobability
-     -
-     - 1.0
-     - goalie catch probability
-   * - catchableـareaـl
-     -
-     - 2.0
-     - goalie catchable area length
-   * - catchableـareaـw
-     -
-     - 1.0
-     - goalie catchable area width
-   * - goalieـmaxـmoves
-     -
-     - 2
-     - goalie max. moves after a catch
-   * - maxpower
-     -
-     - 100
-     - max power
-   * - minpower
-     -
-     - -100
-     - min power
-   * - maxmoment
-     -
-     - 180
-     - max. moment
-   * - minmoment
-     -
-     - -180
-     - min. moment
-   * - maxneckmoment
-     -
-     - 180
-     - max. neck moment
-   * - minneckmoment
-     -
-     - -180
-     - min. neck moment
-   * - maxneckang
-     -
-     - 90
-     - max. neck angle
-   * - minneckang
-     -
-     - -90
-     - min. neck angle
-   * - visibleـangle
-     -
-     - 90.0
-     - visible angle
-   * - visibleـdistance
-     -
-     -
-     - visible distance
-   * - audioـcutـdist
-     -
-     - 50.0
-     - audio cut off distance
-   * - quantize_step
-     -
-     - 0.1
-     - quantize step of distance for movable objects
-   * - quantize_step_l
-     -
-     - 0.01
-     - quantize step of distance for landmarks
-   * - quantize_step_dir
-     -
-     -
-     -
-   * - quantize_step_dist_team_l
-     -
-     -
-     -
-   * - quantize_step_dist_team_r
-     -
-     -
-     -
-   * - quantize_step_dist_l_team_l
-     -
-     -
-     -
-   * - quantize_step_dist_l_team_r
-     -
-     -
-     -
-   * - quantize_step_dir_team_l
-     -
-     -
-     -
-   * - quantize_step_dir_team_r
-     -
-     -
-     -
-   * - ckick_margin
-     -
-     - 1.0
-     - corner kick margin
-   * - wind_dir
-     - 0.0
-     - 0.0
-     - wind direction
-   * - wind_force
-     - 10.0
-     - 0.0
-     -
-   * - wind_rand
-     - 0.3
-     - 0.0
-     -
-   * - wind_none
-     -
-     -
-     - wind factor is none
-   * - wind_random
-     -
-     - false
-     - wind factor is random
-   * - inertia_moment
-     -
-     - 5.0
-     - intertia moment for turn
-   * - half_time
-     -
-     - 300
-     - length of a half time in seconds
-   * - drop_ball_time
-     -
-     - 200
-     - number of cycles to wait until dropping the ball automatically
-   * - port
-     -
-     - 6000
-     - player port number
-   * - coach_port
-     -
-     - 6001
-     - (offine) coach port
-   * - olcoach_port_online
-     -
-     -
-     - coach port
-   * - say_coach_cnt_max
-     -
-     - 128
-     - upper limit of the number of online coach's message
-   * - say_coach_msg_size
-     -
-     - 128
-     - upper limit of length of online coach's message
-   * - simulator_step
-     -
-     - 100
-     - time step of simulation [unit:msec]
-   * - send_step
-     -
-     - 150
-     - time step of visual information [unit:msec]
-   * - recv_step
-     -
-     - 10
-     - time step of acception of commands [unit: msec]
-   * - sense_body_step
-     -
-     - 100
-     -
-   * - say_msg_size
-     -
-     - 512
-     - string size of say message [unit:byte]
+   * - catch_ban_cycle
+     - 5
+     - goalies cannot execute the next catch until this cycle has passed after the successful catch.
    * - clang_win_size
-     -
      - 300
      - time window which controls how many messages can be sent (coach language)
-   * - clang_define_win
-     -
-     - 1
-     - number of messages per window
-   * - clang_meta_win
-     -
-     - 1
-     -
    * - clang_advice_win
-     -
      - 1
-     -
+     - number of advice messages per window
+   * - clang_define_win
+     - 1
+     - number of define messages per window
+   * - clang_del_win
+     - 1
+     - number of del messages per window
    * - clang_info_win
-     -
      - 1
-     -
+     - number of info messages per window
    * - clang_mess_delay
-     -
      - 50
      - delay between receipt of message and send to players
    * - clang_mess_per_cycle
-     -
      - 1
      - maximum number of coach messages sent per cycle
-   * - hear_max
-     -
-     - 2
-     -
-   * - hear_inc
-     -
+   * - clang_meta_win
      - 1
-     -
-   * - hear_decay
-     -
-     - 2
-     -
-   * - catch_ban_cycle
-     -
+     - number of meta messages per window
+   * - clang_rule_win
+     - 1
+     - number of rule messages per window
+   * - clang_win_size
+     - 1
+     - The length of clang message window
+   * - coach_port
+     - 6001
+     - (offine) coach port
+   * - connect_wait
+     - 300
+     - maximum cycle to wait for client connections in automatic mode
+   * - drop_ball_time
+     - 100
+     - number of cycles to wait until dropping the ball automatically
+   * - extra_half_time
+     - 100
+     - length of a half time of extra halves in seconds
+   * - foul_cycles
      - 5
-     -
-   * - coach
-     -
-     -
-     -
-   * - coach_w_referee
-     -
-     -
-     -
-   * - old_coach_hear
-     -
-     -
-     -
+     - idle cycles of foul charged players
+   * - freeform_send_period
+     - 20
+     - online coaches can send a freeform message during this period after the waiting period
+   * - freeform_wait_period
+     - 600
+     - online coaches can send a freeform message after waiting this period
+   * - game_log_compression
+     - 0
+     - compression level of game log file
+   * - game_log_version
+     - 5
+     - version of game log format
+   * - game_over_wait
+     - 100
+     - maximum cycle to wait for server termination in automatic mode
+   * - goalie_max_moves
+     - 2
+     - goalie max. moves after a catch
+   * - half_time
+     - 300
+     - length of a half time in seconds
+   * - hear_decay
+     - 1
+     - value that reduces the auditory capacity when receiving an auditory message
+   * - hear_inc
+     - 1
+     - value that increases the auditory capacity when the game cycle is updated
+   * - hear_max
+     - 1
+     - maximum value of audiotory capacity
+   * - illegal_defense_duration
+     - 20
+     - threshold count to detect illegal defense behavior
+   * - illegal_defense_number
+     - 0
+     - number of players judged to be illegal illegal defense behavior
+   * - keepaway_start
+     - -1
+     - automatic referee changes playmode to play_on after this
+	   seconds elapsed
+   * - kick_off_wait
+     - 100
+     - maximum cycle to wait kick-off in automatic mode
+   * - max_goal_kicks
+     - 3
+     - (actually no effect)
+   * - max_monitors
+     - -1
+     - max number of monitor connections
+   * - nr_extra_halfs
+     - 2
+     - number of extra halves in a game
+   * - nr_normal_halfs
+     - 2
+     - number of normal halves in a game
+   * - olcoach_port
+     - 6002
+     - online coach port
+   * - pen_before_setup_wait
+     - 10
+     - max waiting cycles in penalty_miss_[lr] or penalty_score_[lr]
+   * - pen_max_extra_kicks
+     - 5
+     - max extra kick trials in penalty shootouts
+   * - pen_nr_kicks
+     - 5
+     - number of normal kick trials in penalty shootouts
+   * - pen_ready_wait
+     - 10
+     - max waiting cycles in penalty_ready_[lr]
+   * - pen_setup_wait
+     - 70
+     - max waiting cycles in penalty_setup_[lr]
+   * - pen_taken_wait
+     - 150
+     - max cycles in penalty_taken_[lr]
+   * - point_to_ban
+     - 5
+     - players cannot execute the next pointto until this cycle has passed
+   * - point_to_duration
+     - 20
+     - pointo continues automatically for up to this cycle
+   * - port
+     - 6000
+     - player port number
+   * - recv_step
+     - 10
+     - time step of acception of commands [unit: msec]
+   * - say_coach_cnt_max
+     - 128
+     - upper limit of the number of online coach's message
+   * - say_coach_msg_size
+     - 128
+     - upper limit of length of online coach's message
+   * - say_msg_size
+     - 10
+     - string size of say message [unit:byte]
+   * - send_step
+     - 150
+     - time step of visual information [unit:msec]
    * - send_vi_step
-     -
      - 100
      - interval of online coach's look
-   * - use_offside
+   * - sense_body_step
+     - 100
      -
-     - on
-     - flag for using off side rule
-   * - offside_active_area_size
-     -
-     - 5
-     - offside active area size
-   * - forbid_kick_off_offside
-     -
-     - on
-     - forbid kick off offside
-   * - log_file
-     -
-     -
-     -
-   * - record
-     -
-     -
-     -
-   * - record_version
-     -
-     - 3
-     - flaag for record log
-   * - record_log
-     -
-     - on
-     - flag for record client command log
-   * - record messages
-     -
-     -
-     -
-   * - send_log
-     -
-     - on
-     - flag for send client command log
-   * - log_times
-     -
-     - off
-     - flag for writing cycle lenth to log file
-   * - verbose
-     -
-     - off
-     - flag for verbose mode
-   * - replay
-     -
-     -
-     -
-   * - offside_kick_margin
-     -
-     - 9.15
-     - offside kick margin
+   * - simulator_step
+     - 100
+     - time step of simulation [unit:msec]
    * - slow_down_factor
-     -
-     -
-     -
+     - 1
+     - coefficient that slows down simulation time
    * - start_goal_l
-     -
-     -
-     -
+     - 0
+     - initial score of the left team
    * - start_goal_r
+     - 0
+     - initial score of the right team
+   * - synch_micro_sleep
+     - 1
+     - sleep time to wait clients in synch mode [unit:msec]
+   * - synch_offset
+     - 60
+     - offset time from the beginning of the cycle to send *think* message [unit:msec]
+   * - synch_see_offset
+     - 0
+     - offset time from the beginning of the cycle to send *see* message if players uses *synch_see* mode [unit:msec]
+   * - tackle_cycles
+     - 10
+     - idle cycles of the players that executed *tackle*
+   * - text_log_compression
+     - 0
+     - compression level of text log file
+   * - auto_mode
+     - false
      -
+   * - back_passes
+     - true
      -
+   * - coach
+     - false
+     -
+   * - coach_w_referee
+     - false
+     - allows trainer with automatic referee
+   * - forbid_kick_off_offside
+     - true
+     - forbid kick off offside
+   * - free_kick_faults
+     - true
      -
    * - fullstate_l
-     -
-     -
+     - false
      -
    * - fullstate_r
+     - false
      -
+   * - game_log_dated
+     - true
      -
+   * - game_log_fixed
+     - false
+     -
+   * - game_logging
+     - true
+     - flag for game logging
+   * - golden_goal
+     - false
+     - flag for the golden goal rule
+   * - keepaway
+     - false
+     - flag for keepaway mode
+   * - keepaway_log_dated
+     - true
+     -
+   * - keepaway_log_fixed
+     - false
+     -
+   * - keepaway_logging
+     - true
+     -
+   * - log_times
+     - false
+     -
+   * - old_coach_hear
+     - false
+     -
+   * - pen_allow_mult_kicks
+     - true
+     - Turn on to allow dribbling in penalty shootouts
+   * - pen_coach_moves_players
+     - true
+     - Turn on to have the server automatically position players for peanlty shootouts
+   * - pen_random_winner
+     - false
+     -
+   * - penalty_shootouts
+     - true
+     - Set to true to enable penalty shootouts after normal time and extra time if the game is drawn.
+   * - profile
+     - false
+     -
+   * - proper_goal_kicks
+     - false
+     -
+   * - record_messages
+     - false
+     - enables recording message to game log file
+   * - send_comms
+     - false
+     - enables sending message to monitors
+   * - synch_mode
+     - false
+     - enables synchronous mode
+   * - team_actuator_noise
+     - false
+     - flag whether to use team specic actuator noise
+   * - text_log_dated
+     - true
+     -
+   * - text_log_fixed
+     - false
+     -
+   * - text_logging
+     - true
+     - flag for recording client command log
+   * - use_offside
+     - true
+     - flag for using off side rule
+   * - verbose
+     - false
+     - flag for verbose mode
+   * - wind_none
+     - false
+     - wind factor is none
+   * - wind_random
+     - false
+     - wind factor is random
+   * - audio_cut_dist
+     - 50.0
+     - audio cut off distance
+   * - back_dash_rate
+     - 0.6
+     - dash power date for the backward dash
+   * - ball_accel_max
+     - 2.7
+     - max. ball acceleration
+   * - ball_decay
+     - 0.94
+     - ball decay
+   * - ball_rand
+     - 0.05
+     - noise parameter for the ball movement
+   * - ball_size
+     - 0.085
+     - ball size
+   * - ball_speedـmax
+     - 3.0
+     - max. ball velocity
+   * - ball_stuck_area
+     - 3.0
+     - threshold of distance to detect a stucked situation
+   * - ball_weight
+     - 0.2
+     - (not used) weight of the ball
+   * - catch_probability
+     - 1.0
+     - default goalie catch probability
+   * - catchable_area_l
+     - 1.2
+     - goalie's defalut catchable area length
+   * - catchable_area_w
+     - 1.0
+     - goalie's catchable area width
+   * - ckick_margin
+     - 1.0
+     - corner kick margin
+   * - control_radius
+     - 2.0
+     - (not used)
+   * - dash_angle_step
+     - 1.0
+     - minimum angle step for dash command
+   * - dash_power_rate
+     - 0.006
+     - default dash power rate
+   * - effort_dec
+     - 0.005
+     - dash effort decrement
+   * - effort_dec_thr
+     - 0.3
+     - player dash effort decrement threshold
+   * - effort_inc
+     - 0.01
+     - dash effort increment
+   * - effort_inc_thr
+     - 0.6
+     - dash effort increment treshold
+   * - effort_init
+     - 1.0
+     - default effort value
+   * - effort_min
+     - 0.6
+     - min. player dash effort
+   * - extra_stamina
+     - 50.0
+     - default extra stamina
+   * - foul_detect_probability
+     - 0.5
+     - default foul detect probability
+   * - foul_exponent
+     - 10.0
+     -
+   * - goal_width
+     - 14.02
+     - goal width
+   * - illegal_defense_dist_x
+     - 16.5
+     -
+   * - illegal_defense_width
+     - 40.32
+     -
+   * - inertia_moment
+     - 5.0
+     - default intertia moment for turn
+   * - keepaway_length
+     - 20
+     -
+   * - keepaway_width
+     - 20
+     -
+   * - kick_power_rate
+     - 0.027
+     - kick power rate
+   * - kick_rand
+     - 0.1
+     - base parameter for noise added directly to kicks
+   * - kick_rand_factor_l
+     - 1.0
+     - factor to multiply kick rand for left team
+   * - kick_rand_factor_r
+     - 1.0
+     - factor to multiply kick rand for right team
+   * - kickable_margin
+     - 0.7
+     - default kickable margin
+   * - max_back_tackle_power
+     - 0.0
+     -
+   * - max_dash_angle
+     - 180.0
+     -
+   * - max_dash_power
+     - 100.0
+     -
+   * - max_tackle_power
+     - 100.0
+     -
+   * - maxmoment
+     - 180.0
+     - max. moment
+   * - maxneckang
+     - 90.0
+     - max. neck angle
+   * - maxneckmoment
+     - 180.0
+     - max. neck moment
+   * - maxpower
+     - 100.0
+     - max kick power
+   * - min_dash_angle
+     - -180.0
+     -
+   * - min_dash_power
+     - -100.0
+     -
+   * - minmoment
+     - -180.0
+     - max. moment
+   * - minneckang
+     - -90.0
+     - max. neck angle
+   * - minneckmoment
+     - -180.0
+     - max. neck moment
+   * - minpower
+     - -100
+     - min kick power
+   * - offside_active_area_size
+     - 2.5
+     - if offside marked players try to kick/tackle command and their distance from the ball is less than this value, referee detects
+	   offside
+   * - offside_kick_margin
+     - 9.15
+     -
+   * - offside_kick_margin
+     - 9.15
+     -
+   * - pen_dist_x
+     - 42.5
+     -
+   * - pen_max_goalie_dist_x
+     - 14
+     -
+   * - player_accel_max
+     - 1.0
+     - max. player acceleration
+   * - player_decay
+     - 0.4
+     - default player decay
+   * - player_rand
+     - 0.1
+     - players' movement noise parameter
+   * - player_size
+     - 0.3
+     - player radius
+   * - player_speed_max
+     - 1.05
+     - maxium speed of players
+   * - player_speed_max_min
+     - 0.75
+     - The minumum value of the maximum speed of players
+   * - player_weight
+     - 60.0
+     - (not used) player weight
+   * - prand_factor_l
+     - 1
+     - factor to multiply prand for left team
+   * - prand_factor_r
+     - 1
+     - factor to multiply prand for right team
+   * - quantize_step
+     - 0.1
+     - quantize step of distance for movable objects
+   * - quantize_step_l
+     - 0.01
+     - quantize step of distance for landmarks
+   * - recover_dec
+     - 0.002
+     - player recovery decrement
+   * - recover_dec_thr
+     - 0.3
+     - player recovery decrement threshold
+   * - recover_init
+     - 1.0
+     - player's initial recovery value
+   * - red_card_probability
+     - 0.0
+     -
+   * - side_dash_rate
+     - 0.4
+     -
+   * - slowness_on_top_for_left_team
+     - 1
+     -
+   * - slowness_on_top_for_right_team
+     - 1
+     -
+   * - stamina_capacity
+     - 130600
+     -
+   * - stamina_inc_max
+     - 45.0
+     - default max. player stamina increment
+   * - stamina_max
+     - 8000.0
+     - max. player stamina
+   * - stopped_ball_vel
+     - 0.01
+     - threshold value to detect ball is moving or not
+   * - tackle_back_dist
+     - 0.0
+     -
+   * - tackle_dist
+     - 2.0
+     -
+   * - tackle_exponent
+     - 6.0
+     -
+   * - tackle_power_rate
+     - 0.027
+     -
+   * - tackle_rand_factor
+     - 2.0
+     -
+   * - tackle_width
+     - 1.25
+     -
+   * - visible_angle
+     - 90.0
+     - visible angle
+   * - visible_distance
+     - 3.0
+     -
+   * - wind_ang
+     - 0.0
+     -
+   * - wind_dir
+     - 0.0
+     - wind direction
+   * - wind_force
+     - 0.0
+     -
+   * - wind_rand
+     - 0.0
+     -
+   * - coach_msg_file
+     - ''
+     -
+   * - fixed_teamname_l
+     - ''
+     -
+   * - fixed_teamname_r
+     - ''
+     -
+   * - game_log_dir
+     - './'
+     -
+   * - game_log_fixed_name
+     - 'rcssserver'
+     -
+   * - keepaway_log_dir
+     - './'
+     -
+   * - keepaway_log_fixed_name
+     - 'rcssserver'
+     -
+   * - landmark_file
+     - '~/.rcssserver-landmark.xml'
+     -
+   * - log_date_format
+     - '%Y%m%d%H%M%S-'
+     -
+   * - team_l_start
+     - ''
+     -
+   * - team_r_start
+     - ''
+     -
+   * - text_log_dir
+     - './'
+     -
+   * - text_log_fixed_name
+     - ''
      -
