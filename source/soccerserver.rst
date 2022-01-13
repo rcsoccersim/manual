@@ -586,7 +586,7 @@ in sight is a ball or a player, is quantized in the following manner:
 
 .. math::
 
-  d' = {\rm Quantize}(\exp({\rm Quantize}(\log(d),quantize\_step)),0.1)
+  d' = {\mathrm Quantize}(\exp({\mathrm Quantize}(\log(d),quantize\_step)),0.1)
 
 
 where :math:`d` and :math:`d'` are the exact distance and quantized distance
@@ -594,7 +594,7 @@ respectively, and
 
 .. math::
 
-  {\rm Quantize}(V,Q) = {\rm ceiling}(V/Q) \cdot Q
+  {\mathrm Quantize}(V,Q) = {\mathrm ceiling}(V/Q) \cdot Q
 
 
 This means that players can not know the exact positions of very far objects.
@@ -606,7 +606,7 @@ following manner.
 
 .. math::
 
-  d' = {\rm Quantize}(\exp({\rm Quantize}(\log(d),quantize\_step\_l)),0.1)
+  d' = {\mathrm Quantize}(\exp({\mathrm Quantize}(\log(d),quantize\_step\_l)),0.1)
 
 
 --------------------------------------------------
@@ -724,18 +724,18 @@ noise is added into Eqn.:ref:`eq:u-t` as follows:
 
 .. math::
 
-  (u_x^{t+1},u_y^{t+1}) = (v_x^{t}, v_y^{t}) + (a_x^{t}, a_y^{t}) + (\tilde{r}_{\rm rmax},\tilde{r}_{\rm rmax})
+  (u_x^{t+1},u_y^{t+1}) = (v_x^{t}, v_y^{t}) + (a_x^{t}, a_y^{t}) + (\tilde{r}_{\mathrm rmax},\tilde{r}_{\mathrm rmax})
 
-where :math:`\tilde{r}_{\rm rmax}` is a random number whose distribution
-is uniform over the range :math:`[-{\rm rmax},{\rm rmax}]`.
-:math:`{\rm rmax}` is a parameter that depends on amount of velocity
+where :math:`\tilde{r}_{\mathrm rmax}` is a random number whose distribution
+is uniform over the range :math:`[-{\mathrm rmax},{\mathrm rmax}]`.
+:math:`{\mathrm rmax}` is a parameter that depends on amount of velocity
 of the object as follows:
 
 .. math::
 
-  {\rm rmax} = {\rm rand} \cdot |(v_x^{t}, v_y^{t})|
+  {\mathrm rmax} = {\mathrm rand} \cdot |(v_x^{t}, v_y^{t})|
 
-where :math:`{\rm rand}` is a parameter specified by **server::player_rand**
+where :math:`{\mathrm rand}` is a parameter specified by **server::player_rand**
 or **server::ball_rand**.
 
 Noise is added also into the *Power* and *Moment* arguments of a
@@ -743,7 +743,7 @@ command as follows:
 
 .. math::
 
-  argument = (1 + \tilde{r}_{\rm rand}) \cdot argument
+  argument = (1 + \tilde{r}_{\mathrm rand}) \cdot argument
 
 
 
@@ -885,63 +885,65 @@ and **server::max_dash_power**.
 For the current values of parameters for the dash model, see
 the following table:
 
-+---------------------------------+----------------------------+-------------------------------------------+------------+
-|| Default Parameters             || Default Value (Range)     || Heterogeneous Player Parameters          || Value     |
-||  ``server.conf``               ||                           ||   ``player.conf``                        ||           |
-+=================================+============================+===========================================+============+
-| server::min_dash_power          |-100.0                      |                                           |            |
-+---------------------------------+----------------------------+-------------------------------------------+------------+
-| server::max_dash_power          |100.0                       |                                           |            |
-+---------------------------------+----------------------------+-------------------------------------------+------------+
-| server::player_decay            || 0.4 ([0.3, 0.5])          || player::player_decay_delta_min           || -0.1      |
-| server::inertia_moment          || 5.0 ([2.5, 7.5])          || player::player_decay_delta_max           || 0.1       |
-|                                 |                            || player::inertia_moment_delta_factor      || 25.0      |
-+---------------------------------+----------------------------+-------------------------------------------+------------+
-| server::player_accel_max        | 1.0                        |                                           |            |
-+---------------------------------+----------------------------+-------------------------------------------+------------+
-| server::player_rand             | 0.1                        |                                           |            |
-+---------------------------------+----------------------------+-------------------------------------------+------------+
-| server::player_speed_max        | 1.05                       |                                           |            |
-+---------------------------------+----------------------------+-------------------------------------------+------------+
-| server::player_speed_max_min    | 0.75                       |                                           |            |
-+---------------------------------+----------------------------+-------------------------------------------+------------+
-| server::stamina_max             |8000.0                      |                                           |            |
-+---------------------------------+----------------------------+-------------------------------------------+------------+
-| server::stamina_capacity        |130600.0                    |                                           |            |
-+---------------------------------+----------------------------+-------------------------------------------+------------+
-|| server::stamina_inc_max        || 45.0  ([40.2, 52.2])      || player::new_dash_power_rate_delta_min    || -0.0012   |
-|| server::dash_power_rate        || 0.006 ([0.0048, 0.0068])  || player::new_dash_power_rate_delta_max    || 0.0008    |
-|                                 |                            || player::new_stamina_inc_max_delta_factor || -6000     |
-+---------------------------------+----------------------------+-------------------------------------------+------------+
-|| server::extra_stamina          || 50.0  ([50.0, 100.0])     || player::extra_stamina_delta_min          || 0.0       |
-|| server::effort_init            || 1.0   ([0.8, 1.0])        || player::extra_stamina_delta_max          || 50.0      |
-|| server::effort_min             || 0.6   ([0.4, 0.6])        || player::effort_max_delta_factor          || -0.004    |
-|                                 |                            || player::effort_min_delta_factor          || -0.004    |
-+---------------------------------+----------------------------+-------------------------------------------+------------+
-| server::effort_dec              | 0.3                        |                                           |            |
-+---------------------------------+----------------------------+-------------------------------------------+------------+
-| server::effort_dec_thr          | 0.005                      |                                           |            |
-+---------------------------------+----------------------------+-------------------------------------------+------------+
-| server::effort_inc              | 0.01                       |                                           |            |
-+---------------------------------+----------------------------+-------------------------------------------+------------+
-| server::effort_inc_thr          | 0.6                        |                                           |            |
-+---------------------------------+----------------------------+-------------------------------------------+------------+
-| server::recover_dec_thr         | 0.3                        |                                           |            |
-+---------------------------------+----------------------------+-------------------------------------------+------------+
-| server::recover_dec             | 0.002                      |                                           |            |
-+---------------------------------+----------------------------+-------------------------------------------+------------+
-| server::recover_init            | 1.0                        |                                           |            |
-+---------------------------------+----------------------------+-------------------------------------------+------------+
-| server::recover_min             | 0.5                        |                                           |            |
-+---------------------------------+----------------------------+-------------------------------------------+------------+
-| server::wind_ang                | 0.0                        |                                           |            |
-+---------------------------------+----------------------------+-------------------------------------------+------------+
-| server::wind_dir                | 0.0                        |                                           |            |
-+---------------------------------+----------------------------+-------------------------------------------+------------+
-| server::wind_force              | 0.0                        |                                           |            |
-+---------------------------------+----------------------------+-------------------------------------------+------------+
-| server::wind_rand               | 0.0                        |                                           |            |
-+---------------------------------+----------------------------+-------------------------------------------+------------+
+.. table:: Dash and Stamina Model Parameters
+
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   || Default Parameters             || Default Value (Range)     || Heterogeneous Player Parameters          || Value     |
+   ||  ``server.conf``               ||                           ||   ``player.conf``                        ||           |
+   +=================================+============================+===========================================+============+
+   | server::min_dash_power          |-100.0                      |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::max_dash_power          |100.0                       |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::player_decay            || 0.4 ([0.3, 0.5])          || player::player_decay_delta_min           || -0.1      |
+   | server::inertia_moment          || 5.0 ([2.5, 7.5])          || player::player_decay_delta_max           || 0.1       |
+   |                                 |                            || player::inertia_moment_delta_factor      || 25.0      |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::player_accel_max        | 1.0                        |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::player_rand             | 0.1                        |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::player_speed_max        | 1.05                       |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::player_speed_max_min    | 0.75                       |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::stamina_max             |8000.0                      |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::stamina_capacity        |130600.0                    |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   || server::stamina_inc_max        || 45.0  ([40.2, 52.2])      || player::new_dash_power_rate_delta_min    || -0.0012   |
+   || server::dash_power_rate        || 0.006 ([0.0048, 0.0068])  || player::new_dash_power_rate_delta_max    || 0.0008    |
+   |                                 |                            || player::new_stamina_inc_max_delta_factor || -6000     |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   || server::extra_stamina          || 50.0  ([50.0, 100.0])     || player::extra_stamina_delta_min          || 0.0       |
+   || server::effort_init            || 1.0   ([0.8, 1.0])        || player::extra_stamina_delta_max          || 50.0      |
+   || server::effort_min             || 0.6   ([0.4, 0.6])        || player::effort_max_delta_factor          || -0.004    |
+   |                                 |                            || player::effort_min_delta_factor          || -0.004    |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::effort_dec              | 0.3                        |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::effort_dec_thr          | 0.005                      |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::effort_inc              | 0.01                       |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::effort_inc_thr          | 0.6                        |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::recover_dec_thr         | 0.3                        |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::recover_dec             | 0.002                      |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::recover_init            | 1.0                        |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::recover_min             | 0.5                        |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::wind_ang                | 0.0                        |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::wind_dir                | 0.0                        |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::wind_force              | 0.0                        |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::wind_rand               | 0.0                        |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
 
 
 Each player has a certain amount of stamina that will be consumed by
@@ -971,7 +973,7 @@ it is dependent on the stamina management of the player (see below).
 .. math::
   :label: eq:effectivedash
 
-  {\rm edp} = {\rm effort} \cdot {\rm dash\_power\_rate} \cdot {\rm power}
+  {\mathrm edp} = {\mathrm effort} \cdot {\mathrm dash\_power\_rate} \cdot {\mathrm power}
 
 *edp* and the players current body direction are tranformed into vector and
 added to the players current acceleration vector :math:`\vec{a}_n`
@@ -998,13 +1000,13 @@ At the transition from simulation step :math:`n` to simulation step
    on the simulated soccer field. The responsible parameter for the
    noise is **server::player_rand**. Both direction and length
    of the noise vector are within the interval
-   :math:`[ -|\vec{v}_{n}| \cdot {\rm player\_rand} \ldots |\vec{v}_{n}| \cdot {\rm player\_rand}]`.
+   :math:`[ -|\vec{v}_{n}| \cdot {\mathrm player\_rand} \ldots |\vec{v}_{n}| \cdot {\mathrm player\_rand}]`.
 4. The new position of the player :math:`\vec{p}_{n+1}` is the old position
    :math:`\vec{p}_{n}` plus the velocity vector :math:`\vec{v}_{n}`
    (i.e.\ the maximum distance difference for the player between two
    simulation steps is **player_speed_max**).
 5. **player_decay** is applied for the velocity of the player:
-   :math:`\vec{v}_{n+1} = \vec{v}_{n} \cdot {\rm player\_decay}`.
+   :math:`\vec{v}_{n+1} = \vec{v}_{n} \cdot {\mathrm player\_decay}`.
    Acceleration :math:`\vec{a}_{n+1}` is set to zero.
 
 
@@ -1083,20 +1085,22 @@ model as it is commen, for example, in the MidSize League.
 The following table summarizes all Soccer Server parameters that are of
 relevance for omni-directional dashing.
 
-+---------------------------------+----------------------------+-------------------------------------------+------------+
-|| Default Parameters             || Default Value (Range)     || Heterogeneous Player Parameters          || Value     |
-||  ``server.conf``               ||                           ||   ``player.conf``                        ||           |
-+=================================+============================+===========================================+============+
-| server::server::max\_dash\_angle| 180.0                      |                                           |            |
-+---------------------------------+----------------------------+-------------------------------------------+------------+
-| server::server::min\_dash\_angle|-180.0                      |                                           |            |
-+---------------------------------+----------------------------+-------------------------------------------+------------+
-| server::side\_dash\_rate        | 0.4                        |                                           |            |
-+---------------------------------+----------------------------+-------------------------------------------+------------+
-| server::back\_dash\_rate        | 0.6                        |                                           |            |
-+---------------------------------+----------------------------+-------------------------------------------+------------+
-| server::dash\_angle\_step       | 1                          |                                           |            |
-+---------------------------------+----------------------------+-------------------------------------------+------------+
+.. table:: Ominidirectional Dash Parameters
+
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   || Default Parameters             || Default Value (Range)     || Heterogeneous Player Parameters          || Value     |
+   ||  ``server.conf``               ||                           ||   ``player.conf``                        ||           |
+   +=================================+============================+===========================================+============+
+   | server::server::max_dash_angle  | 180.0                      |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::server::min_dash_angle  |-180.0                      |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::side_dash_rate          | 0.4                        |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::back_dash_rate          | 0.6                        |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::dash_angle_step         | 1                          |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
 
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1180,7 +1184,166 @@ completely the same with the stamina model before rcssserver version 13.
 Kick Model
 --------------------------------------------------
 
-**TODO**
+The *kick* command takes two parameters, the kick power the player
+client wants to use (between **server::minpower** and
+**server::maxpower**) and the angle the player kicks the ball to.
+The angle is given in degrees and has to be between
+**server::minmoment** and **server::maxmoment**
+(see :numref:`param-kick` for current parameter values).
+
+Once the *kick* command arrived at the server, the kick will be
+executed if the ball is kick-able for the player and the player is not
+marked offside.
+The ball is kick-able for the player, if the distance between the
+player and the ball is between 0 and **kickable_margin**.
+Heterogeneous players can have different kickable margins.
+For the calculation of the distance during this section, it is
+important to know that if we talk of distance between player and ball,
+we talk about the minimal distance between the outer shape of both
+player and ball.
+So the distance in this section is the distance between the center of
+both objects *minus* the radius of the ball *minus* the radius of the player.
+
+The first thing to be calculated for the kick is the effective kick power ep:
+
+.. math::
+  :label: eq:effectivekick1
+
+  {\mathrm ep} = {\mathrm kick power} \cdot {\mathrm kick\_power\_rate}
+
+
+If the ball is not directly in front of the player, the effective kick
+power will be reduced by a certain amount dependent on the position of
+the ball with respect to the player.
+Both angle and distance are important.
+
+If the relative angle of the ball is :math:`0^\circ` wrt. the body
+direction of the player client - i.e. the ball is in front of the
+player - the effective power will stay as it is.
+The larger the angle gets, the more the effective power will be
+reduced.
+The worst case is if the ball is lying behind the player (angle
+:math:`180^\circ`): the effective power is reduced by 25%.
+
+The second important variable for the effective kick power is the
+distance from the ball to the player: it is quite obvious that -
+should the kick be executed - the distance between ball and player is
+between 0 and player's **kickable margin**.
+If the distance is 0, the effective kick power will not be reduced
+again.
+The further the ball is away from the player client, the more the
+effective kick power will be reduced.
+If the ball distance is player's **kickable margin**, the effective
+kick power will be reduced by 25% of the original kick power.
+
+The overall worst case for kicking the ball is if a player kicks a
+distant ball behind itself: 50% of kick power will be used.
+For the effective kick power, we get the formula :eq:`eq:effectivekick2`.
+(dir diff means the absolute direction difference between ball and the player’s body
+direction, dist diff means the absolute distance between ball and
+player.)
+:math:`0\le\mathrm{dir\_diff}\le180^\circ\land0\le\mathrm{dist\_diff}\le\mathrm{kickable\_margin}`
+
+.. math::
+  :label: eq:effectivekick2
+
+  {\mathrm ep} = \mathrm{ep} \cdot (1 - 0.25 \cdot \frac{\mathrm{dir\_diff}}{180^\circ} - 0.25 \cdot \frac{\mathrm{dist\_ball}}{\mathrm{kickable\_margin}})
+
+
+The effective kick power is used to calculate :math:`\vec{a}_{{n}_{i}}`,
+an acceleration vector that will be added to the global ball
+acceleration :math:`\vec{a}_{n}` during cycle :math:`n` (remember that
+we have a multi agent system and *each* player close to the ball can
+kick it during the same cycle).
+
+There is a server parameter, **server::kick_rand**, that can be used to
+generate some noise to the ball acceleration.
+For the default players, **kick_rand** is 0.1.
+For heterogeneous players, **kick_rand** depends on
+**player::kick_rand_delta_factor** in ``player.conf`` and on the
+actual kickable margin.
+.. In RoboCup 2000, **kick_rand** was used to generate some noise during evaluation round for the normal players.
+
+**TODO** kick noise model after rcssserver-12.
+
+During the transition from simulation step :math:`n` to simulation step
+:math:`n+1` acceleration :math:`\vec{a}_{n}` is applied:
+
+#. :math:`\vec{a}_{n}` is normalized to a maximum length of
+   **server::ball_accel_max**.
+#. :math:`\vec{a}_{n}` is added to the current ball speed :math:`\vec{v}_{n}`.
+   :math:`\vec{v}_{n}` will be normalized to a maximum length of **server::ball_speed_max**.
+#. Noise :math:`\vec{n}` and wind :math:`\vec{w}` will be added to
+   :math:`\vec{v}_{n}`.
+   Both noise and wind are configurable in ``server.conf``.
+   The responsible parameter for the noise is **server::ball_rand**.
+   Both direction and length of the noise vector are within the interval :math:`[ -|\vec{v}_{n}| \cdot \mathrm{ball\_rand} \ldots |\vec{v}_{n}| \cdot \mathrm{ball\_rand}]``.
+   Parameters responsible for the wind are **server::wind_force**,
+   **server::wind_dir** and **server::wind_rand**.
+#. The new position of the ball :math:`\vec{p}_{n+1}` is the old
+   position :math:`\vec{p}_{n}` plus the velocity vector
+   :math:`\vec{v}_{n}` (i.e. the maximum distance difference for the
+   ball between two simulation steps is **server::ball_speed_max**).
+#. **server::ball_decay** is applied for the velocity of the ball: :math:`\vec{v}_{n+1} = \vec{v}_{n} \cdot \mathrm{ball\_decay}`.
+   Acceleration :math:`\vec{a}_{n+1}` is set to zero.
+
+With the current settings the ball covers a distance up to 50,
+assuming an optimal kick.
+55 cycles after an optimal kick, the distance from the kick off
+position to the ball is about 48, the remaining velocity is smaller
+than 0.1.
+18 cycles after an optimal kick, the ball covers a distance of 34 - 34
+and the remaining veloctity is slightly smaller than 1.
+
+Implications from the kick model and the current parameter settings are
+that it still might be helpful to use several small kicks for a compound
+kick -- for example stopping the ball, kick it to a more advantageous
+position within the kickable area and kick it to the desired direction.
+It would be another possibility to accelerate the ball to maximum speed
+without putting it to relative position (0,0{\textdegree}) using a
+compound kick.
+
+.. table:: Ball and Kick Model Parameters
+   :name: param-kick
+
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   || Default Parameters             || Default Value (Range)     || Heterogeneous Player Parameters          || Value     |
+   ||  ``server.conf``               ||                           ||   ``player.conf``                        ||           |
+   +=================================+============================+===========================================+============+
+   | server::minpower                | -100                       |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::maxpower                | 100                        |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::minmoment               | -180                       |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::maxmoment               | 180                        |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::kickable_margin         | 0.7 ([0.6, 0.8])           || player::kickable_margin_delta_min        |-0.1        |
+   |                                 |                            || player::kickable_margin_delta_max        |0.1         |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::kick_power_rate         | 0.027                      |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::kick_rand               | 0.1 ([0.0, 0.2])           || player::kick_rand_delta_factor           |1           |
+   |                                 |                            || player::kickable_margin_delta_min        |-0.1        |
+   |                                 |                            || player::kickable_margin_delta_max        |0.1         |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::ball_size               | 0.085                      |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::ball_decay              | 0.94                       |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::ball_rand               | 0.05                       |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::ball_speed_max          | 3.0                        |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::ball_accel_max          | 2.7                        |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::wind_force              | 0.0                        |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::wind_dir                | 0.0                        |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+   | server::wind_rand               | 0.0                        |                                           |            |
+   +---------------------------------+----------------------------+-------------------------------------------+------------+
+
 
 --------------------------------------------------
 Move Model
@@ -1231,19 +1394,19 @@ The probability of a tackle failure when the ball is in front of the player is:
 
 .. math::
 
-  {\rm fail\_prob = (player\_to\_ball.x \div tackle\_dist)^{tackle\_exponent} + (player\_to\_ball.y \div tackle\_width)^{tackle\_exponent}}
+  {\mathrm fail\_prob = (player\_to\_ball.x \div tackle\_dist)^{tackle\_exponent} + (player\_to\_ball.y \div tackle\_width)^{tackle\_exponent}}
 
 The probability of a tackle failure when the ball is behind the player is:
 
 .. math::
 
-  {\rm fail\_prob = (player\_to\_ball.x \div tackle\_back\_dist)^{tackle\_exponent} + (player\_to\_ball.y \div tackle\_back\_width)^{tackle\_exponent}}
+  {\mathrm fail\_prob = (player\_to\_ball.x \div tackle\_back\_dist)^{tackle\_exponent} + (player\_to\_ball.y \div tackle\_back\_width)^{tackle\_exponent}}
 
 The probability of processing success is:
 
 .. math::
 
-  {\rm tackle\_prob = 1.0 – fail\_prob}
+  {\mathrm tackle\_prob = 1.0 – fail\_prob}
 
 In this case, when the ball is in front of the player, it is used to *tackle_dist* (default is 2.0), otherwise it is used to **tackle_back_dist** (default is 0.5); **player_to_ball** is a vector from the player to the ball, relative to the body direction of the player. When the tackle command is successful, it will give the ball an acceleration in its own body direction.
 
@@ -1251,7 +1414,7 @@ The execution effect of tackle is similar to that of kick, which is obtained by 
 
 .. math::
 
-  {\rm effective\_power} = {\rm power} \times {\rm tackle\_power\_rate}
+  {\mathrm effective\_power} = {\mathrm power} \times {\mathrm tackle\_power\_rate}
 
 Once the player executes the tackle command, whether successful or not, the player can no longer move within 10 cycles. The following table shows the parameters used in tackle command.
 
@@ -1294,7 +1457,7 @@ Specifically, the actual angle the player is turned is as follows:
 
 .. math::
 
-   {\rm actual\_angle} = {\rm moment \div (1.0 + inertia\_moment} \times {\rm player\_speed)}
+   {\mathrm actual\_angle} = {\mathrm moment \div (1.0 + inertia\_moment} \times {\mathrm player\_speed)}
 
 **server::inertia_moment** is a server.conf parameter with default
 value 5.0.
@@ -1307,8 +1470,8 @@ cycle, the fastest that a player can be going when executing a turn is
 
 For heterogeneous players, the inertia moment is the default inertia
 value plus a value between
-:math:`{\rm player\_decay\_delta\_min \times inertia\_moment\_delta\_factor}` and
-:math:`{\rm player\_decay\_delta\_max \times inertia\_moment\_delta\_factor}`.
+:math:`{\mathrm player\_decay\_delta\_min \times inertia\_moment\_delta\_factor}` and
+:math:`{\mathrm player\_decay\_delta\_max \times inertia\_moment\_delta\_factor}`.
 
 .. table:: Turn Model Parameter
 
@@ -1489,72 +1652,77 @@ in :numref:`tab-playmode`, for the messages see :numref:`tab-refereemessages`.
 .. table:: Play Modes
    :name: tab-playmode
 
-   +-------------------------+------+----------------------+----------------------------------------+
-   |Play Mode                |tc    | subsequent play mode | comment                                |
-   +=========================+======+======================+========================================+
-   |before_kick_off          |0     |  kick_off_*Side*     |at the beginning of a half              |
-   +-------------------------+------+----------------------+----------------------------------------+
-   |play_on                  |      |                      |during normal play                      |
-   +-------------------------+------+----------------------+----------------------------------------+
-   |time_over                |      |                      |End of the game                         |
-   +-------------------------+------+----------------------+----------------------------------------+
-   |kick_off_*Side*          |      |                      |announce start of play                  |
-   |                         |      |                      |(after pressing the Kick Off button)    |
-   +-------------------------+------+----------------------+----------------------------------------+
-   |kick_in_*Side*           |      | 	                   |                                        |
-   +-------------------------+------+----------------------+----------------------------------------+
-   |free_kick_*Side*         |      |                      |                                        |
-   +-------------------------+------+----------------------+----------------------------------------+
-   |corner_kick_*Side*       |      |                      |when the ball goes out of play over the |
-   |                         |      |                      |goal line, without a goal being scored  |
-   |                         |      |                      |and having last been touched by a member|
-   |                         |      |                      |of the defending team.                  |
-   +-------------------------+------+----------------------+----------------------------------------+
-   |goal_kick_*Side*         |      |  play_on             |play mode changes once                  |
-   |                         |      |                      |the ball leaves the penalty area        |
-   +-------------------------+------+----------------------+----------------------------------------+
-   |goal_*Side*              |      |                      |currently unused                        |
-   +-------------------------+------+----------------------+----------------------------------------+
-   |drop_ball                |0     | play_on              |                                        |
-   +-------------------------+------+----------------------+----------------------------------------+
-   |offside_*Side*           |30    | free_kick_*Side*     |An offside player who is closer to the  |
-   |                         |      |                      |opponent's goal when his teammate hits  |
-   |                         |      |                      |the ball, both in front of the ball and |
-   |                         |      |                      |in front of the last player of the      |
-   |                         |      |                      |opposing team.                          |
-   |                         |      |                      |The offside rule prevents players from  |
-   |                         |      |                      |concentrating in front of the opponent's|
-   |                         |      |                      |goal, as no player can stand near the   |
-   |                         |      |                      |opponent's goal and have a chance to    |
-   |                         |      |                      |score by waiting for the ball, and the  |
-   |                         |      |                      |possibility of sending long passes close|
-   |                         |      |                      |to the opponent's goal is limited. In   |
-   |                         |      |                      |this way, defenders can distance        |
-   |                         |      |                      |themselves from their own goal and      |
-   |                         |      |                      |participate more during the game.       |
-   +-------------------------+------+----------------------+----------------------------------------+
-   |penalty_kick_*Side*      |      |                      |When the game ends in a draw of 6,000   |
-   |                         |      |                      |cycles and overtime, the winner will be |
-   |                         |      |                      |determined by penalty kicks.            |
-   +-------------------------+------+----------------------+----------------------------------------+
-   |foul_charge_*Side*       |      |                      |Pushing the opposing player             |
-   +-------------------------+------+----------------------+----------------------------------------+
-   |back_pass_*Side*         |      |                      |A goalkeeper is not allowed to catch the|
-   |                         |      |                      |ball inside his own penalty area if a   |
-   |                         |      |                      |teammate sends the ball to him.         |
-   |                         |      |                      |The opposing team will receive an       |
-   |                         |      |                      |indirect free-kick at the point of touch|
-   |                         |      |                      |if the goalkeeper makes the mistake.    |
-   +-------------------------+------+----------------------+----------------------------------------+
-   |free_kick_fault_*Side*   |      |                      |                                        |
-   +-------------------------+------+----------------------+----------------------------------------+
-   |indirect_free_kick_*Side*|      |                      |In a direct free kick, the player can   |
-   |                         |      |                      |shoot the ball directly towards the goal|
-   |                         |      |                      |, but an indirect free kick cannot and  |
-   |                         |      |                      |must pass the ball to a teammate.       |
-   +-------------------------+------+----------------------+----------------------------------------+
-   |illegal_defense_*Side*   |      |                      |                                        |
-   +-------------------------+------+----------------------+----------------------------------------+
+   +-----------------------------+------+----------------------+------------------------------------------+
+   |Play Mode                    |tc    | subsequent play mode | comment                                  |
+   +=============================+======+======================+==========================================+
+   |before_kick_off              |0     |  kick_off\_\ *Side*  |at the beginning of a half                |
+   +-----------------------------+------+----------------------+------------------------------------------+
+   |play_on                      |      |                      |during normal play                        |
+   +-----------------------------+------+----------------------+------------------------------------------+
+   |time_over                    |      |                      |End of the game                           |
+   +-----------------------------+------+----------------------+------------------------------------------+
+   |kick_off\_\ *Side*           |      |                      |announce start of play                    |
+   |                             |      |                      |(after pressing the Kick Off button)      |
+   +-----------------------------+------+----------------------+------------------------------------------+
+   |kick_in\_\ *Side*            |      | 	               |                                          |
+   +-----------------------------+------+----------------------+------------------------------------------+
+   |free_kick\_\ *Side*          |      |                      |                                          |
+   +-----------------------------+------+----------------------+------------------------------------------+
+   |corner_kick\_\ *Side*        |      |                      |when the ball goes out of play over the   |
+   |                             |      |                      |goal line, without a goal being scored    |
+   |                             |      |                      |and having last been touched by a member  |
+   |                             |      |                      |of the defending team.                    |
+   +-----------------------------+------+----------------------+------------------------------------------+
+   |goal_kick_*Side*             |      |  play_on             |play mode changes once                    |
+   |                             |      |                      |the ball leaves the penalty area          |
+   +-----------------------------+------+----------------------+------------------------------------------+
+   |goal_*Side*                  |      |                      |currently unused                          |
+   +-----------------------------+------+----------------------+------------------------------------------+
+   |drop_ball                    |0     | play_on              |                                          |
+   +-----------------------------+------+----------------------+------------------------------------------+
+   |offside\_\ *Side*            |30    | free_kick\_\ *Side*  |An offside player who is closer to the    |
+   |                             |      |                      |opponent's goal when his teammate hits    |
+   |                             |      |                      |the ball, both in front of the ball and   |
+   |                             |      |                      |in front of the last player of the        |
+   |                             |      |                      |opposing team.                            |
+   |                             |      |                      |The offside rule prevents players from    |
+   |                             |      |                      |concentrating in front of the opponent's  |
+   |                             |      |                      |goal, as no player can stand near the     |
+   |                             |      |                      |opponent's goal and have a chance to      |
+   |                             |      |                      |score by waiting for the ball, and the    |
+   |                             |      |                      |possibility of sending long passes close  |
+   |                             |      |                      |to the opponent's goal is limited. In     |
+   |                             |      |                      |this way, defenders can distance          |
+   |                             |      |                      |themselves from their own goal and        |
+   |                             |      |                      |participate more during the game.         |
+   +-----------------------------+------+----------------------+------------------------------------------+
+   |penalty_kick\_\ *Side*       |      |                      |When the game ends in a draw of 6,000     |
+   |                             |      |                      |cycles and overtime, the winner will be   |
+   |                             |      |                      |determined by penalty kicks.              |
+   +-----------------------------+------+----------------------+------------------------------------------+
+   |foul_charge\_\ *Side*        |      |                      |Pushing the opposing player               |
+   +-----------------------------+------+----------------------+------------------------------------------+
+   |back_pass\_\ *Side*          |      |                      |A goalkeeper is not allowed to catch the  |
+   |                             |      |                      |ball inside his own penalty area if a     |
+   |                             |      |                      |teammate sends the ball to him.           |
+   |                             |      |                      |The opposing team will receive an         |
+   |                             |      |                      |indirect free-kick at the point of touch  |
+   |                             |      |                      |if the goalkeeper makes the mistake.      |
+   +-----------------------------+------+----------------------+------------------------------------------+
+   |free_kick_fault\_\ *Side*    |      |                      |Players are not allowd to kick the ball   |
+   |                             |      |                      |to themselves after a free kick. If a     |
+   |                             |      |                      |player does kick the ball to themselves   |
+   |                             |      |                      |after a free kick, a free kick is awarded |
+   |                             |      |                      |to the opposing team at the point that    |
+   |                             |      |                      |the second kick occurred.                 |
+   +-----------------------------+------+----------------------+------------------------------------------+
+   |indirect_free_kick\_\ *Side* |      |                      |In a direct free kick, the player can     |
+   |                             |      |                      |shoot the ball directly towards the goal, |
+   |                             |      |                      |but an indirect free kick cannot and      |
+   |                             |      |                      |must pass the ball to a teammate.         |
+   +-----------------------------+------+----------------------+------------------------------------------+
+   |illegal_defense\_\ *Side*    |      |                      |                                          |
+   +-----------------------------+------+----------------------+------------------------------------------+
 
 where Side is either the character *l* or *r*, OSide means opponent’s side.
 tc is the time (in number of cycles) until the subsequent play mode will be announced
