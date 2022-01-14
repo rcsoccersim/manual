@@ -1861,6 +1861,9 @@ The Soccerserver Parameters
    * - Name
      - Current Value  in ``server.conf``
      - Description
+   * - version
+     - '16.0.1'
+     - soccer server version
    * - catch_ban_cycle
      - 5
      - goalies cannot execute the next catch until this cycle has passed after the successful catch.
@@ -1990,7 +1993,7 @@ The Soccerserver Parameters
      - players cannot execute the next pointto until this cycle has passed
    * - point_to_duration
      - 20
-     - pointo continues automatically for up to this cycle
+     - point to continues automatically for up to this cycle
    * - port
      - 6000
      - player port number
@@ -2044,10 +2047,10 @@ The Soccerserver Parameters
      - compression level of text log file
    * - auto_mode
      - false
-     -
+     - enable auto start of the match
    * - back_passes
      - true
-     -
+     - enable back pass rule
    * - coach
      - false
      -
@@ -2068,10 +2071,10 @@ The Soccerserver Parameters
      -
    * - game_log_dated
      - true
-     -
+     - flag to write date in game log name
    * - game_log_fixed
      - false
-     -
+     - enable fixed name in game log
    * - game_logging
      - true
      - flag for game logging
@@ -2083,13 +2086,13 @@ The Soccerserver Parameters
      - flag for keepaway mode
    * - keepaway_log_dated
      - true
-     -
+     - flag to write date in keep away log name
    * - keepaway_log_fixed
      - false
-     -
+     - enable fixed name in keep away log
    * - keepaway_logging
      - true
-     -
+     - enable logging in keep away mode
    * - log_times
      - false
      -
@@ -2104,7 +2107,7 @@ The Soccerserver Parameters
      - Turn on to have the server automatically position players for peanlty shootouts
    * - pen_random_winner
      - false
-     -
+     - enable random winner in penalties
    * - penalty_shootouts
      - true
      - Set to true to enable penalty shootouts after normal time and extra time if the game is drawn.
@@ -2128,10 +2131,10 @@ The Soccerserver Parameters
      - flag whether to use team specic actuator noise
    * - text_log_dated
      - true
-     -
+     - flag to write date in text log name
    * - text_log_fixed
      - false
-     -
+     - enable fixed name in text log
    * - text_logging
      - true
      - flag for recording client command log
@@ -2357,7 +2360,7 @@ The Soccerserver Parameters
      - player's initial recovery value
    * - red_card_probability
      - 0.0
-     -
+     - probability of red card in a foul
    * - side_dash_rate
      - 0.4
      -
@@ -2369,7 +2372,7 @@ The Soccerserver Parameters
      -
    * - stamina_capacity
      - 130600
-     -
+     - max. recovery capacity of each player's stamina
    * - stamina_inc_max
      - 45.0
      - default max. player stamina increment
@@ -2387,10 +2390,10 @@ The Soccerserver Parameters
      -
    * - tackle_exponent
      - 6.0
-     -
+     - exponent used in tackle failure probability equation
    * - tackle_power_rate
      - 0.027
-     -
+     - tackle power rate
    * - tackle_rand_factor
      - 2.0
      -
@@ -2420,37 +2423,37 @@ The Soccerserver Parameters
      -
    * - fixed_teamname_l
      - ''
-     -
+     - fixed name of left team
    * - fixed_teamname_r
      - ''
-     -
+     - fixed name of right team
    * - game_log_dir
      - './'
-     -
+     - path to game log directory
    * - game_log_fixed_name
      - 'rcssserver'
-     -
+     - fixed name of game log
    * - keepaway_log_dir
      - './'
-     -
+     - path to keep away log directory
    * - keepaway_log_fixed_name
      - 'rcssserver'
-     -
+     - fixed name of keep away log
    * - landmark_file
      - '~/.rcssserver-landmark.xml'
      -
    * - log_date_format
      - '%Y%m%d%H%M%S-'
-     -
+     - date format in game log
    * - team_l_start
      - ''
-     -
+     - path to start script of left team
    * - team_r_start
      - ''
-     -
+     - path to start script of right team
    * - text_log_dir
      - './'
-     -
+     - path to text log directory
    * - text_log_fixed_name
      - ''
-     -
+     - fixed name of text log
