@@ -1859,7 +1859,7 @@ The Soccerserver Parameters
    :header-rows: 1
 
    * - Name
-     - Current Value  in ``server.conf``
+     - Current Value in ``server.conf``
      - Description
    * - version
      - '16.0.1'
@@ -2017,7 +2017,7 @@ The Soccerserver Parameters
      - interval of online coach's look
    * - sense_body_step
      - 100
-     -
+     - time step of player's body information [unit:msec]
    * - simulator_step
      - 100
      - time step of simulation [unit:msec]
@@ -2062,13 +2062,13 @@ The Soccerserver Parameters
      - forbid kick off offside
    * - free_kick_faults
      - true
-     -
+     - enable free kick fault rule
    * - fullstate_l
      - false
-     -
+     - enable full state information for left team
    * - fullstate_r
      - false
-     -
+     - enable full state information for right team
    * - game_log_dated
      - true
      - flag to write date in game log name
@@ -2239,10 +2239,10 @@ The Soccerserver Parameters
      - default intertia moment for turn
    * - keepaway_length
      - 20
-     -
+     - length of rectangle in keep away mode
    * - keepaway_width
      - 20
-     -
+     - width of rectangle in keep away mode
    * - kick_power_rate
      - 0.027
      - kick power rate
@@ -2260,16 +2260,16 @@ The Soccerserver Parameters
      - default kickable margin
    * - max_back_tackle_power
      - 0.0
-     -
+     - maximum back tackle power
    * - max_dash_angle
      - 180.0
-     -
+     - maximum dash angle relative to player's body angle
    * - max_dash_power
      - 100.0
-     -
+     - maximum dash acceleration power
    * - max_tackle_power
      - 100.0
-     -
+     - maximum tackle power
    * - maxmoment
      - 180.0
      - max. moment
@@ -2284,10 +2284,10 @@ The Soccerserver Parameters
      - max kick power
    * - min_dash_angle
      - -180.0
-     -
+     - minimum dash angle relative to player's body angle
    * - min_dash_power
      - -100.0
-     -
+     - minimum dash acceleration power
    * - minmoment
      - -180.0
      - max. moment
@@ -2363,7 +2363,7 @@ The Soccerserver Parameters
      - probability of red card in a foul
    * - side_dash_rate
      - 0.4
-     -
+     - factor to multiply effective power when side dash is performed
    * - slowness_on_top_for_left_team
      - 1
      -
@@ -2384,10 +2384,10 @@ The Soccerserver Parameters
      - threshold value to detect ball is moving or not
    * - tackle_back_dist
      - 0.0
-     -
+     - max. x distance between player and ball that player may perform a tackle when ball is behind the player
    * - tackle_dist
      - 2.0
-     -
+     - max. x distance between player and ball that player may perform a tackle when ball is in front of the player
    * - tackle_exponent
      - 6.0
      - exponent used in tackle failure probability equation
@@ -2399,7 +2399,7 @@ The Soccerserver Parameters
      -
    * - tackle_width
      - 1.25
-     -
+     - max. y distance between player and ball that player may perform a tackle when ball is in front of the player
    * - visible_angle
      - 90.0
      - visible angle
@@ -2457,3 +2457,119 @@ The Soccerserver Parameters
    * - text_log_fixed_name
      - ''
      - fixed name of text log
+
+.. list-table:: Parameters adjustable in ``player.conf``
+   :widths: 100 30 100
+   :header-rows: 1
+
+   * - Name
+     - Current Value in ``player.conf``
+     - Description
+   * - version
+     - '16.0.1'
+     - soccer server version
+   * - player_types
+     - 18
+     - 
+   * - pt_max
+     - 1
+     -
+   * - random_seed
+     - -1
+     - 
+   * - subs_max
+     - 3
+     - 
+   * - allow_mult_default_type
+     - false
+     -
+   * - catchable_area_l_stretch_max
+     - 1.3
+     -
+   * - catchable_area_l_stretch_min
+     - 1
+     -
+   * - dash_power_rate_delta_max
+     - 0
+     -
+   * - dash_power_rate_delta_min
+     - 0
+     -
+   * - effort_max_delta_factor
+     - -0.004
+     -
+   * - effort_min_delta_factor
+     - -0.004
+     -
+   * - extra_stamina_delta_max
+     - 50
+     -
+   * - extra_stamina_delta_min
+     - 0
+     -
+   * - foul_detect_probability_delta_factor
+     - 0
+     -
+   * - inertia_moment_delta_factor
+     - 25
+     -
+   * - kick_power_rate_delta_max
+     - 0
+     -
+   * - kick_power_rate_delta_min
+     - 0
+     -
+   * - kick_rand_delta_factor
+     - 1
+     -
+   * - kickable_margin_delta_max
+     - 0.1
+     -
+   * - kickable_margin_delta_min
+     - -0.1
+     -
+   * - new_dash_power_rate_delta_max
+     - 0.0008
+     -
+   * - new_dash_power_rate_delta_min
+     - -0.0012
+     -
+   * - new_stamina_inc_max_delta_factor
+     - -6000
+     -
+   * - player_decay_delta_max
+     - 0.1
+     -
+   * - player_decay_delta_min
+     - -0.1
+     -
+   * - player_size_delta_factor
+     - -100
+     -
+   * - player_speed_max_delta_max
+     - 0
+     -
+   * - player_speed_max_delta_min
+     - 0
+     -
+   * - stamina_inc_max_delta_factor
+     - 0
+     -
+
+.. list-table:: Parameters adjustable in ``CSVSaver.conf``
+   :widths: 100 30 100
+   :header-rows: 1
+
+   * - Name
+     - Current Value in ``CSVSaver.conf`` 
+     - Description
+   * - version
+     - '16.0.1'
+     - soccer server version
+   * - save
+     - false
+     - 
+   * - filename
+     - 'rcssserver.csv'
+     - 
+   
