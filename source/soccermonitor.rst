@@ -55,8 +55,8 @@ appendix :ref:`sec-appendixmonitorstructs`.
 Version 1
 -------------------------------------------------
 
-rcssserver sends dispinfo\_t structs to the soccer monitor.
-dispinfo\_t contains a union with three different types of information:
+rcssserver sends dispinfo_t structs to the soccer monitor.
+dispinfo_t contains a union with three different types of information:
 
 * showinfo_t: information needed to draw the scene
 * msginfo_t : contains the messages from the players and the referee shown
@@ -150,6 +150,8 @@ contains the state and positions of players and the ball::
     PM_PenaltyMiss_Right,
     PM_PenaltyScore_Left,
     PM_PenaltyScore_Right,
+	PM_Illegal_Defense_Left,
+    PM_Illegal_Defense_Right,
     PM_MAX
 
 * team: information about the teams. Index 0 is for team playing
@@ -203,6 +205,7 @@ Values of the elements can be
     FOUL_CHARGED    0x00020000
     YELLOW_CARD     0x00040000
     RED_CARD        0x00080000
+	ILLEGAL_DEFENSE 0x00100000
 
 * side: side the player is playing on. LEFT means from left to right,
   NEUTRAL is the ball (rcssserver-\*/src/types.h)::
@@ -373,45 +376,51 @@ If a compression level above zero is selected, then the monitor is
 expected to compress its commands to the server.
 Specifying a level of zero turns off compression completely (default).
 
--------------------------------------------------
+=================================================
 How to record and playback a game
--------------------------------------------------
+=================================================
 
 To record games, you can call server with the argument:
 
 ::
 
-  -record LOGFILE
+  server::game_logging = true
 
-(LOGFILE is the logfile name) or set the parameter in server.conf file:
+This parameter can be set in ``server.conf`` file.
+The logfile is recorded under **server::game_log_dir** directory.
+The default logfile name contains the datetime and the result of
+the game.
+You can use the fixed file name by using **server::game_log_fixed**
+and **server::game_log_fixed_name**.
 
 ::
 
-  record.log : on.
+  server::game_log_fixed : true
+  server::game_log_fixed_name : 'rcssserver'
 
 To specify the logfile version, you can call server with the argument:
 
 ::
 
-  -record_version [1/2/3]
+  server::game_log_version [1/2/3/4/5]
 
 or set the parameter in server.conf file:
 
 ::
 
-  record_version : 2
+  server::game_log_version : 5
 
-The logplayer allows you to replay recorded games. Logfiles can be read in by the
-logplayer and sent to the connected soccermonitors. To replay logfiles just call logplayer
-with the logfile name as argument, start a soccermonitor and then use the buttons on
-the logplayer window to start, stop, play backward, play stepwise.
+You can replay recorded games using logplayer applications.
+The latest rcssmonitor (version 16 or later) can work as a logplayer.
+To replay logfiles just call rcssmonitor with the logfile name as argument, 
+and then use the buttons on the window to start, stop, play backward, play stepwise.
 
 
 .. _sec-version1protocol:
 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------------------
 Version 1 Protocol
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------------------
 
 Logfiles of version 1 (server versions up to 4.16) are a stream of
 consecutive dispinfo_t chunks.
@@ -419,9 +428,9 @@ Due to the structure of dispinfo_t as a union, a lot of bytes have been
 wasted leading to impractical logfile sizes.
 This lead to the introduction of a new logfile format 2.
 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------------------
 Version 2 Protocol
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------------------
 
 Version 2 logfile protocol tries to avoid redundant or unused data for
 the price of not having uniform data structs.
@@ -462,11 +471,11 @@ log files backward.
 In order to keep compatibility between different platforms, values are
 represented by network byte order.
 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------------------
 Version 3 Protocol
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------------------
 
-The version 3 protocol contains player parameter information for
+The version 3 logfile protocol contains player parameter information for
 heterogenous players and optimizes space. The format is as follows:
 
 * head of the file: Just like version 2, the file starts with the magic
@@ -508,6 +517,38 @@ Data Conversion:
 * Other values such as stamina, effort and recovery have also been multiplied
   by SHOWINFO_SCALE2.
 
+-------------------------------------------------
+Version 4 Protocol
+-------------------------------------------------
+
+The version 4 logfile protocol is a text-based format, that may be readable for humans, adopted in rcssserver version 12 or later.
+Each line contains one data in S-expression like sensory messages.
+Its grammar is almost the same as monitor protocol version 3.
+
+* head of the file: Just like older versions, the file starts with the magic
+  characters 'ULG'.
+* char version : version of the logfile format, i.e. 4
+* new line
+* body: In the rest of the file, one of the following data is recorded on each line:
+   - server_param
+   - player_param
+   - player_type
+   - msg
+   - playmode
+   - team
+   - show
+
+``msg`` may contain various string data, such as ``team_graphic``, the result of the game, and so on.
+
+**TODO**: detail for each data type.
+
+-------------------------------------------------
+Version 5 Protocol
+-------------------------------------------------
+
+The version 5 logfile protocol is adopted in rcssserver version 13 or later.
+Its grammar is almost the same as the version 4 protocol, except adding stamina_capacity information to each player data.
+
 
 .. _sec-settingsvariables:
 
@@ -515,21 +556,68 @@ Data Conversion:
 Settings and Parameters
 -------------------------------------------------
 
-Soccermonitor has the following modifiable parameters:
+rcssmonitor has various modifiable parameters.
+You can check available options by calling rcssmonitor with ``--help`` argument:
 
-"Used Value” is the current value of the parameter which is encoded
-in the monitor.conf file.
-“Default Value” is the value encoded in the source files and will be
-used if the user doesn’t give one.
+::
 
-You can specify parameters described in the table above in command line as following:
-You can also modify the parameters by specifying them in configuration file monitor.conf.
-In the configuration file, each line consists a pair of name and value of a parameter as
-follows: ParameterName : Value Lines that start with ’#’ are comment lines.
+  rcssmonitor --help
+
+
+Several parameters can be modified from ``View`` menu after invoking rcssmonitor.
+
+Some parameters are recorded in ``~/.rcssmonitor.conf``, and rcssmonitor will reuse them in the next execution.
+Of course, you can directly edit this configuration file.
+
 
 =================================================
 What’s New
 =================================================
+
+16.0:
+ * Support illegal defense information.
+ * Integrate a log player feature.
+ * Implement a time-shift reply feature.
+ * Remove a buffering mode.
+ * Change the default tool kit to Qt5.
+ * Support CMake.
+
+15.0:
+ * Support v15 server parameters.
+
+14.1:
+ * Support an auto reconnection feature.
+
+14.0:
+ * Reimplement using Qt4.
+ * Support players' card status.
+ * Implement a buffering mode.
+
+13.1:
+ * Support a team_graphic message.
+
+13.0:
+ * Support the monitor protocl version 4.
+ * Support a stamina capacity information.
+
+12.1:
+ * Support pointto information.
+ * Implement an auto reconnection feature.
+
+12.0:
+ * Support the monitor protocl version 3.
+
+11.0.2:
+ * Support the penalty kick scores.
+
+11.0:
+ * Support 64bits OS.
+
+10.0:
+ * Ported to OS X.
+
+9.1:
+ * Support a keepaway field.
 
 8.03:
 
