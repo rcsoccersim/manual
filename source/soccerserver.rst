@@ -1859,8 +1859,11 @@ The Soccerserver Parameters
    :header-rows: 1
 
    * - Name
-     - Current Value  in ``server.conf``
+     - Current Value in ``server.conf``
      - Description
+   * - version
+     - '16.0.1'
+     - soccer server version
    * - catch_ban_cycle
      - 5
      - goalies cannot execute the next catch until this cycle has passed after the successful catch.
@@ -1990,7 +1993,7 @@ The Soccerserver Parameters
      - players cannot execute the next pointto until this cycle has passed
    * - point_to_duration
      - 20
-     - pointo continues automatically for up to this cycle
+     - point to continues automatically for up to this cycle
    * - port
      - 6000
      - player port number
@@ -2014,7 +2017,7 @@ The Soccerserver Parameters
      - interval of online coach's look
    * - sense_body_step
      - 100
-     -
+     - time step of player's body information [unit:msec]
    * - simulator_step
      - 100
      - time step of simulation [unit:msec]
@@ -2044,10 +2047,10 @@ The Soccerserver Parameters
      - compression level of text log file
    * - auto_mode
      - false
-     -
+     - enable auto start of the match
    * - back_passes
      - true
-     -
+     - enable back pass rule
    * - coach
      - false
      -
@@ -2059,19 +2062,19 @@ The Soccerserver Parameters
      - forbid kick off offside
    * - free_kick_faults
      - true
-     -
+     - enable free kick fault rule
    * - fullstate_l
      - false
-     -
+     - enable full state information for left team
    * - fullstate_r
      - false
-     -
+     - enable full state information for right team
    * - game_log_dated
      - true
-     -
+     - flag to write date in game log name
    * - game_log_fixed
      - false
-     -
+     - enable fixed name in game log
    * - game_logging
      - true
      - flag for game logging
@@ -2083,13 +2086,13 @@ The Soccerserver Parameters
      - flag for keepaway mode
    * - keepaway_log_dated
      - true
-     -
+     - flag to write date in keep away log name
    * - keepaway_log_fixed
      - false
-     -
+     - enable fixed name in keep away log
    * - keepaway_logging
      - true
-     -
+     - enable logging in keep away mode
    * - log_times
      - false
      -
@@ -2104,7 +2107,7 @@ The Soccerserver Parameters
      - Turn on to have the server automatically position players for peanlty shootouts
    * - pen_random_winner
      - false
-     -
+     - enable random winner in penalties
    * - penalty_shootouts
      - true
      - Set to true to enable penalty shootouts after normal time and extra time if the game is drawn.
@@ -2128,10 +2131,10 @@ The Soccerserver Parameters
      - flag whether to use team specic actuator noise
    * - text_log_dated
      - true
-     -
+     - flag to write date in text log name
    * - text_log_fixed
      - false
-     -
+     - enable fixed name in text log
    * - text_logging
      - true
      - flag for recording client command log
@@ -2165,7 +2168,7 @@ The Soccerserver Parameters
    * - ball_size
      - 0.085
      - ball size
-   * - ball_speedـmax
+   * - ball_speed_max
      - 3.0
      - max. ball velocity
    * - ball_stuck_area
@@ -2236,10 +2239,10 @@ The Soccerserver Parameters
      - default intertia moment for turn
    * - keepaway_length
      - 20
-     -
+     - length of rectangle in keep away mode
    * - keepaway_width
      - 20
-     -
+     - width of rectangle in keep away mode
    * - kick_power_rate
      - 0.027
      - kick power rate
@@ -2257,16 +2260,16 @@ The Soccerserver Parameters
      - default kickable margin
    * - max_back_tackle_power
      - 0.0
-     -
+     - maximum back tackle power
    * - max_dash_angle
      - 180.0
-     -
+     - maximum dash angle relative to player's body angle
    * - max_dash_power
      - 100.0
-     -
+     - maximum dash acceleration power
    * - max_tackle_power
      - 100.0
-     -
+     - maximum tackle power
    * - maxmoment
      - 180.0
      - max. moment
@@ -2281,10 +2284,10 @@ The Soccerserver Parameters
      - max kick power
    * - min_dash_angle
      - -180.0
-     -
+     - minimum dash angle relative to player's body angle
    * - min_dash_power
      - -100.0
-     -
+     - minimum dash acceleration power
    * - minmoment
      - -180.0
      - max. moment
@@ -2357,10 +2360,10 @@ The Soccerserver Parameters
      - player's initial recovery value
    * - red_card_probability
      - 0.0
-     -
+     - probability of red card in a foul
    * - side_dash_rate
      - 0.4
-     -
+     - factor to multiply effective power when side dash is performed
    * - slowness_on_top_for_left_team
      - 1
      -
@@ -2369,7 +2372,7 @@ The Soccerserver Parameters
      -
    * - stamina_capacity
      - 130600
-     -
+     - max. recovery capacity of each player's stamina
    * - stamina_inc_max
      - 45.0
      - default max. player stamina increment
@@ -2381,22 +2384,22 @@ The Soccerserver Parameters
      - threshold value to detect ball is moving or not
    * - tackle_back_dist
      - 0.0
-     -
+     - max. x distance between player and ball that player may perform a tackle when ball is behind the player
    * - tackle_dist
      - 2.0
-     -
+     - max. x distance between player and ball that player may perform a tackle when ball is in front of the player
    * - tackle_exponent
      - 6.0
-     -
+     - exponent used in tackle failure probability equation
    * - tackle_power_rate
      - 0.027
-     -
+     - tackle power rate
    * - tackle_rand_factor
      - 2.0
      -
    * - tackle_width
      - 1.25
-     -
+     - max. y distance between player and ball that player may perform a tackle when ball is in front of the player
    * - visible_angle
      - 90.0
      - visible angle
@@ -2420,37 +2423,152 @@ The Soccerserver Parameters
      -
    * - fixed_teamname_l
      - ''
-     -
+     - fixed name of left team's opponent
    * - fixed_teamname_r
      - ''
-     -
+     - fixed name of right team's opponent
    * - game_log_dir
      - './'
-     -
+     - path to game log directory
    * - game_log_fixed_name
      - 'rcssserver'
-     -
+     - fixed name of game log
    * - keepaway_log_dir
      - './'
-     -
+     - path to keep away log directory
    * - keepaway_log_fixed_name
      - 'rcssserver'
-     -
+     - fixed name of keep away log
    * - landmark_file
      - '~/.rcssserver-landmark.xml'
      -
    * - log_date_format
      - '%Y%m%d%H%M%S-'
-     -
+     - date format in game log
    * - team_l_start
      - ''
-     -
+     - path to start script of left team
    * - team_r_start
      - ''
-     -
+     - path to start script of right team
    * - text_log_dir
      - './'
-     -
+     - path to text log directory
    * - text_log_fixed_name
      - ''
+     - fixed name of text log
+
+.. list-table:: Parameters adjustable in ``player.conf``
+   :widths: 100 30 100
+   :header-rows: 1
+
+   * - Name
+     - Current Value in ``player.conf``
+     - Description
+   * - version
+     - '16.0.1'
+     - soccer server version
+   * - player_types
+     - 18
+     - number of random player types generated at match startup
+   * - pt_max
+     - 1
+     - number of times that online coach can substitute a player to another player of the same type
+   * - random_seed
+     - -1
+     - seed to generate heterogeneous players parameters of a match if it is non zero
+   * - subs_max
+     - 3
+     - maximum number of substitutions in a match
+   * - allow_mult_default_type
+     - false
      -
+   * - catchable_area_l_stretch_max
+     - 1.3
+     - defines the upper bound of player's catchable_area_l_stretch
+   * - catchable_area_l_stretch_min
+     - 1
+     - defines the lower bound of player's catchable_area_l_stretch
+   * - dash_power_rate_delta_max
+     - 0
+     - defines the upper bound of player's dash power rate when added to default dash power rate
+   * - dash_power_rate_delta_min
+     - 0
+     - defines the lower bound of player's dash power rate when added to default dash power rate
+   * - effort_max_delta_factor
+     - -0.004
+     - controls the upper bound of player's effort amount
+   * - effort_min_delta_factor
+     - -0.004
+     - controls the lower bound of player's effort amount
+   * - extra_stamina_delta_max
+     - 50
+     - defines the upper bound of player's extra stamina when added to default extra stamina
+   * - extra_stamina_delta_min
+     - 0
+     - defines the lower bound of player's extra stamina when added to default extra stamina
+   * - foul_detect_probability_delta_factor
+     - 0
+     - defines the range of heterogeneous player's foul detect probability
+   * - inertia_moment_delta_factor
+     - 25
+     - factor to control the length of inertia moment delta interval
+   * - kick_power_rate_delta_max
+     - 0
+     - defines the upper bound of player's kick power rate when added to default kick power rate
+   * - kick_power_rate_delta_min
+     - 0
+     - defines the lower bound of player's kick power rate when added to default kick power rate
+   * - kick_rand_delta_factor
+     - 1
+     - 
+   * - kickable_margin_delta_max
+     - 0.1
+     - defines the upper bound of player's kickable margin when added to default kickable margin
+   * - kickable_margin_delta_min
+     - -0.1
+     - defines the lower bound of player's kickable margin when added to default kickable margin
+   * - new_dash_power_rate_delta_max
+     - 0.0008
+     -
+   * - new_dash_power_rate_delta_min
+     - -0.0012
+     -
+   * - new_stamina_inc_max_delta_factor
+     - -6000
+     -
+   * - player_decay_delta_max
+     - 0.1
+     - defines the upper bound of inertia moment delta when multiplied by inertia moment delta factor
+   * - player_decay_delta_min
+     - -0.1
+     - defines the lower bound of inertia moment delta when multiplied by inertia moment delta factor
+   * - player_size_delta_factor
+     - -100
+     - controls the range of heterogeneous player's size
+   * - player_speed_max_delta_max
+     - 0
+     - defines the upper bound of player's maximum speed when added to server::player_speed_max
+   * - player_speed_max_delta_min
+     - 0
+     - defines the lower bound of player's maximum speed when added to server::player_speed_max
+   * - stamina_inc_max_delta_factor
+     - 0
+     -
+
+.. list-table:: Parameters adjustable in ``CSVSaver.conf``
+   :widths: 100 30 100
+   :header-rows: 1
+
+   * - Name
+     - Current Value in ``CSVSaver.conf``
+     - Description
+   * - version
+     - '16.0.1'
+     - soccer server version
+   * - save
+     - false
+     - flag to save matches result in a file
+   * - filename
+     - 'rcssserver.csv'
+     - file to save the results to. If this file does not exist it will be created. Otherwise, the results will be appended to the end.
