@@ -1850,6 +1850,29 @@ When applying accelerations and velocities to the objects, the order of applicat
 Using Soccerserver
 ==================================================
 
+To start the server either type::
+
+  ./rcssserver
+
+from the directory containing the executable or::
+
+  rcssserver
+
+if you installed the executables in your PATH.
+
+rcssserver will look in your home directory for the configuration files:
+
+* .rcssserver/server.conf
+* .rcssserver/player.conf
+* .rcssserver/CSVSaver.conf
+* .rcssserver-landmark.xml
+
+If .conf files do not exist, they will be created and populated with
+default values.
+
+You can include additional configuration files by using the ``include=FILE``
+option to \Com{rcssserver}.
+
 --------------------------------------------------
 The Soccerserver Parameters
 --------------------------------------------------
