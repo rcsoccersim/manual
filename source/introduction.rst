@@ -261,9 +261,11 @@ version 7 will be used.
 History of the RoboCup Simulation League
 -------------------------------------------------
 
-The RoboCup simulation league has had five main official events:
-preRoboCup96, RoboCup97, RoboCup98, RoboCup99, and
-RoboCup2000. Research results have been reported extensively in the
+The RoboCup simulation league has had 26 main official events:
+Starting with a preRoboCup96 in 1996 event, from 1997 onward an official 
+world championship tournament was held each year (from RoboCup97 to 
+RoboCup 2021). 
+Research results have been reported extensively in the
 proceedings of the workshops and conferences associated with these
 competitions. In this section, we focus mainly on the competitions
 themselves.
@@ -391,11 +393,9 @@ from the evaluation was made public at: http://www.isi.edu/~galk/Eval/
 RoboCup99
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-
 The third international RoboCup championship, RoboCup-99, was held in
 late July and early August, 1999 in Stockholm, Sweden [3]. It was held
 in conjunction with the IJCAI-99 conference.
-
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 RoboCup2000
@@ -405,6 +405,65 @@ The fourth international RoboCup championship, RoboCup 2000, was held
 in early September, 2000 in Melbourne, Australia [16]. It was held in
 conjunction with the PRICAI-2000 conference.
 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RoboCup 2004
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The eigth international RoboCup championship, RoboCup 2004, was held
+in Lisbon, Portugal. It was accompanied by the RoboCup 2004 Symposium,
+held at the Instituto Superior Tecnico and was co-located with the 
+5th IFAC/EURON International Symposium on Intelligent Autonomous
+Vehicles (IAV 2004).
+
+The main novelty in the Soccer Simulation League in 2004 was the 
+introduction of the 3D soccer simulator, where players are spheres
+in a three-dimensional environment with a full physical model. This 
+sub-competition was the spawning point for the Soccer Simulation 
+3D League in later years.
+
+The winning teams in the Soccer Simulation 2D competition,
+for which 24 teams were qualified, were:
+
+1. STEP (ElectroPult Plant Company, Russia)
+2. Brainstormers (University of Osnabrueck, Germany)
+3. Mersad (Allameh Helli High School, Iran)
+
+The winning teams in the coach competition were:
+
+1. MRL (Azad University of Qazvin, Iran)
+2. FC Portugal (Universities of Porto and Aveiro, Portugal)
+3. Caspian (Iran University of Science and Technology, Iran)
+
+The winning teams in the 3D competition were:
+
+1. Aria (Amirkabir University of Technology, Iran)
+2. AT-Humboldt (Humboldt University Berlin, Germany)
+3. UTUtd 2004 (University of Tehran, Iran)
+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RoboCup 2005
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The tenth international RoboCup championship, RoboCup 2005, was held
+in July 2005 in Osaka, Japan [16]. It was accompanied
+by the RoboCup Symposium.
+Since, for the first time, the 3D sub-league of soccer simulation
+had its own tournament, the number of teams that were maximally 
+allowed to qualify for the Soccer Simulation 2D competitions at
+RoboCup 2005 was reduced to 16 (though a 
+17th team was permitted for reasons of the qualifying procedure).
+
+The winning teams in the Soccer Simulation 2D competition were:
+
+1. Brainstormers (University of Osnabrueck, Germany)
+2. WrightEagle (University of Science and Technology of China, China)
+3. TokyoTech SFC (Tokyo Institute of Technology, Japan)
+
+An interesting observation, quite similar to the related remark 
+for RoboCup98, could be made in this year: Last year's champion
+(STEP, Russia) entered the competition without any modifications
+made to their team and finished the tournament on rank 4. 
 
 
 ---------------------------------------------------
@@ -426,7 +485,21 @@ was no release of the manual for soccerserver version 6.0.
 
 Since 1999, the soccerserver has changed major version to 7 and is
 continuously developed. Therefore the Soccer Manual Effort has
-developed a new version, which you are currently reading.
+developed a new version, which resulted in a PDF version of the 
+Soccer Manual (available on Sourceforge) that has been the main 
+reference document for many years.
+
+In 2009 and 2010 (soccerserver versions 12 and 14), significant changes 
+were introduced to the way the soccerserver simulates soccer, including 
+a changed tackle model and a sideward dash model to mention just a few.
+The corresponding changes of those times were, unfortunately, not 
+incorporated into the existing soccerserver manual, but were reflected
+only in the NEWS text file as part of the soccerserver software
+package. 
+
+In 2019, a joint effort was started to migrate the existing 
+Latex-based soccerserver manual to the Github-hosted version 
+that is based on reStructured text and that you are reading here.
 
 
 =================================================
