@@ -187,7 +187,7 @@ hear the Message. The message is a string of valid characters.
 Command succeeded.
 In case of error there will be the following response from the Server
 
-  (error illegal_command_form)
+  (**error illegal_command_form**)
 
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -250,7 +250,7 @@ The ObjInfos are of the format below
 
 or
 
- (*ObjName* *Direction*)
+   (*ObjName* *Direction*)
 
 Note that the amount of information returned for each object depends
 on its distance.
@@ -261,7 +261,7 @@ ObjName is in one of the following formats:
 
   (p [*TeamName* [*Unum*]])
 
-  (b )
+  \(b\)
 
   (f *FlagInfo*)
 
@@ -280,7 +280,7 @@ from the online coach, referee, or other players.
 
 The format is as follows:
 
-    (hear *Time* *Sender* *Message*)
+  (hear *Time* *Sender* *Message*)
 
 Sender is one of the followings:
  - **self**: when the sender is yourself.
@@ -296,14 +296,13 @@ Body sensor returns all the states of the player such as remaining stamina, view
 and the speed of the player at the beginning of each cycle:
 
 
-    (sense_body *Time* (view_mode { high | low } { narrow | normal |
-    wide }) (stamina *Stamina* *Effort*) (speed *Speed* *Angle*) (head_angle
-    *Angle*) (kick *Count*) (dash *Count*) (turn *Count*) (say *Count*)
-    (turn_neck *Count*) (catch *Count*) (move *Count*) (change_view
-    *Count*))
+  (sense_body *Time* (view_mode { high | low } { narrow | normal | wide })
+  (stamina *Stamina* *Effort*) (speed *Speed* *Angle*) (head_angle *Angle*)
+  (kick *Count*) (dash *Count*) (turn *Count*) (say *Count*)
+  (turn_neck *Count*) (catch *Count*) (move *Count*) (change_view *Count*))
 
-  The last eight parameters are counters of the received commands. Use the counters
-  to keep track of lost or delayed messages.
+The last eight parameters are counters of the received commands. Use the counters
+to keep track of lost or delayed messages.
 
 ======================
 How to Create Clients
