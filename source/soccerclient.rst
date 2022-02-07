@@ -31,19 +31,19 @@ Initialization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Your client should send an init command to the server in the following format
 
-  (init *TeamName* [(version *VerNum*)] [(goalie)])
+  (**init *TeamName* [(version *VerNum*)] [(goalie)]**)
 
 The goalie should include the ”(goalie)” in the init command to be allowed by the
 server to catch the ball or do another special goalie action. Note there can only be one
 or no goalie in each team. (You are not obliged to use a goalie)
 The Server welcomes you with a response to your init message in the following format
 
-  (init *Side* *UniformNumber* *PlayMode*)
+  (**init *Side* *UniformNumber* *PlayMode* **)
 
 Or by an error message (if there is an error, i.e. you have initiated more than two
 team, more than 11 players in a team or more than one goalie in a team)
 
-  (error no_more_team_or_player_or_goalie)
+  (**error no_more_team_or_player_or_goalie**)
 
 Side is your team’s side of play, a character, l(left) or r(right). UniformNumber is the
 player’s uniform number (the players of each team are known by their uniform number).
@@ -53,11 +53,11 @@ If you connect to server with versions 7.00 or higher you will receive additiona
 parameters, player parameters and player types information ( the last two are related
 to the hetero players feature ). For the exact format refer to the appendix.
 
-  (server_param *Parameters* . . . )
+  (**server_param *Parameters* . . . **)
 
-  (player_param *Parameters* . . . )
+  (**player_param *Parameters* . . . **)
 
-  (player_type *id* *Parameters* . . . )
+  (**player_type *id* *Parameters* . . . **)
 
 Here the hand shaking is finished and your client is known as a valid player.
 
@@ -70,19 +70,19 @@ Reconnection is useful for changing the client program of a player without resta
 game. It can only be done in a non-PlayOn playing mode (e.g. in the half time).
 For reconnection you should send a reconnect command in the following format
 
-  (reconnect *TeamName* *UniformNumber*)
+  (**reconnect *TeamName* *UniformNumber* **)
 
 And you will receive a response in the following format
 
-  (reconnect *Side* *PlayMode*)
+  (**reconnect *Side* *PlayMode* **)
 
 Or one of the following errors
 
-  (can’t reconnect)
+  (**can’t reconnect**)
 
 if the game is in the PlayOn mode.
 
-  (error reconnect)
+  (**error reconnect**)
 
 when no client reconnected due to an error. You may also receive the following error
 if the team name is invalid **(error no_more_team_or_player_or_goalie)**
@@ -96,7 +96,7 @@ Disconnection
 Before you disconnect, you can send a bye command to the server. This command will
 remove the player from the field.
 
-  (bye)
+  (**bye**)
 
 There will be no answers from the server.
 
@@ -130,28 +130,28 @@ The results of these commands are a little complicated and depend on many simula
 factors. For the details of the execution of each command refer to the Soccer Server
 Section.
 
-  (turn *Moment*)
+  (**turn *Moment* **)
 
 The Moment is in degrees from −180 to 180. This command will turn the
 player’s body direction Moment degrees relative to the current direction.
 
-  (dash *Power*)
+  (**dash *Power* **)
 
 This command accelerates the player in the direction of its body (not direction of the current speed). The Power is between **minpower** (used value:
 −100) and **maxpower** (used value: 100).
 
-  (kick *Power Direction*)
+  (**kick *Power Direction* **)
 
 Accelerates the ball with the given Power in the given Direction. The direction is relative to the the Direction of the body of the player and the power
 is again between **minpower** and **maxparam**.
 
-  (catch *Direction*)
+  (**catch *Direction* **)
 
 Goalie special command: Tries to catch the ball in the given Direction relative
 to its body direction. If the catch is successful the ball will be in the goalie’s
 hand until kicked away.
 
-  (move *X* *Y*)
+  (**move *X* *Y* **)
 
 This command can be executed only before kick off and after a goal. It
 moves the player to the exact position of X (between −54 and 54) and Y
@@ -162,7 +162,7 @@ Note that in each simulation cycle, only one of the above five commands can be
 executed (i.e. if the client sends more than one command in a single cycle, one of them
 will be executed randomly, usually the one received first)
 
-  (turn_neck *Angle*)
+  (**turn_neck *Angle* **)
 
 This command can be sent (and will be executed) each cycle independently, along with
 other action commands. The neck will rotate with the given Angle relative to previous
@@ -176,18 +176,18 @@ Communication Commands
 The only way of communication between two players is broadcasting of messages through
 the **say** command and hearing through the **hear** sensor.
 
-  (say *Message*)
+  (**say *Message* **)
 
 This command broadcasts the Message through the field, and any player near enough
 (specified with **audio_cut_dist**, default: 50.0 meters), with enough hearing capacity will
 hear the Message. The message is a string of valid characters.
 
-  (ok say)
+  (**ok say**)
 
 Command succeeded.
 In case of error there will be the following response from the Server
 
-  (error illegal_command_form)
+  (**error illegal_command_form**)
 
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -199,22 +199,22 @@ Other commands are usually of two forms:
 
 
 
-  (sense_body)
+  (**sense_body**)
 
   Requests the server to send sense body information. Note the server sends sense
   body information every cycle if you connect with version 6.00 or higher.
 
-  (score)
+  (**score**)
 
   Request the server to send score information. The server’s reply will be in this
   format
 
-  (score *Time* *OurScore* *OpponentScore*)
+  (**score *Time* *OurScore* *OpponentScore* **)
 
 
 * Mode Change Commands
 
-  (change_view *Width* *Quality*)
+  (**change_view *Width* *Quality* **)
 
   Changes the view parameters of the player. Width is one of narrow, normal or
   wide and Quality is one of high or low. The amount and detail of the information
@@ -242,15 +242,15 @@ objects that are in the view angle and not very far).
 
 The main format of the information is
 
-   (see *Time* *ObjInfo* *ObjInfo* . . . )
+   (**see *Time* *ObjInfo* *ObjInfo* . . . **)
 
 The ObjInfos are of the format below
 
-   (*ObjName* *Distance* *Direction* [*DistChange* *DirChange* [*BodyFacingDir* *HeadFacingDir*]])
+   (***ObjName* *Distance* *Direction* [*DistChange* *DirChange* [*BodyFacingDir* *HeadFacingDir*]]**)
 
 or
 
- (*ObjName* *Direction*)
+ (** *ObjName* *Direction* **)
 
 Note that the amount of information returned for each object depends
 on its distance.
@@ -259,13 +259,13 @@ For more detailed information regarding ObjInfo refer to Appendix.
 
 ObjName is in one of the following formats:
 
-  (p [*TeamName* [*Unum*]])
+  (**p [*TeamName* [*Unum*]]**)
 
-  (b )
+  (**b **)
 
-  (f *FlagInfo*)
+  (**f *FlagInfo* **)
 
-  (g *Side*)
+  (**g *Side* **)
 
 **p** stands for player, **b** stands for ball, **f** stands for flag and **g** stands for goal.
 Side is one of **l** for left or **r** for right. For more information
@@ -280,7 +280,7 @@ from the online coach, referee, or other players.
 
 The format is as follows:
 
-    (hear *Time* *Sender* *Message*)
+    (**hear *Time* *Sender* *Message* **)
 
 Sender is one of the followings:
  - **self**: when the sender is yourself.
