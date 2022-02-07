@@ -38,6 +38,8 @@ automatically started and connected with the server::
   $ rcsoccersim
 
 
+**TODO: [12.0.0 pre-20071217] server::max_monitor**
+
 =================================================
 Communication from Server to Monitor
 =================================================
@@ -308,6 +310,7 @@ Version 3
 Version 4
 -------------------------------------------------
 
+
 .. _sec-commandsfrommonitor:
 
 =================================================
@@ -376,6 +379,8 @@ If a compression level above zero is selected, then the monitor is
 expected to compress its commands to the server.
 Specifying a level of zero turns off compression completely (default).
 
+**TODO: [12.0.0 pre-20071217] accept some coach commands from monitor**
+
 =================================================
 How to record and playback a game
 =================================================
@@ -412,7 +417,7 @@ or set the parameter in server.conf file:
 
 You can replay recorded games using logplayer applications.
 The latest rcssmonitor (version 16 or later) can work as a logplayer.
-To replay logfiles just call rcssmonitor with the logfile name as argument, 
+To replay logfiles just call rcssmonitor with the logfile name as argument,
 and then use the buttons on the window to start, stop, play backward, play stepwise.
 
 
@@ -540,7 +545,8 @@ Its grammar is almost the same as monitor protocol version 3.
 
 ``msg`` may contain various string data, such as ``team_graphic``, the result of the game, and so on.
 
-**TODO**: detail for each data type.
+- **TODO: detail for each data type.**
+- **TODO: [12.1.0] record the game result as a msg info in the game log**
 
 -------------------------------------------------
 Version 5 Protocol
@@ -548,7 +554,6 @@ Version 5 Protocol
 
 The version 5 logfile protocol is adopted in rcssserver version 13 or later.
 Its grammar is almost the same as the version 4 protocol, except adding stamina_capacity information to each player data.
-
 
 .. _sec-settingsvariables:
 
@@ -569,6 +574,13 @@ Several parameters can be modified from ``View`` menu after invoking rcssmonitor
 Some parameters are recorded in ``~/.rcssmonitor.conf``, and rcssmonitor will reuse them in the next execution.
 Of course, you can directly edit this configuration file.
 
+
+
+=================================================
+Team Graphic
+=================================================
+
+**TODO**
 
 =================================================
 What’s New

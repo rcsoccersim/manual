@@ -277,6 +277,8 @@ and opponents (including opponent coach) with:
 
     * **(change_player_type UNUM)**
 
+**TODO: team_graphic**
+
 -------------------------------------------------------------
 Commands that can be used by both trainer and online-coach
 -------------------------------------------------------------
@@ -292,7 +294,7 @@ This command provides information about the positions of the following objects o
 Note that the trainer and online coach for *both* sides receive left hand coordinates.
 That is, the coaches receive information in the global coordinates that the left hand
 team uses. In general,the players receive no global information (the one exception
-being the move command), but it is common for teams to localize themselves so
+being the **move** command), but it is common for teams to localize themselves so
 that the negative *x* direction is towards the goal they defend.
 
 Possible replies by the soccerserver:
@@ -416,9 +418,9 @@ players.
 See Section 7.4 and 7.5 for details about the commands that can be used by the online
 coach and messages that will be sent by the server.
 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------------------
 Communication with the players
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------------------
 
 Prior to version 7.00, the online coach could say short (128 characters,
 *say_coach_msg_size*) alphanumeric (plus the symbols().+*/?<>) messages when the
@@ -496,13 +498,20 @@ these changes have to comply with the general rules about heterogeneous players 
 Section 4.6). After kick-off player types can be changed three (*subs_max*) times during
 play-modes that are not 'play_on'.
 
-See the description of the *change_player_type*-command in Section 7.4 for details
+See the description of the **change_player_type**-command in Section 7.4 for details
 about the possible replies from the server.
 
 Note: A player client will be informed about substitutions that occurred before the
 client connected by the message **(change_player_type UNUM TYPE)** for
 substitutions in it own team and **(change_player_type UNUM)** for substitutions in the
 opponent team.
+
+
+-----------------------------------------------
+Team Graphic
+-----------------------------------------------
+
+**TODO**
 
 ================================================
 The Standard Coach Language
@@ -518,7 +527,7 @@ that should prevent misinterpretation from both the players and the coach. The l
 is based on low-level concepts that can be combined to construct new high level concepts.
 
 Additionally, coaches cancommunicate a certain number of freeform messages that
-may be arbitrary strings to the players during non-**'play_on'**-modes. See Section 7.6.2
+may be arbitrary strings to the players during non-*'play_on'*-modes. See Section 7.6.2
 for details. Be aware though, that freeform messages probably will not be understood
 by other teams if you plan to use your coach with other teams.
 
@@ -535,7 +544,7 @@ and SFL[12] (e. g. variables and point arithmetic).
 Note that the server itself parses all the coach messages using flex and bison (the GNU
 replacements for lex and yacc) and constructs a simple representation based on a C++
 class hierarchy. Please feel free to use and modify this code from the server to handle
-the parsing of the coach messages. In particular, look at the **coach_lang*** files.
+the parsing of the coach messages. In particular, look at the *coach_lang** files.
 
 ------------------------------------------------
 Example Language Utterance
@@ -675,7 +684,7 @@ certain way.
 
 Now,the actual content of a rule can be specified in several ways:
 
-* **(CONDITION DIRECTIVE_LIST)**
+* (CONDITION DIRECTIVE_LIST)
 
 This is the straight-forward way. The example in section 7.7.3 complies to this
 format. The CONDITION denotes a situation, and DIRECTIVE_LIST denotes
@@ -683,7 +692,7 @@ the appropriate directives. Note that the list can contain directives for one, s
 or **all** players, or even several directives for the same player. In the latter case it is
 up to the player to decide which directive is to be followed.
 
-* **(CONDITION RULE_LIST)**
+* (CONDITION RULE_LIST)
 
 This is a very powerful format for combining rules to larger tactics. Since each
 rule in RULE_LIST already contains a condition, a definition of this form results
@@ -709,7 +718,7 @@ then the above definition would create
 
 ((and (bowner our {0}) (time > 20)) (do our {2} (pos (pt -40 10))))
 
-* **ID_LISTS**
+* ID_LISTS
 
 Similar to the above format, this way several existing rules can be combined.
 Suppose, there have been defined two rules:
