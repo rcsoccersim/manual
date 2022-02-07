@@ -38,7 +38,7 @@ Connecting, reconnecting, and disconnecting
 |From player to server                                   |From server to client                            |
 +========================================================+=================================================+
 | | (init *TeamName* [(version *VerNum* )] [(goalie)])   | | (init *Side* *Unum* *PlayMode*)               |
-| |     *TeamName* ::= \[-_a-zA-Z0-9\]+                  | |          *Side* ::= ``l`` \| ``r``            |
+| |     *TeamName* ::= \[+-_a-zA-Z0-9\]+                 | |          *Side* ::= ``l`` \| ``r``            |
 | |       *VerNum* ::= the protocol version (e.g. 15)    | |          *Unum* ::= 1~11                      |
 |                                                        | |      *PlayMode* ::= one of play modes         |
 |                                                        | | (error no_more_team_or_player)                |
@@ -120,7 +120,7 @@ Player Control
 | |     *X* ::= real number                                                    |                          |
 | |     *Y* ::= real number                                                    |                          |
 +------------------------------------------------------------------------------+--------------------------+
-| | (change_view *Width* *Quality*)                                            | No                       |
+| | (change_view [*Width*] *Quality*)                                          | No                       |
 | |     *Width* ::= ``narrow`` \| ``normal`` \| ``wide``                       |                          |
 | |     *Quality* ::= ``high`` \| ``low``                                      |                          |
 +------------------------------------------------------------------------------+--------------------------+
@@ -290,7 +290,7 @@ The format of the aural sensor message from the soccer server is:
 
 - *Message* is the message. The maximum length is **server::say_msg_size** bytes.
   The possible messages from the referee are described in Section :ref:`sec-playmodes`.
-
+  **TODO: about yellow/red card information from the referee. See [14.0.0] in NEWS.**
 
 The server parameters that affects the aural sensor are described in :numref:`param-auralsensor`.
 
@@ -325,12 +325,18 @@ With the current server.conf file this means that a player can hear at most
 one message from each team every second simulation cycle.
 
 If more messages arrive at the same time than the player can hear the messages
-actually heard are chosen randomly.
+actually heard are chosen randomly. **(TODO: Attentionto Model)**
 .. (The current implementation choose the messages according to the order of arrival.)
 This rule does not include messages from the referee, or messages from oneself.
 .. In other words, a player can say a message and hear a message from another
 .. player in the same timestep.
 
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Focus
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**(TODO: Attentionto Model. [8.04] in NEWS)**
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Range of Communication
@@ -342,7 +348,6 @@ For example, a defender, who may be near his own goal, can hear a message
 from his goal-keeper but a striker who is near the opponent goal can not hear
 the message.
 Messages from the referee can be heard by all players.
-
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Aural Sensor Example
@@ -442,6 +447,13 @@ kicking state is also visible via `t` and `k`. If the player is tackling,
 `t` is present. If they are kicking, `k` is present instead. If an observed
 player is tackling, the kicking flag is always overwritten by the tackle flag.
 The kicking state is visible the cycle directly after kicking.
+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Anonyous Mode
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**TODO: anonymous mode. [16.0.0]**
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Range of View
@@ -576,6 +588,12 @@ and player *f* would be identified simply as an anonymous player.
 
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Synchronous Mode
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**TODO: See [12.0.0_pre20080210],[13.2.0] in NEWS**
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Visual Sensor Noise Model
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -653,9 +671,11 @@ The format of the body sensor message is:
 - *ExpireCycles*
 - *FoulCycles*
 
+**TODO: add descriptions about values. arm [8.03], focus [8.04], tackle [8.04], collision [12.0.0_pre-20071217], foul [14.0.0] in NEWS**
+
 The semantics of the parameters are described where they are actually
 used.
-he *ViewQuality* and *ViewWidth* parameters are for example described
+The *ViewQuality* and *ViewWidth* parameters are for example described
 in the Section :ref:`sec-visionsensor`.
 
 
@@ -672,6 +692,12 @@ the following table:
    * - server::sense_body_step
      - 100
 
+
+--------------------------------------------------
+Fullstate Sensor Model
+--------------------------------------------------
+
+**TODO**
 
 ==================================================
 Movement Models
@@ -721,6 +747,7 @@ rcssserver adds noise to the movement of objects and parameters of commands.
 
 Concerned with movements,
 noise is added into Eqn.:ref:`eq:u-t` as follows:
+**TODO: new noise model. See [12.0.0 pre-20071217] in NEWS**
 
 .. math::
 
@@ -751,11 +778,21 @@ command as follows:
 Collision Model
 --------------------------------------------------
 
+--------------------------------------------------
+Collision with other movable objects
+--------------------------------------------------
+
 If at the end of the simulation cycle, two objects overlap, then the
 objects are moved back until they do not overlap.
 Then the velocities are multiplied by -0.1.
 Note that it is possible for the ball to go through a player as long
 as the ball and the player never overlap at the end of the cycle.
+
+--------------------------------------------------
+Collision with goal posts
+--------------------------------------------------
+
+**TODO: See [9.2.0] in NEWS**
 
 
 ==================================================
@@ -872,6 +909,8 @@ The goalie can use the **move** command **server::goalie_max_moves** times befor
 Additional **move** commands do not have any effect and the server will respond with ``(error too_many_moves)``.
 Please note that catching the ball, moving around, kicking the ball a short distance and immediately catching it again to move more than **server::goalie_max_moves** times is considered as ungentlemanly play.
 
+**TODO: Improvement of the catch model. See [15.0.0] in NEWS**
+
 --------------------------------------------------
 Dash Model
 --------------------------------------------------
@@ -982,6 +1021,7 @@ a cycle and a player does not get accelerated by other means than dashing).
 
 At the transition from simulation step :math:`n` to simulation step
 :math:`n + 1`, acceleration :math:`\vec{a}_n` is applied:
+ **TODO: dash speed restriction. See [12.0.0_pre-20071217]**
 
 1. :math:`\vec{a}_n` is normalized to a maximum length of **server::player_accel_max**.
 2. :math:`\vec{a}_n` is added to current players speed
@@ -1177,6 +1217,7 @@ completely the same with the stamina model before rcssserver version 13.
 
   (stamina <STAMINA> <EFFORT> <CAPACITY>)
 
+**TODO: stamina recovery in overtime. See [12.0.0 pre-20071217]**
 
 .. _sec-kickmodel:
 
@@ -1264,7 +1305,8 @@ For heterogeneous players, **kick_rand** depends on
 actual kickable margin.
 .. In RoboCup 2000, **kick_rand** was used to generate some noise during evaluation round for the normal players.
 
-**TODO** kick noise model after rcssserver-12.
+- **TODO: new kick/tackle noise model. See [12.0.0 pre-20080210] in NEWS**
+- **TODO: heterogeneous kick power rate. See [14.0.0] in NEWS**
 
 During the transition from simulation step :math:`n` to simulation step
 :math:`n+1` acceleration :math:`\vec{a}_{n}` is applied:
@@ -1388,7 +1430,12 @@ Using the *say command*, players can broadcast messages to other players. Messag
 Tackle Model
 --------------------------------------------------
 
-The tackle command is to accelerate the ball towards the player's body. Players can kick the ball that can not be kicked with the kick command by executing the tackle command. The success of tackle depends on a random probability related to the position of the ball. It can be obtained by the following formula.
+The tackle command is to accelerate the ball towards the player's
+body(**TODO:new tackle model [12.0.0 pre-20080210]**).
+Players can kick the ball that can not be kicked with the kick command
+by executing the tackle command.
+The success of tackle depends on a random probability related to the
+position of the ball. It can be obtained by the following formula.
 
 The probability of a tackle failure when the ball is in front of the player is:
 
@@ -1418,6 +1465,13 @@ The execution effect of tackle is similar to that of kick, which is obtained by 
 
 Once the player executes the tackle command, whether successful or not, the player can no longer move within 10 cycles. The following table shows the parameters used in tackle command.
 
+**TODO**
+
+- [12.0.0 pre-20080210] new kick/tackle noise model
+- [12.0.0 pre-20080210] max_back_tackle_power
+- [13.0.0] forbid backward tackle
+- [14.0.0] increasing tackle noise using server::tackle_rand_factor
+
 .. table:: Parameters for the tackle command
 
    +-------------------------------------------------+-----------+
@@ -1441,6 +1495,17 @@ Once the player executes the tackle command, whether successful or not, the play
    +-------------------------------------------------+-----------+
    |tackle_rand_factor                               |2          |
    +-------------------------------------------------+-----------+
+
+--------------------------------------------------
+Foul Model
+--------------------------------------------------
+
+**TODO**
+
+- [14.0.0] foul model and intentional foul option
+- [14.0.0] trade off between foul detect probability and kick power rate
+- [15.0.0] improve foul model (red_card_probability)
+
 
 --------------------------------------------------
 Turn Model
@@ -1490,6 +1555,7 @@ value plus a value between
    |                       |                        || player::inertia_moment_delta_factor || 25    |
    +-----------------------+------------------------+--------------------------------------+--------+
 
+.. _sec-turnneckmodel:
 
 --------------------------------------------------
 TurnNeck Model
@@ -1526,6 +1592,18 @@ The argument for a *turn_neck command* must be in the range between
    +-------------------------------------------------+-----------+
    |maxneckmoment                                    |  180      |
    +-------------------------------------------------+-----------+
+
+--------------------------------------------------
+Pointto Model
+--------------------------------------------------
+
+**TODO: See [8.03] in NEWS**
+
+--------------------------------------------------
+Attentionto Model
+--------------------------------------------------
+
+**TODO: See [8.04] in NEWS**
 
 
 .. _sec-heterogeneousplayers:
@@ -1754,6 +1832,74 @@ tc is the time (in number of cycles) until the subsequent play mode will be anno
 where *Side* is either the character `l` or `r`, *OSide* means opponent’s side.
 tc is the time (in number of cycles) until the subsequent play mode will be announced.
 
+
+--------------------------------------------------
+Time Referee
+--------------------------------------------------
+
+**TODO**
+
+- Judges the game time
+- server::half_time
+- [12.1.3] server::extra_half_time
+- [13.0.0] change a length of overtime
+
+--------------------------------------------------
+Offside Referee
+--------------------------------------------------
+
+**TODO**
+
+- Judges the offside
+- [9.2.1] fix offside rule (kick-in, goal-kick...)
+- [15.0.0] improve offside referee
+- [15.4.0] improvement of cheking the last kicker
+
+--------------------------------------------------
+FreeKick Referee
+--------------------------------------------------
+
+**TODO**
+
+- Judges the behavior during a free kick
+
+--------------------------------------------------
+Touch Referee
+--------------------------------------------------
+
+**TODO**
+
+- Judge the goal
+- [14.0.0] golden goal option, server::golden_goal
+
+--------------------------------------------------
+Catch Referee
+--------------------------------------------------
+
+**TODO**
+
+- Judges the goalie's catch behavior
+- [12.0.0 pre-20071217] change the rules of back pass and catch fault
+- [12.0.0 pre-20071217] change the rule of goalies' catch vioration
+- [12.1.1] fix the back pass rule
+
+--------------------------------------------------
+Foul Referee
+--------------------------------------------------
+
+**TODO**
+
+- Judges the foul
+- [14.0.0] foul model and intentional foul option
+- [14.0.0] foul information in sense_body/fullstate
+- [14.0.0] red/yellow card message
+
+--------------------------------------------------
+Ball Stuck Referee
+--------------------------------------------------
+
+**TODO: server::ball_stuck_area. [11.0.0] in NEWS**
+
 --------------------------------------------------
 Illegal Defense Referee
 --------------------------------------------------
@@ -1789,6 +1935,24 @@ detecting defensive players.
 
 This parameter determines the horizontal distance from the horizontal
 symmetry line for detecting defensive players.
+
+--------------------------------------------------
+Keepaway Referee
+--------------------------------------------------
+
+**TODO**
+
+- [9.1.0] keepaway mode
+
+
+--------------------------------------------------
+Penalty Shootouts Referee
+--------------------------------------------------
+
+**TODO**
+
+- [9.3.0] penalty shootouts
+- [9.4.0] pen_coach_moves_players
 
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1844,7 +2008,11 @@ If during a step, several players kick the ball, all the kicks are applied to th
 
 When applying accelerations and velocities to the objects, the order of application is randomized. After changing objects positions, and updating velocities and accelerations, the automated referee checks the situation and changes the play mode or the object positions, if necessary. Changes to the play mode are announced immediately. Finally, stamina for each player is updated.
 
+--------------------------------------------------
+Keepaway Mode
+--------------------------------------------------
 
+**TODO: [9.1.0] in NEWS**
 
 ==================================================
 Using Soccerserver
@@ -1860,6 +2028,10 @@ from the directory containing the executable or::
 
 if you installed the executables in your PATH.
 
+--------------------------------------------------
+Configuration Files
+--------------------------------------------------
+
 rcssserver will look in your home directory for the configuration files:
 
 * .rcssserver/server.conf
@@ -1871,7 +2043,40 @@ If .conf files do not exist, they will be created and populated with
 default values.
 
 You can include additional configuration files by using the ``include=FILE``
-option to \Com{rcssserver}.
+option to ``rcssserver``.
+
+**TOOD**
+
+- [8.01] landmark reader
+- [13.0.0] RCSS_CONF_DIR
+
+
+--------------------------------------------------
+Recording Command Log
+--------------------------------------------------
+
+**TODO: description about .rcl file**
+
+--------------------------------------------------
+Automatic Mode
+--------------------------------------------------
+
+**TODO: [9.0.2]**
+
+--------------------------------------------------
+Synchronous Mode
+--------------------------------------------------
+
+**TODO: [7.11] in ChangeLog**
+
+--------------------------------------------------
+Result Saver
+--------------------------------------------------
+
+**TODO**
+
+- [9.4.0] StdOutSaver, MySQLSaver
+- [9.4.3] CSVSaver
 
 --------------------------------------------------
 The Soccerserver Parameters
@@ -2544,7 +2749,7 @@ The Soccerserver Parameters
      - defines the lower bound of player's kick power rate when added to default kick power rate
    * - kick_rand_delta_factor
      - 1
-     - 
+     -
    * - kickable_margin_delta_max
      - 0.1
      - defines the upper bound of player's kickable margin when added to default kickable margin

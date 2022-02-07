@@ -277,6 +277,8 @@ and opponents (including opponent coach) with:
 
     * **(change_player_type UNUM)**
 
+**TODO: team_graphic**
+
 -------------------------------------------------------------
 Commands that can be used by both trainer and online-coach
 -------------------------------------------------------------
@@ -503,6 +505,13 @@ Note: A player client will be informed about substitutions that occurred before 
 client connected by the message **(change_player_type UNUM TYPE)** for
 substitutions in it own team and **(change_player_type UNUM)** for substitutions in the
 opponent team.
+
+
+-----------------------------------------------
+Team Graphic
+-----------------------------------------------
+
+**TODO**
 
 ================================================
 The Standard Coach Language
