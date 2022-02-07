@@ -412,7 +412,7 @@ or set the parameter in server.conf file:
 
 You can replay recorded games using logplayer applications.
 The latest rcssmonitor (version 16 or later) can work as a logplayer.
-To replay logfiles just call rcssmonitor with the logfile name as argument, 
+To replay logfiles just call rcssmonitor with the logfile name as argument,
 and then use the buttons on the window to start, stop, play backward, play stepwise.
 
 
