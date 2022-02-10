@@ -559,7 +559,7 @@ certain situations. In CLang rules also have an ID, so that the coach can refer 
 later.
 
 A simple rule which advises the player number 5 to pass to his teammate with the
-number 11 if it has the ball and is in the middle of the field can be defined as follows:
+number 11 if it has the ball and is in the middle of the field can be defined as follows::
 
     (define
         (definerule
