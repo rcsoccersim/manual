@@ -324,19 +324,21 @@ overloading the channel the players have separate hear capacities for each team.
 With the current server.conf file this means that a player can hear at most
 one message from each team every second simulation cycle.
 
-If more messages arrive at the same time than the player can hear the messages
-actually heard are chosen randomly. **(TODO: Attentionto Model)**
-.. (The current implementation choose the messages according to the order of arrival.)
-This rule does not include messages from the referee, or messages from oneself.
-.. In other words, a player can say a message and hear a message from another
-.. player in the same timestep.
-
-
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Focus
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**(TODO: Attentionto Model. [8.04] in NEWS)**
+If the player focuses on player A from team T (AKA pTA), the player will
+hear one message selected randomly from the say messages issued by pTA
+in the previous cycle. If pTA did not issue any say commands, the player
+will hear one message selected randomly from all the say messages issued
+by players in team T. At the same time, the player will hear one message
+selected randomly from the other team. If attentionto is off (default)
+the player will hear one message from each team selected randomly from
+the messages available.
+
+This rule does not include messages from the referee, or messages from oneself.
+The way to focus is using Attentionto Model. It is described in the Section :ref:`sec-attentiontomodel`.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Range of Communication
@@ -591,7 +593,54 @@ and player *f* would be identified simply as an anonymous player.
 Synchronous Mode
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**TODO: See [12.0.0_pre20080210],[13.2.0] in NEWS**
+There are 2 modes for all players, the asynchronous mode and the
+synchronous mode. The asynchronous mode is completely same as v.11 or
+older timer and is a default mode for all players including v.12
+players. If players send the "(synch_see)" command, they enter to the
+synchronous mode and cannot return to the asynchronous mode. v.11 or
+older players also can use this command and the synchronous mode.
+
+In the synchronous mode, the "low" view quality cannot be used and the
+following view width are available:
+
+.. table::  Settings of the synchronous mode
+   :name: setting-synchronousmode
+
+   +-----------+----------------------+----------------+
+   |mode       |view width(degree)    |see frequency   |
+   +===========+======================+================+
+   |narrow     |60                    |every cycle     |
+   +-----------+----------------------+----------------+
+   |normal     |120                   |every 2 cycles  |
+   +-----------+----------------------+----------------+
+   |wide       |180                   |every 3 cycles  |
+   +-----------+----------------------+----------------+
+
+In all view modes, rcssserver send see messages at
+**server::synch_see_offset** ms from the beginning
+of the cycle.
+
+Now, the player's maximum dash speed is restricted within
+**server::player_speed_max_min** and
+**server::player_speed_max**. In the heterogeneous player
+generation procedure, if the generated player type can run faster than
+**server::player_speed_max** or cannot run faster than
+**server::player_speed_max_min**, rcssserver rejects that type and try
+to regenerate another one.
+
+.. list-table::  Parameters for synchronous mode.
+   :name: param-synchronousmode
+   :header-rows: 1
+   :widths: 60 40
+
+   * - Parameter in server.conf
+     - Value
+   * - server::synch_see_offset
+     - 30
+   * - server::player_speed_max_min
+     - 0.8
+   * - server::player_speed_max
+     - 1.2
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Visual Sensor Noise Model
@@ -1217,7 +1266,9 @@ completely the same with the stamina model before rcssserver version 13.
 
   (stamina <STAMINA> <EFFORT> <CAPACITY>)
 
-**TODO: stamina recovery in overtime. See [12.0.0 pre-20071217]**
+The stamina capacity is reset to the initial value just after normal
+halves if the game is not over, but is never recovered at the half time
+and before the penalty shootouts.
 
 .. _sec-kickmodel:
 
@@ -1597,14 +1648,52 @@ The argument for a *turn_neck command* must be in the range between
 Pointto Model
 --------------------------------------------------
 
-**TODO: See [8.03] in NEWS**
+Players can now send commands to point to a spot on the field of the
+form:
+
+  (pointto <DIST> <DIR>)
+
+or
+
+  (pointto off)
+
+The first form will cause the arm to point to the spot DIST meters
+from the player in DIR direction, relative to the player's current
+face direction.
+The player will continue to point to the same location on the field
+independent of an motion or rotation of the player for at least
+**point_to_ban** cycles (5), and until another ``pointto`` command is
+issued or **point_to_duration** cycles (20) pass. The second form
+disables a previous call of pointto.
+
+.. table:: Parameter for the turn neck command
+
+   +-------------------------------------------------+-----------+
+   |Parameter in ``server.conf``                     | Value     |
+   +=================================================+===========+
+   |point_to_ban                                     |  5        |
+   +-------------------------------------------------+-----------+
+   |point_to_duration                                |  20       |
+   +-------------------------------------------------+-----------+
+
+.. _sec-attentiontomodel:
 
 --------------------------------------------------
 Attentionto Model
 --------------------------------------------------
 
-**TODO: See [8.04] in NEWS**
+Version 8 and above players can now send ``attentionto`` commands to focus
+their attention on a particular player. The command has the form:
 
+  (attentionto <TEAM> <UNUM>) | (attentionto off)
+
+Where ``<TEAM>`` is
+
+  ``opp`` | ``our`` | ``l`` | ``r`` | ``left`` | ``right`` | <TEAM_NAME>
+
+and ``<UNUM>`` is integer identifying a member of the team specified.
+Players can only focus on one player at a time (each attentionto command
+overrides the previous) and cannot focus on themselves.
 
 .. _sec-heterogeneousplayers:
 
