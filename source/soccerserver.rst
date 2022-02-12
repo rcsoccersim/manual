@@ -324,19 +324,27 @@ overloading the channel the players have separate hear capacities for each team.
 With the current server.conf file this means that a player can hear at most
 one message from each team every second simulation cycle.
 
-If more messages arrive at the same time than the player can hear the messages
-actually heard are chosen randomly. **(TODO: Attentionto Model)**
-.. (The current implementation choose the messages according to the order of arrival.)
+If more messages arrive at the same time than the player can hear, the messages
+actually heard are chosen randomly.
 This rule does not include messages from the referee, or messages from oneself.
-.. In other words, a player can say a message and hear a message from another
-.. player in the same timestep.
+From rcssserver 8.04, players can send ``attentionto`` commands to focus their attention on a particular player.
 
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Focus
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**(TODO: Attentionto Model. [8.04] in NEWS)**
+If the player focuses on player A from team T (AKA pTA), the player will
+hear one message selected randomly from the say messages issued by pTA
+in the previous cycle. If pTA did not issue any say commands, the player
+will hear one message selected randomly from all the say messages issued
+by players in team T. At the same time, the player will hear one message
+selected randomly from the other team. If attentionto is off (default)
+the player will hear one message from each team selected randomly from
+the messages available.
+
+The way to focus is using ``attentionto`` commands.
+See :ref:`sec-attentiontomodel` in detail.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Range of Communication
@@ -591,7 +599,33 @@ and player *f* would be identified simply as an anonymous player.
 Synchronous Mode
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**TODO: See [12.0.0_pre20080210],[13.2.0] in NEWS**
+There are 2 modes for all players, the asynchronous mode and the
+synchronous mode. The asynchronous mode is completely same as v.11 or
+older timer and is a default mode for all players including v.12 or above
+players. If players send the "(synch_see)" command, they enter to the
+synchronous mode and cannot return to the asynchronous mode. v.11 or
+older players also can use this command and the synchronous mode.
+
+In the synchronous mode, the "low" view quality cannot be used and the
+following view width are available:
+
+.. table::  Settings of the synchronous mode
+   :name: setting-synchronousmode
+
+   +-----------+----------------------+----------------+
+   |mode       |view width(degree)    |see frequency   |
+   +===========+======================+================+
+   |narrow     |60                    |every cycle     |
+   +-----------+----------------------+----------------+
+   |normal     |120                   |every 2 cycles  |
+   +-----------+----------------------+----------------+
+   |wide       |180                   |every 3 cycles  |
+   +-----------+----------------------+----------------+
+
+In all view modes, rcssserver send see messages at
+**server::synch_see_offset** milli-seconds from the beginning
+of the cycle.
+
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Visual Sensor Noise Model
@@ -1217,7 +1251,6 @@ completely the same with the stamina model before rcssserver version 13.
 
   (stamina <STAMINA> <EFFORT> <CAPACITY>)
 
-**TODO: stamina recovery in overtime. See [12.0.0 pre-20071217]**
 
 .. _sec-kickmodel:
 
@@ -1597,14 +1630,91 @@ The argument for a *turn_neck command* must be in the range between
 Pointto Model
 --------------------------------------------------
 
-**TODO: See [8.03] in NEWS**
+Players can send commands to point to a spot on the field of the form:
+
+  (pointto <DIST> <DIR>)
+
+or
+
+  (pointto off)
+
+The first form will cause the arm to point to the spot DIST meters
+from the player in DIR direction, relative to the player's current
+face direction.
+The player will continue to point to the same location on the field
+independent of an motion or rotation of the player for at least
+**server::point_to_ban** cycles, and until another ``pointto`` command is
+issued or **server::point_to_duration** cycles pass.
+The second form disables a previous call of pointto.
+
+.. table:: Parameter for the pointto command
+
+   +-------------------------------------------------+-----------+
+   |Parameter in ``server.conf``                     | Value     |
+   +=================================================+===========+
+   |point_to_ban                                     |  5        |
+   +-------------------------------------------------+-----------+
+   |point_to_duration                                |  20       |
+   +-------------------------------------------------+-----------+
+
+Version 8+ clients can see where a player is pointing, if the player is pointing, the player is in view and they are close enough to determine their team name.
+In these cases the player part of the ``see`` message has the form (without the newline):
+
+    (p "<TEAMNAME>" <UNUM>) <DIST> <DIR> <DISTCHG> <DIRCHG>
+                            <BDIR> <HDIR> <POINTDIR>)
+  or
+    (p "<TEAMNAME>") <DIST> <DIR> <POINTDIR>)
+
+Where ``POINTDIR`` is the direction the players are is pointing with random Gaussian (normal)noise added to the actual direction, with a mean of zero and a standard deviation calculated as follows:
+
+    sigma = pow(dist / team_too_far_length, 4) * 178.25 + 1.75
+
+This means that sigma is a minimum of 1.75 deg and reaches 180 deg
+when the player is observing a pointing arm from a distance of team_too_far_length.
+Since 95% of values in a normal distributionare within two standard deviations,
+then 95% of the time the noise will be in the range +- 2.5 deg when the player is very close and in the range +- 360.0 deg
+when the player is team_too_far_length away.
+
+``sense_body`` messages for version 8+ clients contain information about the arm actuator.
+The following has been inserted into the sense_body message, just before the last ')', without the new line:
+
+    (arm (movable <MOVABLE>) (expires <EXPIRES>)
+         (target <DIST> <DIR>) (count <COUNT>))
+
+Where:
+
+- <MOVABLE> is the number of cycles till the arm is movable. 0 indicates the arm is movable now
+- <EXPIRES> is the number of cycles till the arm stops pointing. 0 indicates that the arm is no longer pointing,
+- <DIST> and <DIR> are the distance and direction of the point the player is pointing to, relative to the players location, orientation and neck angle, accurate to 10cm or 0.1 deg.
+- <COUNT> is the number of times the ``pointto`` command has been successfully executed by the player.
+
+Fullstate messages have both <POINTDIST> and <POINTDIR> included between neck angle and stamina.
+The players own arm state has the same format as in sense body (see below) and can be found between the count and score part.
+
+Version 8+ coaches (on and offline) can see where a player is pointing to if the player is pointing.
+The direction the player is pointing comes just after the players neck angle.
+
+
+.. _sec-attentiontomodel:
 
 --------------------------------------------------
 Attentionto Model
 --------------------------------------------------
 
-**TODO: See [8.04] in NEWS**
+Version 8 and above players can send ``attentionto`` commands to focus their attention on a particular player.
+The command has the form:
 
+  (attentionto <TEAM> <UNUM>) | (attentionto off)
+
+Where ``<TEAM>`` is
+
+  ``opp`` | ``our`` | ``l`` | ``r`` | ``left`` | ``right`` | <TEAM_NAME>
+
+and ``<UNUM>`` is integer identifying a member of the team specified.
+Players can only focus on one player at a time (each attentionto command
+overrides the previous) and cannot focus on themselves.
+
+See :ref:`sec-sensormodels` in detail about the aural sensor.
 
 .. _sec-heterogeneousplayers:
 
