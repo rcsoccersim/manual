@@ -1666,7 +1666,7 @@ independent of an motion or rotation of the player for at least
 issued or **point_to_duration** cycles (20) pass. The second form
 disables a previous call of pointto.
 
-.. table:: Parameter for the turn neck command
+.. table:: Parameter for the pointto command
 
    +-------------------------------------------------+-----------+
    |Parameter in ``server.conf``                     | Value     |
