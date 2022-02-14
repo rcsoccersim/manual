@@ -442,6 +442,38 @@ the RoboCup Soccer Simulator website, https://rcsoccersim.github.io/,
 especially if you can provide a patch or hint to the solution of the
 problem.
 
+-------------------------------------------------
+Libtool and Sed
+-------------------------------------------------
+Some versions of **libtool** are broken, which may result in build errors. A fix to the
+problem is to manually set the environment variable SED to point to the location of the
+sed stream editor on your machine. This is now checked by the configure script. If the
+SED variable is not set, configure exits with this error::
+
+  creating libtool
+  *************** ERROR *****************
+  The SED environment variable is not set.
+  Please set it to the sed excutable on your system.
+
+Depending on the type of shell you use you have to do the following to fix this error: If
+you use **(t)csh**, set the variable using the setenv shell builtin before running configure::
+
+  -> setenv SED sed
+
+If you use **bash**, please set the variable like this::
+
+  -> export SED=sed
+
+Now run configure again::
+
+  -> ./configure
+
+If you still get an error, your PATH probably does not include the location of the sed
+binary. In this case replace sed in the above instructions with the absolute path to your
+sed binary (usually /bin/sed).
+
+To set the SED variable permanently, add the above lines to your .cshrc for (t)csh
+or .bashrc for bash.
 
 ----
 
