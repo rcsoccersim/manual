@@ -1,5 +1,4 @@
 .. -*- coding: utf-8; -*-
-
 .. _cha-gettingstarted:
 
 *************************************************
@@ -21,6 +20,37 @@ https://rcsoccersim.github.io/ .
 This page contains (links to) useful information about RoboCup in general and
 the RoboCup Soccer Simulator.
 
+This is a short description of what hides behind the buttons:
+
+Home: The RoboCup Soccer Simulator homepage.
+
+SSIL: The Simulated Soccer Internet League is a continuous tournament hosted at the University of Koblenz. On a slightly modified (slowed down) server the participating teams have a series of tournaments When a tournament is finished, the next one is started. 
+The SSIL provides continuous feedback to the developers of a team and thus offers valuable help in improving the abilities of the soccer playing agents. So the emphasis in this event is not laid on winning tournaments or being the best team,but on testing ideas and collecting data for.Once you have your own team, you might want to join in. In this case just submit a request by following the link New User Request on the SSIL page.
+
+Clients: Since the RoboCup World Cup 2002 it is compulsory for participants to release a binary version of their team. Many teams have released binaries and sometimes (parts of) their source code even before that. The client repository collects the released teams for download. You should definitely have a look at the page if you need an opponent to test your team against.
+
+Libraries: This page contains some useful libraries for working with the simulator. Usually such a library is for handling the lower levels of a team, e.g. the connection and synchronization with the server, a world model, and some basic skills like dribbling or passing.
+
+Getting Started
+Downloads: This page very briefly explains the different downloadable packages and leads you to the actual download page. You may want to read this page in order to find out more about the different packages you can download and install. However, to get started quickly, you better follow the instructions in Section 3.3.
+
+Events: A list of past and upcoming local and international RoboCup events.
+
+Links: A collection of links to sites related to the RoboCup initiative.
+
+About us: This page shows the organizational structure of the RoboCup Federation in general. More detailed information are available about the RoboCup Simulation League and the RoboCup Soccer Simulator Maintainance Committee.
+
+RoboCup: The official homepage of the RoboCup Federation. On this page you can get all information about RoboCup, the different leagues, its aims and history.
+
+SIGs: A listing of the RoboCup Special Interest Groups. As the RobCup has a scientific background, a certain scientific infrastructure exists in addition to the annual competitions. In the RoboCup special interest groups scientists focus on certain
+research aspects.
+
+Old Site: This link takes you to the old RoboCup simulation site. It dates back to the days before the RoboCup Soccer Simulator was hosted by SourceForge. It was not even called RoboCup Soccer Simulator but Soccer Server in these days.
+
+The rest of the page contains the latest news about releases and several shortcuts to
+project management tools provided by SourceForge.
+Finally, if you would like to make a donation to the RoboCup Soccer Simulator Maintenance Group, click on the PayPal button at the bottom of the page.
+
 
 =================================================
 Getting and installing the server
@@ -29,9 +59,18 @@ Getting and installing the server
 The procedure shown was performed on a computer running SuSE
 7.3-GNU/Linux 2.4.10-4GB (check your version with ``uname -sr``)
 with gcc 2.95.3 and gcc 3.2 (check your version with ``which g++``)
-but any reasonably up-to-date installation should work.
-prompt.
+but any reasonably up-to-date installation should work.In the commands
+shown below, -> is supposed to be the command-lineprompt.
 
+Get source files or RPMs from the Soccer Server site: 
+<http://sserver.sf.net>
+This is done by clicking the Released Files link and getting the tar.gz files or the .rpm files for the version you are after.
+At the time of this writing (Jan-22-2003) the latest version is 9.2.2 and will be used in the example below. Please substitute 9.2.2 for the latest version available.
+The entire simulator can be downloaded as the rcsoccersim-9.2.2.tar.gz file, or you can download each module individually.
+rcssbase is base code used by the other modules. 
+rcssserver performs the actual simulation. 
+rcsslogplayer allows you to replay logs (*.rcg files) created by rcsserver. 
+rcssmonitor and rcssmonitorclassic allow you to watch game in progress or game being replayed by the log player.
 Get tar.gz files for the version you are after from the Simulator's code
 repository:
 
@@ -210,7 +249,6 @@ distribution of the server.
 .. It has either an ncurses interface or a
 .. command line interface (CLI) if ncurses is not available, or it it's
 .. started with the \Com{-nogui} option.
-
 Running **rcssclient** attempts to connect to the server using
 default parameters (host=localhost, port=6000). Of course, these
 server parameters can be changed using the arguments that the server
@@ -442,12 +480,44 @@ the RoboCup Soccer Simulator website, https://rcsoccersim.github.io/,
 especially if you can provide a patch or hint to the solution of the
 problem.
 
+ Libtool and Sed
+ 
+Some versions of libtool are broken, which may result in build errors. A fix to the
+problem is to manually set the environment variable SED to point to the location of the
+sed stream editor on your machine. This is now checked by the configure script. If the
+SED variable is not set, configure exits with this error:
+creating libtool
+*************** ERROR *****************
+The SED environment variable is not set.
+Please set it to the sed excutable on your system.
+Depending on the type of shell you use you have to do the following to fix this error: If
+you use (t)csh, set the variable using the setenv shell builtin before running configure:
+-> setenv SED sed
+If you use bash, please set the variable like this:
+-> export SED=sed
+Now run configure again
+-> ./configure
+If you still get an error, your PATH probably does not include the location of the sed
+binary. In this case replace sed in the above instructions with the absolute path to your
+sed binary (usually /bin/sed).
+To set the SED variable permanently, add the above lines to your .cshrc for (t)csh
+or .bashrc for bash.
 
+ncurses and solaris
+
+Todo
+
+old gcc (< 2.95.3) and sstream
+
+Todo
+====================================================
+The process of a match
+====================================================
+Todo
 ----
 
 .. [#f1] The response from the server means that the client plays for the left
          side, has the number one and the play mode is before_kick_off.
          The other lines correspond the the current server parameters and
          player types.
-
 .. [#f2] The names listed are the names of the people who have verified the platform.
