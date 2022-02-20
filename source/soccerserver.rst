@@ -40,12 +40,14 @@ Connecting, reconnecting, and disconnecting
 | | (init *TeamName* [(version *VerNum* )] [(goalie)])   | | (init *Side* *Unum* *PlayMode*)               |
 | |     *TeamName* ::= \[+-_a-zA-Z0-9\]+                 | |          *Side* ::= ``l`` \| ``r``            |
 | |       *VerNum* ::= the protocol version (e.g. 15)    | |          *Unum* ::= 1~11                      |
-|                                                        | |      *PlayMode* ::= one of play modes         |
-|                                                        | | (error no_more_team_or_player)                |
-|                                                        | | (error reconnect)                             |
+| |                                                      | |      *PlayMode* ::= one of play modes         |
+| |                                                      | | (error no_more_team_or_playe_or_goalie)       |
 +--------------------------------------------------------+-------------------------------------------------+
-| | (reconnect ...)                                      | |                                               |
-| |     TeamName :=                                      | |                                               |
+| | (reconnect *TeamName* *Unum*)                        | | (error *Side* *PlayMode*)                     |
+| |     TeamName := \[+-_a-zA-Z0-9\]+                    | |          *Side* ::= ``l`` \| ``r``            |
+| |                                                      | |          *Unum* ::= 1~11                      |
+| |                                                      | |      *PlayMode* ::= one of play modes         |
+| |                                                      | | (error reconnect)                             |
 +--------------------------------------------------------+-------------------------------------------------+
 | (bye)                                                  |                                                 |
 +--------------------------------------------------------+-------------------------------------------------+
@@ -290,7 +292,10 @@ The format of the aural sensor message from the soccer server is:
 
 - *Message* is the message. The maximum length is **server::say_msg_size** bytes.
   The possible messages from the referee are described in Section :ref:`sec-playmodes`.
-  **TODO: about yellow/red card information from the referee. See [14.0.0] in NEWS.**
+  If an intentional and dangerous foul is detected, the referee penalizes the player and 
+  sends the yellow/red card message toclients.The message format is similar to playmode messages.
+  Side and uniform number information of penalized player are appended to the card message: (referee
+  TIME yellow_card_[lr]_[1-11]) or (referee TIME red_card_[lr]_[1-11])
 
 The server parameters that affects the aural sensor are described in :numref:`param-auralsensor`.
 
@@ -453,7 +458,10 @@ The kicking state is visible the cycle directly after kicking.
 Anonyous Mode
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**TODO: anonymous mode. [16.0.0]**
+If fixed_teamname_[lr] are given, the players and online coaches receive the 
+given string as their opponent team name, while receiving their own team name as 
+it is.This feature can be used for an anonymous game where both teams do not know
+their opponent team name during a game.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Range of View
