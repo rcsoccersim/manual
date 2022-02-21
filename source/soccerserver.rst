@@ -826,8 +826,56 @@ as the ball and the player never overlap at the end of the cycle.
 Collision with goal posts
 --------------------------------------------------
 
-**TODO: See [9.2.0] in NEWS**
+Goal posts are circular with a radius of 6cm and they are located at:
 
+.. math::
+
+  x &= \pm (FIELD\_LENGTH \cdot 0.5 - 6cm)\\
+  y &= \pm (GOAL\_WIDTH \cdot 0.5 + 6cm)
+
+The goal posts have different collision dynamics than other
+objects. An object collides with a post if it's path gets within
+object.size + 6cm of the center of the post. An object that
+collides with the post bounces off elastically.
+
+If the goalie successfully catches a ball it is moved adjacent
+to and facing the ball and both the goalie and ball have their
+velocities set to zero. When the goalie moves, dashes or turns
+while the ball is caught, the ball remains adjacent to and
+directly in front of the goalie.
+
+The goalie can issue catch commands at any location. If the catch
+is successful, and the ball is outside of the penalty area or if
+the goalie moves the ball outside of the penalty area and it's still
+in the field, an indirect free kick is awarded to the opposing team
+at the ball's current location. If a caught ball is moved over the
+goal line but not inside the goal, a corner kick is awarded. If a 
+caught ball is moved into the goal, a goal is awarded.
+
+Checking for goals, out of bounds and within penalty area no
+complies with FIFA regulations. For a goal to be scored the ball
+must be totally within the goal - i.e.
+
+.. math::
+
+  |ball.x| > FIELD\_LENGTH \cdot 0.5 + ball\_radius
+
+Similarly the ball must be completely out of the pitch before it is
+considered out - i.e
+
+.. math::
+
+  |ball.x| &> FIELD\_LENGTH \cdot 0.5 + ball\_radius \: ||\\
+  |ball.y| &> FIELD\_WIDTH \cdot 0.5 + ball\_radius
+
+Lastly the ball is within the penalty area (and thus catchable) if
+the ball is at least partially within the penalty area - i.e.
+
+.. math::
+
+  |ball.y| &<= PENALTY\_WIDTH \cdot 0.5 + ball\_radius \: \&\&\\
+  |ball.x| &<= FIELD\_LENGTH \cdot 0.5 + ball\_radius \: \&\&\\
+  |ball.x| &>= FIELD\_LENGTH \cdot 0.5 - (PENALTY\_LENGTH \cdot 0.5 + ball\_radius)
 
 ==================================================
 Action Models
