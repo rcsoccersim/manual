@@ -278,6 +278,50 @@ and opponents (including opponent coach) with:
     * **(change_player_type UNUM)**
 
 **TODO: team_graphic**
+void
+OnlineCoach::team_graphic( const char * command )
+{
+    if ( M_stadium.playmode() != PM_BeforeKickOff )
+    {
+        send( "(warning only_before_kick_off)" );
+        return;
+    }
+
+    unsigned int x, y;
+    if ( std::sscanf( command, " ( team_graphic ( %u %u ", &x, &y ) != 2 )
+    {
+        send( "(error illegal_command_form)" );
+        return;
+    }
+
+    if ( x >= 32 || y >= 8 )
+        // needs to be parameterised
+    {
+        send( "(warning invalid_tile_location)" );
+    }
+
+    std::shared_ptr< XPMHolder > holder( new XPMHolder( command ) );
+    if ( ! holder->valid() )
+    {
+        send( "(error invalid_xpm_data)" );
+        return;
+    }
+
+    if ( holder->width() != 8 || holder->height() != 8 )
+        // needs to be parameterised
+    {
+        send( "(warning invalid_tile_size)" );
+        return;
+    }
+
+    M_team.addTeamGraphic( x, y, holder );
+    M_stadium.sendTeamGraphic( side(), x, y );
+
+    std::ostringstream msg;
+    msg << "(ok team_graphic " << x << " " << y << ")";
+    send( msg.str().c_str() );
+}
+
 
 -------------------------------------------------------------
 Commands that can be used by both trainer and online-coach
@@ -512,6 +556,27 @@ Team Graphic
 -----------------------------------------------
 
 **TODO**
+void
+Team::addTeamGraphic( const unsigned int x,
+                      const unsigned int y,
+                      std::shared_ptr< const XPMHolder > holder )
+{
+    GraphKey key( x, y );
+    M_graphics[ key ] = holder;
+}
+
+std::shared_ptr< const XPMHolder >
+Team::teamGraphic( const unsigned int x,
+                   const unsigned int y ) const
+{
+    GraphCont::const_iterator i = M_graphics.find( GraphKey( x, y ) );
+    if ( i == M_graphics.end() )
+    {
+        return std::shared_ptr< const XPMHolder >();
+    }
+
+    return i->second;
+}
 
 ================================================
 The Standard Coach Language
