@@ -40,6 +40,8 @@ automatically started and connected with the server::
 
 **TODO: [12.0.0 pre-20071217] server::max_monitor**
 
+
+
 =================================================
 Communication from Server to Monitor
 =================================================
@@ -301,6 +303,8 @@ BLANK_MODE tells the monitor to show a blank screen::
   PARAM_MODE  8
   PPARAM_MODE 9
 
+.. _sec-monitorv3protocol:
+
 -------------------------------------------------
 Version 3
 -------------------------------------------------
@@ -320,7 +324,6 @@ Below is a list of data types sent by the version 3 protocol:
 
 The format of *server_param*, *player_param*, and *player_type* messages are the same as the v8+ format for players and coaches.
 The *msg* type message may contain *team_graphic* data, as in the version 2 format.
-Starting with the server version 12.1.0, the game result is recorded using *msg* data at the end of the game log.
 
 The following table shows the format of other types of messages.
 
@@ -589,9 +592,8 @@ Its grammar is almost the same as monitor protocol version 3.
    - show
 
 ``msg`` may contain various string data, such as ``team_graphic``, the result of the game, and so on.
-
-- **TODO: detail for each data type.**
-- **TODO: [12.1.0] record the game result as a msg info in the game log**
+Starting with the server version 12.1.0, the game result is recorded using *msg* data at the end of the game log.
+See :ref:`sec-monitorv3protocol` in detail.
 
 -------------------------------------------------
 Version 5 Protocol
