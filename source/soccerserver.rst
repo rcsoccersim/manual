@@ -40,12 +40,14 @@ Connecting, reconnecting, and disconnecting
 | | (init *TeamName* [(version *VerNum* )] [(goalie)])   | | (init *Side* *Unum* *PlayMode*)               |
 | |     *TeamName* ::= \[+-_a-zA-Z0-9\]+                 | |          *Side* ::= ``l`` \| ``r``            |
 | |       *VerNum* ::= the protocol version (e.g. 15)    | |          *Unum* ::= 1~11                      |
-|                                                        | |      *PlayMode* ::= one of play modes         |
-|                                                        | | (error no_more_team_or_player)                |
-|                                                        | | (error reconnect)                             |
+| |                                                      | |      *PlayMode* ::= one of play modes         |
+| |                                                      | | (error no_more_team_or_playe_or_goalie)       |
 +--------------------------------------------------------+-------------------------------------------------+
-| | (reconnect ...)                                      | |                                               |
-| |     TeamName :=                                      | |                                               |
+| | (reconnect *TeamName* *Unum*)                        | | (error *Side* *PlayMode*)                     |
+| |     TeamName := \[+-_a-zA-Z0-9\]+                    | |          *Side* ::= ``l`` \| ``r``            |
+| |                                                      | |          *Unum* ::= 1~11                      |
+| |                                                      | |      *PlayMode* ::= one of play modes         |
+| |                                                      | | (error reconnect)                             |
 +--------------------------------------------------------+-------------------------------------------------+
 | (bye)                                                  |                                                 |
 +--------------------------------------------------------+-------------------------------------------------+
@@ -289,8 +291,8 @@ The format of the aural sensor message from the soccer server is:
   - ``online_coach_left`` or ``online_coach_right``: when the sender is one of the online coaches.
 
 - *Message* is the message. The maximum length is **server::say_msg_size** bytes.
-  The possible messages from the referee are described in Section :ref:`sec-playmodes`.
-  **TODO: about yellow/red card information from the referee. See [14.0.0] in NEWS.**
+  The possible messages from the referee are described in Section :ref:`sec-playmodes`. 
+
 
 The server parameters that affects the aural sensor are described in :numref:`param-auralsensor`.
 
@@ -455,9 +457,6 @@ kicking state is also visible via `t` and `k`. If the player is tackling,
 `t` is present. If they are kicking, `k` is present instead. If an observed
 player is tackling, the kicking flag is always overwritten by the tackle flag.
 The kicking state is visible the cycle directly after kicking.
-
-
-
 
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1945,6 +1944,10 @@ tc is the time (in number of cycles) until the subsequent play mode will be anno
    +-------------------------+------+----------------------+----------------------------------------+
    |foul_*Side*              | 0    | free_kick_*OSide*    |announce a foul                         |
    +-------------------------+------+----------------------+----------------------------------------+
+   |yellow_card_*Side*_*Unum*| 0    |                      |announce an yellow card information     |
+   +-------------------------+------+----------------------+----------------------------------------+
+   |red_card_*Side*_*Unum*   | 0    |                      |announce a red card information         |
+   +-------------------------+------+----------------------+----------------------------------------+
    |goalie_catch_ball_*Side* | 0    | free_kick_*OSide*    |                                        |
    +-------------------------+------+----------------------+----------------------------------------+
    |time_up_without_a_team   | 0    | time_over	           |sent if there was no opponent until     |
@@ -1961,7 +1964,6 @@ tc is the time (in number of cycles) until the subsequent play mode will be anno
 
 where *Side* is either the character `l` or `r`, *OSide* means opponent’s side.
 tc is the time (in number of cycles) until the subsequent play mode will be announced.
-
 
 --------------------------------------------------
 Time Referee
@@ -2039,6 +2041,9 @@ Catch Referee
 - [12.0.0 pre-20071217] change the rule of goalies' catch vioration
 - [12.1.1] fix the back pass rule
 
+
+.. _sec-foulreferee:
+
 --------------------------------------------------
 Foul Referee
 --------------------------------------------------
@@ -2049,6 +2054,12 @@ Foul Referee
 - [14.0.0] foul model and intentional foul option
 - [14.0.0] foul information in sense_body/fullstate
 - [14.0.0] red/yellow card message
+
+If an intentional and dangerous foul is detected, the referee penalizes the player and sends the yellow/red card message to clients.
+The message format is similar to playmode messages.
+Side and uniform number information of penalized player are appended to the card message: 
+
+  (referee TIME yellow_card_[lr]_[1-11]) or (referee TIME red_card_[lr]_[1-11])
 
 --------------------------------------------------
 Ball Stuck Referee
