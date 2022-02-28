@@ -457,11 +457,8 @@ player is tackling, the kicking flag is always overwritten by the tackle flag.
 The kicking state is visible the cycle directly after kicking.
 
 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Anonyous Mode
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**TODO: anonymous mode. [16.0.0]**
+
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Range of View
@@ -2173,6 +2170,27 @@ Automatic Mode
 
 **TODO: [9.0.2]**
 
+--------------------------------------------------
+Anonyous Mode
+--------------------------------------------------
+Anonymous Mode,which was introduced in server version 16.0.0 allows the server 
+to hide team names from opponents. There are two parameters inside server.conf, which
+allow each side's name to be set to a fixed string. If the parameter is empty, the
+real name of the team will be reported to the opponent.
+
+.. table:: Server parameters for Anonymous mode
+   :name: tab-anonymous
+
+   +-------------------------+-------------------------------------------------------------+
+   |Parameter                |Description                                                  |
+   +=========================+=============================================================+
+   |server::fixed_teamname_l |Fixed name of the left team, which is sent to the right team.|
+   |                         |Leave empty for real name.                                   |
+   +-------------------------+-------------------------------------------------------------+
+   |server::fixed_teamname_r |Fixed name of the left team, which is sent to the right team.|
+   |                         |Leave empty for real name.                                   |
+   +-------------------------+-------------------------------------------------------------+
+   
 --------------------------------------------------
 Synchronous Mode
 --------------------------------------------------
