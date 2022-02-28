@@ -40,6 +40,8 @@ automatically started and connected with the server::
 
 **TODO: [12.0.0 pre-20071217] server::max_monitor**
 
+
+
 =================================================
 Communication from Server to Monitor
 =================================================
@@ -301,14 +303,60 @@ BLANK_MODE tells the monitor to show a blank screen::
   PARAM_MODE  8
   PPARAM_MODE 9
 
+.. _sec-monitorv3protocol:
+
 -------------------------------------------------
 Version 3
 -------------------------------------------------
+
+From the monitor protocol version 3, transferred data are represented by human readable text messages.
+Each data is represented by S-expression and sent to monitors as one UDP packet.
+This protocol is also used for recording the game log format version 4.
+Please note that *PlayMode* and *Score* in the *show* type message are separately recorded in the game log.
+
+Below is a list of data types sent by the version 3 protocol:
+
+- server_param
+- player_param
+- player_type
+- show
+- msg
+
+The format of *server_param*, *player_param*, and *player_type* messages are the same as the v8+ format for players and coaches.
+The *msg* type message may contain *team_graphic* data, as in the version 2 format.
+
+The following table shows the format of other types of messages.
+
++-------------------------------------------------------------------------------------------------------------------------+
+|From server to monitor                                                                                                   |
++=========================================================================================================================+
+|| (show *Time* *PlayMode* *Score* *Ball* *Player*+)                                                                      |
+||    *Time* ::= simulation cycle of rcssserver                                                                           |
+||    *PlayMode* ::= (pm *PlayModeID*)                                                                                    |
+||    *Score* ::= (tm *LeftName* *RightName* *LeftScore* *RightScore* [*PenaltyScore*])                                   |
+||    *PenaltyScore* ::= *LeftPenaltyScore* *LeftPenaltyMiss* *RightPenaltyScore* *RightPenaltyMiss*                      |
+||    *Ball* ::= ((b) *X* *Y* *VelX* *VelY*)                                                                              |
+||    *Player* ::=                                                                                                        |
+||           ((*Side* *Unum*) *Type* *State* *X* *Y* *VelX* *VelY* *Body* *Neck* [*PointX* *PointY*]                      |
+||            (v *ViewQuality* *ViewWidth) (s *Stamina* *Effort* *Recovery* [*Capacity*]))                                |
+||            [(f *FocusSide* *FocusUnum*)]                                                                               |
+||            (c *KickCount* *DashCount* *TurnCount* *CatchCount* *MoveCount* *TurnNeckCount* *ChangeViewCount*)          |
+||                *SayCount* *TackleCount* *PointtoCount* *AttentiontoCount*))                                            |
++-------------------------------------------------------------------------------------------------------------------------+
+|| (msg *Time* *Board* "*Message*"\+)                                                                                     |
+||    *Time* ::= simulation cycle of rcssserver                                                                           |
+||    *Board* ::= message board type id                                                                                   |
+||    *Message* ::= message string                                                                                        |
++-------------------------------------------------------------------------------------------------------------------------+
+
 
 
 -------------------------------------------------
 Version 4
 -------------------------------------------------
+
+The version 4 protocol is almost same as the version 3.
+The information of players' stamina capacity is contained in each player data of the show type message.
 
 
 .. _sec-commandsfrommonitor:
@@ -544,9 +592,8 @@ Its grammar is almost the same as monitor protocol version 3.
    - show
 
 ``msg`` may contain various string data, such as ``team_graphic``, the result of the game, and so on.
-
-- **TODO: detail for each data type.**
-- **TODO: [12.1.0] record the game result as a msg info in the game log**
+Starting with the server version 12.1.0, the game result is recorded using *msg* data at the end of the game log.
+See :ref:`sec-monitorv3protocol` in detail.
 
 -------------------------------------------------
 Version 5 Protocol
