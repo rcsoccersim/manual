@@ -38,23 +38,16 @@ automatically started and connected with the server::
   $ rcsoccersim
 
 
-**Total number of monitor clients**
+-------------------------------------------------
+Total number of monitor clients
+-------------------------------------------------
 
-By default there is no restriction on numbers of monitor clients.
+By default, there is no restriction on the number of monitor clients.
+You can restrict the number of monitor connections by changing the value of ``server::max_monitor`` parameter.
+This feature is useful when you want to reduce the load by limiting arbitrary connections from others.
 
-This Parameters were added to restrict the number of monitor client connections.::
-
-  $ server::max_monitor
-
-  $ ServerParam::maxMonitors()
-
-To restrict the number of monitor client connections, you must change this parameter in ``server.conf``. 
-
-There is no restriction if server::max_monitor is a negative value(default).
-By default, this value is equal to -1.
-If server::max_monitor is a positive value, the total
-number of monitor clients that can connect to the rcssserver is restricted within that number.
-
+If the value of ``server::max_monitor`` is negative integer (default:-1), no restriction.
+If the value is positive integer, the total number of monitor clients that can connect to the rcssserver is restricted within that number.
 
 Suppose a new monitor client tries to connect to the server after the number of connected
 monitors has reached the server limit (max_monitor). In that case, the server will
