@@ -1972,7 +1972,7 @@ This parameter determines whether the offside referee is enabled or disabled.
 
   server::offside_active_area_size = 2.5
 
-This parameter determines the radius of an area around a candidate pass reciever where if the ball enters it, the offside foul is called.
+This parameter determines the radius of an area around a candidate pass reciever where if the ball enters it and the candidate kicks or tackles it intentionally, the offside foul is called.
 
 ::
 
