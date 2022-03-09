@@ -1980,7 +1980,8 @@ Time Referee
 Offside Referee
 --------------------------------------------------
 
-The offside referee is a module that observe the field, particularly passes, to check whether offside foul happens. This module determines offside lines every cycle, then specifies several candidates from players which would result in an offside if they receive pass. 
+The offside referee is a module that observes the field, particularly passes, to check whether the offside foul happens.
+This module determines offside lines every cycle, then specifies several candidates from players which would result in an offside if they receive a pass.
 
 The referee is configurable by some parameters in server.conf file. some useful parameters are explained below.
 
@@ -1994,7 +1995,9 @@ This parameter determines whether the offside referee is enabled or disabled.
 
   server::offside_active_area_size = 2.5
 
-This parameter determines the radius of an area around a candidate pass reciever where if the ball enters it and the candidate kicks or tackles it intentionally, the offside foul is called.
+This parameter determines the radius of an area around a candidate pass receiver.
+If the ball enters the area and the candidate performs a kick or tackle command, the offside foul is called.
+Offside is also called if the candidate collides with the ball.
 
 ::
 
@@ -2004,7 +2007,7 @@ This parameter determines the radius of area that every player in the team which
 
 .. figure:: ./images/offside-example.*
   :align: center
-  :name: view-example
+  :name: offside-example
 
 
 --------------------------------------------------
