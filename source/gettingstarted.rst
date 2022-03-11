@@ -442,7 +442,6 @@ the RoboCup Soccer Simulator website, https://rcsoccersim.github.io/,
 especially if you can provide a patch or hint to the solution of the
 problem.
 
-
 ----
 
 .. [#f1] The response from the server means that the client plays for the left
