@@ -2245,7 +2245,13 @@ option to ``rcssserver``.
 Recording Command Log
 --------------------------------------------------
 
-**TODO: description about .rcl file**
+When you run the game, the server creates two files that are as follows::
+
+1. rcg
+
+2. rcl
+
+In this section, we want to explain the rcl file. This file contains all the events of your team and the opposing team in the game. The reason for the importance of recording this information is that by reviewing and analyzing it, you can understand the number of your team lost because the text debugs that you put in your code will be saved.
 
 --------------------------------------------------
 Automatic Mode
