@@ -1277,6 +1277,63 @@ completely the same with the stamina model before rcssserver version 13.
 Kick Model
 --------------------------------------------------
 
+When a player wants to kick a ball, it must send a **kick** command to the **server**.This command takes two parameters: the kick's **Power** and the kick's Angle **Direction**.The kicking force is used to determine the acceleration of the ball, and the value must be between **MINPOWER** and **MAXPOWER**.The Angle **Direction** of the kick is the Angle relative to the Direction of the player's body, expressed in degrees, and its value is between **MINMOMENT** and **MAXMOMENT**.
+When the **kick** command reaches the **server**, the **server** determines the current state.If the player is not in an offside position and the ball is within the player's possession, the **kick** command is executed.The maximum amount of possession a player can have is defined as a circle with a radius of **BALL_SIZE + PLAYER_SIZE + KICKABLE_MARGINE**. That is, a player can kick the ball when the distance between the circle boundary representing the ball and the player is less than the distance between the circle boundary representing the ball and the player is less than the **KICKABLE_MARGINE**.
+An important aspect of the kick model is that the effective force obtained by the ball is not necessarily equal to the **power** parameter used in the **kick** command, but is influenced by the relative position of the ball and the player.The actual effective force acting on the ball can be calculated by the following formula:
+
+.. math::
+   act_pow = Power * (1 - 0.25 * (dir_diff / 180) - 0.25 * (dist_diff / kickable_margin))
+   
+Here, **Power** is the parameter used in the **kick** command, where **dir_diff** is the absolute Angle between the ball and the direction of the player's body, and dist_diff is the distance between the ball and the player (the distance between the player and the circle boundary of the ball).According to the formula, when the ball is directly in front of the player's body, it has no effect on the force, while the greater the Angle, the less effective the actual force is, and at the worst case, when the ball is behind the player, the force decreases by 25%.The distance between the ball and the player has a similar effect on strength.
+The effective force of the kick is used to calculate the acceleration achieved by the ball :math:`\vec{a}_{t}`:
+
+.. math::
+   (a_{x}^t, a_{y}^t) = act_pow * kick_power_rate * (cos(θ^t), sin(θ^t) + (\tilde{k}_{\rm 1}, \tilde{k}_{\rm 2}))
+   
+Where **KICK_POWER_RATE** is a server parameter, :math:`θ^t` is the global direction of the acceleration obtained by the ball in the period **t**: :math:`θ^t = θ_{kick_player}^t + Direction`, where :math:`θ_{kick_player}^t` represents the global Direction of the kicker during the period **t**, and **Direction** is the second parameter used in the **kick** command.The*:math:`(\tilde{k}_{\rm 1}, \tilde{k}_{\rm 2})` was added to create noise in the acceleration of the ball. :math:`\tilde{k}_{\rm i}` is a random :math:`k_{max}` between :math:`[−k_{max}, k_{max}]` , where :math:`−k_{max}` is calculated according to **Power** in **kick** command:
+
+.. math::
+   k_{max} = kick_rand * Power / max_power
+   
+**KICK_RABD** is a parameter in the **server**.In the current version, the **KICK_RABD** value for normal players defaults to 0.0, meaning there is no noise when normal players kick the ball.For heterogeneous players, however, the **KICK_RABD** value may not be zero.
+According to the motion model, from the simulation period **t** to the simulation period **t+1**, the ball acceleration :math:`\vec{a}_{t}` is used to update the information of the ball:
+
+1. :math:`\vec{a}_{t}` vector is normalized to a value with a maximum of **BALL_ACCEL_MAX**.
+2. :math:`\vec{a}_{t}` is added to the forward velocity vector :math:`\vec{v}_{t}` of the ball, and the resulting :math:`\vec{v}_{t}` vector will be grammatized to the maximum **BALL_SPEED_MAX** value.
+3. After the velocity vector :math:`\vec{v}_{t}` is normalized, the influence of noise :math:`\tilde{r}` and wind force :math:`\tilde{w}` is also increased to :math:`\vec{v}_{t}` according to the motion model formula.
+4. The new position of the ball is :math:`\vec{p}_{t + 1}`, which is the original position :math:`\vec{p}_{t}` plus the velocity :math:`\vec{v}_{t}`: :math:`\vec{p}_{t + 1} = \vec{p}_{t} + \vec{v}_{t}`.
+5. **BALL_DECAY** is applied to the speed of football :math:`\vec{v}_{t + 1} = \vec{v}_{t} · BALL_DECAY`.The acceleration :math:`\vec{a}_{t + 1}` plus one is set to zero.In the current version of the **server**, the default Settings for **BALL_ACCEL_MAX** and **KICK_POWER_RATE** parameters follow the relationship :math:`BALL_ACCEL_MAX = MAXPOWER · KICK_POWER_RATE`, that is, when the ball is in the optimal position (the player's body is in front of the player, connected with the player's boundary), the player uses the maximum force to execute the **kick** command, which can make the ball reach the maximum acceleration that can be obtained;And since the **BALL_ACCEL_MAX** and **BALL_SPEED_MAX** parameters have the same default values, it is possible to reach maximum speed with just one **kick** command.In previous versions of the **server**, this was not possible, and in order to get the maximum speed of the ball, multiple combinations of kicks were required.But even with the current Settings, a compound **kick** consisting of multiple kicks is useful because of the effect of the acceleration of the ball relative to the player's position and kick Angle, for example, stopping the ball, kicking it to a more favorable point within the sphere of control, and then kicking it in a desired direction.
+
+.. table:: Parameter for the kick_command
+
+   +-------------------------------------------------+-----------+
+   |Parameter in ``server.conf``                     | Value     |
+   +=================================================+===========+
+   |MINPOWER                                         |-100       |
+   +-------------------------------------------------+-----------+
+   |MAXPOWER                                         |100        |
+   +-------------------------------------------------+-----------+
+   |MINMOMENT                                        |-180       |
+   +-------------------------------------------------+-----------+
+   |MAXMOMENT                                        |180        |
+   +-------------------------------------------------+-----------+
+   |BALL_SIZE                                        |0.085      |
+   +-------------------------------------------------+-----------+
+   |PLAYER_SIZE                                      |0.3        |
+   +-------------------------------------------------+-----------+
+   |BALL_DECAY                                       |0.94       |
+   +-------------------------------------------------+-----------+
+   |KICKABLE_MARGINE                                 |0.7        |
+   +-------------------------------------------------+-----------+
+   |KICK_POWER_RATE                                  |0.027      |
+   +-------------------------------------------------+-----------+
+   |KICK_RABD                                        |0.1        |
+   +-------------------------------------------------+-----------+
+   |BALL_ACCEL_MAX                                   |2.7        |
+   +-------------------------------------------------+-----------+
+   |BALL_SPEED_MAX                                   |3.0        |
+   +-------------------------------------------------+-----------+
+   
 The *kick* command takes two parameters, the kick power the player
 client wants to use (between **server::minpower** and
 **server::maxpower**) and the angle the player kicks the ball to.
