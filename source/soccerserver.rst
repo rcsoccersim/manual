@@ -962,7 +962,11 @@ The goalie can use the **move** command **server::goalie_max_moves** times befor
 Additional **move** commands do not have any effect and the server will respond with ``(error too_many_moves)``.
 Please note that catching the ball, moving around, kicking the ball a short distance and immediately catching it again to move more than **server::goalie_max_moves** times is considered as ungentlemanly play.
 
-**TODO: Improvement of the catch model. See [15.0.0] in NEWS**
+Starting with server version 15.0.0 an improvement of the catch model has been introduced:
+
+- If goalie fails to catch the ball beyond the fuzzy catchable area, the ball has no effect. (same as the previous model)
+
+- If goalie fails to catch the ball within a fuzzy catchable area, the ball is accelerated to the catch command direction. (it is similar to the ball bouncing from the wall that the normal vector's direction is same as the catch command direction)
 
 --------------------------------------------------
 Dash Model
