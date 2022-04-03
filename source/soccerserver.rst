@@ -2018,9 +2018,65 @@ This parameter determines the radius of area that every player in the team which
 FreeKick Referee
 --------------------------------------------------
 
-**TODO**
+Free kicks are detected automatically by the soccer server in many relevant cases.
+The Free kick referee is a module that observes the play mode, to check whether the free kick foul happens and what should teams do.
+Some methods are explained below.
 
-- Judges the behavior during a free kick
+::
+
+  void FreeKickRef::kickTaken
+This method is executed when foul has occurred by the player. This method checks whether the kick is correctly done or not.
+
+::
+
+  void FreeKickRef::tackleTaken
+This method is executed when a tackle foul has occurred by the player
+
+::
+
+  void FreeKickRef::ballTouched
+This method checks whether the ball has been touched by an unauthorized player.
+
+::
+  
+  void FreeKickRef::analyse()
+This method checks the game play mode and removes unauthorized players from the foul area due to the situation.
+
+::
+
+  void FreeKickRef::playModeChange
+This method provides the free kick conditions according to the game mode and occurs when the mode has changed.
+
+::
+
+  void FreeKickRef::callFreeKickFault
+This method is for calling the free kick and receives the side and the foul location as inputs.
+
+::
+  
+  bool FreeKickRef::goalKick
+If the right or left goal kick has occurred, the output value of this method is true.
+
+::
+
+  bool FreeKickRef::freeKick
+If foul occurs, the output value of this method is true.
+
+::
+  
+  bool FreeKickRef::ballStopped
+If the ball stops moving, the output value of this method is true.
+
+::
+
+  bool FreeKickRef::tooManyGoalKicks
+If the value of goal kick count is greater than maxGoalKicks the output value of this method is true.
+
+::
+
+  void FreeKickRef::placePlayersForGoalkick
+This method sends the opponent players out of the penalty area if a goal kick occurs.
+
 
 --------------------------------------------------
 Touch Referee
