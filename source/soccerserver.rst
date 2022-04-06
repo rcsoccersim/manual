@@ -2039,7 +2039,7 @@ This method checks whether the ball has been touched by an unauthorized player.
 
 ::
   
-  void FreeKickRef::analyse()
+  void FreeKickRef::analyse
 This method checks the game play mode and removes unauthorized players from the foul area due to the situation.
 
 ::
