@@ -595,18 +595,28 @@ and player *f* would be identified simply as an anonymous player.
 Synchronous Mode
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-There are 2 modes for all players, the asynchronous mode and the
-synchronous mode. The asynchronous mode is completely same as v.11 or
-older timer and is a default mode for all players including v.12 or above
-players. If players send the "(synch_see)" command, they enter to the
-synchronous mode and cannot return to the asynchronous mode. v.11 or
-older players also can use this command and the synchronous mode.
+There are two modes available for all players: asynchronous mode 
+and synchronous mode. The asynchronous mode functions exactly 
+like the timer in version 11 or older.
 
-In the synchronous mode, the "low" view quality cannot be used and the
-following view width are available:
+In server versions 17 and below, asynchronous mode is the 
+default mode for all players, including versions 12 to 17. 
+If players wish to switch to synchronous mode, they can do 
+so by using the "(synch_see)" command. Once they have switched 
+to synchronous mode, they cannot return to asynchronous mode. 
+Additionally, players using version 11 or older can also use 
+the "(synch_see)" command to access synchronous mode.
 
-.. table::  Settings of the synchronous mode
-   :name: setting-synchronousmode
+In server versions 18 and above, players using version 18 are 
+required to use synchronous mode. However, players using older 
+versions can still switch to synchronous mode by using the 
+"(synch_see)" command to change the default view mode.
+
+In synchronous mode, the "low" view quality is not available, 
+and the following view widths are available:
+
+.. table::  Settings of the synchronous mode in server v.17 and older versions
+   :name: setting-synchronousmode-v17
 
    +-----------+----------------------+----------------+
    |mode       |view width(degree)    |see frequency   |
@@ -618,13 +628,64 @@ following view width are available:
    |wide       |180                   |every 3 cycles  |
    +-----------+----------------------+----------------+
 
+.. table::  Settings of the synchronous mode in server v.18 and players v.17
+   :name: setting-synchronousmode-v18
+
+   +-----------+----------------------+----------------+----------------+
+   |mode       |view width(degree)    |see frequency   |noise term      |
+   +===========+======================+================+================+
+   |narrow     |60                    |every cycle     | 0.1            |
+   +-----------+----------------------+----------------+----------------+
+   |normal     |120                   |every 2 cycles  | 0.1            |
+   +-----------+----------------------+----------------+----------------+
+   |wide       |180                   |every 3 cycles  | 0.1            |
+   +-----------+----------------------+----------------+----------------+
+
+.. table::  Settings of the synchronous mode in server v.18 and players v.18
+   :name: setting-synchronousmode-v18
+
+   +-----------+----------------------+----------------+----------------+
+   |mode       |view width(degree)    |see frequency   |noise term      |
+   +===========+======================+================+================+
+   |narrow     |60                    |every cycle     | 0.05           |
+   +-----------+----------------------+----------------+----------------+
+   |normal     |120                   |every cycle     | 0.075          |
+   +-----------+----------------------+----------------+----------------+
+   |wide       |180                   |every cycle     | 0.1            |
+   +-----------+----------------------+----------------+----------------+
+
 In all view modes, rcssserver send see messages at
 **server::synch_see_offset** milli-seconds from the beginning
 of the cycle.
 
+The concept of the noise term was developed in server version 18. 
+By increasing the noise term, the server introduces more noise to observed objects.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Visual Sensor Noise Model
+Synchronous Mode
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**TODO: It would be better to write about Synchronous mode in this part.
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Focus Point
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The focus point concept was developed in server version 18 to make observations
+in the game more closely resemble those made by human observers and camera 
+lenses. The position of the focus point affects the observation noise model. 
+In brief, the server introduces more noise to the distance of an observed 
+object if the object is farther from the observer's focus point.
+
+The default position of the focus point is the player's position. However, 
+the player can change the focus point by sending the 
+"(change_focus dist_moment dir_moment)" command. 
+It's worth noting that the focus point cannot be outside the 
+player's view angle, and its maximum distance from the player is 40.
+
+This feature is available to players using version 18 or above on 
+server versions 18 or above.
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Visual Sensor Noise Model Server v.17 or older
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In order to introduce noise in the visual sensor data the values sent from
@@ -656,6 +717,39 @@ following manner.
 
   d' = {\mathrm Quantize}(\exp({\mathrm Quantize}(\log(d),quantize\_step\_l)),0.1)
 
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Visual Sensor Noise Model
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In order to introduce noise in the visual sensor data the values sent from
+the server is quantized.
+For example, the distance value of the object, in the case where the object
+in sight is a ball or a player, is quantized in the following manner if the observer's version is above 17:
+
+.. math::
+  distQStep = server::quantizeStep \cdot ViewAngleNoiseTerm
+
+.. math::
+  f' = {\mathrm Quantize}(\exp({\mathrm Quantize}(\log(f),quantize\_step)),distQStep)
+
+.. math::
+  d' = {\mathrm max}(0.0, d - (f - f'))
+
+
+where :math:`d` and :math:`d'` are the exact distance and quantized distance
+respectively, :math:`f` and :math:`f'` are the exact distance and quantized 
+distance of focus point to the object
+respectively, 
+and
+
+.. math::
+
+  {\mathrm Quantize}(V,Q) = {\mathrm ceiling}(V/Q) \cdot Q
+
+This noise model is applied to observations made by players using version 18 or above. 
+When the observer's focus point is set to the default position (i.e., the observer's position), 
+and the :math: distQStep parameter is not considered, this model functions in exactly the same 
+way as the visual sensor noise model in server version 17.
 
 --------------------------------------------------
 Body Sensor Model
