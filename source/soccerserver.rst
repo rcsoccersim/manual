@@ -580,9 +580,27 @@ and player *f* would be identified simply as an anonymous player.
    * - unum_too_far_length :math:`^\dagger`
      - 40.0
    * - team_far_length :math:`^\dagger`
-     - 40.0
+     - maximum_dist_in_pitch
    * - team_too_far_length :math:`^\dagger`
-     - 60.0
+     - maximum_dist_in_pitch
+   * - player_max_observation_length :math:`^\dagger`
+     - maximum_dist_in_pitch
+   * - ball_vel_far_length :math:`^\dagger`
+     - 20
+   * - ball_vel_too_far_length :math:`^\dagger`
+     - 40
+   * - flag_chg_far_length :math:`^\dagger`
+     - 20
+   * - flag_chg_too_far_length :math:`^\dagger`
+     - 40
+   * - flag_max_observation_length :math:`^\dagger`
+     - maximum_dist_in_pitch
+   * - wide_view_angle_noise_term :math:`^\dagger`
+     - 1.0
+   * - normal_view_angle_noise_term :math:`^\dagger`
+     - 0.75
+   * - narrow_view_angle_noise_term :math:`^\dagger`
+     - 0.5
    * - server::quantize_step
      - 0.1
    * - server::quantize_step_l
