@@ -1905,37 +1905,60 @@ of the respective player type.
 .. table:: The parameter differences of heterogeneous players
    :name: tab-hetero
 
-   +----------------------+----------------------------------------------------+
-   |Parameter             |Description                                         |
-   +======================+====================================================+
-   |PlayerSpeedMax        |maximum speed                                       |
-   +----------------------+----------------------------------------------------+
-   |StaminaIncMax         |Amount of stamina recovered in one step             |
-   +----------------------+----------------------------------------------------+
-   |PlayerDecay           |Player speed decay rate                             |
-   +----------------------+----------------------------------------------------+
-   |InertiaMoment         |Player inertia force when moving                    |
-   +----------------------+----------------------------------------------------+
-   |DashPowerRate         |Dash acceleration rate                              |
-   +----------------------+----------------------------------------------------+
-   |PlayerSize            | Player size                                        |
-   +----------------------+----------------------------------------------------+
-   |KickableMargin        |Kickable area radius                                |
-   +----------------------+----------------------------------------------------+
-   |KickRand              |The amount of noise added to the kick               |
-   +----------------------+----------------------------------------------------+
-   |ExtraStamina          |Extra stamina available when stamina is exhausted   |
-   +----------------------+----------------------------------------------------+
-   |EffortMax             |Maximum value of the player's effort amount         |
-   +----------------------+----------------------------------------------------+
-   |EffortMin             |The minimum amount of effort for the player         |
-   +----------------------+----------------------------------------------------+
-   |CatchAreaLengthStretch|Streach Length to Catch                             |
-   +----------------------+----------------------------------------------------+
-   |KickPowerRate         |Kick Power Rate                                     |
-   +----------------------+----------------------------------------------------+
-   |FoulDetectProbability |Probability that the referee will take the foul     |
-   +----------------------+----------------------------------------------------+
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |Parameter                 |Description                                                                                    |
+   +==========================+===============================================================================================+
+   |PlayerSpeedMax            |maximum speed                                                                                  |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |StaminaIncMax             |Amount of stamina recovered in one step                                                        |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |PlayerDecay               |Player speed decay rate                                                                        |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |InertiaMoment             |Player inertia force when moving                                                               |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |DashPowerRate             |Dash acceleration rate                                                                         |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |PlayerSize                | Player size                                                                                   |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |KickableMargin            |Kickable area radius                                                                           |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |KickRand                  |The amount of noise added to the kick                                                          |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |ExtraStamina              |Extra stamina available when stamina is exhausted                                              |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |EffortMax                 |Maximum value of the player's effort amount                                                    |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |EffortMin                 |The minimum amount of effort for the player                                                    |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |CatchAreaLengthStretch    |Streach Length to Catch                                                                        |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |KickPowerRate             |Kick Power Rate                                                                                |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |FoulDetectProbability     |Probability that the referee will take the foul                                                |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |UnumFarLength             |If dist less than unum_far_length, then both uniform number and team name are visible          |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |UnumTooFarLength          |If dist more than unum_too_far_length, then the uniform number is not visible                  |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |TeamFarLength             |If dist less than team_far_length, then the team name is visible                               |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |TeamTooFarLength          |If dist more than team_too_far_length, then the team name is not visible.                      |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |PlayerMaxObservationLength|If dist more than player_max_observation_length, then the player is not visible.               |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |BallVelFarLength          |If dist less than ball_vel_far_length, then ball vel is visible                                |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |BallVelTooFarLength       |If dist more than ball_vel_too_far_length, then ball vel is not visible                        |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |BallMaxObservationLength  |If dist more than ball_max_observation_length, then the ball is not visible.                   |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |FlagChgFarLength          |If dist less than flag_chg_far_length, then the flag dist change is sent.                      |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |FlagChgTooFarLength       |If dist less than flag_chg_too_far_length, then the flag dist change is not sent.              |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |FlagMaxObservationLength  |If dist more than flag_max_observation_length, then the flag is not visible.                   |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+  
 
 Heterogeneous player parameters given for each match are different.
 Therefore, each agent does not necessarily have the parameters needed to implement the tactics.
