@@ -1739,6 +1739,97 @@ overrides the previous) and cannot focus on themselves.
 
 See :ref:`sec-sensormodels` in detail about the aural sensor.
 
+==================================================
+Multi-Command Model
+==================================================
+In server v17, the server did not process two received main commands in one cycle per player. 
+The main command list included **Dash**, **Kick**, **Tackle**, **Turn**, **Catch**, and **Move**.
+
+The Multi-Command feature is implemented in server v18 to allow players to 
+send more than one main command per cycle. 
+The server v18 can support the following combinations: 
+* Kick, Turn 
+* Kick, Dash 
+* Dash, Turn 
+* Turn, Dash
+
+Multi Command idea is implemented in server v.18 to allow players to send more than one main command per cycle.
+The server v18 can support the belowing combinations:
+- Kick, Turn
+- Kick, Dash
+- Dash, Turn
+- Turn, Dash
+
+The *M_possible_commands_pairs* specifies the possible combinations, 
+allowing developers to add a new command pair or remove an old one.
+
+To explain the developed code, the following details should be mentioned first:
+
+  * In server v17, the server controlled the number of received main commands by *M_command_done*.
+  * In server v17 and the standard timer, 
+    the server parsed all commands first from all players, then applied them to players and balls.
+  * In server v17 and the parsing step:
+      * The Dash command updated player's stamina and calculated player's accel.
+      * The Turn command updated *M_angle_body* based on the velocity of the player.
+      * The Kick command called the *Stadium::kickTaken* function to update ball's accel.
+  * In server v17 and applying step:
+      * The server shuffled all movable objects and called *MPObject::_inc()*.
+          * It updated *M_vel*
+          * It called *updateAngle*
+              * It updated *M_angle_body_committed*
+              * It updated *M_angle_neck_committed*
+          * It added noise and wind effects to *M_vel*
+          * It checked collision
+          * It updated *M_pos*, *M_vel* and reset *M_accel*
+  * The player's velocity should be updated before applying Turn command, if the Turn command called after Dash command.
+    because the maximum possible turn value is calculated based on player's velocity.
+  * The player's body should be updated before applying Dash command, if the Dash command called after Turn command.
+  
+Because of the last two reasons and the structore of the server, we needed to store information of two commands (Turn, Dash),
+And update *M_angle_body* or *M_accel* in applying step instead of parsing step.
+So, the server stores Dash and Turn commands' parameters in *M_main_commands_done*,
+then will apply them on the player in applying step.
+
+Because of the last two reasons and the structure of the server, 
+we needed to store information on two commands (Turn, Dash) 
+and update *M_angle_body* or *M_accel* in the applying step 
+instead of the parsing step. Therefore, the server stores Dash and Turn 
+commands' parameters in *M_main_commands_done* and will apply 
+them to the player in the applying step.
+
+--------------------------------------------------
+Turn Dash Model
+--------------------------------------------------
+When a player sends a Turn and Dash command pair, and the Dash/Turn pair exists in "M_possible_commands_pairs," the server first processes the Turn command to update the player's body angle based on the player's velocity and previous body angle. Then, it processes the Dash command to calculate the player's acceleration based on the new player's body angle and finally updates the player's velocity and position.
+
+--------------------------------------------------
+Dash Turn Model
+--------------------------------------------------
+When a player send dash and turn commands respectively, and Turn/Dash pair is exists in *M_possible_commands_pairs*,
+first, the server processes the dash command to updates player's accel based on player's body angle and player's velocity based on previous velocity,
+then, it process the turn command to calculate player's body angle based on new player's velocity and finally updates player's velocity, and player's possition.
+
+--------------------------------------------------
+Kick Dash Model
+--------------------------------------------------
+When a player send kick and dash commands respectively, and Kick/Turn pair is exists in *M_possible_commands_pairs*,
+first, the server processes the kick command to updates ball's accel based on player's information (distance to ball, the difference angle between ball-player and player's body),
+then, it process the dash command to calculate player's accel based on player's body angle and finally updates player's velocity, and player's possition.
+
+--------------------------------------------------
+Kick Turn Model
+--------------------------------------------------
+When a player send kick and turn commands respectively, and Kick/Dash pair is exists in *M_possible_commands_pairs*,
+first, the server processes the kick command to updates ball's accel based on player's information (distance to ball, the difference angle between ball-player and player's body),
+then, it process the turn command to calculate player's body angle based on player's velocity and finally updates player's velocity, and player's possition.
+
+In :numref:`multicommand` you can see some example regarding multicommands and how they effect on player and ball.
+
+.. figure:: ./images/multicommand.*
+  :align: center
+  :name: multicommand
+
+
 .. _sec-heterogeneousplayers:
 
 ==================================================
