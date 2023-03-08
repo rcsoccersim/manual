@@ -383,6 +383,8 @@ Vision Sensor Model
 The visual sensor reports the objects currently seen by the player.
 The information is automatically sent to the player every
 **server::sense_step**, currently 150, milli-seconds, in the default setting.
+If players use the synchronous mode, the frequency of the visual information is synchronized with the simulation step.
+The simulation parameters related to the visual information are listed in :numref:`param-visualsensor` and :numref:`heterogenious-param-visualsensor`.
 
 Visual information arrives from the server in the following basic format:
 
@@ -562,7 +564,7 @@ player *d* by team name, and with about a 50% chance, uniform number;
 player *e* with about a 25% chance, just by team name, otherwise with neither;
 and player *f* would be identified simply as an anonymous player.
 
-.. list-table:: Parameters for the visual sensors.
+.. list-table:: Parameters for the visual sensors in server.conf.
    :name: param-visualsensor
    :header-rows: 1
    :widths: 60 40
@@ -575,38 +577,72 @@ and player *f* would be identified simply as an anonymous player.
      - 90.0
    * - server::visible_distance
      - 3.0
-   * - unum_far_length :math:`^\dagger`
-     - 20.0
-   * - unum_too_far_length :math:`^\dagger`
-     - 40.0
-   * - team_far_length :math:`^\dagger`
-     - 40.0
-   * - team_too_far_length :math:`^\dagger`
-     - 60.0
    * - server::quantize_step
      - 0.1
    * - server::quantize_step_l
      - 0.01
 
-:math:`^\dagger` : Not in ``server.conf``, but compiled into the server.
+.. list-table:: Heterogenious parameters for the visual sensors.
+   :name: heterogenious-param-visualsensor
+   :header-rows: 1
+   :widths: 60 40
+
+   * - Parameters in player_type
+     - Value
+   * - unum_far_length
+     - 20.0
+   * - unum_too_far_length
+     - 40.0
+   * - team_far_length
+     - maximum_dist_in_pitch
+   * - team_too_far_length
+     - maximum_dist_in_pitch
+   * - player_max_observation_length
+     - maximum_dist_in_pitch
+   * - ball_vel_far_length
+     - 20
+   * - ball_vel_too_far_length
+     - 40
+   * - flag_chg_far_length
+     - 20
+   * - flag_chg_too_far_length
+     - 40
+   * - flag_max_observation_length
+     - maximum_dist_in_pitch
+   * - wide_view_angle_noise_term
+     - 1.0
+   * - normal_view_angle_noise_term
+     - 0.75
+   * - narrow_view_angle_noise_term
+     - 0.5
 
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Synchronous Mode
+Frequency of the Visual Information
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-There are 2 modes for all players, the asynchronous mode and the
-synchronous mode. The asynchronous mode is completely same as v.11 or
-older timer and is a default mode for all players including v.12 or above
-players. If players send the "(synch_see)" command, they enter to the
-synchronous mode and cannot return to the asynchronous mode. v.11 or
-older players also can use this command and the synchronous mode.
+There are two modes available for all players: asynchronous mode 
+and synchronous mode. The asynchronous mode functions exactly 
+like the timer in version 11 or older.
 
-In the synchronous mode, the "low" view quality cannot be used and the
-following view width are available:
+In server versions 17 and below, asynchronous mode is the 
+default mode for all players, including versions 12 to 17. 
+If players wish to switch to synchronous mode, they can do 
+so by using the "(synch_see)" command. Once they have switched 
+to synchronous mode, they cannot return to asynchronous mode. 
+Additionally, players using version 11 or older can also use 
+the "(synch_see)" command to access synchronous mode.
 
-.. table::  Settings of the synchronous mode
-   :name: setting-synchronousmode
+In server versions 18 and above, players using version 18 are 
+required to use synchronous mode. However, players using older 
+versions can still switch to synchronous mode by using the 
+"(synch_see)" command to change the default view mode.
+
+In synchronous mode, the "low" view quality is not available, 
+and the following view widths are available:
+
+.. table::  Settings of the synchronous mode in server v.17 and older versions
+   :name: setting-synchronousmode-v17
 
    +-----------+----------------------+----------------+
    |mode       |view width(degree)    |see frequency   |
@@ -618,13 +654,60 @@ following view width are available:
    |wide       |180                   |every 3 cycles  |
    +-----------+----------------------+----------------+
 
+.. table::  Settings of the synchronous mode in server v.18 and players v.17
+   :name: setting-synchronousmode-v18
+
+   +-----------+----------------------+----------------+----------------+
+   |mode       |view width(degree)    |see frequency   |noise term      |
+   +===========+======================+================+================+
+   |narrow     |60                    |every cycle     | 0.1            |
+   +-----------+----------------------+----------------+----------------+
+   |normal     |120                   |every 2 cycles  | 0.1            |
+   +-----------+----------------------+----------------+----------------+
+   |wide       |180                   |every 3 cycles  | 0.1            |
+   +-----------+----------------------+----------------+----------------+
+
+.. table::  Settings of the synchronous mode in server v.18 and players v.18
+   :name: setting-synchronousmode-v18
+
+   +-----------+----------------------+----------------+----------------+
+   |mode       |view width(degree)    |see frequency   |noise term      |
+   +===========+======================+================+================+
+   |narrow     |60                    |every cycle     | 0.05           |
+   +-----------+----------------------+----------------+----------------+
+   |normal     |120                   |every cycle     | 0.075          |
+   +-----------+----------------------+----------------+----------------+
+   |wide       |180                   |every cycle     | 0.1            |
+   +-----------+----------------------+----------------+----------------+
+
 In all view modes, rcssserver send see messages at
 **server::synch_see_offset** milli-seconds from the beginning
 of the cycle.
 
+The concept of the noise term was developed in server version 18. 
+By increasing the noise term, the server introduces more noise to observed objects.
+
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Visual Sensor Noise Model
+Focus Point
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The focus point concept was developed in server version 18 to make observations
+in the game more closely resemble those made by human observers and camera 
+lenses. The position of the focus point affects the observation noise model. 
+In brief, the server introduces more noise to the distance of an observed 
+object if the object is farther from the observer's focus point.
+
+The default position of the focus point is the player's position. However, 
+the player can change the focus point by sending the 
+"(change_focus dist_moment dir_moment)" command. 
+It's worth noting that the focus point cannot be outside the 
+player's view angle, and its maximum distance from the player is 40.
+
+This feature is available to players using version 18 or above on 
+server versions 18 or above.
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Visual Sensor Noise Model: Protocol v17 or older
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In order to introduce noise in the visual sensor data the values sent from
@@ -656,6 +739,37 @@ following manner.
 
   d' = {\mathrm Quantize}(\exp({\mathrm Quantize}(\log(d),quantize\_step\_l)),0.1)
 
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Visual Sensor Noise Model: Protocol v18 or later
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If players use the protocl version 18 or later, the visual sensor noise model is changed as follows:
+
+.. math::
+  distQStep = quantize\_step \cdot ViewAngleNoiseTerm
+
+.. math::
+  f' = {\mathrm Quantize}(\exp({\mathrm Quantize}(\log(f),quantize\_step)),distQStep)
+
+.. math::
+  d' = {\mathrm max}(0.0, d - (f - f'))
+
+
+where :math:`d` and :math:`d'` are the exact distance and quantized distance
+respectively, :math:`f` and :math:`f'` are the exact distance and quantized 
+distance of focus point to the object
+respectively, 
+and
+
+.. math::
+
+  {\mathrm Quantize}(V,Q) = {\mathrm ceiling}(V/Q) \cdot Q
+
+This noise model is applied to observations made by players using version 18 or above. 
+When the observer's focus point is set to the default position (i.e., the observer's position), 
+and the :math: distQStep parameter is not considered, this model functions in exactly the same 
+way as the visual sensor noise model in server version 17.
 
 --------------------------------------------------
 Body Sensor Model
@@ -1650,6 +1764,31 @@ The argument for a *turn_neck command* must be in the range between
    +-------------------------------------------------+-----------+
 
 --------------------------------------------------
+Change Focus Model
+--------------------------------------------------
+The focus point is a feature developed in server v.18, 
+which can be used by players v.18 and above. 
+It represents a position inside a player's view angle, 
+and can be up to 40.0 meters away from the player's position. 
+The focus point affects the visual sensor noise model, 
+with the noise of observed objects increasing as the distance 
+between the focus point and the object increases.
+
+The initial position of the focus point is the player's position, 
+and if a player does not change the focus point position, 
+the server visual noise model behaves as in server v.17. 
+However, a player can change the position of the focus point 
+by sending a **change_focus** command. This command takes two parameters, 
+*dist_moment* and *dir_moment*, and changes the position 
+of the focus point relative to the player's neck angle.
+
+It is important to note that players are not allowed 
+to move the focus point outside of their view angle. 
+Additionally, if a player changes their view angle to a smaller one, 
+the server will automatically move the focus point back 
+into the player's view angle.
+
+--------------------------------------------------
 Pointto Model
 --------------------------------------------------
 
@@ -1786,37 +1925,60 @@ of the respective player type.
 .. table:: The parameter differences of heterogeneous players
    :name: tab-hetero
 
-   +----------------------+----------------------------------------------------+
-   |Parameter             |Description                                         |
-   +======================+====================================================+
-   |PlayerSpeedMax        |maximum speed                                       |
-   +----------------------+----------------------------------------------------+
-   |StaminaIncMax         |Amount of stamina recovered in one step             |
-   +----------------------+----------------------------------------------------+
-   |PlayerDecay           |Player speed decay rate                             |
-   +----------------------+----------------------------------------------------+
-   |InertiaMoment         |Player inertia force when moving                    |
-   +----------------------+----------------------------------------------------+
-   |DashPowerRate         |Dash acceleration rate                              |
-   +----------------------+----------------------------------------------------+
-   |PlayerSize            | Player size                                        |
-   +----------------------+----------------------------------------------------+
-   |KickableMargin        |Kickable area radius                                |
-   +----------------------+----------------------------------------------------+
-   |KickRand              |The amount of noise added to the kick               |
-   +----------------------+----------------------------------------------------+
-   |ExtraStamina          |Extra stamina available when stamina is exhausted   |
-   +----------------------+----------------------------------------------------+
-   |EffortMax             |Maximum value of the player's effort amount         |
-   +----------------------+----------------------------------------------------+
-   |EffortMin             |The minimum amount of effort for the player         |
-   +----------------------+----------------------------------------------------+
-   |CatchAreaLengthStretch|Streach Length to Catch                             |
-   +----------------------+----------------------------------------------------+
-   |KickPowerRate         |Kick Power Rate                                     |
-   +----------------------+----------------------------------------------------+
-   |FoulDetectProbability |Probability that the referee will take the foul     |
-   +----------------------+----------------------------------------------------+
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |Parameter                 |Description                                                                                    |
+   +==========================+===============================================================================================+
+   |PlayerSpeedMax            |maximum speed                                                                                  |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |StaminaIncMax             |Amount of stamina recovered in one step                                                        |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |PlayerDecay               |Player speed decay rate                                                                        |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |InertiaMoment             |Player inertia force when moving                                                               |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |DashPowerRate             |Dash acceleration rate                                                                         |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |PlayerSize                | Player size                                                                                   |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |KickableMargin            |Kickable area radius                                                                           |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |KickRand                  |The amount of noise added to the kick                                                          |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |ExtraStamina              |Extra stamina available when stamina is exhausted                                              |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |EffortMax                 |Maximum value of the player's effort amount                                                    |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |EffortMin                 |The minimum amount of effort for the player                                                    |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |CatchAreaLengthStretch    |Streach Length to Catch                                                                        |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |KickPowerRate             |Kick Power Rate                                                                                |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |FoulDetectProbability     |Probability that the referee will take the foul                                                |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |UnumFarLength             |If dist less than unum_far_length, then both uniform number and team name are visible          |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |UnumTooFarLength          |If dist more than unum_too_far_length, then the uniform number is not visible                  |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |TeamFarLength             |If dist less than team_far_length, then the team name is visible                               |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |TeamTooFarLength          |If dist more than team_too_far_length, then the team name is not visible.                      |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |PlayerMaxObservationLength|If dist more than player_max_observation_length, then the player is not visible.               |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |BallVelFarLength          |If dist less than ball_vel_far_length, then ball vel is visible                                |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |BallVelTooFarLength       |If dist more than ball_vel_too_far_length, then ball vel is not visible                        |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |BallMaxObservationLength  |If dist more than ball_max_observation_length, then the ball is not visible.                   |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |FlagChgFarLength          |If dist less than flag_chg_far_length, then the flag dist change is sent.                      |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |FlagChgTooFarLength       |If dist less than flag_chg_too_far_length, then the flag dist change is not sent.              |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+   |FlagMaxObservationLength  |If dist more than flag_max_observation_length, then the flag is not visible.                   |
+   +--------------------------+-----------------------------------------------------------------------------------------------+
+  
 
 Heterogeneous player parameters given for each match are different.
 Therefore, each agent does not necessarily have the parameters needed to implement the tactics.
