@@ -383,6 +383,8 @@ Vision Sensor Model
 The visual sensor reports the objects currently seen by the player.
 The information is automatically sent to the player every
 **server::sense_step**, currently 150, milli-seconds, in the default setting.
+If players use the synchronous mode, the frequency of the visual information is synchronized with the simulation step.
+The simulation parameters related to the visual information are listed in :numref:`param-visualsensor` and :numref:`heterogenious-param-visualsensor`.
 
 Visual information arrives from the server in the following basic format:
 
@@ -562,7 +564,7 @@ player *d* by team name, and with about a 50% chance, uniform number;
 player *e* with about a 25% chance, just by team name, otherwise with neither;
 and player *f* would be identified simply as an anonymous player.
 
-.. list-table:: Parameters for the visual sensors.
+.. list-table:: Parameters for the visual sensors in server.conf.
    :name: param-visualsensor
    :header-rows: 1
    :widths: 60 40
@@ -575,42 +577,48 @@ and player *f* would be identified simply as an anonymous player.
      - 90.0
    * - server::visible_distance
      - 3.0
-   * - unum_far_length :math:`^\dagger`
-     - 20.0
-   * - unum_too_far_length :math:`^\dagger`
-     - 40.0
-   * - team_far_length :math:`^\dagger`
-     - maximum_dist_in_pitch
-   * - team_too_far_length :math:`^\dagger`
-     - maximum_dist_in_pitch
-   * - player_max_observation_length :math:`^\dagger`
-     - maximum_dist_in_pitch
-   * - ball_vel_far_length :math:`^\dagger`
-     - 20
-   * - ball_vel_too_far_length :math:`^\dagger`
-     - 40
-   * - flag_chg_far_length :math:`^\dagger`
-     - 20
-   * - flag_chg_too_far_length :math:`^\dagger`
-     - 40
-   * - flag_max_observation_length :math:`^\dagger`
-     - maximum_dist_in_pitch
-   * - wide_view_angle_noise_term :math:`^\dagger`
-     - 1.0
-   * - normal_view_angle_noise_term :math:`^\dagger`
-     - 0.75
-   * - narrow_view_angle_noise_term :math:`^\dagger`
-     - 0.5
    * - server::quantize_step
      - 0.1
    * - server::quantize_step_l
      - 0.01
 
-:math:`^\dagger` : Not in ``server.conf``, but compiled into the server.
+.. list-table:: Heterogenious parameters for the visual sensors.
+   :name: heterogenious-param-visualsensor
+   :header-rows: 1
+   :widths: 60 40
+
+   * - Parameters in player_type
+     - Value
+   * - unum_far_length
+     - 20.0
+   * - unum_too_far_length
+     - 40.0
+   * - team_far_length
+     - maximum_dist_in_pitch
+   * - team_too_far_length
+     - maximum_dist_in_pitch
+   * - player_max_observation_length
+     - maximum_dist_in_pitch
+   * - ball_vel_far_length
+     - 20
+   * - ball_vel_too_far_length
+     - 40
+   * - flag_chg_far_length
+     - 20
+   * - flag_chg_too_far_length
+     - 40
+   * - flag_max_observation_length
+     - maximum_dist_in_pitch
+   * - wide_view_angle_noise_term
+     - 1.0
+   * - normal_view_angle_noise_term
+     - 0.75
+   * - narrow_view_angle_noise_term
+     - 0.5
 
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Synchronous Mode
+Frequency of the Visual Information
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 There are two modes available for all players: asynchronous mode 
@@ -679,10 +687,6 @@ of the cycle.
 The concept of the noise term was developed in server version 18. 
 By increasing the noise term, the server introduces more noise to observed objects.
 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Synchronous Mode
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-**TODO: It would be better to write about Synchronous mode in this part.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Focus Point
@@ -703,7 +707,7 @@ This feature is available to players using version 18 or above on
 server versions 18 or above.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Visual Sensor Noise Model Server v.17 or older
+Visual Sensor Noise Model: Protocol v17 or older
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In order to introduce noise in the visual sensor data the values sent from
@@ -737,15 +741,13 @@ following manner.
 
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Visual Sensor Noise Model
+Visual Sensor Noise Model: Protocol v18 or later
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-In order to introduce noise in the visual sensor data the values sent from
-the server is quantized.
-For example, the distance value of the object, in the case where the object
-in sight is a ball or a player, is quantized in the following manner if the observer's version is above 17:
+
+If players use the protocl version 18 or later, the visual sensor noise model is changed as follows:
 
 .. math::
-  distQStep = server::quantizeStep \cdot ViewAngleNoiseTerm
+  distQStep = quantize\_step \cdot ViewAngleNoiseTerm
 
 .. math::
   f' = {\mathrm Quantize}(\exp({\mathrm Quantize}(\log(f),quantize\_step)),distQStep)
