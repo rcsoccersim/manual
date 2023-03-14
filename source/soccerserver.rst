@@ -462,6 +462,33 @@ The kicking state is visible the cycle directly after kicking.
 
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Asynchronous mode and Synchronous mode
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+There are two modes available for all players: asynchronous mode 
+and synchronous mode.
+The asynchronous mode functions exactly like the default time step
+in version 11 or older.
+In server versions 17 and below, asynchronous mode is still the 
+default mode for all players, including versions 12 to 17. 
+
+In server versions 17 and below, asynchronous mode is the 
+default mode for all players, including versions 12 to 17. 
+If players wish to switch to synchronous mode, they can do 
+so by using the "(synch_see)" command. Once they have switched 
+to synchronous mode, they cannot return to asynchronous mode. 
+Additionally, players using version 11 or older can also use 
+the "(synch_see)" command to access synchronous mode.
+
+In server versions 18 and above, players using version 18 are 
+required to use synchronous mode. However, players using older 
+versions can still switch to synchronous mode by using the 
+"(synch_see)" command to change the default view mode.
+
+
+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Range of View
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -469,7 +496,9 @@ The visible sector of a player is dependant on several factors.
 First of all we have the server parameters **server::sense_step** and
 **server::visible_angle** which determines the basic time step between
 visual information and how many degrees the player's normal view cone is.
-The current default values are 150 milli-seconds and 90 degrees.
+The default values in the asynchronous mode are 150 milli-seconds and 90 degrees.
+If players use the synchronous mode, the frequency of the visual information
+is synchronized with the simulation step. See the next section in detail.
 
 The player can also influence the frequency and quality of the information
 by changing *ViewWidth* and *ViewQuality*.
@@ -618,30 +647,18 @@ and player *f* would be identified simply as an anonymous player.
 
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Frequency of the Visual Information
+Range of View and View Frequency in Synchronous mode
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-There are two modes available for all players: asynchronous mode 
-and synchronous mode. The asynchronous mode functions exactly 
-like the timer in version 11 or older.
-
-In server versions 17 and below, asynchronous mode is the 
-default mode for all players, including versions 12 to 17. 
-If players wish to switch to synchronous mode, they can do 
-so by using the "(synch_see)" command. Once they have switched 
-to synchronous mode, they cannot return to asynchronous mode. 
-Additionally, players using version 11 or older can also use 
-the "(synch_see)" command to access synchronous mode.
-
-In server versions 18 and above, players using version 18 are 
-required to use synchronous mode. However, players using older 
-versions can still switch to synchronous mode by using the 
-"(synch_see)" command to change the default view mode.
-
 In synchronous mode, the "low" view quality is not available, 
-and the following view widths are available:
+and the view widths in :numref:`setting-synchronousmode-v17` are available.
+In all view widths, rcssserver send see messages at
+**server::synch_see_offset** milli-seconds from the beginning
+of the cycle.
 
-.. table::  Settings of the synchronous mode in server v.17 and older versions
+
+.. .. table::  Settings of the synchronous mode in server v.17 and older versions
+.. table::  Settings of the synchronous mode
    :name: setting-synchronousmode-v17
 
    +-----------+----------------------+----------------+
@@ -654,38 +671,35 @@ and the following view widths are available:
    |wide       |180                   |every 3 cycles  |
    +-----------+----------------------+----------------+
 
-.. table::  Settings of the synchronous mode in server v.18 and players v.17
-   :name: setting-synchronousmode-v18
+.. .. table::  Settings of the synchronous mode in server v.18 and players v.17
+..   :name: setting-synchronousmode-v18-v17
 
-   +-----------+----------------------+----------------+----------------+
-   |mode       |view width(degree)    |see frequency   |noise term      |
-   +===========+======================+================+================+
-   |narrow     |60                    |every cycle     | 0.1            |
-   +-----------+----------------------+----------------+----------------+
-   |normal     |120                   |every 2 cycles  | 0.1            |
-   +-----------+----------------------+----------------+----------------+
-   |wide       |180                   |every 3 cycles  | 0.1            |
-   +-----------+----------------------+----------------+----------------+
+..   +-----------+----------------------+----------------+----------------+
+..   |mode       |view width(degree)    |see frequency   |noise term      |
+..   +===========+======================+================+================+
+..   |narrow     |60                    |every cycle     | 0.1            |
+..   +-----------+----------------------+----------------+----------------+
+..   |normal     |120                   |every 2 cycles  | 0.1            |
+..   +-----------+----------------------+----------------+----------------+
+..   |wide       |180                   |every 3 cycles  | 0.1            |
+..   +-----------+----------------------+----------------+----------------+
 
-.. table::  Settings of the synchronous mode in server v.18 and players v.18
-   :name: setting-synchronousmode-v18
+.. .. table::  Settings of the synchronous mode in server v.18 and players v.18
+..   :name: setting-synchronousmode-v18-v18
+..
+..   +-----------+----------------------+----------------+----------------+
+..   |mode       |view width(degree)    |see frequency   |noise term      |
+..   +===========+======================+================+================+
+..   |narrow     |60                    |every cycle     | 0.05           |
+..   +-----------+----------------------+----------------+----------------+
+..   |normal     |120                   |every cycle     | 0.075          |
+..   +-----------+----------------------+----------------+----------------+
+..   |wide       |180                   |every cycle     | 0.1            |
+..   +-----------+----------------------+----------------+----------------+
 
-   +-----------+----------------------+----------------+----------------+
-   |mode       |view width(degree)    |see frequency   |noise term      |
-   +===========+======================+================+================+
-   |narrow     |60                    |every cycle     | 0.05           |
-   +-----------+----------------------+----------------+----------------+
-   |normal     |120                   |every cycle     | 0.075          |
-   +-----------+----------------------+----------------+----------------+
-   |wide       |180                   |every cycle     | 0.1            |
-   +-----------+----------------------+----------------+----------------+
 
-In all view modes, rcssserver send see messages at
-**server::synch_see_offset** milli-seconds from the beginning
-of the cycle.
-
-The concept of the noise term was developed in server version 18. 
-By increasing the noise term, the server introduces more noise to observed objects.
+.. The concept of the noise term was developed in server version 18. 
+.. By increasing the noise term, the server introduces more noise to observed objects.
 
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
