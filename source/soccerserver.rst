@@ -632,18 +632,14 @@ and player *f* would be identified simply as an anonymous player.
      - 20
    * - ball_vel_too_far_length
      - 40
+   * - ball_max_observation_length
+     - maximum_dist_in_pitch
    * - flag_chg_far_length
      - 20
    * - flag_chg_too_far_length
      - 40
    * - flag_max_observation_length
      - maximum_dist_in_pitch
-   * - wide_view_angle_noise_term
-     - 1.0
-   * - normal_view_angle_noise_term
-     - 0.75
-   * - narrow_view_angle_noise_term
-     - 0.5
 
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -760,30 +756,27 @@ Visual Sensor Noise Model: Protocol v18 or later
 
 If players use the protocl version 18 or later, the visual sensor noise model is changed as follows:
 
-.. math::
-  distQStep = quantize\_step \cdot ViewAngleNoiseTerm
+.. .. math::
+..  quantize\_step' = quantize\_step \cdot ViewAngleNoiseTerm
+
 
 .. math::
-  f' = {\mathrm Quantize}(\exp({\mathrm Quantize}(\log(f),quantize\_step)),distQStep)
+  f' = {\mathrm Quantize}(\exp({\mathrm Quantize}(\log(f),quantize\_step)),0.1)
+
+..  f' = {\mathrm Quantize}(\exp({\mathrm Quantize}(\log(f),quantize\_step')),0.1)
 
 .. math::
-  d' = {\mathrm max}(0.0, d - (f - f'))
+  d'' = {\mathrm max}(0.0, d - (f - f'))
 
 
 where :math:`d` and :math:`d'` are the exact distance and quantized distance
-respectively, :math:`f` and :math:`f'` are the exact distance and quantized 
-distance of focus point to the object
-respectively, 
-and
-
-.. math::
-
-  {\mathrm Quantize}(V,Q) = {\mathrm ceiling}(V/Q) \cdot Q
+of the observer to the object respectively,
+:math:`f` and :math:`f'` are the exact distance and quantized  distance
+of the focus point to the object respectively, 
+and :math:`d''` is the result distance value sent to the observer.
 
 This noise model is applied to observations made by players using version 18 or above. 
-When the observer's focus point is set to the default position (i.e., the observer's position), 
-and the :math: distQStep parameter is not considered, this model functions in exactly the same 
-way as the visual sensor noise model in server version 17.
+When the observer's focus point is set to the default position (i.e., the observer's position), this model functions in exactly the same  way as the visual sensor noise model in server version 17.
 
 --------------------------------------------------
 Body Sensor Model
