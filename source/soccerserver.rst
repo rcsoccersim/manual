@@ -751,32 +751,34 @@ following manner.
 
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Visual Sensor Noise Model: Protocol v18 or later
+Visual Sensor Noise Model: Protocol v18
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If players use the protocl version 18 or later, the visual sensor noise model is changed as follows:
+If players use the protocl version 18, the visual sensor noise model is changed as follows:
 
 .. .. math::
 ..  quantize\_step' = quantize\_step \cdot ViewAngleNoiseTerm
 
 
 .. math::
-  f' = {\mathrm Quantize}(\exp({\mathrm Quantize}(\log(f),quantize\_step)),0.1)
+  p_{rfx} &= p_{xf} - p_{xo} \\
+  p_{rfy} &= p_{yf} - p_{yo} \\
+  f &= \sqrt{p_{rfx}^2 + p_{rfy}^2} \\
+  f' &= \exp({\mathrm Quantize}(\log(f),quantize\_step)) \\
+  d'' &= {\mathrm Quantize}({\mathrm max}(0.0, d - (f - f')), 0.1)
 
 ..  f' = {\mathrm Quantize}(\exp({\mathrm Quantize}(\log(f),quantize\_step')),0.1)
 
-.. math::
-  d'' = {\mathrm max}(0.0, d - (f - f'))
-
-
-where :math:`d` and :math:`d'` are the exact distance and quantized distance
-of the observer to the object respectively,
-:math:`f` and :math:`f'` are the exact distance and quantized  distance
+where :math:`(p_{xf},p_{yf})` is the absolute position of the focus point of the observer,
+:math:`(p_{xo},p_{yo})` is the absolute position of the observer,
+:math:`d` is the exact distance of the observer to the object,
+:math:`f` and :math:`f'` are the exact distance and quantized distance
 of the focus point to the object respectively, 
 and :math:`d''` is the result distance value sent to the observer.
 
-This noise model is applied to observations made by players using version 18 or above. 
-When the observer's focus point is set to the default position (i.e., the observer's position), this model functions in exactly the same  way as the visual sensor noise model in server version 17.
+This noise model is applied to observations made by players using version 18. 
+When the observer's focus point is set to the default position (i.e., the observer's position),
+this model functions in exactly the same  way as the visual sensor noise model in server version 17.
 
 --------------------------------------------------
 Body Sensor Model
