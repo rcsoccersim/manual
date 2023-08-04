@@ -41,7 +41,7 @@ Connecting, reconnecting, and disconnecting
 | |     *TeamName* ::= \[+-_a-zA-Z0-9\]+                 | |          *Side* ::= ``l`` \| ``r``            |
 | |       *VerNum* ::= the protocol version (e.g. 15)    | |          *Unum* ::= 1~11                      |
 | |                                                      | |      *PlayMode* ::= one of play modes         |
-| |                                                      | | (error no_more_team_or_playe_or_goalie)       |
+| |                                                      | | (error no_more_team_or_player_or_goalie)       |
 +--------------------------------------------------------+-------------------------------------------------+
 | | (reconnect *TeamName* *Unum*)                        | | (error *Side* *PlayMode*)                     |
 | |     TeamName := \[+-_a-zA-Z0-9\]+                    | |          *Side* ::= ``l`` \| ``r``            |
@@ -53,7 +53,7 @@ Connecting, reconnecting, and disconnecting
 +--------------------------------------------------------+-------------------------------------------------+
 
 
-If your client connects or reconnects sucessfully with a protocol version >= 7.0, the
+If your client connects or reconnects successfully with a protocol version >= 7.0, the
 server will additionally send following messages: ``server_param`` (a message
 containing the server parameters), ``player_param`` (a message containing the
 player parameters) and ``player_type`` (a message containing the player types).
