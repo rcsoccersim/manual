@@ -903,7 +903,7 @@ choose to ignore the directive for now.
 
 * UNUM SETS:
 
-    Unum sets are sets of player numbers. These are set in the sense that order does
+    Unum sets are sets of player numbers. These are sets in the sense that order does
     not matter and may be changed by the server. If 0 is included anywhere in the
     set, then the set contains all players 1 - 11. The set can contain variables.
 
