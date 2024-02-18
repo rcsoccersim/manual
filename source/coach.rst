@@ -17,7 +17,7 @@ Distinction Between Trainer and Online Coach
 =================================================
 
 In general, the trainer can exercise more control over the game and may be used only in
-the development stage, where as the online coach may connect to official games. The trainer is
+the development stage, whereas the online coach may connect to official games. The trainer is
 useful during development for such tasks as running automated learning or managing games.
 The online coach is used during games to provide additional advice and information to the players.
 
@@ -606,7 +606,7 @@ a component it is assigned an ID which the coach can use to refer to it at later
 messages.
 
 
-    **Conditions**: Formatfor defining a condition: **(definec CLANG_STR CONDITION)**
+    **Conditions**: Format for defining a condition: **(definec CLANG_STR CONDITION)**
 
         Example: **(definec "Defense" (bowner opp 0))** This defines the condition
         in which any player of the opponent team owns the ball.
@@ -617,7 +617,7 @@ messages.
 
     **Directives**: Format for defining a directive:**(defined CLANG_STR DIRECTIVE)**
 
-        Example: **(defined "Pass10to11" (doour 10 (pass 11)))** This directives
+        Example: **(defined "Pass10to11" (doour 10 (pass 11)))** This directive
         denotes player 10 passing to player 11.
 
     **Regions**: Format for defining a region:**(defined CLANG_STR REGION)**
@@ -625,7 +625,7 @@ messages.
         Example: **(defined "OURHALF" (rec (pt -52.5 -34) (pt 0 34)))** A
         rectangle which covers the team's own half is defined.
 
-    **Rules**: Formatfor defining a rule:**(definerule CLANG_VAR model RULE)** or
+    **Rules**: Format for defining a rule:**(definerule CLANG_VAR model RULE)** or
     **(definerule CLANG_VAR direc RULE)**
 
         Example: **(definerule Rule1 direc ((playm bko) (do our 7 (pos (pt -20 20)))))**
