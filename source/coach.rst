@@ -10,23 +10,23 @@ Introduction
 
 Coaches are privileged clients used to provide assistance to the players.
 There are two kinds of coaches, the online coach and the trainer. The latter is often
-called 'off-line coach' as well, but for clarity sake we will use the term 'trainer'.
+called 'off-line coach' as well, but for clarity's sake we will use the term 'trainer'.
 
 =================================================
 Distinction Between Trainer and Online Coach
 =================================================
 
-In general,the trainer can exercise more control over the game and may be used only in
-the development stage,where as the online coach may connect to official games. The trainer is
+In general, the trainer can exercise more control over the game and may be used only in
+the development stage, where as the online coach may connect to official games. The trainer is
 useful during development for such tasks as running automated learning or managing games.
-The on-line coach is used during games to provide additional advice and information to the players.
+The online coach is used during games to provide additional advice and information to the players.
 
-While developing player clients,for example when applying machine learning methods to learn skills like
+While developing player clients, for example when applying machine learning methods to learn skills like
 dribbling or kicking, it might be useful to create training sessions in an automated way. Therefore,
 the trainer has the following capabilities:
 
 * It can control the play-mode
-* It can broad cast audio messages. Such a message can consist of a command or some information intended for one or more of the player-clients. Its syntax and interpretation are user-defined.
+* It can broadcast audio messages. Such a message can consist of a command or some information intended for one or more of the player-clients. Its syntax and interpretation are user-defined.
 * It can move the players and the ball to any location on the field and set their directions and velocities.
 * It can get noise-free information about the movable objects.
 
@@ -39,8 +39,8 @@ The online coach is intended to observe the game and provide advice and informat
 
 To prevent the coach from controlling each client in a centralized way, communication is restricted
 in several ways as described in Section 7.7. The online coach is a good tool for opponent modelling,
-game analysis, and giving strategic tips to its teammates. Since the coach gets a noise-free, global
-view over the field and has less real-time demands, it is expected that it can spend more time
+game analysis, and giving strategic tips to teammates. Since the coach gets a noise-free, global
+view of the field and has fewer real-time demands, it is expected that it can spend more time
 deliberating over strategies. See Section 7.6 for more details about the online coach.
 
 =================================================
@@ -58,13 +58,13 @@ example, that the play-mode will not change and players will not be moved back t
 sides after a goal. The trainer has to react to these events by its own rules.
 
 The soccerserver must be informed at startup-time that a trainer-client will be used.
-Add the option *-coach* to thecommand arguments of the soccerserver application when
+Add the option *-coach* to the command arguments of the soccerserver application when
 a coach-client is used and the internal referee module of the server must be deactivated.
 You can also add the line *coach* to the server.conf.
 
 If you want to connect a trainer but let the server referee remain activated, add the
 option *-coach_w_referee* to the command arguments of the server or add *coach_w_referee*
-to the server conguration file.
+to the server configuration file.
 
 If the server is invoked with one of the trainer modes, it prepares a UDP socket to
 which the trainer-client can connect. The default port number is 6001.  If a different
@@ -130,15 +130,15 @@ Possible replies by the soccerserver:
 Ask the soccerserver to check the position of the ball. Four positions are defined:
 
     * **in_field**
-        The ball is whithin the boundaries of the field.
+        The ball is within the boundaries of the field.
     * **(goal_l)**
-        The ball is whithin the area assigned to the goal at the left side of the field.
+        The ball is within the area assigned to the goal on the left side of the field.
     * **(goal_r)**
-        The ball is whithin the area assigned to the goal at the right side of the field.
+        The ball is within the area assigned to the goal on the right side of the field.
     * **(out_of_field)**
         The ball is somewhere else.
 
-Note that the states 'goal_l' and 'goal_r' do not necessary imply that the ball
+Note that the states 'goal_l' and 'goal_r' do not necessarily imply that the ball
 actually crossed the goal line.
 
 Possible replies by the soccerserver:
@@ -148,8 +148,8 @@ Possible replies by the soccerserver:
 
 * **(start)**
 
-This commands starts the server, e.g. sets the play-mode to 'kick_off_l'.  This
-essentially simulates pressing the kick off button on the monitor.
+This command starts the server, e.g. sets the play-mode to 'kick_off_l'.  This
+essentially simulates pressing the kick-off button on the monitor.
 
 If the trainer does not send an init command, then the first commands of any type
 received from the trainer will cause the server to start, e.g. set the play-mode to
@@ -218,12 +218,12 @@ Note that the online coach can use this command with the same syntax, but there
 are more restrictions. See Section 7.6.2 for details.
 
 This command broadcasts the message MESSAGE to all clients in the case of the
-trainer and only to teammates in the case of the online coach. For the trainer
+trainer and only to teammates in the case of the online coach. For the trainer,
 the format of MESSAGE is the same as for a player-client. It must be a string
 whose length is less than *say_coach_msg_size*(see Section B.1) and it must consist
 of alphanumeric characters and/or the symbols().+*/?<>_
 
-The format which the players hear these messages can be found in Section 4.3.1.
+The format in which the players hear these messages can be found in Section 4.3.1.
 
 Possible replies by the soccerserver:
 
@@ -241,7 +241,7 @@ PLAYER_TYPE. PLAYER_TYPE is a digit between 0 and 6, where 0 denotes
 the default player type. Note that in the case of the online coach the argument
 TEAM_NAME is missing, because it can only change player types in its own team.
 
-The trainer does not have to comply to the rule that a maximum of three (specified
+The trainer does not have to comply with the rule that a maximum of three (specified
 by *subs_max*) players of each type can be on the field.
 
 See Section 7.6.3 for details about the restrictions as to when and how the online
@@ -291,16 +291,16 @@ This command provides information about the positions of the following objects o
     * The ball.
     * All active players.
 
-Note that the trainer and online coach for *both* sides receive left hand coordinates.
-That is, the coaches receive information in the global coordinates that the left hand
-team uses. In general,the players receive no global information (the one exception
+Note that the trainer and online coach for *both* sides receive left-hand coordinates.
+That is, the coaches receive information in the global coordinates that the left-hand
+team uses. In general, the players receive no global information (the one exception
 being the **move** command), but it is common for teams to localize themselves so
 that the negative *x* direction is towards the goal they defend.
 
 Possible replies by the soccerserver:
 
     * **(ok look TIME (OBJ1 OBJDESC1) (OBJ2 OBJDESC2) ... )**
-        OBJj can be any of the objects mentioned above.  See Section 4.3 for information about the way the names for those objects are composed. OBJDESCj have the following form:
+        OBJj can be any of the objects mentioned above.  See Section 4.3 for information about the way the names of those objects are composed. OBJDESCj has the following form:
 
         * For goals: X Y
         * For the ball: X Y DELTAx DELTAy
@@ -317,7 +317,7 @@ If the trainer/coach should receive visual information periodically, use the
 MODE must be one of **on** and **off** . If **(eye on)** is sent, the server starts sending
 **(see_global ... )** information (see Section 7.5) every 100ms (the interval  is
 specified by the *send_vi_step* parameter automatically to the client.  If **(eye off)**
-is sent, the server stops to send visual information automatically. In this case the
+is sent, the server stops sending visual information automatically. In this case the
 trainer/coach has to ask actively with **(look)**, if it needs visual information.
 
 Possible replies by the soccerserver:
@@ -325,7 +325,7 @@ Possible replies by the soccerserver:
     * **(ok eye on)** and **(ok eye off)**
         Both replies indicate that the command succeeded.
     * **(error illegal_mode)**
-        MODE id not match **on** or **off**.
+        MODE id does not match **on** or **off**.
     * **(error illegal_command_form)**
         The MODE argument was omitted.
 
@@ -363,7 +363,7 @@ Messages from the Server
 
 Apart from the replies to the commands mentioned above the server also sends some
 messages to the trainer and online coach. If the clients connect to the server with a
-version >= 7.0 (using the **init**-command),they will receive the following parameter
+version >= 7.0 (using the **init**-command), they will receive the following parameter
 messages just like player clients:
 
     * **(server_param ...)** once
@@ -380,7 +380,7 @@ it will receive messages in the following format every 100ms *(send_vi_step)*:
 (*see_global* (OBJ1 OBJDESC1)(OBJ2 OBJDESC2) ...)
 
 OBJj denotes the name of the object. See Table 4.3 for information about the way the
-names for those objects are composed. OBJDESCj have the following form:
+names for those objects are composed. OBJDESCj has the following form:
 
     * For goals: X Y
     * For the ball: X Y DELTAx DELTAy
@@ -426,9 +426,9 @@ Prior to version 7.00, the online coach could say short (128 characters,
 *say_coach_msg_size*) alphanumeric (plus the symbols().+*/?<>) messages when the
 play-mode is not 'play_on'.  This type of message still exists as a "freeform" message,
 but there are now other standard message types. Since version 8.05 there are also certain
-intervalls in which freeform-messages can be sent even during 'play_on'. Every 600 cycles
+intervals in which freeform-messages can be sent even during 'play_on'. Every 600 cycles
 (specified by *freeform_wait_period*) of 'play_on' the coach can send freeform-messages
-for 20 cycles (specified by *freeform_send_period*). For example, if the playmode changes
+for 20 cycles (specified by *freeform_send_period*). For example, if the play-mode changes
 to 'play_on' at cycle 420 and stays in 'play_on' till the end of this example,the coach can
 send freeform-messages between 1020 and 1040, 1620 and 1640, etc. The coach can
 send *say_coach_cnt_max* freeform messages per game. The length of these messages has
@@ -459,11 +459,11 @@ type will be sent to the players in the same order in which they were received f
 coach.
 
 The language grammar developed below does not place restrictions on the length of
-the messages which can be sent to the server. However, for very practical reasons, any
+the messages that can be sent to the server. However, for very practical reasons, any
 message in the standard language cannot be longer than 8154 characters (this is so the
-maximum message which should be sent to the player is 8K).
+maximum message that should be sent to the player is 8K).
 
-The first version of the coach language (Clang) was developped for server version7.x.
+The first version of the coach language (Clang) was developed for server version 7.x.
 For server version 8.x the language has been extended. Because of this, clients that want
 to receive messages from their coach have to explicitly advise the server, which version
 of CLang they support. This is done by sending
@@ -472,13 +472,13 @@ of CLang they support. This is done by sending
 
 where MIN and MAX are unsigned integers denoting the earliest and latest supported
 version of CLang, respectively. Clients that do not send such a message will not receive
-coach messages. The server is able to determine the version number of coach messages
+coach messages. The server can determine the version number of coach messages
 and will filter out any messages that are not supported by the player. If a message has
 been filtered out, the players will receive
 
 * **(hear TIME online_coach_left|right (unsupported_clang))**
 
-The coach will receive a message for each player which informs it about the supported
+The coach will receive a message from each player that informs it about the supported
 versions:
 
 * **(clang (ver (PLAYER_NAME) MIN MAX))**
@@ -493,7 +493,7 @@ Changing Player Types
 -----------------------------------------------
 
 Using the **change_player_type**-command (described in Section7.4) the online coach
-can change player types unlimited times in **'beforekickoff'** play-mode. Of course
+can change player types unlimited times in **'beforekickoff'** play-mode. Of course,
 these changes have to comply with the general rules about heterogeneous players (see
 Section 4.6). After kick-off player types can be changed three (*subs_max*) times during
 play-modes that are not 'play_on'.
@@ -524,18 +524,18 @@ General Properties
 The standard coach language was developed to enable coaches to work together with
 teams from different research groups. One of the design goals was to have clear semantics
 that should prevent misinterpretation from both the players and the coach. The language
-is based on low-level concepts that can be combined to construct new high level concepts.
+is based on low-level concepts that can be combined to construct new high-level concepts.
 
-Additionally, coaches cancommunicate a certain number of freeform messages that
+Additionally, coaches can communicate a certain number of freeform messages that
 may be arbitrary strings to the players during non-*'play_on'*-modes. See Section 7.6.2
 for details. Be aware though, that freeform messages probably will not be understood
 by other teams if you plan to use your coach with other teams.
 
 The language description below is the improved and extended version of the language
-developed by the community, as it is supported by server version8.x. While the first
+developed by the community, as it is supported by server version 8.x. While the first
 version of CLang is still supported by the server, its use is not encouraged. A complete
-description of this first version can be found in them anual for server version 7. It is
-hoped that all interested researchers will continue to develop CLang in order to make it
+description of this first version can be found in the manual for server version 7. It is
+hoped that all interested researchers will continue to develop CLang to make it
 a useful tool for multi-agent research.
 
 Some concepts were derived from Unilang [14] (e.g. definitions and several actions)
@@ -551,9 +551,9 @@ Example Language Utterance
 ------------------------------------------------
 
 The general idea of CLang is to describe tactics and behaviours as rules which map
-directives to conditions. Each rule consists of a component which denotes a situation
-(the *condition*) and a list of *directives* which are applicable if the situation-description
-is truein the given worldstate. Rules can either be used as advise which tells the player
+directives to conditions. Each rule consists of a component that denotes a situation
+(the *condition*) and a list of *directives* that are applicable if the situation description
+is true in the given world state. Rules can either be used as advice that tells the player
 how to actor as information which for example describes how the opponent behaves in
 certain situations. In CLang rules also have an ID, so that the coach can refer to them
 later.
@@ -576,10 +576,10 @@ number 11 if it has the ball and is in the middle of the field can be defined as
 
             (do our 5 (pass 11)))))
 
-Each of the primitives will be explained in detail later. For now it should suffice to
+Each of the primitives will be explained in detail later. For now, it should suffice to
 get the idea that the rule is assigned the ID "MyRule1" and is defined as a directive (as
-compared to a model-rule which describes observed behavior). **bowner** determines that
-player 5 of the coach's team is the ballowner. **bpos** specifies the ballposition by means
+compared to a model-rule that describes observed behavior). **bowner** determines that
+player 5 of the coach's team is the ball owner. **bpos** specifies the ball position by means
 of a rectangle. Finally, the directive advises player number 5 to pass to his teammate
 11. In CLang lingo **(pass 11)** is an *action* and **(do our5 (pass 11))** is a *directive*.
 
@@ -600,9 +600,9 @@ In the following format description elements in capitals denote non-terminal sym
 which are defined in section 7.7.7.
 
 **Define-message**: Define messages are the most complex messages in CLang, because
-they define and combine the components which the coach wants to share with
+they define and combine the components that the coach wants to share with
 the players, like conditions, directives, regions, actions, and rules. By defining
-acomponent its is assigned an ID which the coach can use to refer to it in later
+a component it is assigned an ID which the coach can use to refer to it at later
 messages.
 
 
@@ -631,7 +631,7 @@ messages.
         Example: **(definerule Rule1 direc ((playm bko) (do our 7 (pos (pt -20 20)))))**
         This rule states that player 7 should position itself at the given
         point before kick-off.
-        See also section7.7.4 about defining rules.
+        See also section 7.7.4 about defining rules.
 
 **Rule-message**: Rule messages are used to turn previously defined rules on or off. After
 defining a rule, it is off by default.
@@ -642,15 +642,15 @@ defining a rule, it is off by default.
 
 **Delete-message**: The delete message tells a player that a rule will not be used again and
 can be removed from the memory. This also means that after deleting a rule, its
-ID should not appear in other nested rule-definitions (see section 7.7.4) anymore.
+ID should not appear in other nested rule definitions (see section 7.7.4) anymore.
 
     Format: **(delete ID_LIST)**
 
     Examples: **(delete Rule1) (delete (Rule1 Rule2)) (delete all)** Deletes one
     rule, a list of two rules, or all rules, respectively.
 
-**Freeform-message**: Free form messages are arbitrary strings and can be sent according
-to the afore-mentioned restrictions in section7.6.2.
+**Freeform-message**: Free-form messages are arbitrary strings and can be sent according
+to the aforementioned restrictions in section 7.6.2.
 
     Format: **(freeform "STRING")**
     Note that STRING must be included in quotes.
@@ -659,7 +659,7 @@ to the afore-mentioned restrictions in section7.6.2.
 Defining Rules
 ------------------------------------------------
 
-The definition of rules is an important part in CLang, so it will be looked at in more
+The definition of rules is an important part of CLang, so it will be looked at in more
 detail in this section. Remember that a rule consists of a condition and a list of directives,
 which again contain actions.
 
@@ -677,24 +677,24 @@ the following components:
             | (<CONDITION> <RULE_LIST>)
             | <ID_LIST>
 
-Each rule is assigned a name complying the definition of **CLANG_VAR**. Additionally,
+Each rule is assigned a name complying with the definition of **CLANG_VAR**. Additionally,
 rules are in one of two modes, either **model** which states that the rule is a description
 of observed behavior, or **direc** which states that the rule is a directive to behave in a
 certain way.
 
-Now,the actual content of a rule can be specified in several ways:
+Now, the actual content of a rule can be specified in several ways:
 
 * (CONDITION DIRECTIVE_LIST)
 
-This is the straight-forward way. The example in section 7.7.3 complies to this
+This is the straightforward way. The example in section 7.7.3 complies with this
 format. The CONDITION denotes a situation, and DIRECTIVE_LIST denotes
 the appropriate directives. Note that the list can contain directives for one, several,
-or **all** players, or even several directives for the same player. In the latter case it is
+or **all** players, or even several directives for the same player. In the latter case, it is
 up to the player to decide which directive is to be followed.
 
 * (CONDITION RULE_LIST)
 
-This is a very powerful format for combining rules to larger tactics. Since each
+This is a very powerful format for combining rules with larger tactics. Since each
 rule in RULE_LIST already contains a condition, a definition of this form results
 in nested rules. It can for example be used to activate several rules simultaneously.
 Suppose, there are already several rules specifying the home positions of the
@@ -735,9 +735,9 @@ These can be combined into a behavior for player 2:
 Semantics and Syntax Details of the Components
 ------------------------------------------------
 
-In the following the syntax and semantics of the non-terminal symbols which were used
-in the format outlines above will be described.
-Rules have a condition on the left-hand side, and a set of actions on the right hand
+In the following the syntax and semantics of the non-terminal symbols that were used
+in the format outlined above will be described.
+Rules have a condition on the left-hand side and a set of actions on the right-hand
 side. Thus each rule can be thought of as essentially specifying an if-then statement:
 
 .. code-block::
@@ -750,7 +750,7 @@ a small rule-base. Following the advice would be easy by matching the current wo
 state against the condition, and trying to act on the directives. Note: If more than one
 condition applies to the current situation and the corresponding directives differ, it is
 up to the player to choose the directive. Note that the player should also exercise some
-discretion in following directives. For example, if the only directive which matches is to
+discretion in following directives. For example, if the only directive that matches is to
 pass to player 5, but player 5 is well-covered by opponents, the player with the ball may
 choose to ignore the directive for now.
 
@@ -806,21 +806,21 @@ choose to ignore the directive for now.
 
 * Directives:
 
-    Directives are basically lists of actions for individual sets of players and come in
+    Directives are lists of actions for individual sets of players and come in
     two forms:
 
-        * **(do TEAM UNUM SET ACTION LIST)** (affirmative mode: players should take thess actions)
+        * **(do TEAM UNUM SET ACTION LIST)** (affirmative mode: players should take these actions)
 
         * **(dont TEAM UNUM SET ACTION LIST)** (negative mode: players should avoid taking these actions)
 
     If the actions in the affirmative mode are mutually exclusive, it is up to the player to
-    decide which one is to be followed. In rules which are in the model-mode, directives
+    decide which one is to be followed. In rules that are in the model mode, directives
     convey knowledge about the plans/behaviors of the players or their opponents.
 
 * Actions:
 
     * **(pos REGION)**
-        The player should position itself in REGION.
+        The player should position himself in REGION.
 
     * **(home REGION)**
         The player’s default position should be in REGION. This directive is intended
@@ -853,7 +853,7 @@ choose to ignore the directive for now.
     * **(shoot)**
         The ball should be shot at the goal.
     * **(hold)**
-        The player should hold the ball, i. e. stand at his position and keeping the
+        The player should hold the ball, i. e. stand at his position and keep the
         ball away from opponents.
     * **(intercept)**
         The player should go to the ball and try to control it.
@@ -866,36 +866,36 @@ choose to ignore the directive for now.
         * a POINT
             This is defined more precisely below
         * **(rec POINT 1 POINT 2 )**
-            Defines a rectangle with its sides parallel to the pitch-lines, respectively.
+            Defines a rectangle with its sides parallel to the pitch lines, respectively.
         * **(tri POINT 1 POINT 2 POINT 3 )**
             Defines a triangle made up of the given points.
         * **(arc POINT RADIUS SMALL RADIUS LARGE ANGLE BEGIN ANGLE SPAN)**
             Defines a donut-arc: the area between two circles co-centered at point POINT,
             having the given radii, with the arc defined starting at the beginning angle
-            and covering the spannign angle. For example a, a circle with radius r could
+            and covering the spanning angle. For example, a circle with a radius r could
             be defined as “(arc (pt 0 0) 0 r 0 360)”, and a U-shaped region could be
             defined as “(arc (pt 0 0) 5 10 0 180)”
         * **(null)**
             The null (empty) region.
         * **(reg REG_1 REG_2 . . . REG_n )**
-            Defines a region made up from the union of the given regions.
+            Defines a region made up of the union of the given regions.
     A POINT is any of the following:
         * **(pt X Y)**
-            X and Y are reals and in global coordinates. This is the absolute position
+            X and Y are real and in global coordinates. This is the absolute position
             (X,Y);
         * **(pt ball)** The current global position of the ball.
         * **(pt TEAM UNUM)** The current position of player number UNUM on team
             TEAM (either ’our’ or ’opp’). Remember that UNUM can be a variable.
         * **(POINT 1 OP POINT 2 )**
-            This arithmetically combines two points to a new point. POINT i can be
+            This arithmetically combines two points into a new point. POINT i can be
             made up of arithmetic operators, resulting in a recursive structure.
-            The operators are defined in the natural way, for example:
+            The operators are defined in a natural way, for example:
             **(pt** :math:`X_1Y_1` **) OP (pt** :math:`X_2Y_2` **)** :math:`=` **(pt** :math:`X_1` **OP** :math:`X_2` :math:`Y_1`**OP** :math:`Y_2` **)**
             where **OP** is one of :math:`+ − * /`
 
     The use of these relative points makes it easy to express ideas such as “Move to
     the ball”, “If there are 2 teammates within 10m of the ball”, etc.
-    Remember that the online coach receives visual information alway in left-hand
+    Remember that the online coach receives visual information always in left-hand
     orientation, no matter which side its team plays on. Yet, when sending messages
     to a team that plays on the right side, the coach must use right-hand orientation
     in the messages. Transforming coordinates from left- to right-hand orientation is
@@ -903,7 +903,7 @@ choose to ignore the directive for now.
 
 * UNUM SETS:
 
-    Unum sets are sets of player numbers. These are sets in the sense that order does
+    Unum sets are sets of player numbers. These are set in the sense that order does
     not matter and may be changed by the server. If 0 is included anywhere in the
     set, then the set contains all players 1 - 11. The set can contain variables.
 
@@ -924,10 +924,10 @@ choose to ignore the directive for now.
         5   )
 
     the scope of **X** is the complete line 4. This also shows how variables can be instan-
-    tiated: Only in conditions which have UNUMs as fixed argument (i. e. UNUMs
+    tiated: Only in conditions that have UNUMs as fixed argument (i. e. UNUMs
     in POINTs do not count as condition UNUMS) a variable may be introduced. Its
     value is set by checking which unums make the condition true. In the example **X**
-    is instantiated with the uniform number of the ballowner. In a condition like **ppos**
+    is instantiated with the uniform number of the ball owner. In a condition like **ppos**
     it can be necessary to instantiate the variable as a set of unums:
 
         (ppos our {X} 1 11 REGION)
