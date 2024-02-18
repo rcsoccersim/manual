@@ -8,7 +8,7 @@ Coach
 Introduction
 =================================================
 
-Coaches are privileged clients used to provide assistance to the players.
+Coaches are privileged clients that provide assistance to the players.
 There are two kinds of coaches, the online coach and the trainer. The latter is often
 called 'off-line coach' as well, but for clarity's sake we will use the term 'trainer'.
 
@@ -579,8 +579,7 @@ number 11 if it has the ball and is in the middle of the field can be defined as
 Each of the primitives will be explained in detail later. For now, it should suffice to
 get the idea that the rule is assigned the ID "MyRule1" and is defined as a directive (as
 compared to a model-rule that describes observed behavior). **bowner** determines that
-player 5 of the coach's team is the ball owner. **bpos** specifies the ball position by means
-of a rectangle. Finally, the directive advises player number 5 to pass to his teammate
+player 5 of the coach's team is the ball owner. **bpos** specifies the ball position using a rectangle. Finally, the directive advises player number 5 to pass to his teammate
 11. In CLang lingo **(pass 11)** is an *action* and **(do our5 (pass 11))** is a *directive*.
 
 Rules are off by default. So the coach has to turn them off by sending a message like
@@ -592,7 +591,7 @@ Now the language concepts will be looked at in more detail.
 Overview of the Five Message Types
 ------------------------------------------------
 
-There are four types of coach messages in the standard coach language: Rule, Define,
+There are five types of coach messages in the standard coach language: Rule, Define,
 Delete, and Freeform. Their purpose and format will be described in this section, and
 some examples will be given.
 
