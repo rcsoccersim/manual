@@ -32,7 +32,7 @@ the trainer has the following capabilities:
 
 For details on these capabilities see Section 7.3.
 
-The online coach is intended to observe the game and provide advice and information to the players. Therefore, it's capabilities are somewhat limited:
+The online coach is intended to observe the game and provide advice and information to the players. Therefore, its capabilities are somewhat limited:
 
 * It can communicate with the players.
 * It can get noise-free information about the movable objects.
@@ -411,25 +411,25 @@ has the capability of receiving global and noise-free information about the obje
 field. In order to encourage research in this area there are special coach contests since
 2001. This way, research groups that do not want to develop a team of player clients
 can participate in the RoboCup challenge by focusing on the online coach. Additionally,
-in order to make it possible to use a single coach with a variety of teams, a standard
+to make it possible to use a single coach with a variety of teams, a standard
 coach language (CLang) has been developed that can be used to communicate with the
 players.
 
-See Section 7.4 and 7.5 for details about the commands that can be used by the online
+See Sections 7.4 and 7.5 for details about the commands that can be used by the online
 coach and messages that will be sent by the server.
 
 -----------------------------------------------
 Communication with the players
 -----------------------------------------------
 
-Prior to version 7.00, the online coach could say short (128 characters,
+Before version 7.00, the online coach could say short (128 characters,
 *say_coach_msg_size*) alphanumeric (plus the symbols().+*/?<>) messages when the
 play-mode is not 'play_on'.  This type of message still exists as a "freeform" message,
 but there are now other standard message types. Since version 8.05 there are also certain
-intervals in which freeform-messages can be sent even during 'play_on'. Every 600 cycles
+intervals in which freeform messages can be sent even during 'play_on'. Every 600 cycles
 (specified by *freeform_wait_period*) of 'play_on' the coach can send freeform-messages
 for 20 cycles (specified by *freeform_send_period*). For example, if the play-mode changes
-to 'play_on' at cycle 420 and stays in 'play_on' till the end of this example,the coach can
+to 'play_on' at cycle 420 and stays in 'play_on' till the end of this example, the coach can
 send freeform-messages between 1020 and 1040, 1620 and 1640, etc. The coach can
 send *say_coach_cnt_max* freeform messages per game. The length of these messages has
 to be less than *say_coach_msg_size*. If the game continues into extended time, the online
@@ -437,13 +437,13 @@ coaches are given an additional *say_coach_cnt_max* messages to say every additi
 cycles (or whatever the normal length of a game is). Allowed messages are cumulative,
 so if the coach does not use all its allowed messages, it can use them in the extended
 time. The server will send **(error said_too_many_messages)** if the coach tries to send
-messages after it reached the maximum number.
+messages after it reaches the maximum number.
 
 It should be noted that freeform-messages are not allowed in coach-competition-games,
 and are only supported by CLang for compatibility reasons.
 
-In the standard coach language there are three other types of messages: rule-, define-,
-and delete-messages. To prevent coaches from micro-controlling every single action of
+In the standard coach language, there are three other types of messages: rule-, define-,
+and delete- messages. To prevent coaches from micro-controlling every single action of
 the players communication is restricted in the following ways.
 
 Every 300 cycles (specified by *clang_win_size*) the coach can send one of each. Note
@@ -486,13 +486,13 @@ versions:
 This means that you have to add the sending of **(clang (ver 7 7))**, if you use version
 7 source code of players with newer server versions.
 
-The standard coach language will be described in detail in Section7.7.
+The standard coach language will be described in detail in Section 7.7.
 
 -----------------------------------------------
 Changing Player Types
 -----------------------------------------------
 
-Using the **change_player_type**-command (described in Section7.4) the online coach
+Using the **change_player_type**-command (described in Section 7.4) the online coach
 can change player types unlimited times in **'beforekickoff'** play-mode. Of course,
 these changes have to comply with the general rules about heterogeneous players (see
 Section 4.6). After kick-off player types can be changed three (*subs_max*) times during
@@ -554,7 +554,7 @@ The general idea of CLang is to describe tactics and behaviours as rules which m
 directives to conditions. Each rule consists of a component that denotes a situation
 (the *condition*) and a list of *directives* that are applicable if the situation description
 is true in the given world state. Rules can either be used as advice that tells the player
-how to actor as information which for example describes how the opponent behaves in
+how to act, or as information that, for example, describes how the opponent behaves in
 certain situations. In CLang rules also have an ID, so that the coach can refer to them
 later.
 
@@ -593,7 +593,7 @@ Overview of the Five Message Types
 ------------------------------------------------
 
 There are four types of coach messages in the standard coach language: Rule, Define,
-Delete, and Freeform. Their purpose and format will be described in this section,and
+Delete, and Freeform. Their purpose and format will be described in this section, and
 some examples will be given.
 
 In the following format description elements in capitals denote non-terminal symbols
