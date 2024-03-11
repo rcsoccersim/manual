@@ -100,6 +100,10 @@ Player Control
 | |     *Moment* ::= **minmoment** ~ **maxmoment** degrees                     |                          |
 +------------------------------------------------------------------------------+--------------------------+
 | | (dash *Power* [*Direction*])                                               | Yes                      |
+| | (dash (l *Power* [*Direction*]) (r *Power* [*Direction*]))                 |                          |
+| | (dash (r *Power* [*Direction*]) (l *Power* [*Direction*]))                 |                          |
+| | (dash (l *Power* [*Direction*]))                                           |                          |
+| | (dash (r *Power* [*Direction*]))                                           |                          |
 | |     *Power* ::= **min_dash_power** ~ **max_dash_power**                    |                          |
 | |     *Direction* ::= **min_dash_angle** ~ **max_dash_angle** degrees        |                          |
 | | Note: backward dash (negative power) consumes double stamina.              |                          |
@@ -110,9 +114,9 @@ Player Control
 +------------------------------------------------------------------------------+--------------------------+
 | | (tackle *PowerOrAngle* [*Foul*])                                           | Yes                      |
 | |     *PowerOrAngle* ::= **minmoment** ~ **maxmoment** degrees               |                          |
-|                        : if client version >= 12                             |                          |
+| |                      : if client version >= 12                             |                          |
 | |     *PowerOrAngle* ::= **-max_back_tackle_power** ~ **max_tackle_power**   |                          |
-|                        : if client version <  12                             |                          |
+| |                      : if client version <  12                             |                          |
 | |     *Foul* ::= ``true`` \| ``false`` \| ``on`` \| ``off``                  |                          |
 +------------------------------------------------------------------------------+--------------------------+
 | | (catch *Direction*)                                                        | Yes                      |
@@ -852,6 +856,8 @@ Fullstate Sensor Model
 
 **TODO**
 
+.. _sec-movementmodels:
+
 ==================================================
 Movement Models
 ==================================================
@@ -1322,6 +1328,11 @@ relevance for omni-directional dashing.
    | server::dash_angle_step         | 1                          |                                           |            |
    +---------------------------------+----------------------------+-------------------------------------------+------------+
 
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Bipedal Dash Model
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. include:: soccerserver/bipedal-dash-model.rst
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Stamina Model
