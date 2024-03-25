@@ -4,15 +4,22 @@
 Vision Sensor Model
 --------------------------------------------------
 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Basics
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 The visual sensor reports the objects currently seen by the player.
-The information is automatically sent to the player every
-**server::sense_step**, currently 150, milli-seconds, in the default setting.
-If players use the synchronous mode, the frequency of the visual information is synchronized with the simulation step.
-The simulation parameters related to the visual information are listed in :numref:`param-visualsensor` and :numref:`heterogenious-param-visualsensor`.
+The information is automatically sent to the player with the frequency
+determined by the player's view width, view quality, and the
+synchronous/asynchronous mode.
+Furthermore, the server mixes noise into the information sent to the
+player. There are two types of noise models: the quantiazaiton model
+and the Gaussian model, and the default is the quantization
+model. Gaussian model was introduced from version 19
 
 Visual information arrives from the server in the following basic format:
 
-  (see *ObjName* *Distance* *Direction* *DistChng* *DirChng* *BodyDir* *HeadDir*)
+  (see *ObjName* *Distance* *Direction* *DistChng* *DirChng* *BodyDir* *HeadDir* [t|k])
 
 *Distance*, *Direction*, *DistChng* and *DirChng* are calculated in the
 following way:
@@ -24,14 +31,15 @@ following way:
   p_{ry} &= p_{yt} - p_{yo} \\
   v_{rx} &= v_{xt} - v_{xo} \\
   v_{ry} &= v_{yt} - v_{yo} \\
+  a_o &= AgentBodyDir + AgentHeadDir \\
   Distance &= \sqrt{p_{rx}^2 + p_{ry}^2} \\
   Direction &= \arctan{(p_{ry}/p_{rx})} - a_o \\
   e_{rx} &= p_{rx} / Distance \\
   e_{ry} & = p_{ry} / Distance \\
   DistChng &= (v_{rx} * e_{rx}) + (v_{ry} * e_{ry}) \\
   DirChng &= [(-(v_{rx} * e_{ry}) + (v_{ry} * e_{rx})) / Distance] * (180 / \pi)  \\
-  BodyDir &= PlayerBodyDir - AgentBodyDir - AgentHeadDir \\
-  HeadDir &= PlayerHeadDir - AgentBodyDir - AgentHeadDir
+  BodyDir &= PlayerBodyDir - a_o \\
+  HeadDir &= PlayerHeadDir - a_o
 
 
 where :math:`(p_{xt},p_{yt})` is the absolute position of the target object,
@@ -89,40 +97,47 @@ The kicking state is visible the cycle directly after kicking.
 Asynchronous mode and Synchronous mode
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-There are two modes available for all players: asynchronous mode
-and synchronous mode.
+There are two modes available for all players in in the vision sensor:
+asynchronous mode and synchronous mode.
 The asynchronous mode functions exactly like the default time step
 in version 11 or older.
-In server versions 17 and below, asynchronous mode is still the
-default mode for all players, including versions 12 to 17.
-
-In server versions 17 and below, asynchronous mode is the
-default mode for all players, including versions 12 to 17.
-If players wish to switch to synchronous mode, they can do
-so by using the "(synch_see)" command. Once they have switched
-to synchronous mode, they cannot return to asynchronous mode.
-Additionally, players using version 11 or older can also use
-the "(synch_see)" command to access synchronous mode.
-
-In server versions 18 and above, players using version 18 are
-required to use synchronous mode. However, players using older
-versions can still switch to synchronous mode by using the
-"(synch_see)" command to change the default view mode.
+Until server version 17, asynchronous mode is the default mode for all
+players.
+Since version 18, synchrnonous mode is the default mode.
+If v17 or older players wish to switch to synchronous mode, they have
+to send the ``(synch_see)`` command.
+Once they have switched to synchronous mode, they cannot return to
+asynchronous mode.
 
 
+In asynchronous mode, the information is automatically sent to the
+player every **server::sense_step**, currently 150, milliseconds, in
+the default setting.
+The frequency is changed according to the player's view width and view
+quality.
+Please note that the message arrival timig is not synchronized with
+the simulation step interval.
+
+In synchronous mode, players' view quality is always set to 'high' and
+they cannot change their view quality.
+Instead of that, the message arrival timing of the visual information
+is automatically synchronized with the simulation step interval.
+The server executes the visual information transmission process
+**server::synch_see_offset** milliseconds after the simulation step
+update.
+The frequence is changed according to the player's view width.
 
 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Range of View
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Range of View and View Frequency in Asynchronous mode
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The visible sector of a player is dependant on several factors.
-First of all we have the server parameters **server::sense_step** and
-**server::visible_angle** which determines the basic time step between
-visual information and how many degrees the player's normal view cone is.
-The default values in the asynchronous mode are 150 milli-seconds and 90 degrees.
-If players use the synchronous mode, the frequency of the visual information
-is synchronized with the simulation step. See the next section in detail.
+In asynchronous mode, we have the server parameters
+**server::sense_step** and **server::visible_angle** which determines
+the basic time step between visual information and how many degrees
+the player's normal view cone is.
+The default values in the asynchronous mode are 150 milliseconds and 90 degrees.
 
 The player can also influence the frequency and quality of the information
 by changing *ViewWidth* and *ViewQuality*.
@@ -273,8 +288,11 @@ Range of View and View Frequency in Synchronous mode
 In synchronous mode, the "low" view quality is not available,
 and the view widths in :numref:`setting-synchronousmode-v17` are available.
 In all view widths, rcssserver send see messages at
-**server::synch_see_offset** milli-seconds from the beginning
+**server::synch_see_offset** milliseconds from the beginning
 of the cycle.
+
+The amount of information the player can receive changes depending on
+the distance to the target object, the same as in asynchronous mode.
 
 
 .. .. table::  Settings of the synchronous mode in server v.17 and older versions
@@ -325,64 +343,33 @@ of the cycle.
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Focus Point
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 The focus point concept was developed in server version 18 to make observations
 in the game more closely resemble those made by human observers and camera
-lenses. The position of the focus point affects the observation noise model.
+lenses.
+The position of the focus point affects the observation noise model.
 In brief, the server introduces more noise to the distance of an observed
 object if the object is farther from the observer's focus point.
 
 The default position of the focus point is the player's position. However,
 the player can change the focus point by sending the
-"(change_focus dist_moment dir_moment)" command.
+``(change_focus DIST_MOMENT DIR_MOMENT)`` command.
 It's worth noting that the focus point cannot be outside the
 player's view angle, and its maximum distance from the player is 40.
 
 This feature is available to players using version 18 or above on
 server versions 18 or above.
 
+
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Visual Sensor Noise Model: Protocol v17 or older
+Visual Sensor Noise Model: Quantization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In order to introduce noise in the visual sensor data the values sent from
-the server is quantized.
+The quantizaiton noise model is the default mode for all players.
+In this mode, in order to introduce noise in the visual sensor data
+the values sent from the server is quantized.
 For example, the distance value of the object, in the case where the object
 in sight is a ball or a player, is quantized in the following manner:
-
-.. math::
-
-  d' = {\mathrm Quantize}(\exp({\mathrm Quantize}(\log(d),quantize\_step)),0.1)
-
-
-where :math:`d` and :math:`d'` are the exact distance and quantized distance
-respectively, and
-
-.. math::
-
-  {\mathrm Quantize}(V,Q) = {\mathrm ceiling}(V/Q) \cdot Q
-
-
-This means that players can not know the exact positions of very far objects.
-For example, when distance is about 100.0 the maximum noise is about 10.0,
-while when distance is less than 10.0 the noise is less than 1.0.
-
-In the case of flags and lines, the distance value is quantized in the
-following manner.
-
-.. math::
-
-  d' = {\mathrm Quantize}(\exp({\mathrm Quantize}(\log(d),quantize\_step\_l)),0.1)
-
-
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Visual Sensor Noise Model: Protocol v18
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-If players use the protocl version 18, the visual sensor noise model is changed as follows:
-
-.. .. math::
-..  quantize\_step' = quantize\_step \cdot ViewAngleNoiseTerm
-
 
 .. math::
   p_{rfx} &= p_{xf} - p_{xo} \\
@@ -391,15 +378,81 @@ If players use the protocl version 18, the visual sensor noise model is changed 
   f' &= \exp({\mathrm Quantize}(\log(f),quantize\_step)) \\
   d'' &= {\mathrm Quantize}({\mathrm max}(0.0, d - (f - f')), 0.1)
 
-..  f' = {\mathrm Quantize}(\exp({\mathrm Quantize}(\log(f),quantize\_step')),0.1)
-
 where :math:`(p_{xf},p_{yf})` is the absolute position of the focus point of the observer,
 :math:`(p_{xo},p_{yo})` is the absolute position of the observer,
 :math:`d` is the exact distance of the observer to the object,
 :math:`f` and :math:`f'` are the exact distance and quantized distance
 of the focus point to the object respectively,
 and :math:`d''` is the result distance value sent to the observer.
+:math:`Quantize(V,Q)` is as follow:
 
-This noise model is applied to observations made by players using version 18.
-When the observer's focus point is set to the default position (i.e., the observer's position),
-this model functions in exactly the same  way as the visual sensor noise model in server version 17.
+.. math::
+
+  {\mathrm Quantize}(V,Q) = {\mathrm ceiling}(V/Q) \cdot Q
+
+
+This means that players can not know the exact positions of very far objects.
+For example, when distance from the focus point is about 100.0 the
+maximum noise is about 10.0, while when distance is less than 10.0 the
+noise is less than 1.0.
+
+In the case of lines, the distance value is quantized in the following manner.
+
+.. math::
+
+  d' = {\mathrm Quantize}(\exp({\mathrm Quantize}(\log(d),quantize\_step\_l)),0.1)
+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Visual Sensor Noise Model: Gaussian
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The Gaussian noise model has been introduced in server version 19.
+Players can change their noise model by sending ``(gaussian_see)``
+command.
+All version players can use this command.
+If the command is accepted, rcssserver sent a reply message, ``(ok gaussian_see)``.
+
+In this model, the noised distance in the player's observation is
+determined by a Gaussian distribution:
+
+.. math::
+
+   s &= d \times r_d + f \times r_f \\
+   d' &= d \times max(0.0, NormalDistribution(d, s))
+
+where :math:`d` is the exact distance from the observer to the object,
+:math:`f` is the exact distance from the focus point to the object,
+and :math:`d'` is the result distance value sent to the observer.
+:math:`NormalDistribution(mean,stddev)` is a random number generator
+based on a Gaussian distribution with given mean and standard deviation.
+Therefore, the resulting value :math:`d'` is generated from a Gaussian
+distribution with mean :math:`d'` and standard deviation :math:`s`.
+
+:math:`r_d` and :math:`r_f` are the noise rate parameter defined as
+heterogenious parameters.
+There are four parameters, **dist_noise_rate**, **focus_dist_noise_rate**,
+**land_dist_noise_rate**, and **land_focus_dist_noise_rate**.
+The former two paramters are used for movable object (ball and
+players), and the latter two paramters are used for landmark objects
+(flags and goals).
+In server version 19, all heterogeneous players use same values
+defined in server.conf (:numref:`server-param-gaussian-model`).
+
+
+
+.. list-table:: Server parameters for Gaussian model.
+   :name: server-param-gaussian-model
+   :header-rows: 1
+   :widths: 60 40
+
+   * - Parameters in player_type
+     - Value
+   * - dist_noise_rate
+     - 0.0125
+   * - focus_dist_noise_rate
+     - 0.0125
+   * - land_dist_noise_rate
+     - 0.00125
+   * - land_focus_dist_noise_rate
+     - 0.00125
