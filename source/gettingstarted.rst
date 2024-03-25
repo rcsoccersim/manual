@@ -26,50 +26,39 @@ the RoboCup Soccer Simulator.
 Getting and installing the server
 =================================================
 
-The procedure shown was performed on a computer running SuSE
-7.3-GNU/Linux 2.4.10-4GB (check your version with ``uname -sr``)
-with gcc 2.95.3 and gcc 3.2 (check your version with ``which g++``)
-but any reasonably up-to-date installation should work.
-prompt.
-
+The procedure shown was performed on a computer running Linux.
+We recommend using a stable Linux environment for running the
+simulation server and monitor.
 Get tar.gz files for the version you are after from the Simulator's code
 repository:
 
 * `rcssserver <https://github.com/rcsoccersim/rcssserver/releases>`_ performs the actual simulation.
 * `rcssmonitor <https://github.com/rcsoccersim/rcssmonitor/releases>`_ allows you to watch game in progress.
-* `rcsslogplayer <https://github.com/rcsoccersim/rcsslogplayer/releases>`_ allows you to replay logs (\*.rcg files) created by rcssserver. 
+* `rcsslogplayer <https://github.com/rcsoccersim/rcsslogplayer/releases>`_ allows you to replay logs (\*.rcg files) created by rcssserver.
 
-At the time of this writing (May-1-2021) the latest version is 16.0.0
-and will be used in the example below. Please substitute 16.0.0 for the
-latest version available.
-
-
-If you have downloaded rcssserver-\*.tar.gz, then first extract the
+Unless there is a particular reason, we recommend using the latest
+released version.
+If you have downloaded rcssserver-x.x.x.tar.gz, then first extract the
 source files by running::
 
-  $ tar zxvf rcssserver-16.0.0.tar.gz
+  $ tar zxvf rcssserver-x.x.x.tar.gz
 
-directory to **rcssserver-16.0.0**. This directory contains the following
+directory to **rcssserver-x.x.x**. This directory contains the following
 files::
 
-  $ cd rcssserver-16.0.0
+  $ cd rcssserver-x.x.x
   $ ls
-  acinclude.m4    compile        configure       install-sh
-  Makefile.in     README.md      aclocal.m4      config.guess
-  configure.ac    ltmain.sh      missing         src
-  AUTHORS         config.h.in    COPYING.LESSER  m4          
-  NEWS            ylwrap 	       ChangeLog       config.sub 
-  depcomp         Makefile.am    rcssbase
+  AUTHORS         Makefile.in   compile         configure     m4
+  CMakeLists.txt  NEWS          config.guess    configure.ac  missing
+  COPYING.LESSER  README.md     config.h.cmake  depcomp       rcss
+  ChangeLog       acinclude.m4  config.h.in     install-sh    src
+  Makefile.am     aclocal.m4    config.sub      ltmain.sh     ylwrap
 
-Always read the **README** file first::
 
-  $ more README
+Always read the **README.md** file first::
 
-The **COPYING** file contains details about the license under which you
-may use and modify the software. Please, make sure you read it in your
-own time::
+  $ more README.md
 
-  $ more COPYING
 
 =================================================
 Quick Start
@@ -401,33 +390,6 @@ stop using the **ps** command. A simpler way to eradicate all
 processes that have a specific name is by means of the **killall**
 command, for example: ``killall rcssserver`` is
 sufficient to kill all processes with the name **rcssserver**.
-
-=================================================
-Supported platforms
-=================================================
-
-The Soccer Server supports quite a few unix style platforms but we haven’t actually
-compiled a list. The simulator (grouped by version numbers) is known to work on the
-following platforms [#f2]_:
-
-- 9.2.2
-  
-  - SuSE 7.3 with gcc 2.95.3 or 3.2 (Tom Howard)
-  - Windows 2000 with Cygwin with gcc 2.95.3 (Tom Howard)
-  - SuSE 8.1 with gcc 3.2 (Jan Murray)
-  - Debian 3.0 (woody) with gcc 2.95.4 (Jan Murray)
-  - SuSE 7.0 Linux with gcc 2.95.2 (Kernel 2.4.16) (Goetz Schwandtner)
-
-- 9.1.5
-
-  - SuSE 8.1 with gcc 3.2 (Jan Murray)
-  - Debian 3.0 (woody) with gcc 2.95.4 (Jan Murray)
-  - SuSE 7.3 with gcc 2.95.3 or 3.2 (Tom Howard)
-  - Windows 2000 with Cygwin with gcc 2.95.3 (Tom Howard)
-
-If you have a platform not listed above for a particular simulator version and
-you have managed to get the simulator running on it, please let us know at
-<sserver-admin@lists.sf.net>.
 
 =================================================
 Troubleshooting

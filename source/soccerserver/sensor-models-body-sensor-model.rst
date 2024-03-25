@@ -28,6 +28,7 @@ The format of the body sensor message is:
 | |              (tackle (expires *ExpireCycles*) (count *TackleCount*))                         |
 | |              (collision {none\|[(ball)] [(player)] [(post)]})                                |
 | |              (foul (charged *FoulCycles*) (card {red\|yellow\|none})))                       |
+| |              (focus_point *FocusDist* *FocusDir*))                                           |
 +------------------------------------------------------------------------------------------------+
 
 - *ViewQuality* is one of ``high`` and ``low``.
@@ -42,7 +43,7 @@ The format of the body sensor message is:
 - *ExpireCycles*
 - *FoulCycles*
 
-**TODO: add descriptions about values. arm [8.03], focus [8.04], tackle [8.04], collision [12.0.0_pre-20071217], foul [14.0.0] in NEWS**
+**TODO: add descriptions about values. arm [8.03], focus [8.04], tackle [8.04], collision [12.0.0_pre-20071217], foul [14.0.0], focus_point [18.0.0] in NEWS**
 
 The semantics of the parameters are described where they are actually
 used.
