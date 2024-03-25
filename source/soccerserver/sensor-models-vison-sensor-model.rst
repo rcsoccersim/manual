@@ -1,3 +1,9 @@
+.. _sec-visionsensor:
+
+--------------------------------------------------
+Vision Sensor Model
+--------------------------------------------------
+
 The visual sensor reports the objects currently seen by the player.
 The information is automatically sent to the player every
 **server::sense_step**, currently 150, milli-seconds, in the default setting.
@@ -83,24 +89,24 @@ The kicking state is visible the cycle directly after kicking.
 Asynchronous mode and Synchronous mode
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-There are two modes available for all players: asynchronous mode 
+There are two modes available for all players: asynchronous mode
 and synchronous mode.
 The asynchronous mode functions exactly like the default time step
 in version 11 or older.
-In server versions 17 and below, asynchronous mode is still the 
-default mode for all players, including versions 12 to 17. 
+In server versions 17 and below, asynchronous mode is still the
+default mode for all players, including versions 12 to 17.
 
-In server versions 17 and below, asynchronous mode is the 
-default mode for all players, including versions 12 to 17. 
-If players wish to switch to synchronous mode, they can do 
-so by using the "(synch_see)" command. Once they have switched 
-to synchronous mode, they cannot return to asynchronous mode. 
-Additionally, players using version 11 or older can also use 
+In server versions 17 and below, asynchronous mode is the
+default mode for all players, including versions 12 to 17.
+If players wish to switch to synchronous mode, they can do
+so by using the "(synch_see)" command. Once they have switched
+to synchronous mode, they cannot return to asynchronous mode.
+Additionally, players using version 11 or older can also use
 the "(synch_see)" command to access synchronous mode.
 
-In server versions 18 and above, players using version 18 are 
-required to use synchronous mode. However, players using older 
-versions can still switch to synchronous mode by using the 
+In server versions 18 and above, players using version 18 are
+required to use synchronous mode. However, players using older
+versions can still switch to synchronous mode by using the
 "(synch_see)" command to change the default view mode.
 
 
@@ -264,7 +270,7 @@ and player *f* would be identified simply as an anonymous player.
 Range of View and View Frequency in Synchronous mode
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In synchronous mode, the "low" view quality is not available, 
+In synchronous mode, the "low" view quality is not available,
 and the view widths in :numref:`setting-synchronousmode-v17` are available.
 In all view widths, rcssserver send see messages at
 **server::synch_see_offset** milli-seconds from the beginning
@@ -312,7 +318,7 @@ of the cycle.
 ..   +-----------+----------------------+----------------+----------------+
 
 
-.. The concept of the noise term was developed in server version 18. 
+.. The concept of the noise term was developed in server version 18.
 .. By increasing the noise term, the server introduces more noise to observed objects.
 
 
@@ -320,18 +326,18 @@ of the cycle.
 Focus Point
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The focus point concept was developed in server version 18 to make observations
-in the game more closely resemble those made by human observers and camera 
-lenses. The position of the focus point affects the observation noise model. 
-In brief, the server introduces more noise to the distance of an observed 
+in the game more closely resemble those made by human observers and camera
+lenses. The position of the focus point affects the observation noise model.
+In brief, the server introduces more noise to the distance of an observed
 object if the object is farther from the observer's focus point.
 
-The default position of the focus point is the player's position. However, 
-the player can change the focus point by sending the 
-"(change_focus dist_moment dir_moment)" command. 
-It's worth noting that the focus point cannot be outside the 
+The default position of the focus point is the player's position. However,
+the player can change the focus point by sending the
+"(change_focus dist_moment dir_moment)" command.
+It's worth noting that the focus point cannot be outside the
 player's view angle, and its maximum distance from the player is 40.
 
-This feature is available to players using version 18 or above on 
+This feature is available to players using version 18 or above on
 server versions 18 or above.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -391,9 +397,9 @@ where :math:`(p_{xf},p_{yf})` is the absolute position of the focus point of the
 :math:`(p_{xo},p_{yo})` is the absolute position of the observer,
 :math:`d` is the exact distance of the observer to the object,
 :math:`f` and :math:`f'` are the exact distance and quantized distance
-of the focus point to the object respectively, 
+of the focus point to the object respectively,
 and :math:`d''` is the result distance value sent to the observer.
 
-This noise model is applied to observations made by players using version 18. 
+This noise model is applied to observations made by players using version 18.
 When the observer's focus point is set to the default position (i.e., the observer's position),
 this model functions in exactly the same  way as the visual sensor noise model in server version 17.

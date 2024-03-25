@@ -72,6 +72,8 @@ command as follows:
   argument = (1 + \tilde{r}_{\mathrm rand}) \cdot argument
 
 
+.. _sec-collisionmodel:
+
 --------------------------------------------------
 Collision Model
 --------------------------------------------------

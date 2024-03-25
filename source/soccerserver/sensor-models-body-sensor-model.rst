@@ -1,3 +1,7 @@
+--------------------------------------------------
+Body Sensor Model
+--------------------------------------------------
+
 The body sensor reports the current "physical" status of the
 player.
 he information is automatically sent to the player every
