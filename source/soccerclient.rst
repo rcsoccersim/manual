@@ -315,27 +315,28 @@ Sample Client
 ----------------------
 
 The Soccer Server distribution includes a very simple program for soccer clients, called
-sampleclient. It is under the ”sampleclient” directory of the distribution, and is
+rcssclient.
+It is under the "src" directory of the distribution, and is
 automatically compiled when you make the Soccer Server.
-The sampleclient is not a stand-alone client: It is a simple ‘pipe’ that redirects
+The rcssclient is not a stand-alone client: It is a simple ‘pipe’ that redirects
 commands from its standard input to the server, and information from the server to its
 standard output. Therefore, nothing happens when users invoke the sampleclient. The
 users must type-in commands from keyboards, and read the sensor information displayed
 on the terminal. (Actually it is impossible to read sensor information, because the server
 sends about 17 sensor informations (see information and sense_body information) per
 second.)
-The sampleclient is useful to understand what clients should do, and what the clients
+The rcssclient is useful to understand what clients should do, and what the clients
 will receive from the server.
 
 
-**How to Use** sampleclient
+**How to Use** rcssclient
 Here is a typical usage of the sampleclient.
 
   #. Invoke client under sampleclient directory of the Soccer Server.
 
       ::
 
-      % ./client SERVERHOST
+      % ./rcssclient -server SERVERHOST
 
       Here, SERVERHOST is a hostname on which Soccer Server is running.
       Then the program awaits user input.
@@ -343,10 +344,9 @@ Here is a typical usage of the sampleclient.
       port (6000), the users should use the following form.
       ::
 
-      % ./client SERVERHOST 6005
+      % ./rcssclient -server SERVERHOST -port 6005
 
   #. Type in init command from the keyboard.
-
 
       (init MYTEAMNAME (version 7))
 
@@ -356,29 +356,34 @@ Here is a typical usage of the sampleclient.
       typical output
       ::
 
-        send 6000 : (init foo (version 7))
-        recv 1567 : (init r 1 before_kick_off)
-        recv 1567 : (server_param 14.02 5 0.3 0.4 0.1 60 1 1 4000 45 0 0.3 0.5 ...
-        recv 1567 : (player_param 7 3 3 0 0.2 -100 0 0.2 25 0 0.002 -100 0 0.2 ...
-        recv 1567 : (player_type 0 1 45 0.4 5 0.006 0.3 0.7 0 0 1 0.6)
-        recv 1567 : (player_type 1 1.16432 28.5679 0.533438 8.33595 0.00733326 ...
-        recv 1567 : (player_type 2 1.19861 25.1387 0.437196 5.92991 0.00717675 ...
-        recv 1567 : (player_type 3 1.04904 40.0956 0.436023 5.90057 0.00631769 ...
-        recv 1567 : (player_type 4 1.1723 27.7704 0.568306 9.20764 0.00746072 ...
-        recv 1567 : (player_type 5 1.12561 32.4392 0.402203 5.05509 0.00621539 ...
-        recv 1567 : (player_type 6 1.02919 42.0812 0.581564 9.53909 0.00688457 ...
-        recv 1567 : (sense_body 0 (view_mode high normal) (stamina 4000 1) ...
-        recv 1567 : (see 0 ((g r) 61.6 37) ((f r t) 49.4 3) ((f p r t) 37 27) ...
-        recv 1567 : (sense_body 0 (view_mode high normal) (stamina 4000 1) ...
+        (init foo (version 7))
+        (init r 1 before_kick_off)
+        (server_param 14.02 5 0.3 0.4 0.1 60 1 1 4000 45 0 0.3 0.5 ...
+        (player_param 7 3 3 0 0.2 -100 0 0.2 25 0 0.002 -100 0 0.2 ...
+        (player_type 0 1 45 0.4 5 0.006 0.3 0.7 0 0 1 0.6)
+        (player_type 1 1.16432 28.5679 0.533438 8.33595 0.00733326 ...
+        (player_type 2 1.19861 25.1387 0.437196 5.92991 0.00717675 ...
+        (player_type 3 1.04904 40.0956 0.436023 5.90057 0.00631769 ...
+        (player_type 4 1.1723 27.7704 0.568306 9.20764 0.00746072 ...
+        (player_type 5 1.12561 32.4392 0.402203 5.05509 0.00621539 ...
+        (player_type 6 1.02919 42.0812 0.581564 9.53909 0.00688457 ...
+        (sense_body 0 (view_mode high normal) (stamina 4000 1) ...
+        (see 0 ((g r) 61.6 37) ((f r t) 49.4 3) ((f p r t) 37 27) ...
+        (sense_body 0 (view_mode high normal) (stamina 4000 1) ...
 
-      The first line, “send 6000 : (init foo (version 7))”, is a report what
-      the client sends to the server. The second line,”recv 1567 : (init r 1
-      before_kick_off) is a report of the first response from the server. Here, the
-      server tells the client that the assigned player is the right side team (r), its uniform number is 1, and the current playmode is before_kick_off. The next 9
-      lines are server_param and player_param, which tells various parameters used in
-      the simulation. Finally, the server starts to send the normal sensor informations,
-      sense_body and see. Because the server sends these sensor information every
-      100ms or 150ms, the client continues to output the information endlessly.
+      The first line, “(init foo (version 7))”, is a report what
+      the client sends to the server. The second line, ”(init r 1
+	  before_kick_off) is a report of the first response from the
+	  server.
+	  Here, the server tells the client that the assigned player is
+	  the right side team (r), its uniform number is 1, and the
+	  current playmode is before_kick_off.
+	  The next 9 lines are server_param and player_param, which tells
+	  various parameters used in the simulation.
+	  Finally, the server starts to send the normal sensor informations,
+      sense_body and see.
+	  Because the server sends these sensor information every 100ms or
+	  150ms, the client continues to output the information endlessly.
 
   #. Type in move command to place the player to the initial position. The player
       appears on a bench outside of the field. Users need to move it to its initial position
@@ -416,7 +421,7 @@ Here is a typical usage of the sampleclient.
 Overall Structure of Sample Client
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The structure of the sampleclient is simple. The brief process the client does is as
+The structure of the rcssclient is simple. The brief process the client does is as
 follows:
 
   #. Open a UDP socket and connect to the server port. (init_connection())
@@ -474,141 +479,6 @@ to execute a sensor process, which deals with sensor information, and an action
 process, which controls to send commands, in parallel.
 
 **[Planning]** To make a plan of play: Using sensor information, the client needs to generate appropriate command sequences of play. Of course, this is the final goal of developing soccer clients!!
-
-Here are two simple examples of stand-alone players, sclient1 and sclient2, which
-just chase the ball and kick it to the opponent goal. The sources are available from
-
-  ftp://ci.etl.go.jp/pub/soccer/client/noda-client-2.0.tar.gz
-
-In the examples, the functions listed above are realized as follows:
-
-
-  * For Sensing function, both examples use common facilities of class BasePlayer, class FieldState, and estimatePos functions. By these facilities, the example programs do:
-      * receive data from a socket connected with the server,
-      * parse the data as S-expression,
-      * interpret the expression into internal data format (class SensorInfo),
-      * and in the case the received data is visual sensor information, estimate player’s and other object’s positions.
-
-    For more detail, please read the source code.
-
-  * For Action Interval and Parallelism functions, the two examples use different methods. The first example, sclient1 uses timeout of select() function. The second
-    one, sclient2 uses the multi-thread (pthread) facility. These are described below.
-
-  * For Planning function, both examples have very simple planners as follows:
-      * If the player does not see the ball in recent 10 steps, or if the player can not
-        estimate its position in recent 10 steps, it looks around.
-      * If the ball is in kickable area, it kicks the ball to the opponent goal.
-      * Otherwise, the player rushes to the ball (turns to the ball and dashes).
-
-sclient1
-
-The sclient1 uses the timeout facility of select() function to realize Action Interval
-and Parallelism.
-
-The key part of the program is in MyPlayer::run(). Here is the part of the source
-code
-
-    .. code-block:: c
-
-      //----------------------------------------
-      // enter main loop
-
-      SocketReadSelector selector ;
-
-      TimeVal nexttic ; // indicate the timestamp for next command send
-      nexttic.update() ; // set nexttic to the current time.
-
-      while(True) {
-          //-------------------------------------------------
-          // setup selector
-
-          selector.clear() ;
-          selector.set(socket) ;
-
-          //-------------------------------------------------
-          // wait socket input or timeout (100ms) ;
-
-          Int r = selector.selectUntil(nexttic) ;
-
-          if(r == 0) { // in the of timeout. (no sensor input)
-              doAction() ; // enter action part
-              nexttic += TimeVal(0,100,0) ; // increase nexttimetic 100ms
-          } else { // got some input
-              doSensing() ; // enter sensor part
-          }
-      }
-
-Here, class SocketReadSelector is a class to abstract facilities of select() and is
-defined in ”itk/Socket.h”. In the line “Int r = selector.selectUntil(nexttic)
-;”, the program awaits the socket input or timeout indicated by nexttic, which holds
-the timestamp of the next tic (simulation step). The function returns 0 if timeout, or
-the number of receiving sockets. In the case of timeout, the program calls doAction() in
-which a command is generated and sent to the server, or otherwise, it calls doSensing()
-in which a sensor information is processed.
-
-sclient2
-
-The sclient2 uses the POSIX thread (pthread) facilities to realize Action Interval and
-Parallelism.
-
-The key part of the program is also in MyPlayer::run(). Here is the part of the
-source code:
-
-    .. code-block:: c
-
-      //----------------------------------------
-      // fork sensor thread
-
-      forkSensor() ;
-
-      //----------------------------------------
-      // main loop
-
-      while(True) {
-          if (!isBallSeenRecently(10)) {
-              //------------------------------
-              // if ball is not seen recently
-              // look around by (turn 60)
-              for(UInt i = 0 ; i < 6 ; i++) {
-              turn(60) ;
-              }
-          } else if (kickable()) {
-              ...
-          }
-      }
-
-The statement “forkSensor() ;” invokes a new thread for receiving and analyzing the
-sensor information. (The behavior of the sensor thread are defined in ”SimpleClient.*”
-and ”ThreadedClient.*”.) Then the main thread enters the main loop in which action
-sequences of “chasing the ball and kick to the goal” are generated. Because Sensing
-function is handled in the sensor thread in parallel, the main thread needs not take care
-of the sensor input.
-
-In order to keep action interval to be 100ms, the sclient2 waits for the next
-simulation step by the function ThreadedPlayer::sendCommandPre() defined in
-”ThreadedPlayer.cc” as follows:
-
-    .. code-block:: c
-
-        Bool ThreadedPlayer::sendCommandPre(Bool bodyp) {
-            cvSend.lock() ;
-
-            if(bodyp) {
-                while(nextSendBodyTime.isFuture())
-                    cvSend.waitUntil(nextSendBodyTime) ;
-            }
-            while(nextSendTime.isFuture()) {
-                cvSend.waitUntil(nextSendTime) ;
-            }
-            return True ;
-        } ;
-
-In this function, MutexCondVar cvSend provide a similar timeout facility of select()
-function used in sclient1 described above. (MutexCondVar is a combination of
-condition variable (pthread_cond_t) and mutex (pthread_mutex\_ ), and is defined in
-”itk/MutexCondVar.h”.) Because the function is called just before the player sends a
-command to the server, and nextSendBodyTime is controlled to indicate the timestamp
-of the next simulation step, the thread waits to send a command in the next tic.
 
 --------------------------
 Tips
