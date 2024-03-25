@@ -1,3 +1,7 @@
+--------------------------------------------------
+Aural Sensor Model
+--------------------------------------------------
+
 Aural sensor messages are sent when a client or a coach sends a say command.
 The calls from the referee is also received as aural messages.
 All messages are received immediately.
@@ -15,7 +19,7 @@ The format of the aural sensor message from the soccer server is:
   - ``online_coach_left`` or ``online_coach_right``: when the sender is one of the online coaches.
 
 - *Message* is the message. The maximum length is **server::say_msg_size** bytes.
-  The possible messages from the referee are described in Section :ref:`sec-playmodes`. 
+  The possible messages from the referee are described in Section :ref:`sec-playmodes`.
 
 
 The server parameters that affects the aural sensor are described in :numref:`param-auralsensor`.
